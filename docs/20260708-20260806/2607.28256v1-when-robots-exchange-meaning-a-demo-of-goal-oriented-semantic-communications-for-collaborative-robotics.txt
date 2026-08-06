@@ -1,0 +1,93 @@
+Title: When Robots Exchange Meaning: A Demo of Goal-Oriented Semantic Communications for Collaborative Robotics
+
+URL Source: https://arxiv.org/pdf/2607.28256v1
+
+Published Time: Fri, 31 Jul 2026 01:23:17 GMT
+
+Number of Pages: 3
+
+Markdown Content:
+# When Robots Exchange Meaning: A Demo of Goal-Oriented Semantic Communications for Collaborative Robotics 
+
+Peizheng Li, Xinyi Lin, Sajida Gufran, Adnan Aijaz 
+
+Bristol Research and Innovation Laboratory, Toshiba Europe Ltd., U.K. Email: {peizheng.li, xinyi.lin, sajida.gufran, adnan.aijaz }@toshiba-bril.com 
+
+Abstract —Collaborative robotics is a representative task-oriented 6G use-case, where communication quality should be reflected in mission execution, environment understanding, and closed-loop operation rather than packet delivery alone. This demo paper presents a robot-edge semantic communication (Sem-Com) testbed integrating robot-side visual compression, edge-side semantic mapping, and dashboard-based mission interaction. A mobile robot equipped with RGB-D sensing and LiDAR runs ROS 2, while a Jetson Orin edge node performs reconstruction, RTAB-Map mapping, semantic object handling, and browser-based visualization. As an initial proof of concept, RGB frames are encoded on the robot into VQ-VAE tokens using an ONNX Runtime encoder and reconstructed on the edge using a PyTorch decoder. A 320 × 240 image is represented by an 80 × 60 token grid with a packed payload of 5400 bytes, corresponding to a 42 .67 × reduction relative to model-input RGB bytes. The reconstructed visual stream is further associated with depth, pose, and 3D mapping information to generate a semantic map for downstream robotic applications. The demo exposes the full path from semantic visual transport to object-level map interaction, and provides a practical platform for future task-aware 6G networking studies at the intersection of SemCom, embodied AI, and physical AI-enabled robotics. A video of the demo is available at https://tinyurl.com/Tos09. 
+
+Index Terms —Semantic communications, 6G, collaborative robotics, task-oriented networking, VQ-VAE, edge intelligence, O-RAN, robot testbed. 
+
+I. I NTRODUCTION 
+
+Future 6G systems are expected to evolve from packet-centric optimization towards task-oriented services, where network utility is measured by application outcomes rather than transport metrics alone. Collaborative robotics is a strong example because communication affects whether robots can perceive the environment, update maps, coordinate actions, and complete missions safely. Semantic communication (SemCom) is therefore attractive for robotics [1]–[3], due to its meaning delivery and data compression capabilities. A robot continuously produces high-rate perceptions such as camera, depth, LiDAR, odometry, and state streams, yet only part of this information is directly useful for a given downstream task. Learned semantic representations can reduce communication load while preserving the task-relevant representation needed for monitoring, mapping, and object-level interaction. This demo paper presents a work-in-progress (WIP) robot-edge testbed designed for RAN integration that organizes the system around three visible functions: semantic compression Semantic Mapping & Application                   
+
+> Robot 1 (Jetson Nano, Master)
+> RGB -D
+> Camera
+> LIDAR
+> Robot 2 (Jetson Nano, Slave)
+> RGB -D
+> Camera
+> LIDAR
+> Edge System 1 (Jetson Orin)
+> RGB -D
+> Camera (s)
+> LIDAR (s)
+> Data reception &
+> reconstruction
+> RTAB -MAP Core
+> •Sensor fusion
+> •Loop closure
+> •Graph optimization
+> •Memory management
+> Semantic Mapping
+> Semantic Map
+> •Labelled objects
+> •Attributes
+> •Confidence
+> Downstream Applications
+> •Semantic Navigation
+> •Task Planning
+> •Multi -robot collaboration
+> Semantic info
+> exchange
+> (DDS over 5G)
+> UDP sessions for
+> loc, speed, task etc
+> Multi -Robot Sensors Edge -based Fusion & SLAM
+> Compressi
+> on
+> Compressi
+> on
+> Resource
+> allocation
+
+Fig. 1. Robot-edge architecture for the collaborative robotics demo. 
+
+on the robot, semantic mapping on the edge, and dashboard-based integration for mission control. The underlying commu-nication is provided by a private 5G/Open RAN infrastructure. The contribution is not a fully optimized benchmark, but an end-to-end platform that shows how these vertical functions for semantic processing can be delivered over a networking infrastructure. II. D EMO SYSTEM OVERVIEW 
+
+Fig. 1 illustrates the overall robot-edge architecture of the demo system. Multiple mobile robots collect RGB-D camera and LiDAR data, perform local compression, and exchange semantic and control information with the edge over the communication infrastructure. At the edge, a Jetson Orin receives and reconstructs the sensing streams, then per-forms sensor fusion and simultaneous localization and map-ping (SLAM) using the real-time appearance-based mapping (RTAB-Map [4]) core. The resulting geometric map is further enriched by the semantic mapping module, which maintains labelled objects, attributes, and confidence information. These semantic map outputs support downstream robotic applications such as semantic navigation, task planning, and multi-robot collaboration. Robot-edge connectivity currently carries RGB-D, LiDAR, odometry, Transform (TF), semantic token messages, and dashboard control information. The wider deployment target is a private 5G Open RAN setup, where the robot acts as a UE and the edge node acts as a multi-access edge computing (MEC) endpoint [5]. This makes the testbed suitable for future studies on how semantic streams and mission feedback can be arXiv:2607.28256v1 [cs.RO] 30 Jul 2026 exposed to semantic and task-aware network control, shaping the resource allocation and scheduling of the communication layer. 
+
+Demo workflow. During a typical run, the robot publishes RGB-D, LiDAR, odometry, and TF streams over ROS 2 while the semantic encoder produces image tokens in parallel. The edge node receives both conventional robotic telemetry and semantic tokens, reconstructs the RGB frames, updates the RTAB-Map representation, and exposes intermediate outputs to the dashboard. The operator can then monitor scene evo-lution, compare raw and reconstructed views, inspect map growth, and issue high-level commands such as start/stop, pause/resume, and click-to-go navigation. This is useful for a demo setting because the communication, mapping, and mission layers remain visible within one end-to-end loop. Meanwhile, multi-robot RTAB-MAP perception fusion, coor-dination and formation control have also been implemented in the system, which can be observed from the attached video. In the next section, we highlight the main demo features and task-oriented observables (Table I) from the angles of semantic compression, semantic mapping, and dashboard integration. III. D EMO HIGHLIGHTS 
+
+Semantic compression. The visual semantic compression and reconstruction pipeline uses a vector-quantized variational autoencoder (VQ-VAE) model [6]. Each 320 × 240 RGB frame is encoded on the robot into an 80 × 60 latent grid, corresponding to 4800 discrete tokens. With a codebook size of 512, each token requires 9 bits and the packed payload is 5400 bytes per frame, compared with 230400 bytes for the model-input RGB frame. This yields a 42 .67 × model-input-level reduction. The encoder runs with ONNX Runtime on the robot, while the edge decodes the token stream with PyTorch. Offline tests on saved samples achieve 21.7–21.9 dB PSNR, which is sufficient for coarse scene awareness and proof-of-concept semantic transport. Example reconstructions in Fig. 2 show that the model preserves the main scene layout and large objects while discarding fine texture. The chosen input size and latent resolution keep the robot-side pipeline lightweight enough for embedded deployment while still producing visually recognizable edge reconstructions. 
+
+Semantic mapping. The edge node fuses reconstructed RGB-D, LiDAR, odometry, and TF through RTAB-Map to build a 3D map and robot trajectory. To extend the map beyond geometry, a fine-tuned YOLO detector is applied to recon-structed images and the detected objects are projected into the map. This allows the SemComstream to support object-level functions such as semantic search, semantic map inspection, and future go-to-object actions. The key point is the information path from compressed tokens to robotics utility: semantic tokens are first decoded into images, detections are then extracted from those reconstructed views, and the resulting object hypotheses are attached to the spatial map and exposed to the operator interface. This makes reconstruction quality meaningful beyond PSNR alone,      
+
+> Fig. 2. Example original and reconstructed frames from the VQ-VAE pipeline. TABLE I TASK -ORIENTED OBSERVABLES EXPOSED BY THE DEMO .
+> Observable Role in the demo
+> Payload reduction Quantifies the communication load of semantic visual transport. Reconstruction qual-ity Indicates whether compressed visual informa-tion remains interpretable. Semantic map utility Shows whether reconstructed views can support object-level map interaction. Mission interaction Exposes whether edge outputs remain actionable through dashboard commands.
+
+because the practical question is whether the recovered scene remains informative enough for edge perception and human supervision. The semantic mapping component demonstrates how recon-structed visual information can be connected to robotics utility. Object detections are associated with depth and pose informa-tion, projected into the map frame, and exposed as queryable semantic objects through the dashboard. The present demo focuses on the integration path rather than object detection benchmarking. 
+
+Dashboard and integration. The operator dashboard in Fig. 3 aggregates the main system views in one place: live cam-era, LiDAR scan, 2D navigation, 3D mapping, reconstructed semantic camera, and compression status. It also exposes mission actions such as start/stop, pause/resume, and click-to-go navigation. Importantly, dashboard actions are routed through a mission API instead of direct web-to-robot velocity control, so goal requests can be validated against the map and navigation stack before execution. This integration makes the demo useful for studying how communication, perception, and mission control interact under a task-oriented 6G architecture. Lastly, the dashboard allows viewers to compare raw and reconstructed imagery against map updates and navigation actions within the same time window, making it easier to judge whether semantic compression is merely compact or genuinely useful for robotic decision support. Fig. 3. Dashboard functions illustration that combines monitoring, mapping, semantic reconstruction, and mission control. 
+
+IV. T ASK -O RIENTED RELEVANCE 
+
+The demo is designed to expose metrics above packet-level QoS. In addition to payload reduction and reconstruction fidelity, the platform makes it possible to observe whether the edge map remains coherent, whether semantic objects stay queryable, whether the operator keeps situational awareness through reconstructed imagery, and whether mission com-mands derived from edge perception remain valid. These are closer to the application-level outcomes expected in task-oriented 6G systems than throughput or latency alone. At the networking layer, the setup also provides concrete integration points for a private 5G/Open RAN deployment. The semantic token stream can be treated as a distinct task-relevant flow, dashboard and mission feedback can serve as application-to-network context, and different robot states can imply different communication priorities. For example, navigation through cluttered regions may require lower-latency semantic updates than background mapping. The current im-plementation therefore acts as a practical bridge between SemComalgorithms and system-level 6G experimentation. 
+
+Future work. The current version focuses on end-to-end integration from robot-side semantic encoding to edge-side mapping and dashboard-assisted mission interaction. Detailed runtime comparisons like wireless latency characterization over the 5G/Open RAN path, energy consumption analysis, and multi-robot task execution and evaluation are left to future work. V. C ONCLUSION 
+
+We presented a WIP robot-edge platform for collaborative robotics, integrating visual semantic compression, semantic mapping, and dashboard-based mission control. The current implementation shows how RGB observations can be en-coded into compact VQ-VAE token streams on the robot, reconstructed at the edge, and further associated with depth, pose, and 3D mapping information to support object-level semantic interaction. Through the dashboard, the demo makes the full loop visible, from semantic visual transport to map-based object inspection and mission-level control. The results demonstrate the feasibility of using semantic representations to reduce visual communication load while preserving suffi-cient information for coarse environment understanding and operator supervision. More broadly, the platform provides a practical basis for studying task-aware 6G robotic networking. ACKNOWLEDGMENT 
+
+This work is supported by the 6G-GOALS project under the 6G SNS-JU Horizon program, n.101139232. REFERENCES [1] E. C. Strinati et al. , “Goal-oriented and semantic communication in 6g ai-native networks: The 6g-goals approach,” in Proc. of 2024 EuCNC/6G Summit . IEEE, 2024, pp. 1–6. [2] P. Li and A. Aijaz, “Task-oriented connectivity for networked robotics with generative ai and semantic communications,” in Proc of IEEE INFOCOM WKSHPS . IEEE, 2025, pp. 1–6. [3] P. Li, X. Lin, and A. Aijaz, “Rethinking networked robotics in the 6g era with generative ai-in-the-loop,” IEEE Communications Standards Magazine , 2025. [4] ROS Wiki, “rtabmap,” https://wiki.ros.org/rtabmap, accessed: 2026-07-01. [5] A. Aijaz et al. , “Open ran for 5g supply chain diversification: The beacon-5g approach and key achievements,” in Proc. of IEEE CSCN . IEEE, 2023, pp. 1–7. [6] A. Van Den Oord, O. Vinyals et al. , “Neural discrete representation learning,” Advances in neural information processing systems , vol. 30, 2017.

@@ -1,0 +1,275 @@
+Title: Learning to Navigate Efficiently with Only 0.58M Trainable Parameters
+
+URL Source: https://arxiv.org/pdf/2607.11029v1
+
+Published Time: Tue, 14 Jul 2026 02:07:12 GMT
+
+Number of Pages: 6
+
+Markdown Content:
+# Learning to Navigate Efficiently with Only 0.58M Trainable Parameters 
+
+Edward Beng Wai Tan ∗,1, Siew-Kei Lam 1
+
+Abstract —Recent progress in visual navigation has largely been driven by scale: end-to-end policies with hundreds of millions of parameters trained on billions of frames or large-scale simulated data. We ask how much of this scale a single task family actually requires, and what structure can substitute for it. We propose a decomposed navigation model in which operations with known closed-form structure, such as projective geometry, occupancy, and coordinate transforms, are computed analytically and serve as interfaces between three small learned modules: an egress predictor that grounds the episode goal as a local subgoal in the current view, a navigation predictor that estimates a goal-conditioned posterior over where trajectories travel, and an endpoint-pinned residual diffusion generator that samples trajectory shapes from this posterior. The system trains only 0.58M out of a total of 22.7M parameters, on 44k frames in under one GPU-hour, yet approaches the performance of state-of-the-art models on navigation tasks across 6060 point-goal episodes and 60 environments, while having 233× fewer trainable parameters, the lowest collision rate among all evaluated methods, and 50 Hz inference speed. The decomposition further transfers to no-goal exploration by retraining only the 123k-parameter egress head, and its failure modes under sensor corruption are transparent and analytically correctable. 
+
+Index Terms —Vision-Based Navigation; Integrated Planning and Learning; Motion and Path Planning 
+
+I. I NTRODUCTION 
+
+Visual navigation is a challenging task, requiring robots to navigate to objectives within previously unseen environ-ments. The prevailing route to these capabilities has largely been through scale: reinforcement learning policies trained on billions of steps [1], imitation policies trained on large cross-embodiment corpora [2], [3], and more recently, diffusion-based foundation policies trained for trajectory generation on large-scale simulated data [4]. The capability of these models has improved steadily, but at the cost of parameter count, dataset size, and inference cost. These data-driven advancements often bundle many emergent abilities, such as multiple goal types, embodiment awareness, and implicit spatial mapping. However, many resource-constrained robots, particularly those which require on-device inference, cannot afford to run these large policies at sufficiently high speed, yet would benefit from the task-specific navigation performance of these models. Motivated by this, we ask the question: for a single task family such as point-goal navigation, how much of this scale is actually required, and specifically what structure facilitates this objective? 
+
+To address this, we propose a hybrid approach: combining the strengths of classical methods in performing closed-form 
+
+> 1College of Computing and Data Science, Nanyang Technological Univer-sity, Singapore.
+> ∗Corresponding author.
+
+Fig. 1: Comparison of navigation paradigms. (a) Classical navigation algorithms are efficient but hand-designed heuris-tics can limit performance, (b) end-to-end navigation models learn geometry, mapping, and control implicitly, at the cost of large parameter and scaling cost, (c) our method retains closed-form solutions for operations with known structure, allowing the network to learn the rest of the navigation task with only 0.58M trainable parameters. operations (e.g., projective geometry, occupancy) as the inter-faces to reduce the learning load on the neural components, while learning the operations between them. To that end, we factor the point-goal visual navigation task into three distinct operations, each represented by a small, trained operator. The 
+
+egress predictor learns a local point-goal given the final point-goal, the navigation predictor learns the goal-conditioned map given the depth-derived Bird’s-Eye-View (BEV) map, and the 
+
+generator learns the shape of the trajectory from the outputs of the other two predictors. Each sub-task as described above is relatively simple, and is thus learned using a total of only 0.58M trainable parameters (with 22.7M in total, including the fully frozen image encoder), trains on 44k frames in under one GPU-hour, while attaining near state-of-the-art performance on the InternRobotics point-goal benchmarks, trailing the 135.7M-parameter NavDP by a few points while using 233 × fewer trainable parameters. Beyond the small parameter count, we show that our proposed decomposition generalizes well to other tasks (e.g., no-goal navigation), is relatively robust under sensor corruption, and navigates with few collisions. We state our contributions below:  
+
+> •
+
+We frame point-goal navigation as being realizable as a composition of simpler sub-tasks, and by learning only minimal parameters, we demonstrate near-SOTA performance without data or parameter scaling.  
+
+> •
+
+We realize the sub-tasks as an egress predictor, a nav-igation field posterior, and an endpoint-pinned residual diffusion generator, connected by closed-form geometry. arXiv:2607.11029v1 [cs.RO] 13 Jul 2026 • We show through collision analysis, sensor-corruption studies, and interface ablations that the proposed decom-position is robust to real-world conditions, and is useful beyond the particular point-goal task family. II. R ELATED WORK 
+
+Navigation at scale. The dominant route to recent point-goal navigation has been to scale end-to-end policies: DD-PPO reaches near-perfect simulated success from billions of frames [1], GNM [2] and ViNT [3] generalize across embodiments through large cross-robot corpora, and NavDP [4] gains cross-embodiment awareness through large-scale simulated data. Lo-GoPlanner [5] goes further, integrating localization and metric-awareness into a single navigation framework. In these works, geometric structure, projective relations and other operations are implicitly learned through data; part of the scale is spent on learning these tasks. 
+
+Diffusion trajectory generation. Diffusion Policy established denoising as a representation for multimodal action distri-butions [6], and navigation instances [7], [4] inherit both its expressiveness and its computational/parameter cost. Ef-ficiency work within this line accelerates the sampler using neural prior initialization [8], [9], and incorporating few-step bridge diffusion techniques [10] to accelerate generation. Other works tackle the data-efficiency problem, using output spline parameterization as inductive biases [11]. These works largely tackle the data efficiency and generation efficiency problem, but these diffusion models still rely on learned RGB features as conditioning. 
+
+Decomposed planners and subgoals. Decomposing naviga-tion is not fundamentally new. Many classical planners are built on a global-to-local split, in which a global planner supplies waypoints to a reactive local method [12], or learned hierarchical Reinforcement Learning (RL) [13] techniques which learn a set of low-level policies selectively deployed by a high-level policy, modular map-based agents whose learned global policy selects goals executed by an analytic planner [14], and more recently imperative planners in which a network predicts sparse waypoints refined by a differentiable optimizer over a geometric or semantic costmap [15], [16]. Most recently, DualVLN [17] decomposes a different task, vision-language navigation, through intermediate pixel goals between a reasoning module and a trajectory generator, show-ing that explicit subgoal interfaces retain benefits even within data scaling methods. What these works have in common is being coupled through learning: imperative front-ends receive gradients through the optimizer [16], and DualVLN’s subgoal is accompanied by a latent channel optimized jointly with the policy [17]. Few works test the decomposition itself, but rather benefit from additional training objectives introduced at the interfaces. Motivated by this, we propose an architecture which addresses visual navigation using learnable modules, each of which perform a specific sub-task. III. M ETHOD 
+
+A. Overall Architecture 
+
+We define a navigation model composed of three distinct learnable components, as illustrated in Figure 2, each of which learns a specific task as described below:  
+
+> •
+
+The egress predictor takes as input the episode-level goal, and learns the pixel-goal target in the current view.  
+
+> •
+
+The navigation predictor consumes the BEV occupancy map and the egress goal, and learns the field representing the posterior probability of where the trajectory should go.  
+
+> •
+
+The generator predicts the shape of the trajectory whose endpoint is determined by the egress predictor. Each learnable module explicitly operates within its own coordinate frame consistent with the corresponding subprob-lem: the egress predictor in the image frame, the navigation predictor and generator in the BEV-frame. The transformation is performed between modules in closed-form, and thus each module avoids expending learning capacity on trivially defined operations. At each control cycle, our system takes as input the RGB image It and the depth Dt. We first analytically calculate the occupancy map Ot in BEV-frame from the unprojected depth, from which a costmap is derived as the combination of an exponential repulsion of the obstacle distance transform d(x)
+
+with a bearing ramp ρ(x) penalizing out-of-view mass: 
+
+Ct(x) = max  e−d(x)/λ d , ρ (x). (1) In subsequent operations, the egress predictor sees only the RGB image It, and the navigation predictor sees only the depth-derived occupancy map Ot. The generator receives neither input directly. The costmap Ct is used as an auxiliary term for the generator, and also after generation to select the best candidate trajectory. 
+
+B. Egress operator feg : endpoint selection 
+
+We use a DepthAnythingv2 [18] ViT-S as the image en-coder, which is fully frozen, without any adapters, prompt tuning or other such fine-tuning methods. Thus, it learns no additional navigation-specific properties. The egress predictor is a small neural network conditioned on the image encoder features Φ and the goal ˆGt as: 
+
+zt = feg 
+
+ Φ( It), ˆGt
+
+. (2) where zt denotes a grid of logits. The predictor is trained to minimize the cross-entropy loss over a discrete patch grid: 
+
+Leg = E(Φ( It), ˆGt,c t)∼D [− log p(ct | Φ( It), ˆGt)] , (3) where ct is the point on the rasterized image-frame where the path to ˆGt exits the current BEV window or passes behind objects, subject to a maximum distance truncation. At inference time, the image-frame goal is equivalent to 
+
+arg max( zt), and the target endpoint gt takes the 3D position of its ray-cast intersection with the ground plane. 
+
+C. Navigation predictor fnp 
+
+The navigation predictor estimates the conditional distribu-tion 
+
+Pt = P   · gt, O t
+
+, (4) Image Encoder 
+
+Local Goal 
+
+2D Goal 
+
+> Critic
+
+🔥 ❄
+
+🔥 
+
+🔥 
+
+Navigation 
+
+Posterior 
+
+> Egress
+> Navigation Predictor
+> Generator
+> Predictor
+> Occupancy Map
+
+Fig. 2: System Architecture. Our system consists of three learnable modules, each performing a distinct task. The egress predictor feg learns a local navigation subgoal, the navigation predictor fnp learns goal-conditioned spatial feasibility, and the generator fgen predicts the trajectory shape between the current position and predicted subgoal. Modules operate in their native coordinate frames and exchange information through closed-form geometric transforms. through a lightweight operator fnp (gt, O t) emitting logits in the BEV coordinate frame, and each discrete coordinate encodes a scalar value and direction. The head emits K
+
+recurrent posteriors {Pk}Kk=1 , one per refinement step. The 
+
+k-th map is supervised against its own target route, which anneals from the straight-line prior to the ground-truth path, 
+
+τk = (1 − αk) τprior + αk τgt , αk = kK , (5) from which we render a soft occupancy target Tk = raster( τk)
+
+and a per-cell tangent target θ∗ 
+
+> k
+
+(the path tangent at the nearest point of τk): 
+
+ℓk(Pk, T k) = H(Tk, P k)
+
+| {z }
+
+> route
+
++ λθ Tk, 1 − cossim( ˆθk, θ ∗
+
+> k
+
+)
+
+| {z }
+
+> heading
+
+,
+
+(6) where H(·, ·) is the cross-entropy and ⟨A, B ⟩ =P 
+
+> x
+
+A(x)B(x) sums over BEV cells and the heading term is thus masked to the support of Tk. The field objective sums the per-step losses and adds a collision penalty on the final posterior: 
+
+Lnp =
+
+> K
+
+X
+
+> k=1
+
+ℓk(Pk, T k) + λc Ω( PK ), (7) Each k-th refinement stage receives its own term as above, and at inference we read the final posterior PK .
+
+Pt acts as the goal-conditioned estimate of a distribution whose mass encodes where paths to gt travel. At test-time, the occupancy is also updated to raise the cost of frontier regions if a collision is detected, thus reducing repeated collisions. 
+
+D. Generator fgen : trajectory shaping 
+
+Similar to SanD-Planner [11], we use B-splines as the trajectory parameterization due to their C2 continuity and favorable geometric properties. Unlike existing methods, we derive an endpoint from the egress predictor prior to trajectory generation. Thus, we define the B-spline with M interior control points as parameterized residually around the straight line to the egress point, τ = τ0(gt) + Bδ where δ ∈ RM ×2.We use a standard DDPM [19] to denoise only the residuals around the straight line. The generator predicts the offset 
+
+ˆδ0 = fgen (δk, k, c ) where c = {Pt, g t, v t} is the conditioning and vt is the velocity derived from the localization. We train the generator to denoise over 10 steps with the standard x0-prediction plus a collision cost: 
+
+Lgen = E(δ0, c )∼D ,ϵ 
+
+ ∥ˆδ0 − δ0∥2 + λc coll( Ct, τ 0 + Bˆδ0) (8) where coll( C, τ ) = 1 
+
+> |τ|
+
+P 
+
+> x∈τ
+
+C(x). The learning targets δ0
+
+are drawn from the pre-computed fnp posterior predictions rather than the ground-truth; the generator learns to sample from the posterior probability. Given a frame’s posterior field, we sample N stochastic paths over posterior’s high-probability corridor from origin to the subgoal, which are subsequently converted to B-spline control points. At generation time, we denoise a candidate set of samples TN from Gaussian noise. 
+
+E. Critic 
+
+As the diffusion model naturally generates diverse paths, some may be worse than others. We use the critic, a post-hoc deterministic selection over the candidate set minimizing 
+
+τ ⋆ = arg min  
+
+> τ∈T N
+
+J(τ ), J(τ ) = 1
+
+|τ |
+
+X
+
+> x∈τ
+
+e−d(x)/λ d , (9) where J(·) is essentially the costmap C without the bearing ramp, to select the best candidate. IV. E XPERIMENTS 
+
+A. Implementation Details 
+
+Training. We sampled around 44k random single-frame states across 55 Matterport3D [20] scenes, where each state consists of an egocentric view over the ground-truth trajectory, and the short horizon (0-6m) trajectory. All the learnable modules cumulatively train in under an hour on a single RTX 4090, including one-time caching of features. 
+
+Evaluation. We evaluate our model and measure the per-formance of NavDP [4], ViPlanner [15] and iPlanner [16] TABLE I: Quantitative point-goal navigation results on 6060 episodes, across 60 diverse environments.                                                                 
+
+> Params. (train/total) Home Commercial Clut.-Easy Clut.-Hard Coll. SR ↑SPL ↑SR ↑SPL ↑SR ↑SPL ↑SR ↑SPL ↑/10m ↓
+> NavDP 135.7M / 135.7M 57.2 52.2 72.7 68.4 93.4 90.7 89.3 86.1 0.216 ViPlanner 71.0M / 115.1M 43.7 41.8 64.3 62.2 81.4 81.0 60.6 60.3 0.218 iPlanner 53.3M / 53.3M 39.5 37.5 53.9 52.1 90.3 89.0 82.4 80.8 0.173 Ours 0.58M /22.7M 51.4 45.8 70.6 64.7 91.6 84.4 84.8 77.6 0.111
+
+using their publicly released weights, on the comprehen-sive InternRobotics benchmarks [4], which consist of 4040 episodes in InternScenes and 2020 episodes in ClutteredEnv, spanning 60 different environments. We use the same PointNav evaluation protocol as the other works, where task performance is quantified by Success Rate (SR) and Success weighted by Path Length (SPL) [21], which indicate the episodic binary goal-reaching state and divided by the path length over the ground-truth respectively. 
+
+B. Main Results 
+
+Our 0.58M-parameter system attains near SOTA results (see Table I), outperforming two recent policies (ViPlanner, iPlan-ner) on average SR. On the realistic home and commercial scenes, our method trails NavDP by 2-5% SR while having 233x fewer trainable parameters. Furthermore, our collision rate (indicated as collisions per 10m) is significantly lower than all other works, demonstrating that our system does not trade-off parameters for lower safety. We provide some qualitative renders of successful cases in Figure 4. 
+
+Collision safety. We evaluate detailed collision results in Table II on a randomly selected scene (Isaac Sim USD ending with -AEA8) from the challenging InternScenes-Home benchmark. Over 101 episodes, our method has the lowest average collision rate (both in this subset and the full 6060 episodes tested in Table I), and the lowest hard collisions (forces exceeding 25N). We also analyze the failure distribution: we find that iPlan-ner and NavDP collision events are concentrated in failed episodes specifically. Ours behaves similarly to the larger ViPlanner, with collision events distributed roughly uniformly regardless of whether the point-goal was reached. This demon-strates that our system fails gracefully, and stalls in position rather than impacting obstacles. TABLE II: Collision statistics on a subset of InternScenes-Home, 15N impact threshold.                            
+
+> Ours ViPlanner iPlanner NavDP
+> SR ↑58.4 47.5 32.7 64.4
+> Coll. / 10 m ↓0.050 0.051 0.423 0.344 Hard ( >25N) ↓0.010 0.020 0.119 0.069 Impact episodes ↓2/101 2/101 11/101 10/101 Fail vs succ impact* 2.3/1.7% 1.9/2.1% 16.2/0.0% 24.3/1.6% *denotes the percentage of episodes with collisions, subdivided by whether the robot successfully navigated to the goal.
+
+Sensor robustness. In our system, the input depth and RGB enter separately; the egress predictor consumes the RGB while the analytic BEV projection operation consumes the input depth. The diffusion model never sees either input directly. Thus, we investigate our method’s robustness to simulated sensor noise and corruption. In Table III, we observe that our model is highly robust to RGB corruption (as a result of the pre-trained image encoder), and generally more robust than NavDP to depth corruption. However, ours fails under significant injected Gaussian noise of σ = 0 .05 z2, which we attribute to a failure of the analytic BEV calculation. As with classical methods, the failure mode is transparent and cheaply fixable; we recover baseline performance with a 3x3 median filter applied to the input depth. TABLE III: Sensor corruption robustness, denoted as relative SR (%) ↑ compared to clean inputs.                      
+
+> Corruption Ours NavDP
+> Depth noise σ=0 .02 z2100 95 Depth noise σ=0 .05 z219 92
+> ⌞3×3 median filter 100 92 Depth dropout 10% 100 95 Depth dropout 30% 91 61 RGB dark ×0.4 100 95 RGB noise σ=20 100 95
+
+C. Generalization to Other Tasks 
+
+Other Goal Types. In order to test how well our defined interfaces generalize, we evaluate our work on the No-Goal task in Table IV, which measures how well a robot explores an unmapped area without collisions. In this experiment, we retrain only the egress head feg (around 123k parameters) by zeroing the goal conditioning on the same MP3D data, and reuse the other components fnp , fgen from the point-goal task without modification. For fairness, we also remove our generator’s velocity conditioning and obstacle collision indicators in the costmap, since undirected navigation does not presume localization. We compare to NavDP’s native no-goal exploration, observing that ours outperforms NavDP on both exploration area and exploration time, tested on 100 respawn episodes in InternScenes-Home, with the termination condition set to collision (15N). This shows that our subgoal interface accurately preserves the necessary information for effective undirected navigation. 
+
+D. Efficiency. 
+
+Our system’s end-to-end latency is approx. 20 ms (50 Hz) on a single RTX 4090, the majority of which is the image encoder. During evaluation, execution is capped at 10Hz, so TABLE IV: No-goal exploration in a randomly chosen scene, averaged over 100 trials.                               
+
+> Explored area (m 2)Time mean ↑median ↑(s) ↑
+> NavDP 18.2 18.5 17.2 Ours 18.3 18.8 25.7
+> (a) Clean depth (b) Clean RGB
+> (c) Dropout corrupted depth, 30%
+> (d) Brightness scaled to 0.4 ×
+> RGB
+> (e) Gaussian noise corrupted depth, σ= 0 .05 z2
+> (f) Gaussian noise corrupted RGB, σ= 20
+
+Fig. 3: Illustration of various simulated sensor corruption modes that were tested. that our higher replan frequency does not unfairly bias the result in our favor. 
+
+E. Ablation Studies 
+
+In this section, we demonstrate that each of the key compo-nents of our method are load-bearing. In Table V, we tested two configurations: removing the egress predictor, instead feeding the downstream modules with the input goal, and removing the navigation predictor, training the generator on the depth-derived occupancy map instead of the posterior map. In both cases, SR is significantly lower. TABLE V: Ablation study on system components.           
+
+> Configuration SR ↑SPL ↑
+> Full system 58.4 52.0
+> No navigation predictor 3.0 3.0 No egress predictor 20.8 20.4
+
+Next, we ablate several of our design decisions in Table VI. The first is sampling (with replacement) from the egress predictor, instead of taking the soft arg max . This performs 
+
+> (a)
+> (b)
+> (c)
+
+Fig. 4: Qualitative comparison showing ours successfully navigating difficult conditions. Areas indicated in red denote episode failure points. In (a), suboptimal initialization position causes ViPlanner and iPlanner to collide with the wall, in (b) all others fail to navigate the tight space, and in (c) NavDP takes a suboptimal route, resulting in too sharp of an approach. marginally worse: and our findings are that in most cases, the egress prediction is uni-modal (i.e., the mass concentrates around one pixel). In specific difficult scenes where the egress prediction has a multimodal distribution, the sampling improves SR by acting as a tie-breaker, but on average reduces performance. The second is training the generator against ground-truth trajectories, instead of from randomly drawn samples from the posterior. We find that in this configuration, the model performs poorly, which we once again attribute to preservation of multimodality, where in density space (i.e., the posterior), mode-averaging is benign, while in the trajectory space, mode-averaging can lead to catastrophically wrong predictions. The third is to train the modules end-to-end, which we demonstrate significantly degrades SR. For the arg max , we used soft arg max in the implementation, and also tried discretization with Gumbel STE; both had similar results. We then ablate various supporting components: the velocity conditioning in the DDPM, and the collision detection increase SR slightly, but we find are not particularly significant. Lastly, we evaluate an A* classical planner on the costmap TABLE VI: Ablation study on system components. 
+
+Configuration SR ↑ SPL ↑
+
+Full system 58.4 52.0 
+
+Sampling instead of argmax 54.5 50.2 Training DDPM on GT objectives 34.7 33.9 Joint end-to-end training 35.6 34.6 No velocity conditioning 55.5 49.3 No collision detection 54.6 50.8 Classical planner on costmap 21.8 21.6 
+
+Ct, which performs poorly. This demonstrates that the neural modules (and specifically the generator) perform non-trivial work over a classical planner. V. LIMITATIONS AND FUTURE WORK Our method is notably limited to navigating on one floor, due to the use of depth-derived BEV maps. To navigate across multiple floors, this representation would need to be adapted to use voxel maps or other 3D representations capable of modeling elevation discontinuities. Our evaluations were also conducted in simulation only, real-world conditions such as localization drift, control-loop latency, depth quality, etc. which have not yet been evaluated, and as such we plan to expand our evaluation to real-world testing. Future work may consider adapting our work to image-goal navigation, which remains untested, yet can potentially make use of our proposed interface. VI. CONCLUSIONS In this work, we have demonstrated that with few param-eters, a structured system can approach SOTA-level point-goal navigation performance. We instantiate this claim with an architecture that uses three learnable modules, each performing a sub-task contributing to trajectory generation: a local subgoal prediction, a goal-conditioned navigability field, and a spline-parameterized trajectory shape generator. We do this while maintaining low collision rates, robustness to simulated sensor noise, and demonstrate transferability to no-goal navigation tasks. REFERENCES [1] E. Wijmans, A. Kadian, A. Morcos, S. Lee, I. Essa, D. Parikh, M. Savva, and D. Batra, “DD-PPO: Learning near-perfect PointGoal navigators from 2.5 billion frames,” in International conference on learning representations , 2020. [Online]. Available: https://openreview.net/forum?id=H1gX8C4YPr [2] D. Shah, A. Sridhar, A. Bhorkar, N. Hirose, and S. Levine, “GNM: a general navigation model to drive any robot,” in International conference on robotics and automation (ICRA) , 2023. [Online]. Available: https://arxiv.org/abs/2210.03370 [3] D. Shah, A. Sridhar, N. Dashora, K. Stachowicz, K. Black, N. Hirose, and S. Levine, “ViNT: a foundation model for visual navigation,” in 
+
+7th annual conference on robot learning , 2023. [Online]. Available: https://arxiv.org/abs/2306.14846 [4] W. Cai, J. Peng, Y. Yang, Y. Zhang, M. Wei, H. Wang, Y. Chen, T. Wang, and J. Pang, “NavDP: Learning Sim-to-Real Navigation Diffusion Policy with Privileged Information Guidance,” 2025, version Number: 3. [Online]. Available: https://arxiv.org/abs/2505.08712 [5] J. Peng, W. Cai, Y. Yang, T. Wang, Y. Shen, and J. Pang, “LoGoPlanner: Localization Grounded Navigation Policy with Metric-aware Visual Geometry,” 2025, version Number: 2. [Online]. Available: https://arxiv.org/abs/2512.19629 [6] C. Chi, S. Feng, Y. Du, Z. Xu, E. Cousineau, B. Burchfiel, and S. Song, “Diffusion policy: Visuomotor policy learning via action diffusion,” in 
+
+Proceedings of robotics: Science and systems (RSS) , 2023. [7] A. Sridhar, D. Shah, C. Glossop, and S. Levine, “NoMaD: Goal masked diffusion policies for navigation and exploration,” arXiv pre-print ,2023. [Online]. Available: https://arxiv.org/abs/2310.07896 [8] H. Ren, Y. Zeng, Z. Bi, Z. Wan, J. Huang, and H. Cheng, “Prior does matter: Visual navigation via denoising diffusion bridge models,” in 
+
+Proceedings of the computer vision and pattern recognition conference ,2025, pp. 12 100–12 110. [9] X. Luo, A. Wu, H. Han, X. Wan, W. Zhang, L. Shu, and R. Wang, “StepNav: Structured trajectory priors for efficient and multimodal visual navigation,” 2026, arXiv: 2602.02590 [cs.RO]. [Online]. Available: https://arxiv.org/abs/2602.02590 [10] W. Luan, J. Li, W. Zhao, W. Zhang, T. Wu, and R. Ma, “Rectified Schr¨ odinger Bridge Matching for Few-Step Visual Navigation,” May 2026, arXiv:2604.05673 [cs.RO]. [Online]. Available: http://arxiv.org/abs/2604.05673 [11] J. Wang, L. Bao, T. Yang, D. M. Plasencia, J. Jiao, and D. Kanoulas, “SanD-Planner: Sample-Efficient Diffusion Planner in B-Spline Space for Robust Local Navigation,” 2026, version Number: 1. [12] D. Fox, W. Burgard, and S. Thrun, “The dynamic window approach to collision avoidance,” IEEE Robotics & Automation Magazine , vol. 4, no. 1, pp. 23–33, Mar. 1997. [Online]. Available: http://ieeexplore.ieee.org/document/580977/ [13] K. Lee, S. Kim, and J. Choi, “Adaptive and explainable deployment of navigation skills via hierarchical deep reinforcement learning,” in 
+
+2023 IEEE international conference on robotics and automation (ICRA) ,2023, pp. 1673–1679. [14] D. S. Chaplot, D. P. Gandhi, A. Gupta, and R. R. Salakhutdinov, “Object goal navigation using goal-oriented semantic exploration,” in Advances in neural information processing systems , H. Larochelle, M. Ranzato, R. Hadsell, M. Balcan, and H. Lin, Eds., vol. 33. Curran Associates, Inc., 2020, pp. 4247–4258. [15] P. Roth, J. Nubert, F. Yang, M. Mittal, and M. Hutter, “Viplanner: Visual semantic imperative learning for local navigation,” in 2024 IEEE international conference on robotics and automation (ICRA) . IEEE, 2024, pp. 5243–5249. [16] F. Yang, C. Wang, C. Cadena, and M. Hutter, “iPlanner: Imperative path planning,” in Proceedings of robotics: Science and systems , Daegu, Republic of Korea, Jul. 2023. [17] M. Wei, C. Wan, J. Peng, X. Yu, Y. Yang, D. Feng, W. Cai, C. Zhu, T. Wang, J. Pang, and X. Liu, “Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-and-Language Navigation,” 2025, version Number: 1. [Online]. Available: https://arxiv.org/abs/2512.08186 [18] L. Yang, B. Kang, Z. Huang, Z. Zhao, X. Xu, J. Feng, and H. Zhao, “Depth anything V2,” in Advances in neural information processing systems , A. Globerson, L. Mackey, D. Belgrave, A. Fan, U. Paquet, J. Tomczak, and C. Zhang, Eds., vol. 37. Curran Associates, Inc., 2024, pp. 21 875–21 911. [19] J. Ho, A. Jain, and P. Abbeel, “Denoising Diffusion Probabilistic Models,” Dec. 2020, arXiv:2006.11239 [cs.LG]. [Online]. Available: http://arxiv.org/abs/2006.11239 [20] A. Chang, A. Dai, T. Funkhouser, M. Halber, M. Niessner, M. Savva, S. Song, A. Zeng, and Y. Zhang, “Matterport3D: Learning from RGB-D data in indoor environments,” International Conference on 3D Vision (3DV) , 2017. [21] P. Anderson, A. Chang, D. S. Chaplot, A. Dosovitskiy, S. Gupta, V. Koltun, J. Kosecka, J. Malik, R. Mottaghi, M. Savva, and A. R. Zamir, “On Evaluation of Embodied Navigation Agents,” Jul. 2018, arXiv:1807.06757 [cs.AI]. [Online]. Available: http://arxiv.org/abs/1807.06757

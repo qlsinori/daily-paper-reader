@@ -1,0 +1,370 @@
+Title: The Art of Not Forgetting A Local Learning Architecture for Continual Learning
+
+URL Source: https://arxiv.org/pdf/2607.26523v1
+
+Published Time: Thu, 30 Jul 2026 00:30:00 GMT
+
+Number of Pages: 28
+
+Markdown Content:
+# The Art of Not Forgetting 
+
+# A Local Learning Architecture for Continual Learning 
+
+## Ashmith Atmuri ∗ Yashaswini Rao Bhogarajula 
+
+Arkadhi Research 
+
+> ∗
+
+Corresponding author: founder@arkadhi.com 
+
+## yashaswini.rao@arkadhi.com 
+
+Abstract 
+
+We introduce CMP (Cognitive Memory Primitive), a continual-learning architecture that repre-sents inputs as sparse relational codes, stores them in a two-tier competitive memory, and learns through local updates without end-to-end backpropagation through its feature-generating system. We investigate whether combining sparse representations, local learning, and persistent memory can reduce catastrophic forgetting relative to conventional backpropagation-based continual-learning approaches. On a controlled domain-incremental byte-level language modeling protocol, CMP demonstrates substantially lower backward transfer than a parameter-matched Trans-former trained with online Elastic Weight Consolidation (EWC). Across a three-seed replicated 15-domain experiment, CMP exhibits stable forgetting behavior, while separate head-to-head comparisons and domain-order analyses show consistently lower forgetting than the evaluated Transformer baseline under the reported experimental settings. We report these findings alongside a substantial single-domain accuracy gap relative to the Transformer, a null result on a vision benchmark, and a documented failure to combine CMP with an independent accuracy-improving mechanism, reflecting our commitment to reporting both positive and negative outcomes. These results suggest that the combination of sparse representations, local learning, and persistent memory is a promising direction for continual learning, while motivating further investigation into the respective roles of learning rules, representations, and architectural design in mitigating catastrophic forgetting. 
+
+Keywords: continual learning, catastrophic forgetting, sparse distributed representations, local learning rules, predictive coding, associative memory, gradient-free plasticity. 
+
+# 1 Introduction 
+
+Catastrophic forgetting, the tendency of a model trained sequentially on new tasks or domains to overwrite previously acquired knowledge, remains one of the central challenges in continual learning. Existing approaches typically mitigate forgetting through mechanisms such as experience replay, parameter regularization (e.g., Elastic Weight Consolidation (EWC) [ 3]), or architectural expansion (e.g., Progressive Networks [ 13 ]). These methods have demonstrated substantial progress, but they generally operate by augmenting conventional backpropagation-based learning with additional mechanisms that preserve previously learned knowledge. In this work, we investigate a complementary perspective. Rather than asking how forgetting can be corrected after it emerges, we ask whether an architecture built around local learning, sparse 1arXiv:2607.26523v1 [cs.LG] 29 Jul 2026 representations, and persistent memory can exhibit greater resistance to catastrophic forgetting without relying on replay buffers or gradient-based importance estimates. Our goal is not to argue that backpropagation is solely responsible for catastrophic forgetting, but to evaluate whether an alternative learning framework can provide improved continual-learning behavior under controlled experimental conditions. To study this question, we introduce CMP (Cognitive Memory Primitive), a continual-learning architecture that combines established components from several research traditions. CMP integrates sparse relational binding [ 8, 9 ], competitive content-addressed memory inspired by Sparse Distributed Memory [ 2] and modern Hopfield networks [ 10 ], predictive-coding principles [ 11 , 16 ], and local learning through a weight-local delta-rule readout. None of these individual components is presented as novel. Instead, the contribution of this work lies in their integration into a unified continual-learning system together with a movement-based plasticity regulation mechanism that does not require end-to-end gradient propagation, and in the empirical evaluation of whether this combination reduces catastrophic forgetting relative to a backpropagation-based continual-learning baseline. 
+
+We state plainly, here, what this paper does not claim. 
+
+It does not claim CMP is more accurate than a Transformer; it is not, by a substantial margin (Section 6). It does not claim general superiority over attention-based architectures. It claims a single, narrower, falsifiable result: on a controlled domain-incremental protocol, with matched architecture size and matched data budget, CMP’s backward transfer is substantially better than a Transformer trained with online EWC, and the effect survives a domain-order control and three-seed replication. If continual-learning performance can be improved through architectural organization and local learning dynamics rather than replay or gradient-derived parameter importance alone, this would suggest an additional direction for designing continual-learning systems. Such an approach could complement existing continual-learning methods while broadening the range of learning mechanisms explored beyond conventional gradient-based optimization. 
+
+Scope of this work 
+
+We deliberately make limited claims. This paper does not claim that CMP is more accurate than Transformer-based language models; our experiments show a substantial accuracy gap in favor of the Transformer. It does not claim that local learning is universally superior to backpropagation, nor that the individual components of CMP are themselves novel. Instead, the central claim is narrower and directly testable: under the controlled domain-incremental protocol evaluated in this work, CMP demonstrates substantially lower catastrophic forgetting than a parameter-matched Transformer trained with online Elastic Weight Consolidation (EWC). We further report the robustness of this observation through domain-order analyses and replicated experiments, while also documenting negative results, including a null result on Split-MNIST and an unsuccessful attempt to combine CMP with a separate mechanism that improves predictive accuracy. 
+
+## 1.1 Contributions 
+
+The primary contributions of this work are: 2• We introduce CMP (Cognitive Memory Primitive), a continual-learning architecture that combines sparse relational representations, competitive memory, predictive coding, and local learning into a unified framework for continual learning. 
+
+• We present an empirical evaluation on a domain-incremental byte-level language modeling benchmark spanning 15 real-world text domains, demonstrating substantially lower catas-trophic forgetting than a parameter-matched Transformer trained with online Elastic Weight Consolidation (EWC) under the reported experimental protocol. 
+
+• We introduce a movement-based plasticity regulation mechanism for local learning that regulates parameter updates without relying on gradient-derived importance estimates, making it compatible with CMP’s learning framework. 
+
+• We evaluate the stability of the observed forgetting behavior across multiple random seeds and domain orders, providing a more robust assessment of continual-learning performance. 
+
+• We report both positive and negative findings, including a substantial predictive accuracy gap relative to the Transformer baseline, a null result on Split-MNIST, and an unsuccessful architectural extension, in the interest of transparent and reproducible scientific reporting. 
+
+# 2 Related Work 
+
+Sparse coding. Olshausen and Field [ 6 ] showed that a sparse coding objective applied to natural images recovers receptive fields resembling primary visual cortex, establishing sparsity as a biologically-grounded representational choice. CMP’s k-winners-take-all sparsification throughout (Section 3.1) inherits this motivation directly. 
+
+Binding and compositional representation. The multiplicative binding operation (Section 3.1) belongs to the Vector Symbolic Architecture family: Pollack’s Recursive Distributed Rep-resentations [ 9 ] and Plate’s Holographic Reduced Representations [ 8 ] both address representing compositional structure in fixed-width distributed vectors via binding operations. Neither the binding operation nor its use of superposition is new; what is combined with it (Section 3.2–3.7) is specific to this work. 
+
+Associative memory. Kanerva’s Sparse Distributed Memory [ 2] is the direct ancestor of CMP’s competitive, content-addressed memory (Section 3.2). Ramsauer et al. [ 10 ] establish that modern Hopfield retrieval is mathematically continuous with self-attention; we position CMP’s memory as a sibling within that same associative-memory family, distinguished by sparsity and recurrent, one-cue-at-a-time retrieval rather than dense, simultaneous all-pairs lookup, not as a departure from it. 
+
+Predictive coding. Rao and Ballard [ 11 ] propose predictive coding as a functional account of cortical feedback; Whittington and Bogacz [ 16 ] show a predictive-coding network can approximate error backpropagation using only local Hebbian updates. CMP’s predictive-coding cascade (Section 3.4) uses the mechanism for its stated purpose, local, self-supervised top-down prediction, rather than as an approximation to backpropagation. 3Complementary learning systems. McClelland, McNaughton, and O’Reilly [ 5] argue the hippocampus and neocortex form complementary systems precisely to avoid the interference that a single fast-learning system would suffer: the direct theoretical motivation for pairing a sparse, fast-writing memory with a slower, distributed readout in CMP, and for expecting that pairing to resist forgetting for structural reasons. 
+
+Continual learning. EWC [ 3 ] regularises parameter movement by Fisher-information-weighted importance; Synaptic Intelligence [ 17 ] computes importance online from the training trajectory; Progress & Compress [ 14 ] introduces the online-EWC variant used as our baseline (Section 4.3). Progressive Networks [ 13 ], instead, avoid architectural forgetting by freezing old columns and adding new ones per task. iCaRL [ 12 ] represents the replay-based family, noted but not compared directly. Lopez-Paz and Ranzato [ 4 ] define the BWT/FWT metrics used throughout Section 4, adapted here to a bits-per-byte formulation with an explicitly stated sign convention. 
+
+Non-attention sequence architectures. Mamba [ 1] and related state-space models achieve strong long-context efficiency without attention, but, to our knowledge, and consistent with our own accuracy results (Section 6), no non-attention architecture has cleanly matched Transformer accuracy at matched parameters and compute on short-context tasks. We note this as precedent for reporting a real accuracy gap alongside a different, real contribution. 
+
+Byte-level language modelling. The Byte Latent Transformer [ 7] allocates compute dynamically based on next-byte entropy, operating, like CMP, directly on bytes rather than a learned subword vocabulary. We note the shared byte-level premise as context for Section 4’s bits-per-byte metric. 
+
+# 3 Architecture 
+
+Before presenting the mathematical formulation, we provide a high-level overview of the architecture. A pair of input bytes is first transformed into a sparse relational representation (Section 3.1), which is stored in a two-tier competitive memory for subsequent retrieval (Section 3.2). A higher-level representation is then constructed and used to predict the lower-level representation through a predictive-coding hierarchy (Sections 3.3–3.4). The resulting representations, memory retrievals, and prediction errors are combined by a readout module to produce the next-byte prediction (Section 3.5). The readout is trained using a local learning rule without end-to-end backpropagation through the preceding stages (Section 3.6). Finally, a movement-based plasticity regulation mechanism limits parameter updates according to local weight dynamics (Section 3.7). Section 3.8 compares the resulting design with self-attention along the architectural dimensions motivating CMP. Figure 1 provides a high-level view of the complete CMP pipeline. The following subsections explain each component in order. 4Figure 1: Overall architecture of CMP. Input bytes are transformed into sparse relational representations, stored in a competitive memory, processed through a predictive-coding hierarchy, and decoded using a locally trained readout with movement-based plasticity regulation. 
+
+We describe the architecture in the same order Vaswani et al. [ 15 ] describe self-attention: the core binding operation first, then how it composes into memory, hierarchy, and a learning rule. A small version of this figure, with the relevant piece highlighted, appears at the start of each subsection below so to aid readability; each subsection begins with a reduced version of Figure 1, highlighting the component under discussion. 53.1 Sparse Relational Representation 
+
+The first stage of CMP transforms each pair of consecutive input bytes into a fixed-dimensional relational representation that serves as the basic unit processed throughout the remainder of the architecture. Rather than operating directly on raw byte values, CMP constructs a sparse representation that can be stored, retrieved, and composed by later modules while remaining independent of vocabulary size. Given the previous byte xt−1 and the current byte xt, this stage produces a sparse relational vector zt.Two fixed embedding matrices, EL and ER, assign each byte to left-role and right-role representa-tions, respectively. These role-specific embeddings are combined through elementwise multiplication, followed by k-winners-take-all sparsification and ℓ2 normalization: 
+
+zt = normalize (k-WTA k
+
+> (
+
+EL[xt−1] ⊙ ER[xt])) (1) where ⊙ denotes elementwise multiplication, k-WTA k(·) retains the k largest activations while suppressing all remaining entries, and normalize (·) performs ℓ2 normalization. The resulting vector 
+
+zt ∈ Rr is the sparse relational representation associated with position t and serves as the fundamental representation throughout the CMP architecture. The embedding matrices EL and ER are randomly initialized once and remain fixed throughout training. Consequently, learning occurs only within the downstream components of the architecture, while the input representation remains stable across the learning process. This design reduces the number of trainable parameters and isolates the effects of the subsequent memory and learning 6mechanisms. The implications of using fixed embeddings are discussed further as a limitation in Section 6. All subsequent components operate on the relational representation zt. The next subsection describes how these representations are stored and retrieved using CMP’s competitive memory, after which they are transformed through the hierarchical predictive-coding mechanism before contributing to the final prediction. 
+
+## 3.2 Two-tier competitive memory 
+
+The sparse relational representation zt captures local context between consecutive input bytes but, by itself, provides no mechanism for retaining information beyond the current input pair. CMP therefore augments relational binding with a two-tier competitive memory that stores previously observed representations and retrieves them through content-based addressing. This memory enables information from earlier inputs to influence future predictions while maintaining a fixed-size external memory. The memory consists of two components: a fast buffer ( B), which captures recently observed representations, and a slower register ( R), which stores representations that remain useful over longer time scales. Given the current relational representation zt, retrieval is performed as a similarity-weighted combination of the stored memory vectors: 7retrieve( M, z t) =  
+
+> |M|
+> ∑
+> i=1
+
+softmax i(τ ˆzt · ˆmi) mi (2) where M denotes the queried memory (buffer, register, or their combination), ˆzt and ˆmi are 
+
+ℓ2-normalized vectors, and τ controls the sharpness of the similarity weighting. The retrieved vector is therefore a weighted combination of the memory slots whose contents most closely match the current relational representation. Memory writes are competitive rather than unconditional. A memory slot is updated only when its similarity to the incoming representation exceeds a calibrated matching threshold, reducing interference between unrelated representations and preventing updates caused by weak or coincidental overlap. The matching threshold is defined as 
+
+θmatch (r, k, s ) = 0 .86 E
+
+> [
+
+max  
+
+> i̸=j
+
+ˆvi · ˆvj
+
+> ]
+
+. (3) The expectation is estimated over randomly generated sparse vectors having the same dimension-ality and sparsity as the representations used by CMP. The buffer size, register size, and sparsity level are derived from the representation dimension r according to the fixed scaling rules described in Appendix A rather than being tuned independently. We discuss the implications of this design choice as a limitation in Section 6. Figure 2 summarizes the complete memory pipeline, including competitive write decisions, promotion from the fast buffer to the long-term register, and similarity-based retrieval. Separating the buffer and register allows CMP to distinguish short-term adaptation from longer-term storage. Representations that repeatedly satisfy the matching criterion are promoted from the fast buffer into the register, whereas transient representations remain confined to short-term memory. The retrieved memory representation is then passed to the hierarchical prediction stage described in the following subsection. 8Figure 2: Overview of the two-tier competitive memory. Incoming relational representations are first matched against existing memory slots. Successful matches update existing slots, while persistent representations are promoted from the fast buffer to the long-term register. Retrieval is performed through similarity-weighted aggregation over stored representations. 
+
+93.3 Predictive coding 
+
+The hierarchical representation introduced in the previous subsection provides a coarse sum-mary of the current input, but it does not indicate which aspects of the underlying relational representation remain unexplained. CMP therefore incorporates a predictive-coding stage that models the relationship between coarse and fine representations. Rather than using the higher-level representation directly, this stage computes a sparse prediction residual that captures information not explained by the coarse representation. Given the higher-level representation ht and the relational representation zt, a locally trained prediction matrix F produces an estimate of the fine representation. The prediction residual is then sparsified and normalized to obtain an additional contextual representation: 
+
+ˆzt = htF, et = normalize(k -WTA k (zt − ˆzt)) (4) where ˆzt denotes the predicted relational representation, F is the locally trained prediction matrix, and et is the resulting sparse prediction residual. The residual emphasizes components of the relational representation that are not captured by the corresponding higher-level representation, thereby providing complementary information for subsequent processing. Unlike the final prediction module, the predictive-coding layer is trained exclusively through a local reconstruction objective. Consequently, the parameters of F are updated independently of the downstream prediction loss, allowing this stage to learn predictive relationships without requiring end-to-end backpropagation through the architecture. 10 At this point, four complementary representations are available: the relational representation 
+
+zt, the retrieved memory representation, the higher-level representation ht, and the prediction residual et. The following subsection describes how these signals are integrated to generate the final next-byte prediction. 
+
+## 3.4 Readout 
+
+The preceding stages produce multiple complementary representations, each capturing a different aspect of the input sequence. The objective of the readout stage is to integrate these representations into a unified prediction over the next input byte. Rather than employing a deep nonlinear decoder, CMP uses a linear readout that combines relational, memory, hierarchical, predictive, and temporal-context representations into a single set of output logits. Specifically, the relational representation zt, the retrieved buffer and register memories ( ret B
+
+and ret R), the higher-level representation ht, the predictive-coding residual et, and a collection of leaky-integrator context representations (described in Appendix A) are combined together with a learned bigram table Wh to produce the logits over the 256 possible byte values: 
+
+logits t = W ⊤ 
+
+> h
+
+[xt] + b + ztW ⊤ 
+
+> 0
+
++ ret B W ⊤ 
+
+> B
+
++ ret R W ⊤ 
+
+> R
+
++ htW ⊤ 
+
+> h2
+
++ etW ⊤ 
+
+> pc
+
++ ∑
+
+> α
+
+c(α) 
+
+> t
+
+W ⊤ 
+
+> sα
+
+(5) where b is the output bias term and each weight matrix projects a different representation into the common output space. The resulting logits are converted to a probability distribution over the next byte using the standard softmax function. 11 The readout itself consists solely of linear projections and summation. All learning therefore occurs through the associated weight matrices rather than through additional hidden layers, allowing the prediction stage to remain compatible with the local learning framework employed throughout CMP. The following subsection describes how these readout weights are updated using a local learning rule without end-to-end backpropagation through the preceding stages. 
+
+## 3.5 Local learning rule 
+
+The readout stage produces the next-byte prediction, but the preceding architecture does not employ end-to-end backpropagation to propagate prediction errors through earlier processing stages. Instead, each readout weight is updated using information available locally at the output layer. Consequently, every readout projection is optimized independently from the representations that generate its input, allowing learning to proceed through a collection of local weight updates. Let the prediction error be defined as the difference between the target distribution and the predicted probability distribution: 
+
+err t = onehot( yt) − softmax(logits t) (6) 
+
+∆W• = ηN
+
+> ∑
+> t
+
+err ⊤ 
+
+> t
+
+ϕ•(t) (7) where yt is the target byte, logits t denotes the output logits from Eq. 5, η is the learning rate, 12 N is the normalization factor corresponding to the minibatch size, and ϕ•(t) represents the input representation associated with a particular readout weight matrix. Depending on the projection being updated, ϕ•(t) may correspond to the relational representation, retrieved memory, hierarchical representation, predictive-coding residual, or one of the temporal-context representations. Each readout projection is therefore updated using only its local input activity together with the prediction error computed at the output layer. No gradients are propagated through the relational binding, competitive memory, hierarchical, or predictive-coding modules, and each upstream component is optimized through its own local learning mechanism. Although this update rule enables local learning, applying identical updates across all parameters throughout continual training can still produce interference between previously acquired and newly learned knowledge. The following subsection introduces the plasticity-regulation mechanism used to mitigate this effect by adapting the magnitude of weight updates during learning. 
+
+## 3.6 Plasticity regulation 
+
+The local learning rule described in the previous subsection updates each readout projection independently using the current prediction error. While this enables continual adaptation, repeated training across multiple domains can cause parameters that were important for previously learned tasks to be modified by subsequent updates. To reduce such interference, CMP incorporates a plasticity-regulation mechanism that estimates the relative importance of each readout tensor from its accumulated parameter movement and uses this estimate to modulate future updates. Following the completion of training on domain i, the mean absolute parameter movement of 13 Table 1: Qualitative comparison between self-attention and sparse relational binding. The comparison follows the high-level style of the complexity analysis presented by Vaswani et al. [15].         
+
+> Property Self-attention Sparse relational binding
+> Computation per step Pairwise interactions over the context Fixed-size local operation Learning mechanism End-to-end backpropagation Local learning Memory Context recomputed at each forward pass Explicit sparse persistent memory
+
+each readout tensor is accumulated into an importance estimate: 
+
+I• ← I• + E
+
+> [∣ ∣∣
+
+W (i) 
+
+> •
+
+− W (i−1) 
+
+> •
+> ∣∣∣]
+
+(8) 
+
+∆W• ← 11 + λI •
+
+∆W• (9) where I• denotes the accumulated importance associated with a particular readout tensor, W (i)
+
+> •
+
+and W (i−1)  
+
+> •
+
+are the parameter values after training on consecutive domains, and λ controls the strength of the plasticity regulation. Tensors that have exhibited larger cumulative movement receive progressively smaller updates during subsequent training, while tensors with lower accumulated importance remain comparatively more adaptable. Unlike Elastic Weight Consolidation (EWC), which estimates parameter importance using the Fisher Information Matrix derived from gradients of the log-likelihood, the proposed mechanism relies solely on accumulated parameter movement. This choice is motivated by the local-learning framework employed throughout CMP, where end-to-end gradients are not propagated through the architecture. Consequently, parameter movement provides a gradient-independent estimate of importance that is compatible with the learning dynamics of the model. The individual components of CMP—including sparse relational binding, competitive memory, hierarchical representations, predictive coding, and the local delta rule—are adapted from established ideas described in Section 2. The primary methodological contribution of this work is the integration of the movement-based importance estimate (Eq. 8) with adaptive update scaling (Eq. 9) to regulate plasticity during continual learning within a fully local-learning framework. The following section describes the experimental protocol used to evaluate the proposed architec-ture and the effectiveness of the plasticity-regulation mechanism under continual language-modeling benchmarks. 
+
+## 3.7 Comparison with self-attention 
+
+The preceding subsections describe the individual components of CMP and how they interact to perform continual sequence modeling using local learning. An important architectural question is why the core representation is constructed through sparse relational binding rather than the self-attention mechanism used in Transformer-based language models. This section summarizes the principal design differences between the two approaches. The distinction between the two approaches is primarily architectural rather than representational. Self-attention constructs representations by simultaneously computing interactions among all tokens 14 within the current context window, whereas sparse relational binding incrementally updates represen-tations through local recurrent operations combined with explicit associative memory. Consequently, CMP emphasizes fixed-size local computation and persistent memory instead of repeated dense interactions across the full input sequence. Modern Hopfield networks have been shown to possess a close mathematical relationship with Transformer attention mechanisms [ 10 ]. Accordingly, the associative-memory component of CMP should not be viewed as an alternative computational paradigm, but rather as a related memory-retrieval mechanism operating under different architectural constraints. The principal differences are the use of sparse representations, recurrent one-cue-at-a-time retrieval, explicit long-term memory, and compatibility with locally computed learning updates. The comparison presented in Table 1 is intended to highlight these architectural differences rather than establish superiority of one approach over the other. The experimental evaluation in the following sections assesses whether the proposed design provides advantages for continual language modeling under the evaluation protocol considered in this work. 
+
+# 4 Continual Learning Protocol and Results 
+
+This section evaluates CMP under a domain-incremental continual-learning protocol designed to assess both predictive performance and resistance to catastrophic forgetting. The evaluation proceeds in four stages. First, we verify that the model achieves meaningful language-modeling performance before interpreting forgetting metrics. Second, we examine the reproducibility of the proposed plasticity-regulation mechanism across multiple random seeds. Third, we compare the proposed method with established continual-learning baselines under matched training conditions. Finally, we evaluate robustness to domain ordering and investigate whether the observed behavior extends beyond text to an image-classification setting. 
+
+## 4.1 Continual-learning protocol 
+
+We adopt a domain-incremental continual-learning protocol in which a single model is trained sequentially across T domains without replaying previously observed data or providing explicit task identifiers. After completing training on each domain, the model is evaluated on both the current domain and all previously encountered domains, producing a T × T matrix of Bits-Per-Byte (BPB) scores that summarizes continual-learning performance. This evaluation protocol intentionally removes two common sources of auxiliary information frequently used in continual-learning systems: replay buffers and task identifiers. Consequently, knowledge retention must emerge from the architecture and learning dynamics themselves rather than from revisiting previous training data or conditioning on the active task identity. To quantify continual-learning behavior, we report Backward Transfer (BWT) and Forward Transfer (FWT), adapted from Lopez-Paz and Ranzato [ 4 ] for the Bits-Per-Byte metric. Because lower BPB indicates better performance, the sign convention is inverted relative to the original accuracy-based formulation. 15 Figure 3: Domain-incremental continual-learning protocol. A single model is trained sequentially across domains without replay or task identifiers. After each training stage, evaluation is performed on all domains encountered up to that point, producing a complete BPB evaluation matrix. 
+
+BWT = 1
+
+T − 1 
+
+> T−1∑
+> i=1
+
+(BPB( i, T ) − BPB( i, i )) (10) 
+
+FWT = 1
+
+T − 1
+
+> T∑
+> i=2
+
+(BPB 0shot (i) − bigram( i)) (11) Under this convention, positive BWT indicates forgetting, corresponding to an increase in BPB after subsequent domains have been learned, whereas negative BWT indicates backward transfer. Likewise, negative FWT indicates performance better than the bigram baseline on previously unseen domains. The evaluation consists of 15 sequential domains spanning encyclopedic text, software source code, literary works, news articles, technical documentation, and multilingual data. Specifically, the corpus includes Wikipedia, CPython source code, Shakespeare, the King James Bible, Reuters news, Moby Dick , The Federalist Papers , Darwin, Whitman, Lodash source code, Meditations by Marcus Aurelius, Flatland , Alice’s Adventures in Wonderland , Python technical documentation, and a Hindi corpus. This collection was assembled specifically for this study and does not constitute a standardized continual-learning benchmark. We therefore use established continual-learning metrics on a custom evaluation corpus and discuss the resulting limitations in Section 5 
+
+## 4.2 Accuracy audit 
+
+Before interpreting continual-learning metrics, it is necessary to establish that the model has learned meaningful predictive structure. Forgetting measurements are only informative if the model first acquires knowledge that can subsequently be retained or forgotten. 16 Table 2: Continual-learning performance across three independent random seeds using the proposed plasticity-regulation mechanism on the 15-domain evaluation sequence.                 
+
+> Seed BWT FWT
+> 42 +0 .2353 +0 .5956
+> 43 +0 .2352 +0 .2978
+> 44 +0 .2512 +0 .3175
+> Mean ±Std. +0 .2406 ±0.0092 +0 .4036 ±0.1665
+
+To verify this prerequisite, we compare the post-training performance of CMP against a simple bigram frequency baseline across all evaluation domains. For every domain and across all three random seeds (42, 43, and 44), CMP consistently achieves lower BPB than the corresponding bigram baseline, with improvements ranging from 0.41 to 1.22 BPB. The same verification procedure is applied to all continual-learning baselines included in the subsequent comparisons. Having established that the model consistently learns beyond the trivial baseline, the following subsection evaluates whether the proposed plasticity-regulation mechanism produces reproducible continual-learning improvements across multiple independent training runs. 
+
+## 4.3 Main result: three-seed replication 
+
+The proposed plasticity-regulation mechanism is intended to improve continual-learning performance independently of random initialization. To evaluate the robustness of the observed effect, we repeat the complete 15-domain continual-learning experiment using three independent random seeds (42, 43, and 44) while keeping the training protocol and hyperparameters unchanged. Table 2 shows that Backward Transfer (BWT) remains highly consistent across all three runs, exhibiting a standard deviation of 0.0092, corresponding to less than 4% of the mean value. This indicates that the continual-learning behavior associated with the proposed plasticity-regulation mechanism is reproducible under different random initializations. In contrast, Forward Transfer (FWT) exhibits substantially greater variability across seeds. The higher variance is primarily attributable to seed 42, which achieves a noticeably larger FWT value than the remaining two runs. Consequently, while the observed BWT behavior appears stable across random seeds, the corresponding FWT estimates should be interpreted more cautiously. These experiments establish that the principal result reported in this work—the reduction in forgetting measured by BWT—is reproducible rather than arising from a single favorable initialization. However, reproducibility alone does not establish competitive performance. The following subsection therefore compares the proposed approach with established continual-learning baselines under matched training conditions. 
+
+## 4.4 Baseline comparison: naive fine-tuning and online EWC 
+
+To assess whether the observed continual-learning behavior extends beyond comparisons with an unregularized model, we compare CMP against a parameter-matched ( ∼6.5M parameters) byte-level Transformer under the same domain-incremental evaluation protocol. Two baseline configurations are considered. The first is naive sequential fine-tuning without any continual-learning mechanism. 17 The second is online Elastic Weight Consolidation (Online EWC) [ 14 ], which maintains a running approximation of parameter importance and was selected in place of the original EWC formulation [ 3]because it scales more naturally to long sequences of domains without requiring storage of separate Fisher Information Matrices for every task. All models are trained using the identical sequence of domains, optimization schedule, and evaluation procedure described in Section 4.1. Matching the parameter count and training protocol allows differences in continual-learning performance to be attributed primarily to the learning mechanisms rather than to model capacity or computational budget. The comparison therefore evaluates three conditions: 
+
+• Naive fine-tuning : sequential training without any mechanism for mitigating catastrophic forgetting. 
+
+• Online EWC : continual learning using a running Fisher-based estimate of parameter impor-tance following Schwarz et al. [14]. 
+
+• CMP : the proposed local-learning architecture with movement-based plasticity regulation. The following subsection reports the quantitative comparison across these three approaches using the continual-learning metrics introduced in Section 4.1. 
+
+## 4.5 Baseline comparison: naive fine-tuning and online EWC 
+
+To evaluate whether the proposed plasticity-regulation mechanism provides improvements beyond standard continual-learning approaches, we compare CMP against a parameter-matched ( ∼6.5M pa-rameters) byte-level Transformer trained under the identical domain-incremental protocol described in Section 4.1. Two Transformer baselines are considered: naive sequential fine-tuning without any forgetting mitigation and Online Elastic Weight Consolidation (Online EWC) [ 14 ], a scalable variant of the original EWC method proposed by Kirkpatrick et al. [3]. All models are trained using the same domain sequence, optimization schedule, evaluation protocol, and data budget. Matching both model capacity and training conditions allows differences in continual-learning performance to be attributed primarily to the learning mechanisms rather than computational resources. Before conducting the comparison, an initial baseline experiment was performed using the original 150,000-byte training budget. Under these conditions, the Transformer substantially overfit because the limited dataset required repeated presentation of the same samples, resulting in post-training BPB that exceeded the corresponding bigram baseline across all domains. Since the accuracy audit described in Section 4.2 was not satisfied, these runs were excluded from the continual-learning comparison because the resulting BWT values would primarily reflect unsuccessful language modeling rather than catastrophic forgetting. Increasing the training budget to 3.8 million bytes resolved this issue, after which all Transformer baselines consistently passed the accuracy audit. Table 3 and Figure 4 show that naive sequential fine-tuning exhibits substantial forgetting under the domain-incremental evaluation protocol. Online EWC reduces forgetting relative to naive fine-tuning, lowering BWT from +2 .7897 to +2 .2457 , while CMP achieves the lowest BWT of 
+
++0 .1482 . Relative to naive fine-tuning, this corresponds to a 94.7% reduction in forgetting, and a 93.4% reduction relative to Online EWC under matched training conditions. 18 Table 3: Continual-learning comparison using matched model capacity ( ∼6.5M parameters), identical training protocol, and a shared 3.8M-byte training budget. Lower BWT indicates less forgetting.          
+
+> Method BWT Relative forgetting
+> Naive fine-tuning (Transformer) +2 .7897 Baseline Online EWC (Transformer) +2 .2457 19.5% reduction CMP (proposed) +0.1482 94.7% reduction
+> Figure 4: Backward Transfer (BWT) comparison under matched model capacity and a shared 3.8M-byte training budget. Lower values indicate reduced forgetting.
+
+These results indicate that the proposed movement-based plasticity regulation substantially reduces interference between sequentially learned domains within the evaluation protocol considered in this study. While the comparison is limited to the selected benchmark and parameter-matched Transformer baselines, the observed improvement is consistent across the experimental conditions evaluated. Additional validation on standardized continual-learning benchmarks, larger-scale language modeling tasks, and alternative architectures would further clarify the generality of the proposed approach. To ensure a fair comparison, the CMP result reported in Table 3 differs from the three-seed mean reported in Table 2. The value in Table 3 ( +0 .1482 ) was obtained after retraining CMP using the same 3.8M-byte data budget adopted for the Transformer baselines. This larger budget was introduced because the original 150,000-byte budget did not allow the Transformer baselines to satisfy the accuracy audit described in Section 4.2. Using the CMP result obtained under the matched experimental conditions therefore ensures that all methods are compared using identical model capacity, training protocol, and data budget. Under these matched conditions, CMP achieves substantially lower forgetting than either Trans-former baseline. Specifically, CMP reduces BWT by approximately 94.7% relative to naive sequential 19 Table 4: Sensitivity of CMP to domain ordering on a representative five-domain subset using the original 150,000-byte training budget. Lower BWT indicates reduced forgetting.                                 
+
+> Ordering Domain sequence BWT
+> Canonical Wiki →CPython →Shakespeare →KJV →Reuters +0 .2353
+> Reverse Reuters →KJV →Shakespeare →CPython →Wiki +0 .4442
+> Shuffled Shakespeare →Wiki →Reuters →CPython →KJV +0 .3343
+
+fine-tuning and by approximately 93.4% relative to Online EWC, corresponding to roughly 18.8 ×
+
+and 15.2 × lower forgetting, respectively. These comparisons constitute the primary quantitative result of this work. The following subsection examines whether this improvement remains consistent under an alternative ordering of the training domains, thereby assessing the robustness of the observed continual-learning behavior beyond a single domain sequence. 
+
+## 4.6 Domain-order control 
+
+The previous experiments evaluate CMP using a single ordering of the 15-domain continual-learning benchmark. Since catastrophic forgetting may depend on the sequence in which domains are encountered, we perform an additional control experiment to assess the sensitivity of the proposed method to domain ordering. Evaluating multiple permutations of the complete 15-domain benchmark was computationally infeasible within the scope of this study. Consequently, this analysis is performed on a representative five-domain subset consisting of Wikipedia, CPython source code, Shakespeare, the King James Bible, and Reuters news. Three orderings are evaluated: the original canonical ordering, the reverse ordering, and a randomly shuffled ordering. This experiment is intended to estimate the sensitivity of CMP to domain order rather than exhaustively characterize all possible permutations. Table 4 demonstrates that continual-learning performance varies with the ordering of the training domains. Among the three sequences evaluated, the canonical ordering yields the lowest forgetting, whereas the reverse ordering produces the highest BWT. Across these experiments, BWT ranges from approximately +0 .24 to +0 .44 .Although domain ordering influences performance, every ordering evaluated substantially outper-forms the Online EWC baseline reported in Section 4.5. This experiment represents only a partial assessment of order sensitivity. A five-domain benchmark admits 5! = 120 possible orderings, whereas only three were evaluated in this study. Consequently, the reported range should be interpreted as an estimate of the observed variability rather than a bound on the worst-case continual-learning performance. Figure 5 provides a qualitative visualization of forgetting across the complete 15-domain bench-mark. Most domains remain within a relatively narrow BPB range throughout continual training, whereas the CPython domain consistently exhibits higher BPB values, indicating greater suscepti-bility to forgetting under the evaluated protocol. While all experiments presented thus far focus on byte-level language modeling, it remains unclear whether the observed continual-learning behavior is specific to text or reflects a more general 20 Figure 5: BPB evaluation matrix for the complete 15-domain benchmark (seed 44). Each row corresponds to the current training domain, and each column represents evaluation on a previously encountered domain. Lower BPB (green) indicates better retention, whereas higher BPB (red) indicates increased forgetting. The consistently elevated BPB values for the CPython domain suggest that it is retained less effectively than the remaining domains throughout the training sequence. 
+
+property of the proposed learning mechanism. The following subsection therefore evaluates CMP on a standard continual-learning benchmark outside the language domain. 
+
+## 4.7 Vision anchor: Split-MNIST 
+
+To investigate whether the proposed plasticity-regulation mechanism extends beyond language modeling, we evaluate CMP on the standard Split-MNIST continual-learning benchmark. Following the experimental setup adopted in this study, each MNIST image is serialized using a Hilbert-curve traversal and divided into the conventional five sequential tasks: 
+
+0/1 → 2/3 → 4/5 → 6/7 → 8/9.
+
+The dense baseline and the sparse CMP configuration are evaluated across three independent random seeds (42, 43, and 44). Table 5 shows that the dense and sparse configurations produce nearly identical continual-learning performance on Split-MNIST. The differences in both BWT and FWT are substantially smaller than the observed variability across random seeds, and no consistent improvement attributable to the proposed plasticity-regulation mechanism is evident under this evaluation protocol. Accordingly, we treat this experiment as a negative result rather than evidence supporting 21 Table 5: Split-MNIST continual-learning results using Hilbert-serialized inputs. Values report mean ±              
+
+> standard deviation across three random seeds.
+> Condition BWT FWT
+> Dense (baseline) −0.0211 ±0.0004 −0.0669 ±0.0013
+> Sparse (CMP) −0.0207 ±0.0003 −0.0666 ±0.0013
+
+the proposed method. Although the current implementation does not demonstrate measurable improvements on Split-MNIST, reporting this outcome provides a more complete evaluation of the method than selectively presenting only favorable results. The metrics reported in Table 5 are expressed in Bits-Per-Byte rather than classification accuracy because the experiments are conducted using the same autoregressive byte-prediction framework employed throughout this work. Consequently, these values should not be compared directly with the classification accuracies commonly reported for Split-MNIST continual-learning methods such as EWC, Synaptic Intelligence, or replay-based approaches. 
+
+# 5 Discussion and Limitations 
+
+The results presented in this work demonstrate that CMP substantially reduces catastrophic forgetting under the evaluated continual-learning protocol while simultaneously highlighting several limitations that define the current scope of the proposed approach. 
+
+Predictive performance. Although CMP consistently reduces forgetting relative to the evaluated baselines, its single-domain language-modeling performance remains well below that of a comparably sized Transformer. Across the evaluated datasets, CMP achieves BPB values in the range of approx-imately 3.1–3.3, whereas modern Transformer architectures typically achieve substantially lower perplexity under comparable training conditions. Consequently, the principal contribution of this work concerns continual-learning behavior rather than state-of-the-art language-modeling accuracy. Bridging this performance gap while preserving the continual-learning properties demonstrated here remains an important direction for future research. 
+
+Sensitivity to domain ordering. The continual-learning performance of CMP depends on the order in which domains are presented. Across the three domain sequences evaluated in Section 4.6, BWT ranges from approximately +0 .24 to +0 .44 , with the canonical ordering producing the lowest forgetting. Because only three of the 5! = 120 possible orderings of the five-domain subset were evaluated, these experiments should be interpreted as an estimate of order sensitivity rather than a comprehensive characterization of worst-case continual-learning performance. 
+
+Baseline scope. The principal continual-learning baseline employed in this work is Online Elastic Weight Consolidation (Online EWC) [ 14 ], which maintains a running estimate of parameter importance. This variant was selected because it scales naturally to long sequences of domains without requiring separate Fisher Information Matrices for every task, unlike the original formulation proposed by Kirkpatrick et al. [ 3]. The present study therefore evaluates CMP against Online EWC 22 rather than the original EWC algorithm. 
+
+Evaluation benchmark. The 15-domain continual-learning benchmark introduced in this work was assembled specifically for this study and does not constitute a standardized benchmark. While the continual-learning metrics (Backward Transfer and Forward Transfer) are well established in the literature, the underlying collection of evaluation domains is custom. Additional validation on widely adopted continual-learning benchmarks would strengthen the generality of the reported findings. 
+
+Generalization beyond language modeling. The Split-MNIST experiments did not demon-strate a measurable advantage of the proposed plasticity-regulation mechanism over the dense baseline. Across three independent random seeds, the observed differences in BWT and FWT remained within the variability of the experiments, and no consistent improvement was observed. Accordingly, these results should be interpreted as a negative result rather than evidence that the proposed mechanism generalizes beyond language modeling. 
+
+Methodological contribution. The individual architectural components employed by CMP, including sparse relational representations, associative memory, and local delta-rule learning, build upon established ideas discussed in Section 2. The primary methodological contribution of this work is the integration of these components with a movement-based plasticity-regulation mechanism that estimates parameter importance from accumulated weight movement rather than gradient-derived quantities, together with an empirical evaluation of this approach under continual language-modeling conditions. 
+
+Future directions. The experiments reported in Appendix C indicate that alternative architec-tural variants can achieve substantially lower single-domain BPB than the configuration presented in the main paper. However, combining these improvements with the proposed continual-learning architecture did not improve overall performance under the evaluated setting (Appendix D). Under-standing how stronger predictive representations can be integrated with movement-based plasticity regulation without sacrificing continual-learning behavior remains an open research question. Overall, the results suggest that movement-based plasticity regulation is a promising direction for continual learning within local-learning architectures. At the same time, broader evaluation on standardized benchmarks, stronger language-modeling baselines, additional continual-learning methods, and larger-scale models will be necessary to determine the generality and practical applicability of the proposed approach. 
+
+# 6 Conclusion 
+
+This work investigated whether a local-learning architecture with sparse representations and movement-based plasticity regulation can mitigate catastrophic forgetting in continual language modeling without relying on end-to-end backpropagation or replay. To evaluate this hypothesis, we introduced CMP and assessed its performance under a domain-incremental continual-learning 23 Table 6: Hyperparameters used for the flagship CMP configuration.            
+
+> Parameter Value
+> Representation dimension ( r)1024 Batch size 64 Sequence length 256 Training steps per domain 6000 Data budget 150,000 bytes (Sections 4.1–4.5) 3,800,000 bytes (Transformer baseline comparison) Learning rate ( η)0.12 Plasticity-regulation coefficient ( λ)5.0 Sparsity ( k)64 Buffer size 64 Register size 256
+
+protocol using established transfer metrics together with comparisons against parameter-matched Transformer baselines. Across the evaluated experiments, CMP consistently exhibited substantially lower forgetting than both naive sequential fine-tuning and Online Elastic Weight Consolidation (Online EWC). The observed reduction in Backward Transfer was reproduced across multiple random seeds and remained evident under alternative domain orderings, suggesting that the proposed plasticity-regulation mechanism contributes meaningfully to continual learning within the evaluated setting. At the same time, the present study identifies several important limitations. CMP does not yet achieve language-modeling accuracy comparable to modern Transformer architectures, the evaluation is conducted on a custom continual-learning benchmark, and the proposed method does not demonstrate measurable improvements on Split-MNIST. These results indicate that reduced forgetting alone is insufficient to establish a broadly competitive learning architecture. Future work should investigate how movement-based plasticity regulation can be combined with stronger predictive architectures while preserving the continual-learning behavior demonstrated in this study. Broader evaluation on standardized continual-learning benchmarks, larger-scale language models, and additional baseline methods will also be necessary to assess the generality of the proposed approach. 
+
+# A Hyperparameters 
+
+Table 6 summarizes the hyperparameters used for the flagship CMP configuration reported through-out the main paper. Unless otherwise stated, all experiments employ these settings. The sparsity level, buffer capacity, and register capacity scale proportionally with the representa-tion dimension. The values shown correspond to the flagship configuration with r = 1024 .24 B Per-domain accuracy audit 
+
+Section 4.2 establishes that continual-learning metrics are only meaningful when the underlying language model learns beyond a trivial baseline. Accordingly, we compare the post-training BPB of CMP against a bigram frequency model for every evaluation domain and every random seed. Across all fifteen domains and all three random seeds (42, 43, and 44), CMP consistently achieves lower BPB than the corresponding bigram baseline. Improvements range from approximately 0.41 to 1.22 BPB depending on the evaluation domain. The complete per-domain evaluation tables are included in the released experimental results accompanying this work. 
+
+# C Historical depth-line result 
+
+Prior to the development of the architecture presented in the main paper, we investigated a separate family of locally trained architectures based on stacked multiplicative binding layers. Unlike CMP, these models did not include competitive memory, predictive coding, or movement-based plasticity regulation, and were evaluated only on single-domain language modeling. The strongest configuration in this earlier architecture family achieved approximately 2.49–2.51 BPB on single-domain byte prediction using four stacked binding blocks, with results replicated across three random seeds. A control experiment that randomized the deepest binding layer confirmed that the observed improvement resulted from the additional representational depth rather than increased parameter count alone. These experiments motivated subsequent attempts to combine deeper local representations with the continual-learning mechanisms proposed in this work. The outcome of that integration attempt is reported in Appendix D. 
+
+# D Depth–Hierarchy Integration Attempt 
+
+To investigate whether stronger single-domain predictive performance could be combined with the continual-learning architecture proposed in this work, we integrated the depth-only architecture described in Appendix C with the CMP hierarchy and competitive memory system. Specifically, the original single relational-binding stage was replaced with a four-block stacked binding architecture while leaving the hierarchy, memory, predictive-coding, and local-learning components unchanged. Under matched training conditions, the integrated architecture achieved a BPB of 3.48 compared with 3.27 for the flagship CMP configuration, indicating that the modification did not improve language-modeling performance. One plausible explanation is that the depth-only architecture produces dense intermediate repre-sentations through conventional normalization, whereas the competitive memory and downstream processing stages in CMP assume sparse representations generated by the kWTA operator. The resulting mismatch may reduce the quality of associative-memory retrieval and subsequent hierarchi-cal processing. A second possibility is that introducing additional representational stages increases competition among multiple readout pathways that ultimately share the same local prediction error. 25 These explanations are hypotheses derived from the observed behavior rather than experimentally verified causes. Accordingly, we report this experiment as a negative result that identifies a potential direction for future investigation rather than evidence against deeper local-learning architectures. 
+
+# E Preliminary scaling experiment 
+
+We performed a preliminary investigation of model scaling by increasing the representation dimension from 1024 to 2600, corresponding to an increase in model size from approximately 6.4 million to 29.8 million parameters. Under the original 150,000-byte training budget, this five-fold increase in parameter count produced only negligible improvement. Subsequent analysis indicated that the limited data budget required extensive repetition of the training data, substantially reducing the amount of novel information available to the larger model. Repeating the comparison using the corrected 3.8M-byte training budget resulted in a modest improvement, with BWT decreasing from +0 .1482 for the 6.4M-parameter model to +0 .1397 for the 29.8M-parameter model. While this result suggests that increased model capacity becomes beneficial once the data bottleneck is alleviated, the observed improvement remains considerably smaller than the effect of increasing the training budget itself. This experiment represents only a preliminary exploration of scaling behavior. A systematic scaling-law analysis across model size, data budget, and training compute remains an important direction for future work. 
+
+# F Code and Data Availability 
+
+The continual-learning text corpus used in this work was assembled from publicly available public-domain and open-source sources, as described in Section 4.1. The vision experiments use the standard Split-MNIST benchmark constructed from the MNIST dataset. The source code and experimental framework are not publicly available at the time of publication. They are available from the authors upon reasonable request for research purposes. 
+
+# G Acknowledgments 
+
+The authors acknowledge the Google for Startups Cloud Program for providing cloud-computing credits that supported the experiments reported in this work. Experiments were conducted using NVIDIA A100, NVIDIA T4, and NVIDIA L4 GPUs. The authors also thank Arjit Saxena (Resolute Labs) for mentorship and technical guidance during the development of this research. 26 References 
+
+[1] A. Gu and T. Dao. Mamba: Linear-time sequence modeling with selective state spaces. arXiv preprint arXiv:2312.00752 , 2023. [2] P. Kanerva. Sparse Distributed Memory . MIT Press, 1988. [3] J. Kirkpatrick, R. Pascanu, N. Rabinowitz, J. Veness, G. Desjardins, A. A. Rusu, K. Milan, J. Quan, T. Ramalho, A. Grabska-Barwinska, D. Hassabis, C. Clopath, D. Kumaran, and R. Hadsell. Overcoming catastrophic forgetting in neural networks. Proceedings of the National Academy of Sciences , 114(13):3521–3526, 2017. [4] D. Lopez-Paz and M. Ranzato. Gradient episodic memory for continual learning. In Advances in Neural Information Processing Systems (NeurIPS) , 2017. [5] J. L. McClelland, B. L. McNaughton, and R. C. O’Reilly. Why there are complementary learning systems in the hippocampus and neocortex: Insights from the successes and failures of connectionist models of learning and memory. Psychological Review , 102(3):419–457, 1995. [6] B. A. Olshausen and D. J. Field. Emergence of simple-cell receptive field properties by learning a sparse code for natural images. Nature , 381:607–609, 1996. [7] A. Pagnoni, R. Pasunuru, P. Rodriguez, J. Nguyen, B. Muller, M. Li, C. Zhou, L. Yu, J. Weston, L. Zettlemoyer, G. Ghosh, M. Lewis, A. Holtzman, and S. Iyer. Byte latent transformer: Patches scale better than tokens. In Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (ACL), Volume 1: Long Papers , pages 9238–9258, 2025. [8] T. A. Plate. Holographic reduced representations. IEEE Transactions on Neural Networks , 6 (3):623–641, 1995. [9] J. B. Pollack. Recursive distributed representations. Artificial Intelligence , 46:77–105, 1990. [10] H. Ramsauer, B. Schäfl, J. Lehner, P. Seidl, M. Widrich, T. Adler, L. Gruber, M. Holzleitner, M. Pavlović, G. K. Sandve, V. Greiff, D. Kreil, M. Kopp, G. Klambauer, J. Brandstetter, and S. Hochreiter. Hopfield networks is all you need. In International Conference on Learning Representations (ICLR) , 2021. arXiv:2008.02217. [11] R. P. N. Rao and D. H. Ballard. Predictive coding in the visual cortex: A functional interpre-tation of some extra-classical receptive-field effects. Nature Neuroscience , 2:79–87, 1999. [12] S.-A. Rebuffi, A. Kolesnikov, G. Sperl, and C. H. Lampert. icarl: Incremental classifier and representation learning. In IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , pages 5533–5542, 2017. [13] A. A. Rusu, N. C. Rabinowitz, G. Desjardins, H. Soyer, J. Kirkpatrick, K. Kavukcuoglu, R. Pascanu, and R. Hadsell. Progressive neural networks. arXiv preprint arXiv:1606.04671 ,2016. [14] J. Schwarz, W. Czarnecki, J. Luketina, A. Grabska-Barwinska, Y. W. Teh, R. Pascanu, and R. Hadsell. Progress & compress: A scalable framework for continual learning. In Proceedings of the 35th International Conference on Machine Learning (ICML) , pages 4528–4537, 2018. 27 [15] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin. Attention is all you need. In Advances in Neural Information Processing Systems (NeurIPS) , 2017. [16] J. C. R. Whittington and R. Bogacz. An approximation of the error backpropagation algorithm in a predictive coding network with local hebbian synaptic plasticity. Neural Computation , 29 (5):1229–1262, 2017. [17] F. Zenke, B. Poole, and S. Ganguli. Continual learning through synaptic intelligence. In 
+
+Proceedings of the 34th International Conference on Machine Learning (ICML) , pages 3987– 3995, 2017. 28

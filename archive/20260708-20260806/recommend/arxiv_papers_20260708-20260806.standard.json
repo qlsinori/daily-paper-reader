@@ -1,0 +1,1851 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-06T04:27:03.342472+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 42,
+    "deep_cap": 7,
+    "deep_selected": 31,
+    "quick_candidates": 21,
+    "quick_skim_target": 12,
+    "quick_selected": 12
+  },
+  "deep_dive": [
+    {
+      "id": "2607.12630v2",
+      "source": "arxiv",
+      "title": "Instance-Enriched Semantic Maps for Visual Language Navigation",
+      "abstract": "Visual Language Navigation (VLN) aims to enable an embodied agent to navigate complex environments by following natural language instructions. Recent approaches build semantic spatial maps and leverage Large Language Models (LLMs) for reasoning and decision making. Despite these advances, existing systems lack instance-level object detail and robustness to diverse user queries, limiting reliable navigation in complex indoor environments. To address these limitations, we propose Instance-Enriched Semantic Maps, a unified framework with three key contributions: (1) Instance-level two-and-a-half-dimensional (2.5D) rich information mapping that constructs maps from color and depth observations via open-vocabulary panoptic segmentation, preserving vertical distinctions and capturing small objects, while storing diverse semantic attributes and natural language captions enriched with room-level context. (2) Robust query processing via LLM-based target selection, which dynamically routes queries across type-specialized experts and integrates their outputs through score-level fusion, enabling consistent goal selection across diverse query formulations. (3) Storage-efficient semantic representation that achieves approximately 96% reduction compared to three-dimensional (3D) scene-graph approaches while preserving sufficient spatial information for navigation. The proposed 2.5D representation outperforms the 3D baseline by over 27% in prediction-normalized Area Under the Curve (AUC). In navigation experiments, our method achieves over 17% improvement in object retrieval and over 23% in navigation success compared to the baseline across diverse query types. The project page is available at https://rcilab.github.io/iesm_vln.",
+      "authors": [
+        "Jiho Hong",
+        "Eunae Kang",
+        "Sanghyun Kim",
+        "Young-Sik Shin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-14T11:09:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.12630v2",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Instance-Enriched Semantic Maps for VLN constructs 2.5D instance-level semantic maps from color/depth to follow natural language instructions in complex indoor environments",
+      "llm_evidence_cn": "提出实例增强语义地图，从颜色和深度构建2.5D实例级地图以支持视觉语言导航",
+      "llm_evidence": "提出实例增强语义地图，从颜色和深度构建2.5D实例级地图以支持视觉语言导航",
+      "canonical_evidence": "提出实例增强语义地图，从颜色和深度构建2.5D实例级地图以支持视觉语言导航",
+      "llm_tldr_en": "Proposes instance-level 2.5D semantic maps using open-vocabulary panoptic segmentation and LLM reasoning, improving VLN robustness and query diversity in complex indoor scenes.",
+      "llm_tldr_cn": "现有VLN系统缺少实例级物体细节，难以处理多样化用户查询。本文提出实例增强语义地图框架，通过开放词汇全景分割从颜色和深度观测构建2.5D信息地图，保留垂直区分，并结合LLM推理与决策。在复杂室内环境中提升了导航可靠性和鲁棒性，统一了实例细节与语义空间推理。",
+      "llm_tldr": "现有VLN系统缺少实例级物体细节，难以处理多样化用户查询。本文提出实例增强语义地图框架，通过开放词汇全景分割从颜色和深度观测构建2.5D信息地图，保留垂直区分，并结合LLM推理与决策。在复杂室内环境中提升了导航可靠性和鲁棒性，统一了实例细节与语义空间推理。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.08359v1",
+      "source": "arxiv",
+      "title": "FSD-VLN: Fast-Slow Dual-System Modeling for Aerial Long-Horizon Vision-Language Navigation",
+      "abstract": "Vision-Language Navigation (VLN) enables UAV autonomous navigation in unknown environments by mapping language instructions to real-time visual inputs. Compared with GPS-dependent or pre-programmed navigation, VLN supports intuitive human-machine interaction and stronger environmental adaptability, requiring tight integration of high-level semantic reasoning and low-latency flight control.Existing methods suffer from structural misalignment between global multimodal understanding and sequential action generation, causing jittery trajectories and severe decision latency for long-horizon aerial navigation. To solve this issue, we propose FSD-VLN, a fast-slow dual-system architecture disentangling semantic reasoning and low-latency flight command generation.The framework has two asynchronous branches: a slow stream extracting stable semantic priors from pre-trained vision-language models, and a Diffusion Transformer (DiT) fast stream modeling cross-temporal action distributions to produce consistent flight outputs. We further introduce a time-aware adaptive optimizer to stabilize long-sequence training and reduce gradient oscillation.Large-scale low-altitude simulation experiments show FSD-VLN achieves up to 2X higher navigation success rates on unseen scenes than SOTA methods, while cutting single-action inference delay and total task runtime by over 50%. Our work validates the benefit of decoupled semantic-control modeling and provides a practical paradigm for long-horizon aerial VLN.",
+      "authors": [
+        "Xueke Zhu",
+        "Qingyan Meng",
+        "Liutao Yu",
+        "Wei Zhang",
+        "Zhengyu Ma",
+        "Huihui Zhou",
+        "Yonghong Tian"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-09T11:17:04+00:00",
+      "link": "https://arxiv.org/pdf/2607.08359v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "FSD-VLN is an aerial vision-language navigation model that maps language instructions to real-time visual inputs for UAV autonomous navigation",
+      "llm_evidence_cn": "提出空中VLN模型FSD-VLN，将语言指令映射到实时视觉输入进行自主导航",
+      "llm_evidence": "提出空中VLN模型FSD-VLN，将语言指令映射到实时视觉输入进行自主导航",
+      "canonical_evidence": "提出空中VLN模型FSD-VLN，将语言指令映射到实时视觉输入进行自主导航",
+      "llm_tldr_en": "Proposes a fast-slow dual-system architecture for aerial long-horizon VLN, disentangling semantic reasoning from low-latency flight control to reduce jitter and latency.",
+      "llm_tldr_cn": "空中长期视觉语言导航面临全局多模态理解与顺序动作生成的结构性错位，导致轨迹抖动和决策延迟。本文提出FSD-VLN，采用快-慢双系统架构将语义推理和低延迟飞行控制解耦，从而提升长时导航的平稳性和响应速度。实验表明该架构有效缓解了轨迹抖动并降低决策延迟，支持无人机在未知环境中遵循语言指令自主导航。",
+      "llm_tldr": "空中长期视觉语言导航面临全局多模态理解与顺序动作生成的结构性错位，导致轨迹抖动和决策延迟。本文提出FSD-VLN，采用快-慢双系统架构将语义推理和低延迟飞行控制解耦，从而提升长时导航的平稳性和响应速度。实验表明该架构有效缓解了轨迹抖动并降低决策延迟，支持无人机在未知环境中遵循语言指令自主导航。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.09792v1",
+      "source": "arxiv",
+      "title": "A Comprehensive Survey and Systematic Real-World Evaluation of Embodied Vision-and-Language Navigation",
+      "abstract": "Navigation is a fundamental capability of autonomous systems, yet most existing approaches rely on highly structured models and strong prior assumptions, limiting their robustness in open and uncertain real-world environments. Vision-and-Language Navigation (VLN) offers a promising direction by enabling robots to integrate natural language understanding with visual perception in a data-driven manner. Although VLN has attracted increasing research attention, systematic methodological taxonomy and real-world validation remain limited. This survey presents a comprehensive review of VLN research. Specifically, state-of-the-art methods are organized along two orthogonal dimensions: action paradigms, including hierarchical and monolithic frameworks, and model paradigms, including discriminative and generative approaches. A critical analysis of their respective strengths and limitations is provided. Additionally, we conduct a systematic real-world evaluation of representative VLN system configurations on a physical robotic platform. Experiments across ten diverse real-world scenes show a substantial performance gap between simulation and real-world deployment under the tested configurations: a representative monolithic RGB-only method achieves 61% success in simulation but drops to 22% in real-world deployment, while a hierarchical framework achieves a higher real-world success rate of 51%, suggesting stronger robustness in our evaluation setting. Finally, we highlight key challenges in perception, decision-making, and control that must be addressed in future research.",
+      "authors": [
+        "Liuyi Wang",
+        "Kai Sheng",
+        "Zongtao He",
+        "Jinlong Li",
+        "Yongrui Qin",
+        "Haojie Dai",
+        "Xiangyi Wang",
+        "Jingwei Yang",
+        "Qingqing Yan",
+        "Chengju Liu",
+        "Qijun Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-09T05:13:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.09792v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Survey of embodied vision-and-language navigation with SOTA taxonomy and evaluation",
+      "llm_evidence_cn": "具身视觉语言导航综述，包含SOTA分类与评估",
+      "llm_evidence": "具身视觉语言导航综述，包含SOTA分类与评估",
+      "canonical_evidence": "具身视觉语言导航综述，包含SOTA分类与评估",
+      "llm_tldr_en": "This survey systematically reviews VLN research, organizing state-of-the-art methods along action paradigms and providing real-world evaluation.",
+      "llm_tldr_cn": "该综述全面回顾了具身视觉语言导航（VLN）的研究进展，按照动作范式等维度对最新方法进行了系统分类，并进行了真实世界评估。文章指出现有方法依赖结构化模型和强先验假设，在开放不确定环境中鲁棒性有限，而VLN能结合自然语言理解和视觉感知实现数据驱动的导航。通过系统分类和实验评估，该工作为VLN领域提供了方法学梳理和基准，有助于推动机器人导航在真实环境中的发展。",
+      "llm_tldr": "该综述全面回顾了具身视觉语言导航（VLN）的研究进展，按照动作范式等维度对最新方法进行了系统分类，并进行了真实世界评估。文章指出现有方法依赖结构化模型和强先验假设，在开放不确定环境中鲁棒性有限，而VLN能结合自然语言理解和视觉感知实现数据驱动的导航。通过系统分类和实验评估，该工作为VLN领域提供了方法学梳理和基准，有助于推动机器人导航在真实环境中的发展。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "Which models achieve state of the art results on embodied navigation benchmarks?",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10383v3",
+      "source": "arxiv",
+      "title": "ABot-N1: Toward a General Visual Language Navigation Foundation Model",
+      "abstract": "Visual Language Navigation foundation models aim to unify deep reasoning for grounded spatial decisions with broad versatility for diverse embodied tasks. Current approaches typically achieve this integration via monolithic policies that map observations directly to actions, yet they often suffer from coordinate drift and poor handling of long-tail semantics. Furthermore, these black-box mappings lack interpretability, hindering the simultaneous achievement of generality, robustness, and transparency. We present ABot-N1, a step toward a general Visual Language Navigation foundation model, that addresses these challenges by decoupling cognition from control via a slow-fast architecture guided by dual visual-language signals. More specifically, a slow vision-language reasoner performs explicit Chain-of-Thought reasoning while producing a pixel goal. This compact set of image-space anchor points serves as a universal interface for diverse tasks, including point-goal, object-goal, poi-goal, instruction-following, and person-following. Subsequently, a fast action expert leverages both the textual cues and the pixel guidance to generate continuous waypoints at the native control frequency. By bridging high-level intents and low-level control through pixel-grounded anchors paired with explicit linguistic traces, our approach ensures robust, generalizable, and interpretable navigation across simulation and real-world benchmarks. ABot-N1 establishes new state-of-the-art records, delivering massive gains specifically in urban-scale navigation: boosting POI arrival by 35.0% (to 77.3%) and achieving 95.4%/92.9% SR in complex indoor and outdoor scenes. It also maintains superior robustness across object-reaching, person-following, and instruction-following tasks. New Point-Goal/POI-Goal benchmarks are released as open source to advance the field of urban-scale navigation.",
+      "authors": [
+        "Ruiyan Gong",
+        "Yingnan Guo",
+        "Junjun Hu",
+        "Jintao Kong",
+        "Xiaoxu Leng",
+        "Tianlun Li",
+        "Weize Li",
+        "Fei Liu",
+        "Zhicheng Liu",
+        "Jia Lu",
+        "Minghua Luo",
+        "Chenlin Ming",
+        "Yanfen Shen",
+        "Jiyue Tao",
+        "Zhengbo Wang",
+        "Mingyang Yin",
+        "Minqi Gu",
+        "Zihao Guan",
+        "Wei Guo",
+        "Guoqing Liu",
+        "Huachong Pang",
+        "Menglin Yang",
+        "Zeqian Ye",
+        "Xiaoxiao Geng",
+        "Zhining Gu",
+        "Honglin Han",
+        "Di Jing",
+        "Hongyu Pan",
+        "Mingchao Sun",
+        "Kuan Yang",
+        "Jianfang Zhang",
+        "Yanghong Chen",
+        "Ye He",
+        "Wei Mei",
+        "Jiahao Shi",
+        "Xiangpo Yang",
+        "Yanqing Zhu",
+        "Yang Cai",
+        "Jingjing Ma",
+        "Shihui Su",
+        "Zixiao Tang",
+        "Linbo Zheng",
+        "Zedong Chu",
+        "Xiaolong Wu",
+        "Wenbin Tang",
+        "Mu Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-07-11T16:21:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.10383v3",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "general visual language navigation foundation model for embodied tasks",
+      "llm_evidence_cn": "面向具身任务的视觉语言导航基础模型",
+      "llm_evidence": "面向具身任务的视觉语言导航基础模型",
+      "canonical_evidence": "面向具身任务的视觉语言导航基础模型",
+      "llm_tldr_en": "Introduces ABot-N1, a general visual language navigation foundation model using a slow-fast architecture with dual visual-language guidance to decouple cognition from control, improving robustness, interpretability, and generality over monolithic policies.",
+      "llm_tldr_cn": "针对现有视觉语言导航基础模型因黑盒映射导致的坐标漂移、长尾语义差和可解释性缺失问题，提出ABot-N1。它采用慢-快架构分离认知与控制，并用双视觉语言信号引导，克服了单一策略的局限。相比整体式策略，ABot-N1在多种具身导航任务上提升了泛化性和鲁棒性，同时保持可解释性，朝通用视觉语言导航基础模型迈出一步。",
+      "llm_tldr": "针对现有视觉语言导航基础模型因黑盒映射导致的坐标漂移、长尾语义差和可解释性缺失问题，提出ABot-N1。它采用慢-快架构分离认知与控制，并用双视觉语言信号引导，克服了单一策略的局限。相比整体式策略，ABot-N1在多种具身导航任务上提升了泛化性和鲁棒性，同时保持可解释性，朝通用视觉语言导航基础模型迈出一步。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10744v2",
+      "source": "arxiv",
+      "title": "Traj-VLN: Learning Pixel-Space Interaction via Autoregressive Trajectory Generation",
+      "abstract": "Benefiting from the powerful priors embedded in large-scale pre-training data and the emerging commonsense reasoning ability, large language models (LLMs) have shown unprecedented generalization capabilities in many research fields. Recently, projecting visual embeddings into the language space via vision-language models (VLMs) to achieve sim-toreal and cross-scene generalization has become a prevailing paradigm in the field of Vision-and-Language Navigation in Continuous Environments (VLN-CE). VLN requires an embodied agent to navigate through unseen environments following natural linguistic instructions. We emphasize that a VLN task can be decomposed into a sequence of sub-tasks, each corresponding to a process of 3D spatial interaction with the environments described by instructions such as \"walk to the end of the sofa and turn left.\" However, such spatial interactions involving moving into the image along the direction of depth sensing are puzzling for VLMs as they were predominantly trained on conversations with RGB images. Rather than incorporating depth or 3D geometric information-which VLMs rarely encounter during pretrainingwe propose an alternative approach: fine-tuning VLMs to learn navigation interactions directly in 2D pixel space through autoregressive trajectory generation. Given a linguistic instruction and historical observations, our model sequentially predicts a series of pixel coordinates, drawing a trajectory from the bottom center of the current observation. While prior work has proved that pixel-goal supervision outperforms learning of discrete actions, our experiments further verify that the supervision of pixel-space trajectory significantly enhances VLN performance. Moreover, we demonstrate that our flagship model achieves state-of-the-art level performance with relatively limited computational resources and training data.",
+      "authors": [
+        "Changfei Fu",
+        "Guangcheng Chen",
+        "Wenjun Xu",
+        "Hong Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-12T12:54:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.10744v2",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Vision-and-language navigation in continuous environments following natural language instructions",
+      "llm_evidence_cn": "连续环境中的视觉语言导航，遵循自然语言指令",
+      "llm_evidence": "连续环境中的视觉语言导航，遵循自然语言指令",
+      "canonical_evidence": "连续环境中的视觉语言导航，遵循自然语言指令",
+      "llm_tldr_en": "Traj-VLN rethinks VLN-CE as a sequence of 3D spatial interaction sub-tasks and uses autoregressive trajectory generation in pixel space, leveraging LLM/VLM priors for simulation-to-real and cross-scene generalization in embodied instruction following.",
+      "llm_tldr_cn": "现有视觉语言导航（VLN）在连续环境中的表现受限于复杂的三维空间交互和跨场景泛化。本文提出Traj-VLN，将VLN任务分解为一系列三维空间交互子任务，并通过自回归轨迹生成直接在像素空间中预测交互路径。该方法利用大语言模型和视觉语言模型的先验知识，在未见环境中实现仿真到真实及跨场景的迁移。实验表明，Traj-VLN显著提升了指令跟随导航的泛化能力，为具身智能体的视觉语言导航提供了新思路。",
+      "llm_tldr": "现有视觉语言导航（VLN）在连续环境中的表现受限于复杂的三维空间交互和跨场景泛化。本文提出Traj-VLN，将VLN任务分解为一系列三维空间交互子任务，并通过自回归轨迹生成直接在像素空间中预测交互路径。该方法利用大语言模型和视觉语言模型的先验知识，在未见环境中实现仿真到真实及跨场景的迁移。实验表明，Traj-VLN显著提升了指令跟随导航的泛化能力，为具身智能体的视觉语言导航提供了新思路。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11638v2",
+      "source": "arxiv",
+      "title": "DA-Nav: Direction-Aware City-Scale Vision-Language Navigation",
+      "abstract": "City-scale outdoor navigation is currently hindered by the heavy reliance on dense maps or costly navigation supervision. In this work, we introduce a novel paradigm for leveraging directional instructions from commercial navigation tools (e.g., Google Maps). To bridge the gap between commercial instructions and executable navigation actions, while mitigating long-horizon error accumulation through robust trajectory recovery, we propose DA-Nav, a Direction-Aware vision-language Navigation framework that reformulates navigation as a discrete spatial grounding problem on the egocentric 2D image plane. To achieve trajectory recovery, DA-Nav employs a Chain-of-Thought (CoT) reasoning process encompassing deviation assessment, action prediction, and target grid selection. We further introduce ReDA, a dataset that provides direction-aware instructions and recovery trajectories to enhance spatial grounding and support CoT recovery reasoning. Extensive experiments in CARLA demonstrate that DA-Nav achieves a high success rate of 56.16% in unseen urban environments, outperforming existing State-of-The-Art (SoTA) methods while maintaining a substantially stronger recovery capability. Furthermore, without fine-tuning, DA-Nav seamlessly adapts to both quadruped and humanoid robots, enabling stable kilometer-scale closed-loop outdoor navigation in complex real world environments.",
+      "authors": [
+        "Ye Yuan",
+        "Kehan Chen",
+        "Xinqiang Yu",
+        "Wentao Xu",
+        "Heng Wang",
+        "Libo Huang",
+        "Chuanguang Yang",
+        "Yan Huang",
+        "Jiawei He",
+        "Zhulin An"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-13T14:54:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.11638v2",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "vision-language navigation following directional instructions",
+      "llm_evidence_cn": "遵循方向性指令的视觉语言导航",
+      "llm_evidence": "遵循方向性指令的视觉语言导航",
+      "canonical_evidence": "遵循方向性指令的视觉语言导航",
+      "llm_tldr_en": "DA-Nav reformulates city-scale navigation as discrete spatial grounding on an egocentric image plane, using commercial directional instructions and CoT reasoning for deviation assessment and trajectory recovery.",
+      "llm_tldr_cn": "针对城市规模户外导航依赖稠密地图和昂贵导航监督的问题，提出DA-Nav框架，利用商业导航工具的方向性指令，将导航重新表述为自我中心二维图像平面上的离散空间定位任务。通过思维链推理进行偏差评估、动作预测和目标网格选择，缓解长时间误差累积并实现轨迹恢复。该方法降低了对稠密地图的依赖，为大规模视觉语言导航提供了新范式。",
+      "llm_tldr": "针对城市规模户外导航依赖稠密地图和昂贵导航监督的问题，提出DA-Nav框架，利用商业导航工具的方向性指令，将导航重新表述为自我中心二维图像平面上的离散空间定位任务。通过思维链推理进行偏差评估、动作预测和目标网格选择，缓解长时间误差累积并实现轨迹恢复。该方法降低了对稠密地图的依赖，为大规模视觉语言导航提供了新范式。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.12680v1",
+      "source": "arxiv",
+      "title": "ReflectVLN: Training Vision-Language Navigation Agents with Reflective Reasoning",
+      "abstract": "Existing vision-language navigation methods often couple a VLM with waypoint decoders to produce multi-step action plans, but they typically lack an explicit closed-loop mechanism for tracking semantic progress, diagnosing execution failures, and recovering from error accumulation in long-horizon navigation. To address this gap, we propose ReflectVLN, an agentic VLN framework that organizes decision-making through bidirectionally interactive intention and execution agents. The intention agent performs subtask decomposition and reflection, generating executable subtask descriptions as corrective plans. Conditioned on these descriptions, the execution agent grounds them into short-horizon actions under current observations while monitoring sub-goal progress and detecting off-track behavior. Crucially, ReflectVLN enables closed-loop bidirectional communication: the execution agent emits progress and deviation signals to trigger reflection and subtask updates on demand, and the intention agent returns structured guidance that reconditions subsequent actions for recovery. To encourage temporally coherent decisions with interpretable intermediate rationales, we introduce Action Chain-of-Thought (Action-CoT), a path-conditioned dual-query training scheme for action generation. Experiments on standard VLN benchmarks show that ReflectVLN improves success rates and path efficiency under a constrained data budget, with favorable training cost and fewer high-level intention calls at inference time, while providing interpretable intermediate decisions for analysis and collaboration. Code is available at: https://github.com/AIprogrammer/ReflectVLN",
+      "authors": [
+        "Jiahang Wang",
+        "Yirong Yang",
+        "Yanqing Zhu",
+        "Minghua Luo",
+        "Shichao Xie",
+        "Fei Liu",
+        "Mu Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T12:09:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.12680v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "training vision-language navigation agents with reflective reasoning",
+      "llm_evidence_cn": "利用反思推理训练视觉语言导航智能体",
+      "llm_evidence": "利用反思推理训练视觉语言导航智能体",
+      "canonical_evidence": "利用反思推理训练视觉语言导航智能体",
+      "llm_tldr_en": "ReflectVLN uses bidirectionally interactive intention and execution agents: the intention agent decomposes tasks and reflects, while the execution agent grounds subtask descriptions into actions.",
+      "llm_tldr_cn": "视觉语言导航方法常将VLM与路点解码器结合生成动作计划，但缺少显式的闭环机制来追踪语义进度和从错误中恢复。ReflectVLN提出双智能体框架：意图智能体进行子任务分解与反思，生成可执行的纠正计划；执行智能体将这些计划在当前观测中落地为短时动作并持续监控。该机制能有效诊断执行失败并减少长程导航中的错误累积。实验证明反思式决策显著提升导航性能。",
+      "llm_tldr": "视觉语言导航方法常将VLM与路点解码器结合生成动作计划，但缺少显式的闭环机制来追踪语义进度和从错误中恢复。ReflectVLN提出双智能体框架：意图智能体进行子任务分解与反思，生成可执行的纠正计划；执行智能体将这些计划在当前观测中落地为短时动作并持续监控。该机制能有效诊断执行失败并减少长程导航中的错误累积。实验证明反思式决策显著提升导航性能。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13072v1",
+      "source": "arxiv",
+      "title": "HRO: Hierarchical Room-to-Object Framework for Zero-Shot Object Goal Navigation with Large Language Models",
+      "abstract": "Zero-shot object-goal navigation aims to enable an intelligent agent to explore and navigate to objects of unknown categories in an unfamiliar environment without specific target training. In zero-shot navigation tasks, pre-trained large models are usually employed to leverage their prior knowledge for guiding the agent's navigation. However, existing zero-shot object-goal navigation methods based on large language models (LLMs) merely utilize LLMs as flat reasoning tools to directly associate objects or regions. They lack the hierarchical spatial cognition modeling of human-like room semantics to object localization, which leads to strong blindness in exploration, insufficient accuracy in semantic association, and failure to fully unleash the common-sense reasoning potential of LLMs. This paper proposes an LLM-driven hierarchical room-to-object (HRO) framework for zero-shot object-goal navigation, which guides the agent to explore and navigate to the target object in a coarse-to-fine manner. Experiments on Gibson and HM3D datasets verify that our HRO framework achieves superior success rate and generalization over existing LLM-based methods, underscoring LLMs' strong potential for zero-shot object-goal navigation.",
+      "authors": [
+        "Luyuan Jia",
+        "Yinfeng Yu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "eess.SP"
+      ],
+      "published": "2026-07-12T06:28:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.13072v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "zero-shot object goal navigation with hierarchical room-to-object framework using LLMs",
+      "llm_evidence_cn": "使用LLM的分层房间到物体框架实现零样本物体目标导航",
+      "llm_evidence": "使用LLM的分层房间到物体框架实现零样本物体目标导航",
+      "canonical_evidence": "使用LLM的分层房间到物体框架实现零样本物体目标导航",
+      "llm_tldr_en": "HRO introduces a hierarchical room-to-object framework for zero-shot object goal navigation, modeling human-like room semantics to reduce exploration blindness and improve semantic association with LLMs.",
+      "llm_tldr_cn": "零样本物体目标导航要求智能体在未知环境中找到未训练类别的目标，现有基于LLM的方法只是把大模型当作扁平推理工具，探索盲目性强。该文提出分层房间到物体框架HRO，先由LLM推断房间语义再定位物体，模拟人类从房间到目标的空间认知。实验表明HRO减少了无效探索并提高了物体定位的语义关联准确率。该工作为利用大模型先验进行物体目标导航提供了层次化空间建模的新思路。",
+      "llm_tldr": "零样本物体目标导航要求智能体在未知环境中找到未训练类别的目标，现有基于LLM的方法只是把大模型当作扁平推理工具，探索盲目性强。该文提出分层房间到物体框架HRO，先由LLM推断房间语义再定位物体，模拟人类从房间到目标的空间认知。实验表明HRO减少了无效探索并提高了物体定位的语义关联准确率。该工作为利用大模型先验进行物体目标导航提供了层次化空间建模的新思路。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13461v1",
+      "source": "arxiv",
+      "title": "Joint On-and-Off Policy Learning for Vision-and-Language Navigation",
+      "abstract": "Vision-and-Language Navigation (VLN) necessitates an embodied agent to navigate in the physical world by adhering to natural language instructions. Recent advancements in Vision-Language Models (VLM) have propelled the development of VLM-based VLN methods with two predominant paradigms: (1) imitation learning (IL) on expert demonstrations, followed by the Dataset Aggregation (DAgger) algorithm to bolster error recovery capabilities; (2) reinforcement learning (RL) driven by verifiable rewards to enhance reasoning and exploration. A notable gap is the absence of integration between these two distinct paradigms. This paper introduces JOP-VLN, a novel VLN framework that synergistically combines off-policy imitation learning and on-policy exploration within a three-stage training pipeline. Initially, IL is employed on expert demonstrations to acquire basic navigation skills. Subsequently, the DAgger algorithm is utilized to generate heuristic exploration trajectories, which are then used for imitation learning to improve error recovery capabilities. Finally, a joint on-and-off policy learning framework is implemented, featuring high-entropy trajectory sampling to enhance RL training efficiency and an error-correction-prioritized trajectory sorting strategy for effective error correction. Extensive experiments demonstrate the efficacy of JOP-VLN, achieving success rates of 69.9% and 68.0% on the VLN-CE R2R and RxR benchmarks, respectively, setting a new state-of-the-art on R2R. Project page: https://qingrongh.github.io/JOP-VLN.",
+      "authors": [
+        "Qingrong He",
+        "Lin Zhao",
+        "Kevin Zheng",
+        "Liang Lin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-15T05:46:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.13461v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "JOP-VLN combines off-policy imitation learning and on-policy exploration for vision-and-language navigation following natural language instructions",
+      "llm_evidence_cn": "联合离策略模仿学习和在策略探索进行视觉语言导航，遵循自然语言指令",
+      "llm_evidence": "联合离策略模仿学习和在策略探索进行视觉语言导航，遵循自然语言指令",
+      "canonical_evidence": "联合离策略模仿学习和在策略探索进行视觉语言导航，遵循自然语言指令",
+      "llm_tldr_en": "Introduces a unified VLN framework combining imitation learning with DAgger and reinforcement learning, improving robust navigation from natural language instructions.",
+      "llm_tldr_cn": "现有VLN方法分别采用模仿学习和强化学习，难以整合两类范式。本文提出JOP-VLN框架，将离策略模仿学习与在策略探索协同结合，既利用专家演示提升误差恢复能力，又通过可验证奖励增强推理与探索。实验验证了该联合策略在VLN任务上的有效性和鲁棒性，为基于VLM的导航体提供了更优的训练范式。",
+      "llm_tldr": "现有VLN方法分别采用模仿学习和强化学习，难以整合两类范式。本文提出JOP-VLN框架，将离策略模仿学习与在策略探索协同结合，既利用专家演示提升误差恢复能力，又通过可验证奖励增强推理与探索。实验验证了该联合策略在VLN任务上的有效性和鲁棒性，为基于VLM的导航体提供了更优的训练范式。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13624v1",
+      "source": "arxiv",
+      "title": "From Language to Navigation Goals: A Vision-Language Approach for Semantic Navigation of Mobile Robots Using RGB-D Perception",
+      "abstract": "Natural language interaction provides an intuitive way for non-expert users to communicate with robotic platforms. However, transforming user requests into executable navigation actions remains a challenging task, requiring the integration of language understanding, environment perception, and autonomous navigation. This work presents a language-driven navigation framework that enables mobile robots to interpret user requests in natural language to move the robot to a destination and autonomously navigate towards it.   The framework is composed of modular ROS 2 components that cooperate to transform natural language instructions into navigation actions. Given a natural language request referring to a target in the environment (e.g., \"go to the mail box\"), the system identifies the referenced object, estimates its position using RGB-D data, and generates a navigation goal, which is then executed through the ROS 2 Nav2 navigation stack. The ROS 2-based implementation facilitates portability across different robotic platforms, requiring only the configuration of the corresponding topics and services.   The system is evaluated in both simulation and real-world scenarios using a TurtleBot3 Waffle and a Unitree Go2 robot with a RealSense camera. Experimental results show that the framework successfully interprets both direct commands and contextual requests, generates meaningful natural-language feedback, and navigates towards the desired target. These results demonstrate the feasibility of combining semantic perception and autonomous navigation to provide an intuitive human-robot interaction paradigm. Code will be released as open source upon acceptance.",
+      "authors": [
+        "Jose Martínez-Fajardo",
+        "Pablo Pueyo",
+        "Fernando Caballero",
+        "Luis Merino"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-15T09:15:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.13624v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Vision-language navigation following natural language instructions",
+      "llm_evidence_cn": "视觉语言导航，遵循自然语言指令",
+      "llm_evidence": "视觉语言导航，遵循自然语言指令",
+      "canonical_evidence": "视觉语言导航，遵循自然语言指令",
+      "llm_tldr_en": "This paper presents a language-driven navigation framework for mobile robots that interprets natural language requests and autonomously navigates to the destination using RGB-D perception.",
+      "llm_tldr_cn": "该文提出一种语言驱动的移动机器人导航框架，通过模块化ROS 2组件将自然语言请求转化为可执行的导航目标，并结合RGB-D感知实现自主导航。框架集成语言理解、环境感知与路径规划，使非专业用户能够以自然语言控制机器人到达指定地点。此方法降低了人机交互门槛，为语义导航提供了一种有效的模块化解决方案。",
+      "llm_tldr": "该文提出一种语言驱动的移动机器人导航框架，通过模块化ROS 2组件将自然语言请求转化为可执行的导航目标，并结合RGB-D感知实现自主导航。框架集成语言理解、环境感知与路径规划，使非专业用户能够以自然语言控制机器人到达指定地点。此方法降低了人机交互门槛，为语义导航提供了一种有效的模块化解决方案。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.14514v1",
+      "source": "arxiv",
+      "title": "VTM-Nav: Hierarchical Visual-Topological Memory for Cross-Episode Object-Goal Navigation",
+      "abstract": "Object-goal navigation requires an embodied agent to locate and reach an instance of a specified object category in an indoor environment. Recent training-free approaches leverage vision-language models (VLMs) for open-vocabulary semantic reasoning, but are typically evaluated under an episodic protocol that resets all scene-specific state after each episode. We introduce Cross-Episode Object-Goal Navigation, in which an agent repeatedly operates in the same scene, retains only self-acquired experience, and keeps its model parameters fixed. To support experience reuse, we present \\method, a training-free VLM navigation framework with a persistent hierarchical Visual-Topological Memory (VTM). The VTM organizes scene knowledge at room and object levels and retrieves relevant experience through coarse-to-fine matching, providing memory as soft guidance only when it agrees with current observations. A conservative execution guard further mitigates oscillations, blocked motions, and premature stopping. Under a controlled same-scene protocol, we evaluate \\method{} on three benchmarks, HM3D v0.1, HM3D v0.2, and MP3D, and compare it with a strengthened WMNav baseline augmented with cross-episode textual memory, while keeping the VLM backbone and action pipeline identical. \\method{} achieves the best performance across all three benchmarks, demonstrating the effectiveness and robustness of structured visual-topological experience reuse across datasets.",
+      "authors": [
+        "Xiaoran Xu",
+        "Yupeng Wu",
+        "Tianyu Xue",
+        "Yifan Xu",
+        "Xuanran Dong",
+        "Xiaoshan Yang",
+        "Changsheng Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-16T03:11:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.14514v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "object-goal navigation locating target object category in indoor environments",
+      "llm_evidence_cn": "在室内环境中定位目标物体类别的物体目标导航",
+      "llm_evidence": "在室内环境中定位目标物体类别的物体目标导航",
+      "canonical_evidence": "在室内环境中定位目标物体类别的物体目标导航",
+      "llm_tldr_en": "VTM-Nav introduces cross-episode object-goal navigation with a training-free VLM framework and persistent hierarchical visual-topological memory, enabling experience reuse across episodes in the same scene.",
+      "llm_tldr_cn": "针对传统物体目标导航在每集重置场景状态、无法跨情节复用经验的问题，提出跨情节物体目标导航，并设计VTM-Nav，一种无需训练的视觉语言模型导航框架。通过建立持续的分层视觉-拓扑记忆，在房间及场景层面组织空间知识，使智能体在同一场景内不断积累经验而不更新模型参数。实验表明该方法在跨情节导航中实现经验复用，提升了定位目标物体的性能。",
+      "llm_tldr": "针对传统物体目标导航在每集重置场景状态、无法跨情节复用经验的问题，提出跨情节物体目标导航，并设计VTM-Nav，一种无需训练的视觉语言模型导航框架。通过建立持续的分层视觉-拓扑记忆，在房间及场景层面组织空间知识，使智能体在同一场景内不断积累经验而不更新模型参数。实验表明该方法在跨情节导航中实现经验复用，提升了定位目标物体的性能。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.14586v1",
+      "source": "arxiv",
+      "title": "SoftNav: Injecting 3D Scene Tokens into VLMs for Embodied Navigation",
+      "abstract": "In goal-directed embodied navigation, where an agent must locate a specified target in an unseen environment, 3D scene understanding and navigation reasoning must work in concert. Current approaches transmit 3D scene information to vision-language models (VLMs) through text, suggesting a representation gap in our tested configurations; a controlled ablation confirms that direct embedding-level transfer significantly outperforms the evaluated text serialization formats. We introduce SoftNav, which injects entity-level 3D continuous representations -- one token per detected object or frontier -- into a VLM's hidden space as soft tokens through a lightweight projector. With the 3D encoder and VLM frozen, only ~1,200 samples and ~17M trainable parameters are needed. On HM3D-OVON, SoftNav achieves 74.2%/68.3%/66.7% SR across three splits, surpassing all prior methods in both SR and SPL; the same navigation policy transfers zero-shot to GOAT-Bench (67.2% SR), SG3D (47.2% s-SR), and real-world robot deployment without retraining or architectural modification. Injecting 3D scene tokens directly into VLMs bridges the representation gap, enabling transferable navigation with minimal training.",
+      "authors": [
+        "Yi Wu",
+        "Junjie An",
+        "Xiao Liu",
+        "Yiqun Zhou",
+        "Yuechen Wu",
+        "Xiaoqing Guan",
+        "Shuyang Yu",
+        "You Wang",
+        "Guang Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-16T05:32:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.14586v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "embodied navigation agent in unseen environments with 3D scene tokens injected into VLM",
+      "llm_evidence_cn": "将3D场景令牌注入视觉语言模型，实现未见环境中的具身导航",
+      "llm_evidence": "将3D场景令牌注入视觉语言模型，实现未见环境中的具身导航",
+      "canonical_evidence": "将3D场景令牌注入视觉语言模型，实现未见环境中的具身导航",
+      "llm_tldr_en": "SoftNav injects entity-level 3D continuous representations as soft tokens into a frozen VLM via a light projector, enabling effective goal-directed embodied navigation in unseen environments with only ~1,200 samples and ~17M trainable parameters.",
+      "llm_tldr_cn": "面向目标导向的具身导航，SoftNav把检测到的物体和前沿的3D连续表示经轻量投影器作为软令牌注入视觉语言模型的隐空间，避免文本序列化造成的信息损失。在3D编码器和VLM冻结的情况下仅需约1200个样本和约1700万可训练参数即可取得显著优于文本序列化方案的导航表现。该方法证明了嵌入级3D场景传递对具身导航推理的有效性。",
+      "llm_tldr": "面向目标导向的具身导航，SoftNav把检测到的物体和前沿的3D连续表示经轻量投影器作为软令牌注入视觉语言模型的隐空间，避免文本序列化造成的信息损失。在3D编码器和VLM冻结的情况下仅需约1200个样本和约1700万可训练参数即可取得显著优于文本序列化方案的导航表现。该方法证明了嵌入级3D场景传递对具身导航推理的有效性。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.15758v1",
+      "source": "arxiv",
+      "title": "SkillNav: Score-Level Skill Intervention for Zero-Shot Object Goal Navigation",
+      "abstract": "Vision-Language Model (VLM) agents have advanced zero-shot object-goal navigation, yet single-frame reasoning leaves them without the cross-step behavioral awareness an embodied navigator requires, producing recurring failures such as dead-end stalls, in-room loops, and circuitous approaches to detected targets. Prompt-based remedies inflate token budgets across multi-submodule episodes and still struggle to encode inherently spatial signals such as angles, map cells, and viewpoint coordinates. In this paper, we propose SkillNav, an extensible behavioral skill framework for VLM-based navigation that treats the curiosity value map already maintained by modern VLM navigators as a writable substrate on which composable skills inscribe behavioral memory at zero token cost. Skills are stratified into three tiers by their level of behavioral authority, namely soft scaling for proportional reweighting, lower-bound boost for region-level guarantees, and hard override for threshold-triggered forced actions, and cooperate across tiers under a fixed composition order that establishes a predictable, declared priority among skills. This design turns capability improvement into skill registration: new behaviors plug in without retraining the VLM or disturbing existing skills, opening a path for continual refinement. A minimal prompt channel complements the score-level skills with category-level semantic hints, yielding a dual-representation design in which spatial memory lives on the map and semantic memory in short prompts. Training-free, SkillNav establishes new state-of-the-art SPL across MP3D (25.5), HM3D v0.1 (39.3), and HM3D v0.2 (43.2), improving SPL by up to 6.0 absolute over the strongest prior method, and achieves the highest Success Rate on HM3D v0.1 (69.7) and v0.2 (75.9).",
+      "authors": [
+        "Ruijie Sang",
+        "Yiqun Duan",
+        "Pinhan Fu",
+        "Ruilin Wang",
+        "Wei Sui",
+        "Xianda Guo"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-17T08:49:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.15758v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "SkillNav is a score-level skill intervention framework for zero-shot object goal navigation, locating target object categories via VLM-driven value maps",
+      "llm_evidence_cn": "提出SkillNav框架，通过价值地图上的分数级技能干预实现零样本物体目标导航",
+      "llm_evidence": "提出SkillNav框架，通过价值地图上的分数级技能干预实现零样本物体目标导航",
+      "canonical_evidence": "提出SkillNav框架，通过价值地图上的分数级技能干预实现零样本物体目标导航",
+      "llm_tldr_en": "Proposes an extensible skill framework for VLM-based zero-shot object goal navigation, composing skills on the curiosity value map to reduce dead-end stalls and loops.",
+      "llm_tldr_cn": "零样本物体目标导航中，VLM单一帧推理缺乏跨步骤行为意识，容易导致死胡同、室内循环和绕路。本文提出SkillNav，将现代VLM导航体维护的好奇心价值地图作为可写基板，通过可组合技能写入行为干预，从而编码空间信号并减少常见失败。实验表明该方法提升了目标导航的成功率和效率，扩展了VLM导航体的行为技能。",
+      "llm_tldr": "零样本物体目标导航中，VLM单一帧推理缺乏跨步骤行为意识，容易导致死胡同、室内循环和绕路。本文提出SkillNav，将现代VLM导航体维护的好奇心价值地图作为可写基板，通过可组合技能写入行为干预，从而编码空间信号并减少常见失败。实验表明该方法提升了目标导航的成功率和效率，扩展了VLM导航体的行为技能。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.16806v1",
+      "source": "arxiv",
+      "title": "Token-Wise Latent Streaming from Slow Reasoners to Fast Planners for Dynamic Vision Language Navigation",
+      "abstract": "Vision-Language Navigation in dynamic, human-centric environments exposes a fundamental tension: linguistic reasoning is slow and deliberative, whereas safe, socially compliant planning should be instant and reactive. The resulting observation staleness is safety-critical: a maneuver chosen during inference can already be unsafe by the time it executes. We observe that, long before a VLM finishes its inference, its intermediate hidden states already encode action-relevant intent. We propose SPARK-VLN, a dual-system framework for dynamic social VLN that streams the slow VLM reasoner's knowledge to a fast flow-matching expert planner throughout token generation, providing fresh and evolving guidance during inference. This design is realized by three modules: a Token-Wise Hidden Streamer that extracts intermediate hidden states along the token generation process, a Sequence-to-Slot Latent Bridge that projects them into fixed-size latent slots, and an Evolving Latent Conditioner that infuses them into the expert planner. We also introduce a human-centric benchmark suite for dynamic social vision-language navigation that keeps pedestrians and the robot active throughout inference and reports navigation success, social compliance, human collisions, and explicit staleness statistics. Across these settings, SPARK-VLN mproves navigation success and social compliance while sustaining inference efficiency. Webpage: https://hutslib.github.io/SPARK-VLN/.",
+      "authors": [
+        "Tianshuai Hu",
+        "Yangyi Zhong",
+        "Zeying Gong",
+        "Lingdong Kong",
+        "Xiaodong Mei",
+        "Guoyang Zhao",
+        "Xiaolu Liu",
+        "Song Wang",
+        "Rong Li",
+        "Junwei Liang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-18T12:55:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.16806v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "dynamic Vision-Language Navigation with natural language reasoning and reactive planning",
+      "llm_evidence_cn": "动态视觉语言导航，结合自然语言推理与反应式规划",
+      "llm_evidence": "动态视觉语言导航，结合自然语言推理与反应式规划",
+      "canonical_evidence": "动态视觉语言导航，结合自然语言推理与反应式规划",
+      "llm_tldr_en": "Addresses the tension between slow language reasoning and reactive safe planning in dynamic social VLN; proposes SPARK-VLN, a dual-system framework streaming VLM intermediate hidden states to a fast flow-matching planner during token generation.",
+      "llm_tldr_cn": "动态人机共处环境中的视觉语言导航存在根本矛盾：语言推理缓慢而安全规划需要即时反应，导致推理期间观察过时可能造成危险。本文提出SPARK-VLN双系统框架，在VLM推理过程中逐词元地将其中间隐藏状态流式传输给快速的流匹配专家规划器，使规划器在推理期间获得持续更新的意图指导。该方法让慢推理与快规划协同工作，提升了动态社会VLN的安全性与响应性，为结合大模型与反应式控制提供了新思路。",
+      "llm_tldr": "动态人机共处环境中的视觉语言导航存在根本矛盾：语言推理缓慢而安全规划需要即时反应，导致推理期间观察过时可能造成危险。本文提出SPARK-VLN双系统框架，在VLM推理过程中逐词元地将其中间隐藏状态流式传输给快速的流匹配专家规划器，使规划器在推理期间获得持续更新的意图指导。该方法让慢推理与快规划协同工作，提升了动态社会VLN的安全性与响应性，为结合大模型与反应式控制提供了新思路。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.16956v1",
+      "source": "arxiv",
+      "title": "G2-Nav: Grounded and Guarded Vision-Language Costmaps for Robot Social Navigation",
+      "abstract": "Social navigation requires the robot to reason and respond in complex real-world environments. While recent works attempt to incorporate human-level intelligence into robot planning using large Vision-Language Models (VLMs), end-to-end frameworks often create an unpredictable black-box, and existing instruction-following methods are not designed for full autonomy. To bridge this gap, we present G2-Nav, a novel framework that grounds abstract social reasoning and guards safe real-world deployment. Instead of asking the VLM for direct planning decisions, G2-Nav translates its semantic reasoning into a vision-language costmap with reliability and interpretability. The VLM evaluates traversable regions and social agents from open-set perception, mapping social context into the costmap. To improve real-world robustness, the VLM performs semantic verification on upstream tracking, and we introduce a high-frequency safety check to guard against system latency prior to trajectory generation. We demonstrate through real-world experiments that G2-Nav delivers safe, efficient, and socially compliant autonomous navigation in unstructured environments. Code will be made publicly available.",
+      "authors": [
+        "Yuwen Liao",
+        "Yihang Lan",
+        "Yizhuo Yang",
+        "Ruimeng Liu",
+        "Xinhang Xu",
+        "Shenghai Yuan",
+        "Lihua Xie"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-18T20:18:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.16956v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Vision-language model grounded costmaps for robot social navigation",
+      "llm_evidence_cn": "视觉语言模型接地成本图用于机器人社交导航",
+      "llm_evidence": "视觉语言模型接地成本图用于机器人社交导航",
+      "canonical_evidence": "视觉语言模型接地成本图用于机器人社交导航",
+      "llm_tldr_en": "G2-Nav grounds VLM social reasoning into vision-language costmaps, enabling interpretable and reliable autonomous social navigation in real-world environments instead of black-box end-to-end planning.",
+      "llm_tldr_cn": "社交导航要求机器人在复杂真实环境中推理和响应。现有工作用大视觉语言模型进行端到端规划，但缺乏可解释性和安全性。G2-Nav提出将VLM的抽象社交推理转化为带可靠性和可解释性的视觉语言代价地图，从而在开放集感知中评估可通行区域和社交智能体，实现安全自主的机器人社交导航，避免了不可预测的黑盒规划。",
+      "llm_tldr": "社交导航要求机器人在复杂真实环境中推理和响应。现有工作用大视觉语言模型进行端到端规划，但缺乏可解释性和安全性。G2-Nav提出将VLM的抽象社交推理转化为带可靠性和可解释性的视觉语言代价地图，从而在开放集感知中评估可通行区域和社交智能体，实现安全自主的机器人社交导航，避免了不可预测的黑盒规划。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17767v1",
+      "source": "arxiv",
+      "title": "VLN-AVP: Zero-Shot Vision-Language Navigation with Hybrid Long-Short-Term Memory for Autonomous Valet Parking",
+      "abstract": "Existing methods in Autonomous Valet Parking (AVP) typically rely on pre-built maps, which severely restricts their scalability to unseen environments and open-vocabulary targets. Inspired by the application of Vision-Language Models (VLMs) in Vision-Language Navigation (VLN) tasks, we propose VLN-AVP, a zero-shot navigation framework for AVP tasks. By combining the precise spatial perception of a Bird's-Eye-View (BEV) model with the general intelligence of VLMs, our framework 1) eliminates the dependency on pre-built maps, 2) interprets semantic environmental contexts in parking scenarios, and 3) enables intuitive navigation following natural language instructions. Specifically, we introduce a hybrid memory system: a short-term perception memory tracks semantic visual cues to address the limitations of VLM's single-frame reasoning in existing methods, while a long-term topological memory facilitates stable policy learning from past experiences. To bridge the gap in existing benchmarks, we also present the VLN-AVP dataset and benchmark. Featuring 10 high-fidelity parking scenes and over 1,000 navigation episodes, it has the largest number of garage scenes to date and is the first VLN benchmark for underground parking. Extensive experiments demonstrate that in simulation, our method achieves an over 25% improvement in success rate compared to VLN methods and an over 15% improvement compared to other autonomous driving methods. Furthermore, it attains a leading success rate in real-world vehicle experiments, proving its practical feasibility.",
+      "authors": [
+        "Yijian Li",
+        "Xiangru Mu",
+        "Changze Li",
+        "Hantian Shi",
+        "Jiyuan Cai",
+        "Jia Cai",
+        "Xiaoxue Liu",
+        "Yajing Sun",
+        "Ming Yang",
+        "Tong Qin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-20T10:01:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.17767v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "vision-language navigation following natural language instructions for valet parking",
+      "llm_evidence_cn": "面向代客泊车的视觉语言导航，遵循自然语言指令",
+      "llm_evidence": "面向代客泊车的视觉语言导航，遵循自然语言指令",
+      "canonical_evidence": "面向代客泊车的视觉语言导航，遵循自然语言指令",
+      "llm_tldr_en": "VLN-AVP combines BEV spatial perception with VLMs for zero-shot navigation in parking scenes, removing the need for pre-built maps and using hybrid long-short-term memory.",
+      "llm_tldr_cn": "自主代客泊车常依赖预建地图，难以扩展到未知环境和开放词汇目标。VLN-AVP借鉴视觉语言导航思想，将鸟瞰图模型的精确空间感知与视觉语言模型的通用语义理解结合，实现零样本泊车导航。通过混合长短时记忆系统解析语义环境并遵循自然语言指令，该框架无需预建地图即可工作。该方法显著提升了泊车任务在未知场景下的适应性和交互性。",
+      "llm_tldr": "自主代客泊车常依赖预建地图，难以扩展到未知环境和开放词汇目标。VLN-AVP借鉴视觉语言导航思想，将鸟瞰图模型的精确空间感知与视觉语言模型的通用语义理解结合，实现零样本泊车导航。通过混合长短时记忆系统解析语义环境并遵循自然语言指令，该框架无需预建地图即可工作。该方法显著提升了泊车任务在未知场景下的适应性和交互性。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17806v1",
+      "source": "arxiv",
+      "title": "PGN: Design and Implementation of a Vision-Language Navigation System Based on Pangu Multimodal Foundation Model",
+      "abstract": "Vision-Language Navigation (VLN) requires an embodied agent to interpret a natural-language instruction and predict actions from temporally ordered visual observations. Adapting a multimodal large language model to VLN requires visual-language alignment, compact temporal inputs, action-space grounding, and stable training on the target hardware. This technical report presents PGN (Pangu Navigator), an offline VLN action-prediction system built on OpenPangu-7B. Training proceeds in two stages. First, PGMM aligns a frozen EVA-ViT-G/14 vision encoder with the frozen language backbone by training a Q-Former and a two-layer MLP projector. Second, PGN adapts the aligned model to expert navigation trajectories using five-observation windows, epoch-dependent temporal sampling, and a reasoning-then-action output format; this stage freezes the aligned visual pathway and updates three structural-token embeddings and LoRA adapters. The implementation combines mixed-precision computation, selective FP32 computation, and DeepSpeed ZeRO-2 on eight Ascend 910B NPUs. Under teacher-forced, open-loop evaluation on 500 held-out expert trajectories, V9 reports a 62.29% Normalized Action Match (NAM) and a 100.00% Non-empty Rate (NER). These metrics quantify offline expert-action alignment rather than closed-loop navigation success; evaluating error accumulation, path efficiency, and goal completion remains future work.",
+      "authors": [
+        "Li Xian",
+        "Mingxi Li",
+        "Yizheng Wang",
+        "Yiming Shen",
+        "Qi Chen",
+        "Zhuoling Xiao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-20T10:48:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.17806v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "vision language navigation following natural language instructions",
+      "llm_evidence_cn": "视觉语言导航，遵循自然语言指令",
+      "llm_evidence": "视觉语言导航，遵循自然语言指令",
+      "canonical_evidence": "视觉语言导航，遵循自然语言指令",
+      "llm_tldr_en": "PGN adapts a multimodal LLM to VLN by aligning vision encoder and language backbone, then fine-tuning on expert navigation trajectories for offline action prediction.",
+      "llm_tldr_cn": "视觉语言导航要求智能体根据自然语言指令解析视觉观测并预测动作，然而多模态大模型适配VLN面临对齐、输入压缩与动作空间映射等挑战。PGN基于盘古多模态基础模型，先通过Q-Former和MLP投影器对齐冻结的视觉编码器与语言主干，再结合专家导航轨迹微调。实验表明该离线动作预测系统能稳定训练并有效预测导航动作。该工作展示了多模态大模型在具身导航中的实用化路径。",
+      "llm_tldr": "视觉语言导航要求智能体根据自然语言指令解析视觉观测并预测动作，然而多模态大模型适配VLN面临对齐、输入压缩与动作空间映射等挑战。PGN基于盘古多模态基础模型，先通过Q-Former和MLP投影器对齐冻结的视觉编码器与语言主干，再结合专家导航轨迹微调。实验表明该离线动作预测系统能稳定训练并有效预测导航动作。该工作展示了多模态大模型在具身导航中的实用化路径。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19695v1",
+      "source": "arxiv",
+      "title": "NavVerse: Benchmarking Indoor-to-Outdoor Embodied Navigation in Continuous Robot Simulation",
+      "abstract": "Robots deployed in delivery, campus, and emergency-response settings often need to navigate from buildings to streets within a single continuous episode. Existing benchmarks usually evaluate indoor and outdoor navigation separately, and many abstract away robot execution, leaving exit finding, boundary traversal, adaptation, and kinodynamic failures underexplored. We introduce NavVerse, a physics-enabled benchmark for indoor-to-outdoor embodied navigation. NavVerse contains 100 indoor scenes, 50 urban outdoor scenes, and 50 indoor-to-outdoor scenes, and 10,000 episodes spanning Object Navigation, Vision-and-Language Navigation, and Place Navigation tasks, where agents search for semantic points of interest such as restaurants or banks. Agents are evaluated through executable robot interfaces using task-success, path-efficiency, and safety metrics. Zero-shot experiments with RL, VLA, and modular baselines show that current agents remain far from solving cross-context navigation: end-to-end VLAs obtain the highest zero-shot success, while the modular method provides the strongest safety profile. PlaceNav further reveals a clear drop from outdoor to indoor-to-outdoor scenes, indicating that adaptation remains major bottleneck.",
+      "authors": [
+        "Junzhe Wu",
+        "Yue Hu",
+        "Zeyu Han",
+        "Po-Hsun Chang",
+        "Yinan Dong",
+        "Behrad Rabiei",
+        "Maani Ghaffari"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-22T02:53:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.19695v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "benchmark for indoor-to-outdoor embodied navigation including ObjectNav, VLN, Place Navigation",
+      "llm_evidence_cn": "室内外连续具身导航基准，覆盖物体目标导航、视觉语言导航和地点导航",
+      "llm_evidence": "室内外连续具身导航基准，覆盖物体目标导航、视觉语言导航和地点导航",
+      "canonical_evidence": "室内外连续具身导航基准，覆盖物体目标导航、视觉语言导航和地点导航",
+      "llm_tldr_en": "NavVerse is a physics-enabled benchmark for indoor-to-outdoor embodied navigation with 10,000 episodes covering Object Navigation, Vision-and-Language Navigation, and Place Navigation in continuous robot simulation.",
+      "llm_tldr_cn": "现有基准通常将室内与室外导航分开评估，且多忽略机器人执行细节。该文提出NavVerse，一个物理启用的室内到室外连续具身导航基准，包含100个室内场景、50个室外场景、50个室内外场景以及10000个覆盖物体目标导航、视觉语言导航和地点导航的任务片段。基准保留了出口寻找、边界穿越和运动动力学失败等挑战。它为评估真实机器人连续导航能力提供了更全面的测试平台。",
+      "llm_tldr": "现有基准通常将室内与室外导航分开评估，且多忽略机器人执行细节。该文提出NavVerse，一个物理启用的室内到室外连续具身导航基准，包含100个室内场景、50个室外场景、50个室内外场景以及10000个覆盖物体目标导航、视觉语言导航和地点导航的任务片段。基准保留了出口寻找、边界穿越和运动动力学失败等挑战。它为评估真实机器人连续导航能力提供了更全面的测试平台。",
+      "llm_tags": [
+        "query:embodied-nav:composite"
+      ],
+      "matched_query_tag": "query:embodied-nav:composite",
+      "matched_query_text": "Papers central to 请查找有关视觉语言导航（VLN）、点目标导航（PointNav）和物体目标导航（ObjectNav）的文章, especially work that connects or combines: vision language navigation following natural language instructions; point goal navigation reaching target coordinates; object goal navigation locating target object category; embodied navigation agent in simulated environments; navigation from natural language instructions; How do agents perform vision language navigation using natural language instructions?; Which models achieve state of the art results on embodied navigation benchmarks?.",
+      "matched_requirement_id": "req-composite-embodied-nav",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19880v1",
+      "source": "arxiv",
+      "title": "EA-Nav: Learning Safe Visual Navigation Policies with Embodiment Awareness",
+      "abstract": "Cross-embodiment navigation is a key challenge in embodied intelligence. Due to differences in embodiment, the same visual observation may imply different actions for different agents, making prediction ambiguous when relying solely on vision. Existing studies mainly rely on reinforcement learning, which requires large-scale interaction and careful reward design, making it difficult to support scalable pretraining and real-world adaptation. In contrast, imitation-learning-based approaches remain limited. To address these challenges, we propose an imitation-learning-based embodiment-aware navigation framework with a modular multi-stage design. In pretraining, we construct a cross-embodiment navigation dataset from Internet videos and introduce embodiment geometry as conditional tokens to reduce action ambiguity under the same observation. In fine-tuning, we design a multimodal information injection mechanism based on a decoupled architecture. Specifically, we design a trajectory augmentation strategy to generate high-risk samples, which are used to train spatial perception and risk-aware correction separately, thereby explicitly incorporating embodiment geometry for safe navigation. Experimental results show that the proposed method effectively improves navigation performance across different embodiment settings, demonstrating the effectiveness of incorporating embodiment geometry into embodied navigation.",
+      "authors": [
+        "Jialu Zhang",
+        "Yong Du",
+        "Xianda Guo",
+        "Shunwang Sun",
+        "Xinqi Liu",
+        "Yue Sun",
+        "Guodong Lu",
+        "Wei Sui",
+        "Jituo Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-22T08:10:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.19880v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Embodied navigation in simulated environments with cross-embodiment awareness",
+      "llm_evidence_cn": "模拟环境中的具身导航，跨形态感知",
+      "llm_evidence": "模拟环境中的具身导航，跨形态感知",
+      "canonical_evidence": "模拟环境中的具身导航，跨形态感知",
+      "llm_tldr_en": "EA-Nav proposes an imitation-learning-based embodiment-aware navigation framework that builds cross-embodiment datasets from internet videos and learns safe visual navigation policies without reward design.",
+      "llm_tldr_cn": "本文提出EA-Nav，一种基于模仿学习的具身感知导航框架，旨在解决跨形态导航中同一视觉观察对应不同动作的歧义问题。通过从互联网视频构建跨形态导航数据集，并采用模块化多阶段预训练，避免了强化学习对大规模交互和奖励设计的依赖。该框架有望支持导航策略的可扩展预训练与真实世界部署，为提升具身导航的安全性与泛化能力提供了低成本的新范式。",
+      "llm_tldr": "本文提出EA-Nav，一种基于模仿学习的具身感知导航框架，旨在解决跨形态导航中同一视觉观察对应不同动作的歧义问题。通过从互联网视频构建跨形态导航数据集，并采用模块化多阶段预训练，避免了强化学习对大规模交互和奖励设计的依赖。该框架有望支持导航策略的可扩展预训练与真实世界部署，为提升具身导航的安全性与泛化能力提供了低成本的新范式。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20785v1",
+      "source": "arxiv",
+      "title": "Robostral Navigate",
+      "abstract": "Deploying navigation systems at scale requires a recipe that minimizes sensor assumptions, generalizes across robot embodiments, and trains efficiently. Yet, today's best systems depend on depth sensors, multi-camera rigs, or pre-built maps, limiting the hardware they support and increasing deployment cost. We introduce Robostral Navigate, an 8B vision-language model built around this scalability objective. The model consumes only a stream of monocular RGB images - the most ubiquitous sensor across robotic platforms and predicts waypoints by pointing to the next target location in the current camera view. Operating purely in image space, rather than robot-specific coordinates, makes the policy naturally robust to changes in camera intrinsics and scene scale, enabling deployment across wheeled, legged, and aerial robots without recalibration. We generate 2.4 million trajectories across 350k simulated scenes to reduce the reliance on real-world data collection and scale easily. We further introduce a prefix-caching training recipe that packs entire episodes into single training sequences, reducing training tokens by 22x and cutting training time from months to days. A tree-based attention mask prevents conditioning on previous ground-truth actions, encouraging visually grounded action prediction, and reinforcement learning is used to further improve exploration and recovery capabilities. On the Room-to-Room and Room-Across-Room in Continuous Environments (R2R-CE and RxR-CE) benchmarks, Robostral Navigate sets a new state of the art. On R2R-CE, it achieves a 77.4% success rate, surpassing the best monocular method by 10.5 points and the strongest depth- or multi-camera system by 5.3 points despite using only a single RGB camera. On RxR-CE, it reaches 75.1% success rate, outperforming all monocular baselines.",
+      "authors": [
+        "Arjun Majumdar",
+        "Avinash Sooriyarachchi",
+        "Benjamin Tibi",
+        "Chris Bamford",
+        "Elliot Chane-Sane",
+        "Guillaume Lample",
+        "Khyathi Raghavi Chandu",
+        "Ludovic Ho Fuh",
+        "Mathieu Poiree",
+        "Olivier Duchenne",
+        "Rosalie Millner",
+        "Srijan Mishra",
+        "Theo Cachet",
+        "Thomas Chabal"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-22T23:13:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.20785v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "8B vision-language navigation model predicting waypoints from monocular RGB",
+      "llm_evidence_cn": "8B视觉语言导航模型，从单目RGB预测航点",
+      "llm_evidence": "8B视觉语言导航模型，从单目RGB预测航点",
+      "canonical_evidence": "8B视觉语言导航模型，从单目RGB预测航点",
+      "llm_tldr_en": "Robostral Navigate is an 8B vision-language model that navigates from monocular RGB only, predicting waypoints in image space for cross-embodiment deployment.",
+      "llm_tldr_cn": "现有导航系统通常依赖深度传感器、多相机或预建地图，限制了硬件支持并增加部署成本。Robostral Navigate提出一个8B视觉语言模型，仅使用单目RGB图像流预测下一目标位置的航点，在图像空间而非机器人坐标中决策。实验表明该策略对相机内参和场景尺度变化稳健，可在轮式、腿式等不同形态机器人上部署。该工作为实现跨形态、低成本的通用导航提供了新的可扩展范式。",
+      "llm_tldr": "现有导航系统通常依赖深度传感器、多相机或预建地图，限制了硬件支持并增加部署成本。Robostral Navigate提出一个8B视觉语言模型，仅使用单目RGB图像流预测下一目标位置的航点，在图像空间而非机器人坐标中决策。实验表明该策略对相机内参和场景尺度变化稳健，可在轮式、腿式等不同形态机器人上部署。该工作为实现跨形态、低成本的通用导航提供了新的可扩展范式。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.21400v1",
+      "source": "arxiv",
+      "title": "VoLN: Vision-Only Long-Horizon Navigation---Paradigm, Benchmark, and Method",
+      "abstract": "Vision-and-Language Navigation (VLN) enables embodied agents to follow natural-language instructions. However, route-level instructions commonly encode spatial priors, such as orientation, distance, and layout, that are not explicitly available from onboard sensing at deployment in open, GPS-denied environments. Benchmark performance under such interfaces therefore jointly reflects visual navigation ability and the use of route structure explicitly supplied by the task description. As a complementary formulation, we propose Vision-Only Long-Horizon Navigation (VoLN), which shifts route-relevant information from externally supplied instructions and global guidance to locally observable in-scene cues. In VoLN, goal views specify the destination, while route-relevant information is available only through locally observable in-scene cues that the agent must detect, interpret, and select online. We instantiate VoLN for aerial navigation through VoLN-UAV, a 7,210-episode benchmark that combines long-horizon goal-directed flight, continuous 3D motion, large viewpoint changes, and context-dependent beacon selection. We further provide VoLN-MLLM as an initial reference baseline. It aligns self-supervised visual features with a structured semantic space and predicts short-horizon waypoint segments from observation history, goal views, retrieved visual--semantic tokens, and proprioception. On the five-environment Test-Unseen split, it obtains success rates of 7.4%, 4.5%, and 1.8% on Easy, Normal, and Hard episodes, respectively. These results provide an initial evaluation of VoLN and reveal substantial remaining challenges in long-horizon evidence integration, cross-view goal matching, and closed-loop stability. Project page: https://admire-ljb.github.io/VoLN-UAV/",
+      "authors": [
+        "Jiabin Lou",
+        "Haopeng Wang",
+        "Yuanshuai Wang",
+        "Xinyu Liu",
+        "Xuxin Lv",
+        "Yuxin Guo",
+        "Lei Huang",
+        "Rongye Shi",
+        "Wenjun Wu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-23T15:02:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.21400v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "proposes Vision-Only Long-Horizon Navigation built on VLN embodied instruction following",
+      "llm_evidence_cn": "基于VLN具身指令跟随提出纯视觉长时程导航",
+      "llm_evidence": "基于VLN具身指令跟随提出纯视觉长时程导航",
+      "canonical_evidence": "基于VLN具身指令跟随提出纯视觉长时程导航",
+      "llm_tldr_en": "Addresses VLN instructions encoding spatial priors unavailable on-board in GPS-denied environments; proposes the VoLN paradigm, benchmark, and method that shift route information to local visual cues and goal views.",
+      "llm_tldr_cn": "针对视觉语言导航（VLN）中路线级指令隐式提供方向、距离、布局等先验、从而掩盖纯视觉导航能力的问题，本文提出纯视觉长时程导航（VoLN）范式，将路线相关信息从外部指令与全局引导迁移到局部可观测场景线索，以目标视图指定目的地。论文构建了相应基准与方法，为在开放GPS受限环境中评估真实视觉导航能力提供了新依据。",
+      "llm_tldr": "针对视觉语言导航（VLN）中路线级指令隐式提供方向、距离、布局等先验、从而掩盖纯视觉导航能力的问题，本文提出纯视觉长时程导航（VoLN）范式，将路线相关信息从外部指令与全局引导迁移到局部可观测场景线索，以目标视图指定目的地。论文构建了相应基准与方法，为在开放GPS受限环境中评估真实视觉导航能力提供了新依据。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.22226v1",
+      "source": "arxiv",
+      "title": "Offline Vision-Language Navigation with Geometric Goal Localization for Outdoor Environments",
+      "abstract": "Foundation-model-based vision-language navigation (VLN) has advanced autonomous robot navigation by enabling robots to interpret natural-language instructions, identify semantic goals, and follow user-specified behavioral rules. However, existing VLN systems rely heavily on cloud-hosted foundation models for language understanding and semantic grounding, limiting their applicability where network connectivity is unavailable and reliable metric goal localization is required. Although recent small language models (SLMs) enable fully onboard inference, their suitability for navigation instruction decomposition has not been systematically evaluated. This paper makes three contributions toward fully onboard VLN for outdoor environments. First, we present the first systematic benchmark of 17 edge-deployable SLMs against 4 online APIs for robotic navigation instruction decomposition, evaluating accuracy and latency on human-annotated instructions across three computing platforms and providing practical guidance for selecting onboard language models. Second, we propose a lightweight hybrid semantic-geometric goal localization framework that combines open-vocabulary object detection, prompted segmentation, and LiDAR geometry to estimate metric goals, while maintaining visual bearing guidance when reliable geometric observations are unavailable. Third, we integrate these advances into Edge-BehAV, a fully onboard extension of the BehAV architecture that enables cloud-independent behavior-guided navigation. Experimental results show that the best offline SLM matches the instruction decomposition performance of the strongest cloud API while running approximately 9x faster and without network connectivity. The proposed goal localization framework reduces mean goal-distance error from 2.05 m to 0.20 m at lower computational cost, and the complete system succeeds in 31 of 32 closed-loop outdoor trials.",
+      "authors": [
+        "Ali Salmasi",
+        "Xianjia Yu",
+        "Tomi Westerlund"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-24T11:49:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.22226v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Offline vision-language navigation with geometric goal localization",
+      "llm_evidence_cn": "离线视觉语言导航与几何目标定位",
+      "llm_evidence": "离线视觉语言导航与几何目标定位",
+      "canonical_evidence": "离线视觉语言导航与几何目标定位",
+      "llm_tldr_en": "This paper advances fully onboard VLN for outdoor environments by evaluating small language models for instruction decomposition and proposing geometric goal localization without cloud dependency.",
+      "llm_tldr_cn": "本文针对现有VLN系统依赖云端基础模型的问题，提出面向户外环境的全板载离线视觉语言导航方案。该方法评估小型语言模型在导航指令分解中的适用性，并结合几何目标定位实现无需网络连接的度量级导航。三方面贡献包括离线部署、指令分解评估和可靠的目标定位，使机器人能够在无云环境下自主导航，提升了VLN的实用性和可靠性。",
+      "llm_tldr": "本文针对现有VLN系统依赖云端基础模型的问题，提出面向户外环境的全板载离线视觉语言导航方案。该方法评估小型语言模型在导航指令分解中的适用性，并结合几何目标定位实现无需网络连接的度量级导航。三方面贡献包括离线部署、指令分解评估和可靠的目标定位，使机器人能够在无云环境下自主导航，提升了VLN的实用性和可靠性。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.23181v1",
+      "source": "arxiv",
+      "title": "Towards Dual-Brain Minimal Sufficient Representation for Vision-Language Navigation",
+      "abstract": "Vision-and-Language Navigation in continuous environments (VLN-CE) requires an agent to ground language in egocentric observations and plan in unseen scenes. Although recent multimodal large models and world-model-based methods have improved navigation, they often preserve excessive task-irrelevant detail, weakening generalization and increasing computational burden. We propose BrainNav, a navigation framework grounded in the Principle of Minimal Sufficiency. BrainNav consists of three components: a Logical Anchor Model that implements instruction-aware selective perception to suppress environmental noise, a Minimalist Constraint Alignment module that serves as a compact cross-modal bottleneck, efficiently synchronizing discrete linguistic intent with continuous latent dynamics while filtering out redundant information, and a Compression World Model that predicts action-conditioned states within a condensed, low-rank latent space. These modules align semantic intent with spatial perception, enhancing the agent's robustness and efficiency in complex tasks. Experiments show that BrainNav improves over prior SOTA by 2.0 % / 1.0 in SR/SPL on R2R-CE val-unseen and 0.94 % / 0.78 on RxR-CE val-unseen. These results indicate that minimally sufficient world representations provide an effective foundation for robust VLN.",
+      "authors": [
+        "Yihao Wu",
+        "Chenyi Xu",
+        "Liqi Yan",
+        "Chenhuan Cai",
+        "Geyong Min",
+        "Bin Lin",
+        "Fangli Guan",
+        "Jianhui Zhang",
+        "Pan Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-25T12:26:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.23181v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Vision-Language Navigation in continuous environments grounding language in egocentric observations",
+      "llm_evidence_cn": "连续环境视觉语言导航，将语言与自我中心观察对齐",
+      "llm_evidence": "连续环境视觉语言导航，将语言与自我中心观察对齐",
+      "canonical_evidence": "连续环境视觉语言导航，将语言与自我中心观察对齐",
+      "llm_tldr_en": "Proposes BrainNav for VLN-CE based on minimal sufficiency, using a Logical Anchor Model for instruction-aware perception and a Minimalist Constraint Alignment bottleneck to suppress task-irrelevant detail and improve planning in unseen scenes.",
+      "llm_tldr_cn": "针对连续环境视觉语言导航（VLN-CE）中现有方法保留过多任务无关细节、导致泛化下降和计算负担加重的问题，本文提出基于最小充分原理的BrainNav框架。其包含逻辑锚定模型实现指令感知的选择性感知以抑制环境噪声，以及极简约束对齐模块作为紧凑跨模态瓶颈同步离散语言约束。该方法在未见场景中提升语言-视觉对齐与规划能力，为构建高效、可泛化的VLN智能体提供了新方案。",
+      "llm_tldr": "针对连续环境视觉语言导航（VLN-CE）中现有方法保留过多任务无关细节、导致泛化下降和计算负担加重的问题，本文提出基于最小充分原理的BrainNav框架。其包含逻辑锚定模型实现指令感知的选择性感知以抑制环境噪声，以及极简约束对齐模块作为紧凑跨模态瓶颈同步离散语言约束。该方法在未见场景中提升语言-视觉对齐与规划能力，为构建高效、可泛化的VLN智能体提供了新方案。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.23504v1",
+      "source": "arxiv",
+      "title": "MemVLN: Episodic and Procedural Memory for Vision-and-Language Navigation",
+      "abstract": "Vision-and-Language Navigation in Continuous Environments (VLN-CE) requires agents to maintain long-horizon visual history for trajectory consistency while executing actions with low latency. Existing video-based VLN approaches typically struggle to satisfy both demands simultaneously. To address these challenges, we propose MemVLN, a novel VLN framework that achieves state-of-the-art performance with real-time inference efficiency (14 FPS). MemVLN utilizes a visual encoder to process continuous observations and a Large Language Model (LLM) to interpret instructions and generate actions. Central to our approach is an Episodic Memory management that applies pyramidal resolutions. This mechanism concentrates computation on immediate percepts while retaining compressed long-term history. Complementing to this design, we introduce Procedural Memory for fast action with a compact vocabulary of atomic mid-level actions to bypass auto-regressive decoding latency. Experiments on VLN-CE show that MemVLN-4B surpasses the baseline Qwen3-VL-4B architecture by 5.8\\% SR in R2R and 9.7\\% SR in RxR, while achieving a 7$\\times$ speedup in inference latency.",
+      "authors": [
+        "Yuqi Liu",
+        "Shengju Qian",
+        "Tianyuan Qu",
+        "Mingxian Lin",
+        "Zixuan Wang",
+        "Xin Wang",
+        "Bei Yu",
+        "Jiaya Jia"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-26T07:08:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.23504v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "state-of-the-art vision-and-language navigation with episodic and procedural memory",
+      "llm_evidence_cn": "具身连续环境下的视觉语言导航，结合情节/程序记忆与LLM",
+      "llm_evidence": "具身连续环境下的视觉语言导航，结合情节/程序记忆与LLM",
+      "canonical_evidence": "具身连续环境下的视觉语言导航，结合情节/程序记忆与LLM",
+      "llm_tldr_en": "Proposes MemVLN for VLN-CE, using a pyramidal-resolution episodic memory manager and an LLM to interpret instructions, achieving state-of-the-art performance with real-time inference at 14 FPS.",
+      "llm_tldr_cn": "针对连续环境视觉语言导航（VLN-CE）中需要长期视觉历史与低延迟执行的矛盾，提出MemVLN框架。它利用视觉编码器处理连续观察，并由大语言模型解释指令和生成动作，核心是以金字塔式分辨率管理情节记忆，集中计算即时感知并保留长期轨迹信息。该方法以14 FPS实时推理实现当前最优性能，兼顾了轨迹一致性与推理效率。",
+      "llm_tldr": "针对连续环境视觉语言导航（VLN-CE）中需要长期视觉历史与低延迟执行的矛盾，提出MemVLN框架。它利用视觉编码器处理连续观察，并由大语言模型解释指令和生成动作，核心是以金字塔式分辨率管理情节记忆，集中计算即时感知并保留长期轨迹信息。该方法以14 FPS实时推理实现当前最优性能，兼顾了轨迹一致性与推理效率。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.25106v1",
+      "source": "arxiv",
+      "title": "IMPRINT: Image-Conditioned Query Enrichment for Long-Tail Object Goal Navigation",
+      "abstract": "Embodied AI increasingly relies on queryable semantic maps built from pre-trained vision-language models to enable zero-shot Object Goal Navigation (ObjectNav). However, existing approaches typically depend on text-only queries, which become less reliable as semantic specificity increases toward fine-grained object categories. We introduce IMPRINT, a zero-shot plug-and-play framework that enriches textual object queries with web-sourced images to improve grounding in queryable maps. Retrieved images are encoded using a vision-language model, matched against the semantic map to produce similarity maps, and aggregated to yield context-aware localization. Notably, this requires no training or modification of the underlying navigation policy. To explicitly evaluate long-tail behavior, we present HSSD-rare, a new ObjectNav benchmark built on Habitat Synthetic Scenes and featuring semantically specific subcategories. Across both OVON and HSSD-rare, image-conditioned queries consistently improve object grounding and yield end-to-end navigation gains. Further analysis reveals that translating localization gains to navigation performance depends critically on downstream detection quality, highlighting a key systems bottleneck in long-tail embodied navigation.",
+      "authors": [
+        "Jelin Raphael Akkara",
+        "Filippo Ziliotto",
+        "Luciano Serafini",
+        "Lamberto Ballan",
+        "Tommaso Campari"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-27T22:09:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.25106v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Object Goal Navigation with image-conditioned query enrichment",
+      "llm_evidence_cn": "基于图像条件查询增强的物体目标导航",
+      "llm_evidence": "基于图像条件查询增强的物体目标导航",
+      "canonical_evidence": "基于图像条件查询增强的物体目标导航",
+      "llm_tldr_en": "IMPRINT is a zero-shot plug-and-play framework that enriches textual object queries with web images to improve zero-shot ObjectNav using queryable semantic maps.",
+      "llm_tldr_cn": "本文提出IMPRINT，一种零样本即插即用框架，通过引入网络图像增强文本对象查询，解决细粒度对象类别下纯文本查询不可靠的问题。该方法利用视觉语言模型对检索图像编码，并与可查询语义地图匹配生成相似图，最终聚合得到上下文感知的定位结果，且无需训练或修改导航策略。实验表明该框架能够显著提升长尾对象目标导航的定位准确性，为零样本ObjectNav提供了新的提升思路。",
+      "llm_tldr": "本文提出IMPRINT，一种零样本即插即用框架，通过引入网络图像增强文本对象查询，解决细粒度对象类别下纯文本查询不可靠的问题。该方法利用视觉语言模型对检索图像编码，并与可查询语义地图匹配生成相似图，最终聚合得到上下文感知的定位结果，且无需训练或修改导航策略。实验表明该框架能够显著提升长尾对象目标导航的定位准确性，为零样本ObjectNav提供了新的提升思路。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.25448v1",
+      "source": "arxiv",
+      "title": "Room-Mediated Co-occurrence for Zero-Shot Object-Centric Semantic Navigation via Frontier Scoring",
+      "abstract": "Zero-shot ObjectNav methods increasingly use vision-language priors, but direct object-object similarity in the latent space is often a weak proxy for spatial co-occurrence. We present an analytical, training-free semantic navigation pipeline that mediates object relationships through a compact room lexicon. Each object label is mapped to a CLIP-derived Room Probability Vector (RPV), and object-target co-occurrence is computed from RPV distribution overlap. These scores are projected onto a value map using geodesic flood-fill propagation (Fast Marching Method), with adaptive signal decay, and are used to rank frontiers by semantic score for navigation. Together, these components form an integrated, training-free, object-centric pipeline for open-vocabulary zero-shot navigation. Results show that our object-centric approach improves Success Rate (SR) and Success by weighted inverse Path Length (SPL) by a relative 3% and 1.3%, respectively, compared to image-holistic baselines on the HM3D dataset validation split, while preserving interpretability and open-vocabulary flexibility. Code is available at: uts-ri.github.io/RPV-SemNav.",
+      "authors": [
+        "Adam Scicluna",
+        "Gavin Paul",
+        "Alen Alempijevic"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-28T08:36:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.25448v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "zero-shot object-goal semantic navigation via room-mediated co-occurrence",
+      "llm_evidence_cn": "基于房间中介共现的零样本物体目标语义导航",
+      "llm_evidence": "基于房间中介共现的零样本物体目标语义导航",
+      "canonical_evidence": "基于房间中介共现的零样本物体目标语义导航",
+      "llm_tldr_en": "Zero-shot ObjectNav is improved by a training-free pipeline that mediates object co-occurrence through room prototypes (CLIP RPVs), propagates semantic scores with geodesic flood-fill, and ranks frontiers.",
+      "llm_tldr_cn": "零样本物体导航常依赖视觉-语言先验，但物体间直接相似度并不能很好刻画空间共现。本文提出一种无需训练的语义导航管线，通过紧凑房间词表将物体转为CLIP房间概率向量，用分布重叠计算目标共现，再以测地线洪泛传播投影到价值图并排序前沿。该方法在零样本物体导航中无需训练即可提升目标搜索效率。这表明房间中介的共现建模有助于物体级导航决策。",
+      "llm_tldr": "零样本物体导航常依赖视觉-语言先验，但物体间直接相似度并不能很好刻画空间共现。本文提出一种无需训练的语义导航管线，通过紧凑房间词表将物体转为CLIP房间概率向量，用分布重叠计算目标共现，再以测地线洪泛传播投影到价值图并排序前沿。该方法在零样本物体导航中无需训练即可提升目标搜索效率。这表明房间中介的共现建模有助于物体级导航决策。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26523v1",
+      "source": "arxiv",
+      "title": "The Art of Not Forgetting A Local Learning Architecture for Continual Learning",
+      "abstract": "We introduce CMP (Cognitive Memory Primitive), a continual-learning architecture that repre?sents inputs as sparse relational codes, stores them in a two-tier competitive memory, and learns through local updates without end-to-end backpropagation through its feature-generating system. We investigate whether combining sparse representations, local learning, and persistent memory can reduce catastrophic forgetting relative to conventional backpropagation-based continual?learning approaches. On a controlled domain-incremental byte-level language modeling protocol, CMP demonstrates substantially lower backward transfer than a parameter-matched Trans?former trained with online Elastic Weight Consolidation (EWC). Across a three-seed replicated 15-domain experiment, CMP exhibits stable forgetting behavior, while separate head-to-head comparisons and domain-order analyses show consistently lower forgetting than the evaluated Transformer baseline under the reported experimental settings. We report these findings alongside a substantial single-domain accuracy gap relative to the Transformer, a null result on a vision benchmark, and a documented failure to combine CMP with an independent accuracy-improving mechanism, reflecting our commitment to reporting both positive and negative outcomes. These results suggest that the combination of sparse representations, local learning, and persistent memory is a promising direction for continual learning, while motivating further investigation into the respective roles of learning rules, representations, and architectural design in mitigating catastrophic forgetting.",
+      "authors": [
+        "Ashmith Atmuri",
+        "Yashaswini Rao Bhogarajula"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-29T06:42:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.26523v1",
+      "tags": [
+        "keyword:semantic-map",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Long-term memory architecture for continual learning and recall",
+      "llm_evidence_cn": "用于持续学习与回想的长期记忆架构",
+      "llm_evidence": "用于持续学习与回想的长期记忆架构",
+      "canonical_evidence": "用于持续学习与回想的长期记忆架构",
+      "llm_tldr_en": "CMP is a continual-learning architecture that uses sparse relational codes, two-tier competitive memory, and local updates to reduce catastrophic forgetting compared to transformer with EWC.",
+      "llm_tldr_cn": "本文提出认知记忆原语（CMP），一种基于稀疏关系编码和两层竞争记忆的持续学习架构，通过局部更新避免端到端反向传播。在域增量字节级语言建模协议上，CMP相比带在线EWC的Transformer实现了显著更低的后向迁移，证明其能有效缓解灾难性遗忘。该架构为持续学习中的长期记忆保持提供了一种新的局部学习范式，有助于智能体在序列任务中稳定积累知识。",
+      "llm_tldr": "本文提出认知记忆原语（CMP），一种基于稀疏关系编码和两层竞争记忆的持续学习架构，通过局部更新避免端到端反向传播。在域增量字节级语言建模协议上，CMP相比带在线EWC的Transformer实现了显著更低的后向迁移，证明其能有效缓解灾难性遗忘。该架构为持续学习中的长期记忆保持提供了一种新的局部学习范式，有助于智能体在序列任务中稳定积累知识。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "long-term memory architecture for continual learning and recall",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.29600v1",
+      "source": "arxiv",
+      "title": "HAM-VLN: Harnessing Hierarchical Agentic Memory for Zero-Shot Vision-and-Language Navigation",
+      "abstract": "Vision-and-language navigation (VLN) enables robots to follow instructions in previously unseen environments. Recently, a training-free paradigm has emerged: the robot queries a multimodal LLM to understand its observations and plan the next action. However, long-horizon navigation based on either image streams or dense map inevitably introduces a growing memory and reasoning bottleneck. We present HAM-VLN, a decision-coupled, agent-authored memory that equips the robot with a persistent, depth-grounded world graph. In the same model call used to select the next action, HAM-VLN also records semantic and reflective information---including room type, objects, navigation progress, and failure notes. Recent waypoints remain verbatim within a bounded window, while older history re-enters the context only through retrieval scored by relevance, recency, and salience, together with one-hop topological expansion. This design requires no additional LLM calls beyond the per-waypoint decision. Compared to previous methods, HAM-VLN not only improves various navigation metrics but also reduces the context length by more than 65%. Specifically, HAM-VLN achieves 61.0% Success Rate (SR) on VLN-CE R2R, 52.7% SR on VLN-CE RxR, and 79.7% SR on HM3D-v2 ObjectNav without any training.",
+      "authors": [
+        "An Liu",
+        "Bingxi Liu",
+        "Hongyu Ding",
+        "Yixuan Jiang",
+        "Yaran Chen",
+        "Fulin Tang",
+        "Cong Leng",
+        "Hong Zhang",
+        "Jian Cheng"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-31T16:32:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.29600v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "zero-shot vision-and-language navigation with hierarchical agentic memory",
+      "llm_evidence_cn": "利用分层智能体记忆实现零样本视觉语言导航",
+      "llm_evidence": "利用分层智能体记忆实现零样本视觉语言导航",
+      "canonical_evidence": "利用分层智能体记忆实现零样本视觉语言导航",
+      "llm_tldr_en": "HAM-VLN equips robots with a persistent depth-grounded world graph that records semantic and reflective information, avoiding memory bottlenecks in zero-shot VLN.",
+      "llm_tldr_cn": "零样本视觉语言导航中，长时推理常受图像流或稠密地图带来的记忆与推理瓶颈限制。HAM-VLN提出与动作选择决策耦合的智能体作者记忆，在同一模型调用中记录房间类型、物体、导航进度和失败笔记，形成持久且基于深度的世界图。关键路点信息被保留为逐字内容，同时支持语义与反思信息。该方法缓解了长程导航中的记忆增长问题，提升零样本导航的可靠性。",
+      "llm_tldr": "零样本视觉语言导航中，长时推理常受图像流或稠密地图带来的记忆与推理瓶颈限制。HAM-VLN提出与动作选择决策耦合的智能体作者记忆，在同一模型调用中记录房间类型、物体、导航进度和失败笔记，形成持久且基于深度的世界图。关键路点信息被保留为逐字内容，同时支持语义与反思信息。该方法缓解了长程导航中的记忆增长问题，提升零样本导航的可靠性。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.00527v1",
+      "source": "arxiv",
+      "title": "SSTG-Nav: Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation",
+      "abstract": "Service robots operating for months in the same homes, offices, and facilities should become more reliable with experience instead of searching familiar space from scratch for every request. Yet ObjectNav is predominantly formulated as one-shot exploration, leaving a central deployment challenge unresolved: recognizing an object does not identify a reachable place to stop, and one confident map error can terminate the task. We introduce SSTG-Nav, a reusable metric-semantic memory that turns a one-time survey into actionable object goals, consolidates evidence across viewpoints, and retains spatially distinct recovery standoffs. On 1,000 HM3D-v2 episodes across 36 scenes, our goal-independent topology achieves a 99.4% geometric success ceiling. Holding semantic responses fixed, metric grounding raises SR/SPL from 0.835/0.560 to 0.920/0.603, and source-aware fusion reaches 0.926/0.586. Fusion-aware Top-3 recovery raises Success@1/2/3 to 0.928/0.965/0.975 and reaches 0.601 SPL@3. Model, field-of-view, density, and corruption controls identify where these gains originate, and a ROS2/Nav2 realization demonstrates the complete reusable query-to-execution pipeline. Together, the results establish pre-exploration as a powerful practical regime for dependable, repeated semantic navigation.",
+      "authors": [
+        "Daojie Peng",
+        "Bingtao Wang",
+        "Jun Ma"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-01T08:40:04+00:00",
+      "link": "https://arxiv.org/pdf/2608.00527v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "reusable spatial-semantic memory for object navigation",
+      "llm_evidence_cn": "用于物体导航的可复用空间-语义记忆",
+      "llm_evidence": "用于物体导航的可复用空间-语义记忆",
+      "canonical_evidence": "用于物体导航的可复用空间-语义记忆",
+      "llm_tldr_en": "SSTG-Nav builds a reusable metric-semantic topological memory from a one-time survey, consolidating object-goal evidence across views and achieving 99.4% geometric success on 1,000 HM3D-v2 episodes.",
+      "llm_tldr_cn": "大多数物体导航被设定为一次性探索，导致服务机器人在熟悉环境中无法利用经验且单次地图错误即可失败。SSTG-Nav提出一种可复用的度量-语义记忆：将一次巡查转化为可执行物体目标，跨视角整合证据并保留空间上不同的恢复点。在1000个HM3D-v2片段上达到99.4%的几何成功率。这表明可复用空间语义记忆能够显著提升长期物体导航的可靠性与部署价值。",
+      "llm_tldr": "大多数物体导航被设定为一次性探索，导致服务机器人在熟悉环境中无法利用经验且单次地图错误即可失败。SSTG-Nav提出一种可复用的度量-语义记忆：将一次巡查转化为可执行物体目标，跨视角整合证据并保留空间上不同的恢复点。在1000个HM3D-v2片段上达到99.4%的几何成功率。这表明可复用空间语义记忆能够显著提升长期物体导航的可靠性与部署价值。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.03143v1",
+      "source": "arxiv",
+      "title": "From Routes to Steps: Separating Semantic Progress from Local Execution in Vision-and-Language Navigation",
+      "abstract": "Vision-and-Language Navigation (VLN) requires an agent to follow a route-level instruction by executing its constituent steps from egocentric visual observations. Existing VLM-based navigators typically supervise both capabilities through next-action prediction alone, making progress-tracking errors difficult to distinguish from execution errors. When an agent deviates from the route, a corrective action label may recover the next movement but does not indicate whether the agent selected the wrong sub-instruction or failed to execute the correct one. Consequently, the agent may continue making decisions from an erroneous progress state. To resolve this ambiguity, we propose \\textbf{Route2Step}, a framework that decouples semantic progress tracking from action generation through an explicit step-level interface. The Instruction Analysis Module ($\\mathcal{M}_{\\mathrm{IA}}$) predicts this state from the global instruction and visual history. Conditioned on the predicted state and recent observations, the Action Generation Module ($\\mathcal{M}_{\\mathrm{AG}}$) generates local action chunks. To supervise the progress state without manual temporal labels, E-SPA, a step-alignment procedure, associates sub-instructions with their corresponding portions of route-level demonstrations. These alignments enable state supervision for incorrect progress estimates, while direct action supervision is reserved for rollout groups that repeatedly fail under the correct active sub-instruction. On R2R-CE, Route2Step improves SR from 48.1\\% to 55.3\\% and SPL from 43.3\\% to 48.2\\%, using 190K state-level corrective samples while requiring only 11.5K directly action-supervised states. Experiments in real-world indoor and outdoor environments further demonstrate the practical applicability of Route2Step. The project page is: https://sisyphus-hxy.github.io/Route2Step/.",
+      "authors": [
+        "Xiangyun Huang",
+        "Xiangchen Wang",
+        "Runfeng Lin",
+        "Yihao Xu",
+        "Kangyu Huang",
+        "Jiang Hengchen",
+        "Xiwang Dong",
+        "Lin Jiarong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-08-04T05:14:45+00:00",
+      "link": "https://arxiv.org/pdf/2608.03143v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Route2Step separates semantic progress tracking from local execution in VLN, directly addressing natural language instruction navigation",
+      "llm_evidence_cn": "在VLN中将语义进度追踪与局部执行分离，用于提升自然语言指令导航的准确性",
+      "llm_evidence": "在VLN中将语义进度追踪与局部执行分离，用于提升自然语言指令导航的准确性",
+      "canonical_evidence": "在VLN中将语义进度追踪与局部执行分离，用于提升自然语言指令导航的准确性",
+      "llm_tldr_en": "Proposes a framework that decouples semantic progress from local action execution in VLN, resolving action-label ambiguity and improving instruction following.",
+      "llm_tldr_cn": "VLN中智能体需要同时跟踪路线级进度并执行局部动作，而现有方法只用下一动作预测监督两者，难以区分进度错误和执行错误。本文提出Route2Step框架，将语义进度与局部执行解耦，纠正错误的进度状态并降低连续决策偏差。实验表明该框架能有效提升VLN的路程理解和动作执行质量，为细粒度导航监督提供新思路。",
+      "llm_tldr": "VLN中智能体需要同时跟踪路线级进度并执行局部动作，而现有方法只用下一动作预测监督两者，难以区分进度错误和执行错误。本文提出Route2Step框架，将语义进度与局部执行解耦，纠正错误的进度状态并降低连续决策偏差。实验表明该框架能有效提升VLN的路程理解和动作执行质量，为细粒度导航监督提供新思路。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-07-09-737550-v1",
+      "source": "biorxiv",
+      "title": "Egocentric spatial scaffolds organize cortical memory engrams",
+      "abstract": "Episodic memory requires reconstructing the position of the self within a remembered environment, yet whether and how memory engrams incorporate self-referenced spatial information remains unknown. Using activity-dependent engram tagging, longitudinal calcium imaging and optogenetic perturbation in the retrosplenial cortex, we found that cortical memory engrams are enriched for egocentric and boundary-coding neurons that encode self-position relative to environmental boundaries. Longitudinal imaging revealed that future engram neurons are preferentially recruited from a pre-existing spatial scaffold rather than generated de novo during learning. During memory retrieval, scaffold populations underwent coordinated refinement and became transiently reorganized into a scaffold-engram network state whose dynamics tracked memory expression. Silencing scaffold neurons reduced memory expression while preserving recall dynamics, whereas engram silencing abolished recall dynamics while maintaining a stable low-memory state. Together, these findings identify a scaffold-engram architecture through which episodic memories are reconstructed by reinstating the self-referenced spatial representations within remembered space.",
+      "authors": [
+        "Yeo, Y.",
+        "Na, W.",
+        "Kwag, J."
+      ],
+      "primary_category": "neuroscience",
+      "categories": [
+        "neuroscience"
+      ],
+      "published": "2026-07-11T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.07.09.737550v1.full.pdf",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "spatial long-term memory mechanisms in cognitive systems; egocentric spatial scaffolds in cortical engrams",
+      "llm_evidence_cn": "认知系统中的空间长期记忆机制；皮层记忆印迹中的自我中心空间支架",
+      "llm_evidence": "认知系统中的空间长期记忆机制；皮层记忆印迹中的自我中心空间支架",
+      "canonical_evidence": "认知系统中的空间长期记忆机制；皮层记忆印迹中的自我中心空间支架",
+      "llm_tldr_en": "Using engram tagging and calcium imaging, the study shows cortical memory engrams are enriched for egocentric and boundary-coding neurons, and future engrams are recruited from a pre-existing spatial scaffold, revealing how spatial scaffolding organizes episodic memory.",
+      "llm_tldr_cn": "该研究采用活动依赖性印迹标记、纵向钙成像与光遗传学扰动，发现皮层记忆印迹中富含编码自我位置与环境边界关系的自我中心和边界编码神经元，并揭示未来印迹神经元优先从预先存在的空间脚手架中招募，而非在学习过程中从头生成。在记忆提取过程中，脚手架群体发生协同精炼并出现瞬时重组。研究表明自我中心空间脚手架是组织情景记忆的关键神经机制，为理解空间长期记忆的编码与提取提供了重要基础。",
+      "llm_tldr": "该研究采用活动依赖性印迹标记、纵向钙成像与光遗传学扰动，发现皮层记忆印迹中富含编码自我位置与环境边界关系的自我中心和边界编码神经元，并揭示未来印迹神经元优先从预先存在的空间脚手架中招募，而非在学习过程中从头生成。在记忆提取过程中，脚手架群体发生协同精炼并出现瞬时重组。研究表明自我中心空间脚手架是组织情景记忆的关键神经机制，为理解空间长期记忆的编码与提取提供了重要基础。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "spatial long-term memory mechanisms and models in cognitive systems",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.06882v1",
+      "source": "arxiv",
+      "title": "GemNav: Discrete-Token Visual Robot Navigation using a Multimodal Large Language Model",
+      "abstract": "Visual navigation policies built on large pretrained models have so far followed a common recipe: a dedicated visual encoder, a bespoke action head, and training on thousands of hours of cross-embodiment datasets. We ask whether this recipe is necessary. In this paper, we introduce GemNav, a visual robot navigation policy that adapts a frozen Multimodal Large Language Model (MLLM) for short-to-medium horizon waypoint navigation using Low-Rank Adaptation (LoRA) on the language tower alone, with no auxiliary visual encoder and no continuous regression head. Waypoints and categorical navigation signals share a single discrete token vocabulary generated by the language-model head, and a soft-decoded auxiliary loss recovers the metric structure that pure cross-entropy training discards. On a single 8.7-hour open corpus, roughly three orders of magnitude smaller than competing training sets, the policy transfers zero-shot to four physically distinct unseen environments and stops within 0.25-0.42m of the goal across 20 real-world trials covering an open carpark, an obstacle carpark, a long outdoor chemical yard, and an indoor warehouse. Conditioning on short image histories improves offline metrics but yields no robot benefit, pointing to a ceiling on what temporal context adds once pretrained vision features are in place. These results indicate that discrete-token adaptation of frozen MLLMs can provide a data-efficient, deployable alternative for foundation model robot navigation.",
+      "authors": [
+        "Peter Bohm",
+        "Saimunur Rahman",
+        "Abdelwahed Khamis",
+        "Sagun Man Singh Shrestha",
+        "Chris McCool",
+        "Peyman Moghadam"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-08T00:46:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.06882v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "visual robot navigation with frozen multimodal LLM and discrete tokens",
+      "llm_evidence_cn": "使用冻结多模态大模型的离散令牌视觉机器人导航",
+      "llm_evidence": "使用冻结多模态大模型的离散令牌视觉机器人导航",
+      "canonical_evidence": "使用冻结多模态大模型的离散令牌视觉机器人导航",
+      "llm_tldr_en": "Proposes GemNav, a visual robot navigation policy that adapts a frozen multimodal LLM with LoRA on the language tower alone, using a shared discrete token vocabulary for waypoints and categorical navigation signals, removing the need for auxiliary visual encoders and continuous regression heads.",
+      "llm_tldr_cn": "针对视觉导航策略通常依赖专用视觉编码器、定制动作头和大量跨具身数据的问题，提出GemNav。它仅对冻结多模态LLM的语言塔进行LoRA适配，无需辅助视觉编码器和连续回归头，用共享离散令牌词汇表同时表示路点与类别化导航信号，并通过软解码辅助损失恢复度量结构。实验表明该策略适用于短中期路点导航，挑战了传统导航策略设计范式。",
+      "llm_tldr": "针对视觉导航策略通常依赖专用视觉编码器、定制动作头和大量跨具身数据的问题，提出GemNav。它仅对冻结多模态LLM的语言塔进行LoRA适配，无需辅助视觉编码器和连续回归头，用共享离散令牌词汇表同时表示路点与类别化导航信号，并通过软解码辅助损失恢复度量结构。实验表明该策略适用于短中期路点导航，挑战了传统导航策略设计范式。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.15265v1",
+      "source": "arxiv",
+      "title": "SceneBind: Binding What and Where Across Vision, Audio and Language",
+      "abstract": "We present SceneBind, an omni-modal representation of realistic scenes with joint semantic and 3D spatial understanding across vision, audio and language. Existing omni-modal encoders excel at instance-level semantics (i.e., what is present), but often lack explicit spatial structure (i.e., where it is). SceneBind addresses this gap by representing each scene as a semantic-spatial entity, combining a global semantic embedding with object-centric semantic-spatial slots. This representation explicitly captures object-level semantics, spatial attributes, and uncertainty. We further propose SceneBind Matching, a semantic-spatial matching scheme that integrates global scene similarity with object alignment, supporting cross-modal scene retrieval and object grounding. To train and evaluate SceneBind, we curate a novel real-world binaural audio-visual dataset with structured semantic and spatial annotations, and propose a training protocol for aligning semantic and spatial signals across modalities. SceneBind is compatible with large-scale pretrained semantic encoders, adds lightweight spatial modeling with only a few additional tokens. It achieves state-of-the-art scene and spatial retrieval while enabling strong zero-shot transfer to downstream tasks such as audio-visual localization.",
+      "authors": [
+        "Mingfei Chen",
+        "Zijun Cui",
+        "Ruoke Zhang",
+        "Hyeonggon Ryu",
+        "Eli Shlizerman"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.MM",
+        "cs.SD"
+      ],
+      "published": "2026-07-16T17:55:15+00:00",
+      "link": "https://arxiv.org/pdf/2607.15265v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "semantic-spatial scene representation with object-centric slots for environment understanding",
+      "llm_evidence_cn": "面向环境理解的语义-空间场景表示，包含对象级空间槽位",
+      "llm_evidence": "面向环境理解的语义-空间场景表示，包含对象级空间槽位",
+      "canonical_evidence": "面向环境理解的语义-空间场景表示，包含对象级空间槽位",
+      "llm_tldr_en": "SceneBind binds semantic and 3D spatial understanding with object-centric semantic-spatial slots to represent realistic scenes, supporting cross-modal scene retrieval and object grounding.",
+      "llm_tldr_cn": "现有全模态编码器侧重实例级语义而缺乏显式空间结构。SceneBind将场景表示为语义-空间实体，结合全局语义嵌入与对象级语义-空间槽位，显式捕获对象语义、空间属性与不确定性。并提出了语义-空间匹配方案，支持跨模态场景检索与对象定位。该表示为具身智能的环境理解与语义建图提供了新思路。",
+      "llm_tldr": "现有全模态编码器侧重实例级语义而缺乏显式空间结构。SceneBind将场景表示为语义-空间实体，结合全局语义嵌入与对象级语义-空间槽位，显式捕获对象语义、空间属性与不确定性。并提出了语义-空间匹配方案，支持跨模态场景检索与对象定位。该表示为具身智能的环境理解与语义建图提供了新思路。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "semantic map representation for navigation and environment understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.24368v1",
+      "source": "arxiv",
+      "title": "Keep It InMind: Benchmarking the Implicit-Association Blind Spot in Agent Memory",
+      "abstract": "Long-term memory systems store what a user says in an external store and retrieve it when a related query arrives. This interface rests on an assumption so natural that it is rarely stated: a memory that is needed will resemble the query that needs it. World knowledge breaks the assumption. A tree-nut allergy should change the answer to a macaron request through their almond-flour ingredient, yet the two texts share no cue a retriever can see. We call this failure mode the implicit-association blind spot and introduce InMind, a 125-task, expert-verified benchmark spanning ten life domains, with 113 tasks grounded in citable public sources. Its paired controls separate three explanations that existing evaluations conflate: the fact was never stored, the model lacks the bridging knowledge, or the fact was stored and never surfaced. The verdict is clean. With the decisive memory placed in context, the backbone answers 84.0 percent of indirect queries; when the same memory must be retrieved, six vector, graph, and agentic memory systems reach at most 14.4 percent, even though they recall the same facts on demand at up to 100 percent. An embedding with eight times the dimensionality raises answer-blind target recall for every system yet leaves the gap essentially intact. A minimal diagnostic probe that keeps memory visible before the query arrives recovers most of the gap, locating the failure in the query-conditioned interface itself and pointing to routing, deciding which facts must stay visible, as the open problem InMind is built to score.",
+      "authors": [
+        "Ruizhe Li",
+        "Mingxuan Du",
+        "Benfeng Xu",
+        "Zhendong Mao"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-27T12:42:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.24368v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:semantic-map"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "long-term memory systems retrieval with implicit association benchmark",
+      "llm_evidence_cn": "长期记忆系统检索的隐式关联基准",
+      "llm_evidence": "长期记忆系统检索的隐式关联基准",
+      "canonical_evidence": "长期记忆系统检索的隐式关联基准",
+      "llm_tldr_en": "Introduces InMind, a 125-task expert-verified benchmark exposing the implicit-association blind spot: memory retrieval fails when needed memory does not resemble the query, with paired controls separating alternative explanations.",
+      "llm_tldr_cn": "针对长期记忆系统在检索时假设‘所需记忆与查询相似’的缺陷，提出隐式关联盲区概念，并构建InMind基准，包含125个专家验证任务、覆盖十个生活领域。该基准通过配对对照组区分‘知识从未存储’、‘存储但无法检索’等解释，揭示了基于表面相似性的检索器无法处理需要世界知识关联的场景，为智能体长期记忆评估提供了新标尺。",
+      "llm_tldr": "针对长期记忆系统在检索时假设‘所需记忆与查询相似’的缺陷，提出隐式关联盲区概念，并构建InMind基准，包含125个专家验证任务、覆盖十个生活领域。该基准通过配对对照组区分‘知识从未存储’、‘存储但无法检索’等解释，揭示了基于表面相似性的检索器无法处理需要世界知识关联的场景，为智能体长期记忆评估提供了新标尺。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "long-term memory architecture for continual learning and recall",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.11029v1",
+      "source": "arxiv",
+      "title": "Learning to Navigate Efficiently with Only 0.58M Trainable Parameters",
+      "abstract": "Recent progress in visual navigation has largely been driven by scale: end-to-end policies with hundreds of millions of parameters trained on billions of frames or large-scale simulated data. We ask how much of this scale a single task family actually requires, and what structure can substitute for it. We propose a decomposed navigation model in which operations with known closed-form structure, such as projective geometry, occupancy, and coordinate transforms, are computed analytically and serve as interfaces between three small learned modules: an egress predictor that grounds the episode goal as a local subgoal in the current view, a navigation predictor that estimates a goal-conditioned posterior over where trajectories travel, and an endpoint-pinned residual diffusion generator that samples trajectory shapes from this posterior. The system trains only 0.58M out of a total of 22.7M parameters, on 44k frames in under one GPU-hour, yet approaches the performance of state-of-the-art models on navigation tasks across 6060 point-goal episodes and 60 environments, while having 233x fewer trainable parameters, the lowest collision rate among all evaluated methods, and 50 Hz inference speed. The decomposition further transfers to no-goal exploration by retraining only the 123k-parameter egress head, and its failure modes under sensor corruption are transparent and analytically correctable.",
+      "authors": [
+        "Edward Beng Wai Tan",
+        "Siew-Kei Lam"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-13T02:49:55+00:00",
+      "link": "https://arxiv.org/pdf/2607.11029v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "visual navigation model in simulated environments with a decomposed goal-conditioned policy",
+      "llm_evidence_cn": "模拟环境中的视觉导航模型，分解式目标条件策略",
+      "llm_evidence": "模拟环境中的视觉导航模型，分解式目标条件策略",
+      "canonical_evidence": "模拟环境中的视觉导航模型，分解式目标条件策略",
+      "llm_tldr_en": "Challenges the need for large-scale end-to-end visual navigation policies; proposes a decomposed model using analytic geometry and occupancy as interfaces among three small learned modules, achieving navigation with only 0.58M trainable parameters.",
+      "llm_tldr_cn": "针对视觉导航端到端策略依赖数亿参数和数十亿帧训练的问题，本文提出分解式导航模型，将投影几何、占据栅格和坐标变换等闭式结构解析计算，并作为接口衔接三个小型学习模块：出口预测器、导航预测器和端点锚定器。仅用0.58M可训练参数即可完成目标条件导航，表明已知结构能有效替代大规模数据驱动范式，为高效导航学习提供了新方向。",
+      "llm_tldr": "针对视觉导航端到端策略依赖数亿参数和数十亿帧训练的问题，本文提出分解式导航模型，将投影几何、占据栅格和坐标变换等闭式结构解析计算，并作为接口衔接三个小型学习模块：出口预测器、导航预测器和端点锚定器。仅用0.58M可训练参数即可完成目标条件导航，表明已知结构能有效替代大规模数据驱动范式，为高效导航学习提供了新方向。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.18368v3",
+      "source": "arxiv",
+      "title": "Neuro-Symbolic Meta-Policies for Temporal Knowledge-Graph Memory under Partial Observability",
+      "abstract": "Partially observable reinforcement learning requires deciding what to retain, retrieve, and forget over time. We introduce a neuro-symbolic meta-policy that learns which symbolic memory heuristic to apply at each decision point while keeping execution symbolic. Our setting uses temporal knowledge-graph memory in RoomKG, where hidden state and observations are represented as Resource Description Framework (RDF) graphs and memory is augmented with temporal RDF triple annotations. The model combines knowledge-graph encoding of memory contents with value heads for question answering, exploration, and forgetting, yielding a controller that is both adaptive and inspectable. This gives the work a direct Semantic Web grounding through RDF-based representation, annotation-compatible graph semantics, and graph-based symbolic operations over explicit memory state. On train/test room splits at long-term memory capacity of 512, the qualifier-aware StarE-GNN configuration achieves the best held-out performance among the compared symbolic, neural, and neuro-symbolic systems while preserving step-level traceability of memory-management decisions.",
+      "authors": [
+        "Taewoon Kim",
+        "Vincent François-Lavet",
+        "Michael Cochez"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-20T17:55:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.18368v3",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "long-term memory architecture for retention, retrieval, and forgetting in RL",
+      "llm_evidence_cn": "强化学习中面向保留、检索和遗忘的长期记忆架构",
+      "llm_evidence": "强化学习中面向保留、检索和遗忘的长期记忆架构",
+      "canonical_evidence": "强化学习中面向保留、检索和遗忘的长期记忆架构",
+      "llm_tldr_en": "Proposes a neuro-symbolic meta-policy that learns which symbolic memory heuristic to apply at each decision point in partially observable RL, combining knowledge-graph encoding with value heads for adaptable and inspectable memory control.",
+      "llm_tldr_cn": "针对部分可观测强化学习中的记忆管理问题，提出一种神经符号元策略，在每个决策点学习应用何种符号记忆启发式，同时保持执行符号化。模型在RoomKG中将隐状态和观测表示为RDF图，通过知识图谱编码与面向问答、探索和遗忘的价值头相结合，实现自适应且可检查的记忆控制器。实验表明该方法在时序知识图谱记忆下具有良好性能，并为语义网提供了直接依据。",
+      "llm_tldr": "针对部分可观测强化学习中的记忆管理问题，提出一种神经符号元策略，在每个决策点学习应用何种符号记忆启发式，同时保持执行符号化。模型在RoomKG中将隐状态和观测表示为RDF图，通过知识图谱编码与面向问答、探索和遗忘的价值头相结合，实现自适应且可检查的记忆控制器。实验表明该方法在时序知识图谱记忆下具有良好性能，并为语义网提供了直接依据。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "long-term memory architecture for continual learning and recall",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.27145v1",
+      "source": "arxiv",
+      "title": "Explainable and Resource-Efficient Spatial Reasoning in Multimodal LLMs for Decision-Critical Applications",
+      "abstract": "As Multimodal Large Language Models (MLLMs) are increasingly deployed in decision-critical pipelines such as robotics, embodied AI, and safety monitoring, the opacity of their spatial judgments limits operator trust and auditability. MLLMs demonstrate strong reasoning but often struggle with fine-grained spatial understanding and object hallucination. Prior work, ByDeWay, introduced Layered-Depth-Based Prompting (LDP), a training-free framework that mitigates hallucinations by structuring prompts using monocular depth estimation. However, coarse depth layering falls short in resolving object-to-object spatial relationships within the same geometric plane, such as projective (\"left of\", \"above\") and topological (\"inside\", \"touching\") relations. We propose ByDeWay-V2, which integrates explicit spatial relational context alongside depth cues, expressed as human-readable predicates that serve as auditable evidence for downstream decision support. Using an open-vocabulary object detector (YOLO-World-L), our framework computes pairwise geometric relations between detected objects and injects them as structured spatial predicates into the MLLM prompt, bridging 3D scene depth and 2D spatial semantics without any training. We evaluate ByDeWay-V2 on the Visual Spatial Reasoning (VSR) and BLINK benchmarks across multiple MLLMs, with hallucination grounding assessed via POPE. On the BLINK spatial subset, ByDeWay-V2 achieves a 46 percent relative F1 improvement over LDP for Qwen2.5-VL, and recovers BLIP-Base's spatial reasoning on VSR from near-random performance to a competitive F1 of 0.53. Our lightest configuration operates under a strict 40-token context budget on CPU, showing the framework's suitability for resource-constrained, real-time decision-support settings.",
+      "authors": [
+        "Piyush Jain",
+        "Kousik Dasgupta",
+        "Rajarshi Roy",
+        "Subarna Tripathi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-29T17:20:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.27145v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Addresses spatial understanding and hallucination in multimodal LLMs, supporting embodied AI pipelines",
+      "llm_evidence_cn": "面向多模态大语言模型的空间理解与幻觉问题，支持具身AI等决策关键管线",
+      "llm_evidence": "面向多模态大语言模型的空间理解与幻觉问题，支持具身AI等决策关键管线",
+      "canonical_evidence": "面向多模态大语言模型的空间理解与幻觉问题，支持具身AI等决策关键管线",
+      "llm_tldr_en": "The paper tackles fine-grained spatial understanding and object hallucination in multimodal LLMs used in robotics and embodied AI. It builds on layered depth prompting with additional structure to resolve object-to-object spatial relationships while being resource-efficient and explainable.",
+      "llm_tldr_cn": "多模态大语言模型在机器人及具身AI中被广泛采用，但其空间判断缺乏透明性，且对细粒度空间关系和物体幻觉处理不佳。本文针对现有分层深度提示（LDP）在同类几何平面上难以区分物体间空间关系的问题，提出改进的提示框架。该方法无需训练，通过结构化深度信息提升空间推理能力，同时保持资源高效和可解释性。该工作为具身导航等决策关键应用提供了更可靠的空间理解基础。",
+      "llm_tldr": "多模态大语言模型在机器人及具身AI中被广泛采用，但其空间判断缺乏透明性，且对细粒度空间关系和物体幻觉处理不佳。本文针对现有分层深度提示（LDP）在同类几何平面上难以区分物体间空间关系的问题，提出改进的提示框架。该方法无需训练，通过结构化深度信息提升空间推理能力，同时保持资源高效和可解释性。该工作为具身导航等决策关键应用提供了更可靠的空间理解基础。",
+      "llm_tags": [
+        "query:embodied-nav:composite"
+      ],
+      "matched_query_tag": "query:embodied-nav:composite",
+      "matched_query_text": "Papers central to 请查找有关视觉语言导航（VLN）、点目标导航（PointNav）和物体目标导航（ObjectNav）的文章, especially work that connects or combines: vision language navigation following natural language instructions; point goal navigation reaching target coordinates; object goal navigation locating target object category; embodied navigation agent in simulated environments; navigation from natural language instructions; How do agents perform vision language navigation using natural language instructions?; Which models achieve state of the art results on embodied navigation benchmarks?.",
+      "matched_requirement_id": "req-composite-embodied-nav",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.11529v1",
+      "source": "arxiv",
+      "title": "Parse, Search, and Confirmation: Training-Free Aerial Vision-and-Dialog Navigation with Chain-of-Thought Reasoning and Structured Spatial Memory",
+      "abstract": "In this paper, we tackle the Aerial Vision-and-Dialog Navigation (AVDN) task in the training-free setting for resource-efficient high-altitude UAV navigation.Naively applying MLLMs leads to unreliable navigation due to weak directional grounding and the lack of explicit spatial memory.To address these issues, we propose PSC-AVDN, a training-free framework that tightly couples a three-stage Parsing-Search-Confirmation reasoning pipeline with a Structured Spatial Memory (SSM).The parsing stage uses an LLM to convert ambiguous dialogue instructions into stable geometric directional and destination cues.A Search Chain-of-Thought (S-CoT) then performs stepwise target exploration under high-altitude observations, and a Confirmation Chain-of-Thought (C-CoT) conducts fine-grained verification around candidate regions to resolve visual ambiguity.Meanwhile, SSM integrates three complementary sources of spatial cues, including multi-scale visual observation, spatial visual memory, and structured geometric memory to provide global spatial context and long-horizon consistency.Extensive experiments on ANDH and ANDH-Full show that PSC-AVDN establishes new state-of-the-art performance in the training-free setting, matching or surpassing several finetuned methods.Code will be publicly available at: https://github.com/QY6616/PSC-AVDN",
+      "authors": [
+        "Yu Qi",
+        "Hongyu Li",
+        "Shaofei Huang",
+        "Tianrui Hui",
+        "Yaxiong Wang",
+        "Lechao Cheng",
+        "Zhun Zhong",
+        "Si Liu",
+        "Meng Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T13:14:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.11529v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "aerial vision-and-dialog navigation from natural language instructions",
+      "llm_evidence_cn": "面向空中视觉-对话导航，结合自然语言指令与结构化空间记忆",
+      "llm_evidence": "面向空中视觉-对话导航，结合自然语言指令与结构化空间记忆",
+      "canonical_evidence": "面向空中视觉-对话导航，结合自然语言指令与结构化空间记忆",
+      "llm_tldr_en": "Addresses unreliable MLLM-based aerial navigation by proposing PSC-AVDN, a training-free framework that combines LLM parsing, search chain-of-thought, and structured spatial memory for robust high-altitude UAV navigation.",
+      "llm_tldr_cn": "针对空中视觉对话导航中MLLM方向锚定弱和缺乏显式空间记忆导致导航不可靠的问题，提出免训练框架PSC-AVDN。该方法用LLM把模糊对话指令解析成稳定的几何方向与目的地线索，并通过搜索式思维链逐步探索目标，同时维护结构化空间记忆。实验表明该框架在不训练情况下显著提升UAV导航的稳定性和指令跟随能力，为资源受限的高空导航提供了有效途径。",
+      "llm_tldr": "针对空中视觉对话导航中MLLM方向锚定弱和缺乏显式空间记忆导致导航不可靠的问题，提出免训练框架PSC-AVDN。该方法用LLM把模糊对话指令解析成稳定的几何方向与目的地线索，并通过搜索式思维链逐步探索目标，同时维护结构化空间记忆。实验表明该框架在不训练情况下显著提升UAV导航的稳定性和指令跟随能力，为资源受限的高空导航提供了有效途径。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.20679v1",
+      "source": "arxiv",
+      "title": "Towards Capability-Aware Traversability Navigation for Unstructured Environments",
+      "abstract": "Estimating traversability in unstructured environments requires conditioning on robot embodiment, as the same terrain can be traversable for one platform and unsafe for another. Existing methods often transfer predictions across morphologies through late-stage trajectory filtering rather than encoding platform constraints in the learned representation. We propose Capability-Aware Traversability (CAT), a framework that embeds physical limits directly into the spatial feature space. CAT grounds dense supervision masks in physical trajectories through an interactive annotation pipeline and modulates semantic terrain maps with robot-specific traversability vectors through Spatially-Adaptive Denormalization (SPADE) blocks. Across human-annotated and trajectory-aligned datasets, CAT leads all ranking-based metrics, improving AUROC by 11.0% on physically executed trajectories and AUPRC by 15.8% on human traces over the strongest baseline. Ablations show that spatial conditioning and per-robot prototypes produce capability sensitivity beyond generic path prediction. Deployments on a legged quadruped and a wheeled skid-steer demonstrate embodiment-aware obstacle avoidance on embedded hardware at 4.8 Hz.",
+      "authors": [
+        "Gianluca Capezzuto",
+        "Felipe Tommaselli",
+        "Matheus P. Angarola",
+        "Ricardo V. Godoy",
+        "Marcelo Becker"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-22T19:28:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.20679v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "semantic terrain maps modulated by robot-specific traversability vectors for navigation",
+      "llm_evidence_cn": "利用语义地形图并结合机器人能力向量进行可通行性导航",
+      "llm_evidence": "利用语义地形图并结合机器人能力向量进行可通行性导航",
+      "canonical_evidence": "利用语义地形图并结合机器人能力向量进行可通行性导航",
+      "llm_tldr_en": "CAT embeds robot physical limits into spatial features and modulates semantic terrain maps with traversability vectors via SPADE blocks, improving capability-aware traversability prediction in unstructured environments.",
+      "llm_tldr_cn": "非结构化环境中的可通行性估计需要结合机器人自身能力，现有方法多在后期轨迹过滤中传递平台约束。该文提出能力感知可通行性框架CAT，将物理极限直接嵌入空间特征，并通过SPADE块将机器人特定遍历性向量调制到语义地形图上。在人工标注数据上的实验表明，该方法相比未编码能力信息的基线更准确地预测可通行区域。这项研究为语义地图与机器人能力融合提供了可迁移的导航方法。",
+      "llm_tldr": "非结构化环境中的可通行性估计需要结合机器人自身能力，现有方法多在后期轨迹过滤中传递平台约束。该文提出能力感知可通行性框架CAT，将物理极限直接嵌入空间特征，并通过SPADE块将机器人特定遍历性向量调制到语义地形图上。在人工标注数据上的实验表明，该方法相比未编码能力信息的基线更准确地预测可通行区域。这项研究为语义地图与机器人能力融合提供了可迁移的导航方法。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "semantic map representation for navigation and environment understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.28256v1",
+      "source": "arxiv",
+      "title": "When Robots Exchange Meaning: A Demo of Goal-Oriented Semantic Communications for Collaborative Robotics",
+      "abstract": "Collaborative robotics is a representative task-oriented 6G use-case, where communication quality should be reflected in mission execution, environment understanding, and closed-loop operation rather than packet delivery alone. This demo paper presents a robot-edge semantic communication (SemCom) testbed integrating robot-side visual compression, edge-side semantic mapping, and dashboard-based mission interaction. A mobile robot equipped with RGB-D sensing and LiDAR runs ROS 2, while a Jetson Orin edge node performs reconstruction, RTAB-Map mapping, semantic object handling, and browserbased visualization. As an initial proof of concept, RGB frames are encoded on the robot into VQ-VAE tokens using an ONNX Runtime encoder and reconstructed on the edge using a PyTorch decoder. A 320 X 240 image is represented by an 80 X 60 token grid with a packed payload of 5400 bytes, corresponding to a 42.67X reduction relative to model-input RGB bytes. The reconstructed visual stream is further associated with depth, pose, and 3D mapping information to generate a semantic map for downstream robotic applications. The demo exposes the full path from semantic visual transport to object-level map interaction, and provides a practical platform for future task-aware 6G networking studies at the intersection of SemCom, embodied AI, and physical AI-enabled robotics. A video of the demo is available at https://tinyurl.com/Tos09",
+      "authors": [
+        "Peizheng Li",
+        "Xinyi Lin",
+        "Sajida Gufran",
+        "Adnan Aijaz"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-30T14:16:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.28256v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "semantic mapping and environment understanding for collaborative robots",
+      "llm_evidence_cn": "面向协作机器人的语义建图与环境理解",
+      "llm_evidence": "面向协作机器人的语义建图与环境理解",
+      "canonical_evidence": "面向协作机器人的语义建图与环境理解",
+      "llm_tldr_en": "A robot-edge semantic communication demo integrates VQ-VAE visual compression, RTAB-Map semantic mapping, and browser mission control, aligning communication quality with environment understanding in collaborative robotics.",
+      "llm_tldr_cn": "面向6G的协作机器人需要以任务执行和环境理解衡量通信质量，而非仅看数据包投递。本文演示了一个机器人-边缘语义通信测试台，机器人端用VQ-VAE压缩RGB帧，边缘端执行重建和RTAB-Map语义建图，并提供浏览器可视化。初步结果验证了该闭环中语义通信的可行性。该演示为机器人协作与语义映射结合提供了可复现的参考平台。",
+      "llm_tldr": "面向6G的协作机器人需要以任务执行和环境理解衡量通信质量，而非仅看数据包投递。本文演示了一个机器人-边缘语义通信测试台，机器人端用VQ-VAE压缩RGB帧，边缘端执行重建和RTAB-Map语义建图，并提供浏览器可视化。初步结果验证了该闭环中语义通信的可行性。该演示为机器人协作与语义映射结合提供了可复现的参考平台。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "semantic map representation for navigation and environment understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.14899v1",
+      "source": "arxiv",
+      "title": "OASIS-Map: Object-Level Change Detection in Multi-Session Mapping using Semantic Correspondence Matching",
+      "abstract": "Map representations which are consistent across repeated visits to a real-world semi-static environment are very useful for long-term robotic inspection. In such settings, the scene may evolve while the robot is absent, with objects appearing, disappearing, moving, or being replaced, quickly making a static map outdated. Existing change-detection methods reason through geometry, category-level semantics, or object persistence. However, achieving reliable object association across revisits remains a key challenge, especially under partial views, occlusion, and imperfect segmentation. In this work, we propose OASIS-Map, a multi-session mapping system that maintains a spatio-temporally consistent object-level map by establishing dense patch-level semantic correspondences between temporal observations. These correspondences detect where the scene has changed and incrementally associate objects across revisits as the robot re-observes the environment. We demonstrate OASIS-Map on three challenging real-world scenarios: object rearrangements in 3RScan, visually similar car replacements in a car park, and large-scale scene changes in an outdoor market. We achieve 0.783 F1 on change detection in a car replacement scenario in a car park and 0.667 F1 on moved object association in 3RScan. https://dynamic.robots.ox.ac.uk/projects/oasis-map/",
+      "authors": [
+        "Haedam Oh",
+        "Yifu Tao",
+        "Nived Chebrolu",
+        "Maurice Fallon"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-16T12:16:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.14899v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "OASIS-Map maintains object-level semantic maps across sessions via semantic correspondence matching, supporting long-term environment understanding and change detection",
+      "llm_evidence_cn": "通过语义对应匹配维护跨会话的对象级语义地图，用于长期环境理解与变化检测",
+      "llm_evidence": "通过语义对应匹配维护跨会话的对象级语义地图，用于长期环境理解与变化检测",
+      "canonical_evidence": "通过语义对应匹配维护跨会话的对象级语义地图，用于长期环境理解与变化检测",
+      "llm_tldr_en": "Presents a multi-session mapping system that maintains spatio-temporally consistent object-level maps and detects object changes via semantic correspondence matching, improving long-term robotic inspections.",
+      "llm_tldr_cn": "长期机器人巡检需要跨访问保持一致的地图表示，但半静态环境中的物体变化往往使静态地图过时。现有方法在部分视图和遮挡下难以可靠关联物体。本文提出OASIS-Map，通过语义对应匹配在多次会话间维护时空一致的对象级地图，实现物体出现、消失、移动或替换的变化检测。该系统提升了长期环境理解与地图更新的可靠性。",
+      "llm_tldr": "长期机器人巡检需要跨访问保持一致的地图表示，但半静态环境中的物体变化往往使静态地图过时。现有方法在部分视图和遮挡下难以可靠关联物体。本文提出OASIS-Map，通过语义对应匹配在多次会话间维护时空一致的对象级地图，实现物体出现、消失、移动或替换的变化检测。该系统提升了长期环境理解与地图更新的可靠性。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "semantic map representation for navigation and environment understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-07-06-736718-v1",
+      "source": "biorxiv",
+      "title": "Dissociation between impaired explicit spatial remapping and preserved implicit neural dynamics in Alzheimers disease",
+      "abstract": "The hippocampus supports spatial memory by dynamically integrating external sensory inputs with intrinsic neural circuit dynamics during novel experience. In Alzheimers disease (AD), despite impaired hippocampal spatial remapping, spatial learning and memory abilities can remain partially preserved, a phenomenon consistent with cognitive resilience (Gomez-Isla and Frosch 2022, Jia, Xu et al. 2025). However, the hippocampal ensemble coding patterns associated with these preserved learning and memory abilities remain remains unclear. We hypothesize that intrinsic temporal structures of neuronal firing continue to facilitate the encoding of new spatial information. Using the AppNL-G-F rat model, we longitudinally tracked hippocampal CA1 activity during a familiar-novel context alternating task. We found a dissociation between impaired explicit spatial coding and preserved implicit temporal coding in the AD hippocampal network. Explicit spatial coding was impaired, as place cells showed weak discrimination between distinct contexts and failed to improve with learning. In contrast, implicit temporal coding exhibited learning-dependent refinement, with cofiring dynamic becoming increasingly context-specific across long-term experience. Further analysis suggested that the enhancement of implicit cofiring may be associated with the increased consistency of neural ensemble reactivation during sharp wave ripples in awake rest. Taken together, these findings reveal an explicit-implicit dissociation in the AD hippocampal network, suggesting that the learning-dependent refinement of implicit temporal coding may support preserved learning capacity despite impaired spatial remapping.",
+      "authors": [
+        "Wang, X.",
+        "Wang, Y.",
+        "Pang, K.",
+        "Zheng, C."
+      ],
+      "primary_category": "neuroscience",
+      "categories": [
+        "neuroscience"
+      ],
+      "published": "2026-07-09T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.07.06.736718v1.full.pdf",
+      "tags": [
+        "keyword:semantic-map",
+        "query:semantic-map"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Hippocampal spatial remapping and neural dynamics link to spatial memory encoding in AD",
+      "llm_evidence_cn": "海马空间重映射与神经动力学关联阿尔茨海默病中的空间记忆编码",
+      "llm_evidence": "海马空间重映射与神经动力学关联阿尔茨海默病中的空间记忆编码",
+      "canonical_evidence": "海马空间重映射与神经动力学关联阿尔茨海默病中的空间记忆编码",
+      "llm_tldr_en": "This study in an AD rat model dissociates impaired explicit spatial remapping from preserved implicit neural dynamics, suggesting intrinsic temporal firing structure may support residual spatial learning and memory.",
+      "llm_tldr_cn": "阿尔茨海默病中海马空间重映射受损，但空间学习与记忆可部分保留，机制尚未定论。本研究利用AppNL-G-F大鼠模型纵向记录海马神经元活动，发现外在空间重映射受损与内在神经动力学的保留可分离，推测内源性时间放电结构仍能促进新空间信息的编码，为认知弹性和空间记忆保留提供了神经机制解释。",
+      "llm_tldr": "阿尔茨海默病中海马空间重映射受损，但空间学习与记忆可部分保留，机制尚未定论。本研究利用AppNL-G-F大鼠模型纵向记录海马神经元活动，发现外在空间重映射受损与内在神经动力学的保留可分离，推测内源性时间放电结构仍能促进新空间信息的编码，为认知弹性和空间记忆保留提供了神经机制解释。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "spatial long-term memory mechanisms and models in cognitive systems",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "biorxiv-10-1101-2025-03-20-644317-v2",
+      "source": "biorxiv",
+      "title": "Neural drift during rest drives walking direction and memory consolidation in Drosophila",
+      "abstract": "Heading information is represented in head direction systems across species, including Drosophila. However, how navigation decisions are made and how goal memories are represented, particularly during rest, is little understood. Here, using a navigation learning assay for flies walking in virtual reality, we describe neural dynamics for direction selection and memory. Neurons in the fan-shaped body, a navigation and memory related structure, continually drift when the animal is at rest, shifted by 180{whitebullet} compared to walking directions. Optogenetic activation during rest biases subsequent walking direction. Learning leads to changes in drift during rest, revealing a memory of goal direction. Downstream neurons correct the 180{whitebullet} shift, therefore reactivating walking directions during rest. The connectome reveals a compact circuit architecture for reactivation, as validated using computational modeling. Thus, drift drives behavior, reactivates walking directions during rest, and is shaped by memory, suggesting similarities for memory consolidation in navigation circuits across species.",
+      "authors": [
+        "Flores-Valle, A.",
+        "Honnef, R.",
+        "Seelig, J. D."
+      ],
+      "primary_category": "neuroscience",
+      "categories": [
+        "neuroscience"
+      ],
+      "published": "2026-07-19T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.1101/2025.03.20.644317v2.full.pdf",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "goal-direction memory and navigation decision dynamics during rest",
+      "llm_evidence_cn": "静息期目标方向记忆与导航决策神经动力学",
+      "llm_evidence": "静息期目标方向记忆与导航决策神经动力学",
+      "canonical_evidence": "静息期目标方向记忆与导航决策神经动力学",
+      "llm_tldr_en": "In Drosophila, fan-shaped body neurons drift during rest, opposite to walking direction; optogenetics biases direction and learning reshapes drift, revealing goal-memory consolidation for navigation.",
+      "llm_tldr_cn": "果蝇头方向系统如何在小憩时编码目标记忆并影响行走方向仍不清楚。通过虚拟现实导航学习实验，发现扇形体神经元在静息期持续漂移，其方向与行走方向相差180度；光遗传激活可偏置后续行走方向。学习会改变静息期漂移，从而形成目标方向记忆。该工作揭示了静息期神经活动对导航记忆巩固和行为选择的重要作用。",
+      "llm_tldr": "果蝇头方向系统如何在小憩时编码目标记忆并影响行走方向仍不清楚。通过虚拟现实导航学习实验，发现扇形体神经元在静息期持续漂移，其方向与行走方向相差180度；光遗传激活可偏置后续行走方向。学习会改变静息期漂移，从而形成目标方向记忆。该工作揭示了静息期神经活动对导航记忆巩固和行为选择的重要作用。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "spatial long-term memory mechanisms and models in cognitive systems",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

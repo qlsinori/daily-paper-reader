@@ -1,6 +1,325 @@
 {
-  "generated_at": "2026-08-06T03:44:13.011555+00:00",
-  "updated_date": "20260728-20260806",
+  "generated_at": "2026-08-06T04:27:03.345754+00:00",
+  "updated_date": "20260708-20260806",
   "carryover_days": 9,
-  "tag_states": {}
+  "tag_states": {
+    "embodied-nav": {
+      "updated_date": "20260708-20260806",
+      "carryover_days": 9,
+      "items": []
+    },
+    "semantic-map": {
+      "updated_date": "20260708-20260806",
+      "carryover_days": 9,
+      "items": [
+        {
+          "id": "biorxiv-10-64898-2026-07-20-739519-v1",
+          "source": "biorxiv",
+          "title": "Coexisting but dissociable place and spatial view codes in the primate hippocampus",
+          "abstract": "In rodents, hippocampal activity is classically described in terms of position-anchored place cells, whereas nonhuman primate work has emphasized spatial view cells, in which activity depends on the region of space being viewed. This contrast has fueled a longstanding debate over whether primate and rodent spatial codes are biologically distinct. We recorded single units in the hippocampus of macaques as they navigated linear tracks in two visually distinct contexts, intermittently making context-dependent object choices. Using a generalized linear model to dissociate position coding from spatial view coding, we identified three coexisting populations in the macaque hippocampus: Position cells, View cells, and Conjunctive cells encoding both variables. Position cells were prevalent and showed rodent-like properties-localized firing, directional tuning, and contextual remapping-even after accounting for visual sampling, whereas View cells stably encoded allocentric visual space. Population decoding confirmed this dissociation at the ensemble level. Robust position codes thus coexist with, yet remain dissociable from, view codes in the primate hippocampus, suggesting that the apparent scarcity of place-like responses in earlier primate work reflects methodological and task-related differences rather than a fundamental species-level divergence.",
+          "authors": [
+            "Shin, S.-H.",
+            "Lim, H.-Y.",
+            "Lee, S.-M.",
+            "Seol, J.-M.",
+            "Lee, B.",
+            "Lee, C.-H.",
+            "Naya, Y.",
+            "Lee, J.",
+            "Lee, I."
+          ],
+          "primary_category": "neuroscience",
+          "categories": [
+            "neuroscience"
+          ],
+          "published": "2026-07-21T00:00:00+00:00",
+          "link": "https://www.biorxiv.org/content/10.64898/2026.07.20.739519v1.full.pdf",
+          "tags": [
+            "keyword:embodied-nav",
+            "keyword:semantic-map",
+            "query:embodied-nav",
+            "query:semantic-map"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "place and spatial view codes in primate hippocampus; spatial cognition memory",
+          "llm_evidence_cn": "灵长类海马中的位置与空间视角编码，空间认知记忆",
+          "llm_evidence": "灵长类海马中的位置与空间视角编码，空间认知记忆",
+          "canonical_evidence": "灵长类海马中的位置与空间视角编码，空间认知记忆",
+          "llm_tldr_en": "Records single units in macaque hippocampus during navigation, dissociating position cells, view cells, and conjunctive cells with a generalized linear model, revealing coexisting place and spatial view codes in primate spatial cognition.",
+          "llm_tldr_cn": "该研究在猕猴海马中记录单神经元活动，使用广义线性模型分离位置编码与空间视角编码，发现位置细胞、视角细胞和联合细胞三类共存群体，表明灵长类海马同时存在基于位置的记忆与基于空间视角的记忆。这为空间长期记忆的编码与提取机制提供了新的证据，也调和了啮齿类与灵长类空间编码差异的争论。",
+          "llm_tldr": "该研究在猕猴海马中记录单神经元活动，使用广义线性模型分离位置编码与空间视角编码，发现位置细胞、视角细胞和联合细胞三类共存群体，表明灵长类海马同时存在基于位置的记忆与基于空间视角的记忆。这为空间长期记忆的编码与提取机制提供了新的证据，也调和了啮齿类与灵长类空间编码差异的争论。",
+          "llm_tags": [
+            "query:semantic-map"
+          ],
+          "matched_query_tag": "query:semantic-map",
+          "matched_query_text": "place memory and scene recognition in spatial cognition",
+          "matched_requirement_id": "req-13",
+          "selection_source": "carryover_cache",
+          "paper_id": "biorxiv-10-64898-2026-07-20-739519-v1",
+          "carry_days": 1
+        },
+        {
+          "id": "biorxiv-10-64898-2026-07-16-738868-v1",
+          "source": "biorxiv",
+          "title": "Hippocampal-midcingulate connectivity is associated with representational integration during cognitive map updating",
+          "abstract": "Cognitive maps organize experience into structured internal models that support goal-directed behavior. Although map formation has been extensively studied in the human hippocampus, the neural mechanisms supporting flexible updating of established maps remain unclear. We used fMRI to track the formation and updating of a spatial cognitive map across three days. Participants learned object-location associations and later updated them by remapping objects among fixed locations. Representational similarity analysis revealed two concurrent signatures in the right hippocampus: prior relational structure remained differentiated, whereas updated associations became integrated. Map updating engaged a frontoparietal network and modulated hippocampal-cortical connectivity. Critically, hippocampal-midcingulate connectivity was associated with the integration of updated associations, but not with the differentiation of prior relational structure. These results suggest that cognitive map updating involves coordinated hippocampal-cortical interactions that incorporate new information while preserving prior relational structure, reflecting a balance of stability and plasticity in internal models.",
+          "authors": [
+            "Fu, J.",
+            "Huang, C.",
+            "Wang, R.",
+            "Hasegawa, I.",
+            "Jimura, K.",
+            "Nakahara, K."
+          ],
+          "primary_category": "neuroscience",
+          "categories": [
+            "neuroscience"
+          ],
+          "published": "2026-07-17T00:00:00+00:00",
+          "link": "https://www.biorxiv.org/content/10.64898/2026.07.16.738868v1.full.pdf",
+          "tags": [
+            "keyword:embodied-nav",
+            "keyword:semantic-map",
+            "query:embodied-nav",
+            "query:semantic-map"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "fMRI study of representational integration during spatial cognitive map updating, directly addressing spatial long-term memory mechanisms in cognitive systems",
+          "llm_evidence_cn": "利用fMRI研究空间认知地图更新中的表征整合，直接涉及认知系统中的空间长期记忆机制",
+          "llm_evidence": "利用fMRI研究空间认知地图更新中的表征整合，直接涉及认知系统中的空间长期记忆机制",
+          "canonical_evidence": "利用fMRI研究空间认知地图更新中的表征整合，直接涉及认知系统中的空间长期记忆机制",
+          "llm_tldr_en": "This fMRI study tracks cognitive map formation and updating across three days, showing hippocampal representational integration and frontoparietal engagement during flexible map updating.",
+          "llm_tldr_cn": "该研究采用fMRI在三天的学习过程中追踪空间认知地图的形成与更新，参与者学习物体-位置关联后通过重映射更新地图。表征相似性分析发现右侧海马同时保留先前关系结构与整合新关联两种信号，更新过程还涉及额顶叶及扣带回区域。结果表明海马-中扣带回连接与表征整合相关，揭示了认知地图灵活更新的神经机制，为理解空间长期记忆的动态更新提供了重要证据。",
+          "llm_tldr": "该研究采用fMRI在三天的学习过程中追踪空间认知地图的形成与更新，参与者学习物体-位置关联后通过重映射更新地图。表征相似性分析发现右侧海马同时保留先前关系结构与整合新关联两种信号，更新过程还涉及额顶叶及扣带回区域。结果表明海马-中扣带回连接与表征整合相关，揭示了认知地图灵活更新的神经机制，为理解空间长期记忆的动态更新提供了重要证据。",
+          "llm_tags": [
+            "query:semantic-map"
+          ],
+          "matched_query_tag": "query:semantic-map",
+          "matched_query_text": "spatial long-term memory mechanisms and models in cognitive systems",
+          "matched_requirement_id": "req-10",
+          "selection_source": "carryover_cache",
+          "paper_id": "biorxiv-10-64898-2026-07-16-738868-v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.17879v1",
+          "source": "arxiv",
+          "title": "Exploratory and Assimilating Reflection: Reflective Recall Cycle for Long-term Memory",
+          "abstract": "LLM-based autonomous agents require external memory to overcome their statelessness and limited context window for long-term interaction and dynamic knowledge reasoning. However, existing memory retrieval methods often lack adaptability and sample efficiency, and struggle to retrieve the right mixture of memories from heterogeneous stores. We propose Exploratory-Assimilating Reflection (EAR), a framework for high initial retrieval performance and sample-efficient adaptation. EAR combines two mechanisms: Exploratory Reflection, which performs iterative search to bootstrap retrieval and collect useful experiences for each query, and Assimilating Reflection, which replays these experiences from an Experience Buffer to refine a global reranker more efficiently than methods relying only on immediate rewards. Experiments show that EAR improves retrieval by up to 17.9% over the baseline retriever on two long-term dialogue benchmarks. We also show that EAR is highly sample-efficient and robust to noisy feedback.",
+          "authors": [
+            "Ganesh Senrayan",
+            "Moyuru Yamada",
+            "Ishan Jindal",
+            "Kiran Purohit"
+          ],
+          "primary_category": "cs.AI",
+          "categories": [
+            "cs.AI"
+          ],
+          "published": "2026-07-20T12:30:17+00:00",
+          "link": "https://arxiv.org/pdf/2607.17879v1",
+          "tags": [
+            "keyword:embodied-nav",
+            "keyword:semantic-map",
+            "query:embodied-nav",
+            "query:semantic-map"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Long-term memory architecture with reflective recall for LLM agents",
+          "llm_evidence_cn": "面向LLM智能体的长期记忆架构与反思回召",
+          "llm_evidence": "面向LLM智能体的长期记忆架构与反思回召",
+          "canonical_evidence": "面向LLM智能体的长期记忆架构与反思回召",
+          "llm_tldr_en": "EAR combines exploratory and assimilating reflection to improve long-term memory retrieval for LLM agents, enabling sample-efficient adaptation and better mixture of memories.",
+          "llm_tldr_cn": "该文针对LLM智能体长期记忆检索缺乏适应性和样本效率的问题，提出探索-同化反思（EAR）框架。探索性反思通过迭代搜索为每次查询引导检索并积累经验，同化性反思则利用经验缓冲区重放这些经验以改进全局重排。该方法在初始检索性能和样本高效适应方面均有提升，使智能体能够从异构记忆库中获取正确的记忆混合，增强长期交互中的知识动态推理能力。",
+          "llm_tldr": "该文针对LLM智能体长期记忆检索缺乏适应性和样本效率的问题，提出探索-同化反思（EAR）框架。探索性反思通过迭代搜索为每次查询引导检索并积累经验，同化性反思则利用经验缓冲区重放这些经验以改进全局重排。该方法在初始检索性能和样本高效适应方面均有提升，使智能体能够从异构记忆库中获取正确的记忆混合，增强长期交互中的知识动态推理能力。",
+          "llm_tags": [
+            "query:semantic-map"
+          ],
+          "matched_query_tag": "query:semantic-map",
+          "matched_query_text": "long-term memory architecture for continual learning and recall",
+          "matched_requirement_id": "req-12",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.17879v1",
+          "carry_days": 1
+        },
+        {
+          "id": "biorxiv-10-64898-2026-07-09-737618-v1",
+          "source": "biorxiv",
+          "title": "Spatial and temporal representations are organized along a stable coding gradient in the medial entorhinal cortex",
+          "abstract": "The medial entorhinal cortex (MEC) has classically been viewed as a spatial coding region, but growing evidence indicates that it also contains temporal representations. However, how spatial and temporal codes are organized within the MEC remains unclear. Here we recorded MEC neurons with high-density silicon probes while mice performed a MEC-dependent timing task and a virtual reality spatial navigation task in a similar head-fixed setup. We found that spatial and temporal representations were partially overlapping but systematically biased across the MEC population. Grid cells and non-grid cells with strong spatial tuning were less likely to show reliable time-locked activity during the timing task. In contrast, neurons with weaker spatial tuning more flexibly shifted their coding scheme to temporal coding during timing task. Moreover, spatial tuning strength and its negative relationship with temporal tuning were preserved in a distinct open field environment, indicating that the coding preferences of individual neurons are constrained by a stable network-level organization. Together, these findings suggest MEC is organized along a coding gradient, ranging from dedicated stable spatial coding neurons to more flexible spatial or temporal coding neurons which represent information according to cognitive demands.",
+          "authors": [
+            "Lee, H.-W.",
+            "Bowler, J. C.",
+            "Heys, J. G."
+          ],
+          "primary_category": "neuroscience",
+          "categories": [
+            "neuroscience"
+          ],
+          "published": "2026-07-10T00:00:00+00:00",
+          "link": "https://www.biorxiv.org/content/10.64898/2026.07.09.737618v1.full.pdf",
+          "tags": [
+            "keyword:embodied-nav",
+            "keyword:semantic-map",
+            "query:embodied-nav",
+            "query:semantic-map"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "grid cell and temporal representations in medial entorhinal cortex, spatial memory mechanisms",
+          "llm_evidence_cn": "内嗅皮层网格细胞与时空表征，揭示空间记忆的神经机制",
+          "llm_evidence": "内嗅皮层网格细胞与时空表征，揭示空间记忆的神经机制",
+          "canonical_evidence": "内嗅皮层网格细胞与时空表征，揭示空间记忆的神经机制",
+          "llm_tldr_en": "Recording MEC neurons during timing and spatial navigation tasks reveals spatial and temporal representations are partially overlapping but systematically biased, clarifying neural organization of spatial-temporal coding.",
+          "llm_tldr_cn": "内侧内嗅皮层被经典视为空间编码区域，但其时间表征与空间编码的组织关系尚不清楚。该研究用高密度硅探针记录小鼠在计时任务与虚拟现实空间导航任务中的神经元活动，发现时空表征部分重叠但存在系统性偏向。空间调谐强的网格或非网格细胞不易在计时任务中产生可靠时间锁定活动。研究为理解空间-时间记忆在大脑中的组织提供了新的证据。",
+          "llm_tldr": "内侧内嗅皮层被经典视为空间编码区域，但其时间表征与空间编码的组织关系尚不清楚。该研究用高密度硅探针记录小鼠在计时任务与虚拟现实空间导航任务中的神经元活动，发现时空表征部分重叠但存在系统性偏向。空间调谐强的网格或非网格细胞不易在计时任务中产生可靠时间锁定活动。研究为理解空间-时间记忆在大脑中的组织提供了新的证据。",
+          "llm_tags": [
+            "query:semantic-map"
+          ],
+          "matched_query_tag": "query:semantic-map",
+          "matched_query_text": "spatial long-term memory mechanisms and models in cognitive systems",
+          "matched_requirement_id": "req-10",
+          "selection_source": "carryover_cache",
+          "paper_id": "biorxiv-10-64898-2026-07-09-737618-v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.21571v1",
+          "source": "arxiv",
+          "title": "Beyond Episodic Evaluation: Memory Architectural Bottlenecks in Sequential Embodied Question Answering",
+          "abstract": "Embodied question answering (EQA) is traditionally evaluated under an episodic formulation, where agents solve each task independently and reset internal state between episodes. However, real-world robots operate continuously and must accumulate, retain, and selectively reuse information acquired from prior interactions. Despite this practical requirement, the architectural mechanisms needed to support sequential memory in EQA remain underexplored. In this work, we investigate how different memory architectures behave when EQA agents are evaluated sequentially, with multiple questions answered in the same scene while memory is carried forward across queries. We find that simply preserving existing memory is often insufficient. Agents that retain only traversability information, such as 2D occupancy maps, remember where the robot has explored but not the visual-semantic evidence needed for later questions. Agents trained on short-horizon episodic data face a different challenge: when exposed to continuous, multi-query histories, their inherited context suffers from severe temporal mismatch, rather than forming a reusable scene representation. To overcome this architectural bottleneck, we highlight the necessity of structured, spatially grounded memory: architectures that map persistent visual observations onto metric 3D geometry preserve visual-semantic evidence in a coherent scene representation. Extensive experiments in simulated environments reveal that this form of memory breaks the accuracy-efficiency tradeoff in sequential settings, simultaneously achieving higher answer accuracy and lower navigation costs. We further validate these findings on a real-world mobile robot, demonstrating that spatially grounded visual memory is critical for enabling continuous, intelligent operation in physical environments.",
+          "authors": [
+            "Zikui Cai",
+            "Kaushal Janga",
+            "Tan Dat Dao",
+            "Seungjae Lee",
+            "Shivin Dass",
+            "Mingyo Seo",
+            "Kaiyu Yue",
+            "Mintong Kang",
+            "Nandhu Pillai",
+            "Monte Hoover",
+            "Aadi Palnitkar",
+            "Ruchit Rawal",
+            "Ruijie Zheng",
+            "Bo Li",
+            "Yuke Zhu",
+            "Roberto Martín-Martín",
+            "Tom Goldstein",
+            "Furong Huang"
+          ],
+          "primary_category": "cs.RO",
+          "categories": [
+            "cs.RO"
+          ],
+          "published": "2026-07-23T17:50:45+00:00",
+          "link": "https://arxiv.org/pdf/2607.21571v1",
+          "tags": [
+            "keyword:embodied-nav",
+            "keyword:semantic-map",
+            "query:embodied-nav",
+            "query:semantic-map"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "investigates memory architectures for sequential embodied question answering with memory carried across episodes",
+          "llm_evidence_cn": "研究连续具身问答中的记忆架构，探讨跨查询保留与重用信息",
+          "llm_evidence": "研究连续具身问答中的记忆架构，探讨跨查询保留与重用信息",
+          "canonical_evidence": "研究连续具身问答中的记忆架构，探讨跨查询保留与重用信息",
+          "llm_tldr_en": "Embodied question answering is usually evaluated episodically. This paper evaluates agents sequentially with memory carried across queries, finding that simply preserving existing memory is often insufficient and identifying architectural bottlenecks that must be addressed for continuous lifelong operation.",
+          "llm_tldr_cn": "具身问答通常在单回合情境下评测，但真实机器人需要连续积累和复用信息。本研究在连续问答中评估不同记忆架构，发现简单地保留既有记忆往往不够，记忆架构的瓶颈会限制连续操作。作者认为需要在架构层面设计更好的记忆读写与更新机制，并指出跨查询的记忆选择与遗忘策略是关键。这项工作为构建可长期运行的具身智能体提供了重要启示。",
+          "llm_tldr": "具身问答通常在单回合情境下评测，但真实机器人需要连续积累和复用信息。本研究在连续问答中评估不同记忆架构，发现简单地保留既有记忆往往不够，记忆架构的瓶颈会限制连续操作。作者认为需要在架构层面设计更好的记忆读写与更新机制，并指出跨查询的记忆选择与遗忘策略是关键。这项工作为构建可长期运行的具身智能体提供了重要启示。",
+          "llm_tags": [
+            "query:semantic-map"
+          ],
+          "matched_query_tag": "query:semantic-map",
+          "matched_query_text": "long-term memory architecture for continual learning and recall",
+          "matched_requirement_id": "req-12",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.21571v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.29440v1",
+          "source": "arxiv",
+          "title": "Beyond Retrieval: Analytic Memory for Multimodal Agents",
+          "abstract": "Long-term multimodal memory must support not only retrieving relevant information but also computing over observations accumulated across interactions. Existing systems largely emphasize \\emph{retrieval memory}, organizing interaction histories through summaries and indexes to return query-relevant information at multiple granularities, from high-level abstractions to underlying records. In this paper, we formulate \\emph{analytic memory} as a complementary abstraction that organizes recurring multimodal observations into queryable structures supporting filtering, aggregation, ranking, and temporal comparison. We present AdaMM, a framework that jointly supports retrieval and analytic memory. Rather than relying on application-defined schemas, AdaMM extracts provenance-linked attribute-value observations from dialogue, images, and contextual metadata, discovers recurring field structures, and materializes them for analytical access. At inference time, a memory-aware planner decomposes queries into retrieval and analytic operations and routes each operation to the appropriate tools. Experiments on two long-term multimodal memory benchmarks, MemEye and MemGallery, show that AdaMM improves performance by up to 11.3\\% and 7.3\\%, respectively.",
+          "authors": [
+            "Zhoujin Tian",
+            "Yao Tian",
+            "Hao Zhang",
+            "Cheng Chen",
+            "Yakun Li",
+            "Lei Zhang",
+            "Xiaofang Zhou"
+          ],
+          "primary_category": "cs.AI",
+          "categories": [
+            "cs.AI"
+          ],
+          "published": "2026-07-31T14:07:12+00:00",
+          "link": "https://arxiv.org/pdf/2607.29440v1",
+          "tags": [
+            "keyword:embodied-nav",
+            "keyword:semantic-map",
+            "query:embodied-nav",
+            "query:semantic-map"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "analytic memory framework for long-term multimodal memory supporting queryable structures and temporal comparison",
+          "llm_evidence_cn": "面向长期多模态记忆的分析记忆框架，支持过滤、聚合、排序与时间比较",
+          "llm_evidence": "面向长期多模态记忆的分析记忆框架，支持过滤、聚合、排序与时间比较",
+          "canonical_evidence": "面向长期多模态记忆的分析记忆框架，支持过滤、聚合、排序与时间比较",
+          "llm_tldr_en": "AdaMM frames analytic memory as a complementary abstraction to retrieval memory, organizing recurring multimodal observations into queryable structures that support filtering, aggregation, ranking, and temporal comparison.",
+          "llm_tldr_cn": "现有长期多模态记忆系统多侧重检索式记忆，难以对累积观察进行计算。该工作提出分析记忆（analytic memory）这一抽象，将重复出现的多模态观察组织成可查询结构，支持过滤、聚合、排序和时间比较。并给出AdaMM框架，联合支持检索记忆与分析记忆。该框架无需应用自定义模式，可自动提取来源信息。这为长期记忆智能体的结构化记忆利用提供了新思路。",
+          "llm_tldr": "现有长期多模态记忆系统多侧重检索式记忆，难以对累积观察进行计算。该工作提出分析记忆（analytic memory）这一抽象，将重复出现的多模态观察组织成可查询结构，支持过滤、聚合、排序和时间比较。并给出AdaMM框架，联合支持检索记忆与分析记忆。该框架无需应用自定义模式，可自动提取来源信息。这为长期记忆智能体的结构化记忆利用提供了新思路。",
+          "llm_tags": [
+            "query:semantic-map"
+          ],
+          "matched_query_tag": "query:semantic-map",
+          "matched_query_text": "long-term memory architecture for continual learning and recall",
+          "matched_requirement_id": "req-12",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.29440v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.23797v1",
+          "source": "arxiv",
+          "title": "Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map",
+          "abstract": "A robot carrying a persistent, behavior-annotated map faces two planning questions, and its memory answers only one well. The \\emph{spatial-navigation} question -- how to walk around a room -- we address first and report a negative: building on Vision--Language--Motion Maps (VLMM), a behavior-aware planner cost cuts a planning-time objective by $\\sim$35\\% over 28 AI2-THOR scenes, but under closed-loop execution the real benefit nearly vanishes ($\\sim$4\\%) and an on-demand vision--language model (VLM) does as well. The \\emph{resource-allocation} question differs: under a limited perception budget, what should the robot re-observe now to keep its map fresh? Framing re-perception as this attention decision, we show a persistent map's memory (change-history, or even just recency of last sighting) yields the best schedule (held-out), matching an oracle, while the memoryless VLM prior is poor. Because the schedule reallocates budget toward what matters, memory's benefit concentrates on the important objects ($\\sim$1.6$\\times$ the mean), and a downstream fetch task confirms fewer wasted trips; the gain grows with per-instance heterogeneity exactly as a Cauchy--Schwarz bound predicts -- it equals $\\mathrm{Var}(\\sqrtλ)$, the variance of root-volatility. With a real CLIP prior on rendered objects the advantage is $+21$--$26\\%$. The map's distinctive value appears when the task is \\emph{language-conditioned}: told what to track, VLMM grounds the relevant objects (open-vocabulary) and tracks their change (memory), beating even a strong relevance-weighted recency baseline ($+2.5\\%$) -- so its motion channel adds value beyond a last-seen timestamp -- and an on-demand VLM ($+8.9\\%$); neither language nor dynamics alone suffices. The map earns its keep not by telling the robot how to walk around a room, but by telling it what to pay attention to.",
+          "authors": [
+            "Dibyendu Ghosh"
+          ],
+          "primary_category": "cs.RO",
+          "categories": [
+            "cs.RO"
+          ],
+          "published": "2026-07-26T18:49:54+00:00",
+          "link": "https://arxiv.org/pdf/2607.23797v1",
+          "tags": [
+            "keyword:embodied-nav",
+            "keyword:semantic-map",
+            "query:embodied-nav",
+            "query:semantic-map"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "persistent semantic map representation for navigation and environment understanding",
+          "llm_evidence_cn": "用于导航与环境理解的持久语义图表示",
+          "llm_evidence": "用于导航与环境理解的持久语义图表示",
+          "canonical_evidence": "用于导航与环境理解的持久语义图表示",
+          "llm_tldr_en": "Introduces a vision-language-motion map as persistent spatial memory for a robot, showing a behavior-aware planner improves planning-time objective but under closed-loop execution the gain nearly vanishes; re-perception is framed as an attention decision.",
+          "llm_tldr_cn": "针对机器人携带持久行为标注地图时面临的空间导航与资源分配问题，构建视觉-语言-运动图作为持久空间记忆。实验显示基于行为感知的地图在规划代价上降低约35%，但在闭环执行中实际收益仅约4%，而按需视觉语言模型也能达到类似效果。研究将再感知问题重新定义为注意力决策，以在有限感知预算下决定何时重新观察以保持地图新鲜。",
+          "llm_tldr": "针对机器人携带持久行为标注地图时面临的空间导航与资源分配问题，构建视觉-语言-运动图作为持久空间记忆。实验显示基于行为感知的地图在规划代价上降低约35%，但在闭环执行中实际收益仅约4%，而按需视觉语言模型也能达到类似效果。研究将再感知问题重新定义为注意力决策，以在有限感知预算下决定何时重新观察以保持地图新鲜。",
+          "llm_tags": [
+            "query:semantic-map"
+          ],
+          "matched_query_tag": "query:semantic-map",
+          "matched_query_text": "semantic map representation for navigation and environment understanding",
+          "matched_requirement_id": "req-8",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.23797v1",
+          "carry_days": 1
+        }
+      ]
+    }
+  }
 }
