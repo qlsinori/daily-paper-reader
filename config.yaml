@@ -25,3 +25,112 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: embodied-nav
+      description: 请查找有关视觉语言导航（VLN）、点目标导航（PointNav）和物体目标导航（ObjectNav）的文章
+      enabled: true
+      paper_sources:
+        - arxiv
+        - biorxiv
+      keywords:
+        - keyword: vision language navigation
+          keyword_cn: 视觉语言导航
+          query: vision language navigation following natural language instructions
+        - keyword: point goal navigation
+          keyword_cn: 点目标导航
+          query: point goal navigation reaching target coordinates
+        - keyword: object goal navigation
+          keyword_cn: 物体目标导航
+          query: object goal navigation locating target object category
+        - keyword: embodied navigation
+          keyword_cn: 具身导航
+          query: embodied navigation agent in simulated environments
+        - keyword: instruction following navigation
+          keyword_cn: 指令跟随导航
+          query: navigation from natural language instructions
+      intent_queries:
+        - query: How do agents perform vision language navigation using natural language instructions?
+          query_cn: 智能体如何利用自然语言指令进行视觉语言导航？
+          enabled: true
+          source: manual
+          note: ''
+        - query: Which models achieve state of the art results on embodied navigation benchmarks?
+          query_cn: 哪些模型在具身导航基准上取得了最佳结果？
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-08-06T04:04:53.412Z'
+    - tag: semantic-map
+      description: 查找有关语义地图、空间长期记忆及其在智能体导航中应用的学术文章。
+      enabled: true
+      paper_sources:
+        - arxiv
+        - biorxiv
+      keywords:
+        - keyword: semantic map
+          keyword_cn: 语义地图
+          query: semantic map representation for navigation and environment understanding
+        - keyword: room segmentation
+          keyword_cn: 房间分割
+          query: room segmentation from floor plans and point clouds
+        - keyword: spatial long-term memory
+          keyword_cn: 空间长期记忆
+          query: spatial long-term memory mechanisms and models in cognitive systems
+        - keyword: spatial memory
+          keyword_cn: 空间记忆
+          query: spatial memory encoding and retrieval in artificial intelligence
+        - keyword: long-term memory
+          keyword_cn: 长期记忆
+          query: long-term memory architecture for continual learning and recall
+        - keyword: place memory
+          keyword_cn: 地点记忆
+          query: place memory and scene recognition in spatial cognition
+      intent_queries:
+        - query: How to build a semantic map of rooms for long term robot navigation?
+          query_cn: 如何为长期机器人导航构建房间语义地图？
+          enabled: true
+          source: manual
+          note: ''
+        - query: How are semantic maps constructed and used for spatial long term memory in intelligent agents?
+          query_cn: 智能体如何构建语义地图并用于空间长期记忆？
+          enabled: true
+          source: manual
+          note: ''
+        - query: What methods integrate semantic scene understanding with long term spatial memory?
+          query_cn: 哪些方法将语义场景理解与空间长期记忆相结合？
+          enabled: true
+          source: manual
+          note: ''
+        - query: Find papers on cognitive maps and semantic memory for robot navigation.
+          query_cn: 查找关于认知地图和语义记忆用于机器人导航的论文。
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-08-06T04:10:08.296Z'
+source_backends:
+  arxiv:
+    papers_table: arxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_arxiv_papers
+    vector_rpc_exact: match_arxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_arxiv_papers_bm25
+    sync_table: arxiv_sync_status
+    sync_success_value: success
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
+  biorxiv:
+    papers_table: biorxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_biorxiv_papers_exact
+    vector_rpc_exact: match_biorxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_biorxiv_papers_bm25
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
