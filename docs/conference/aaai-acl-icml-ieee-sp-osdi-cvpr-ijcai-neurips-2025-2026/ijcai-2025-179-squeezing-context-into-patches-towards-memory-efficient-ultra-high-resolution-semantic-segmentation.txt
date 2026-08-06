@@ -1,0 +1,335 @@
+Title: Squeezing Context into Patches: Towards Memory-Efficient Ultra-High Resolution Semantic Segmentation
+
+URL Source: https://www.ijcai.org/proceedings/2025/0179.pdf
+
+Published Time: Thu, 18 Sep 2025 12:21:31 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# Squeezing Context into Patches: Towards Memory-Efficient Ultra-High Resolution Semantic Segmentation 
+
+# Wang Liu 1 , Puhong Duan 2 , Xudong Kang 2∗ and Shutao Li 1,21College of Electrical and Information Engineering, Hunan University, China 
+
+> 2
+
+# School of Robotics, Hunan University, China liuwa@hnu.edu.cn, puhong duan@hnu.edu.cn, xudong kang@163.com, shutao li@hnu.edu.cn 
+
+# Abstract 
+
+Segmenting ultra-high-resolution (UHR) images poses a significant challenge due to constraints on GPU memory, leading to a trade-off between de-tailed local information and a comprehensive con-textual understanding. Current UHR methods of-ten employ a multi-branch encoder to handle local and contextual information, which can be memory-intensive. To address the need for both high ac-curacy and low memory usage in processing UHR images, we introduce a memory-efficient semantic segmentation approach by squeezing context infor-mation into local patches (SCPSeg). Our method integrates the processing of local and contextual in-formation within a single-branch encoder. Specif-ically, we introduce a context squeezing module (CSM) designed to compress global context de-tails into local patches, enabling segmentation net-works to perceive broader image contexts. Addi-tionally, we propose a super-resolution guided lo-cal feature alignment (LFA) technique to improve segmentation precision by aligning local feature relationships. This approach calculates similari-ties within sliding windows, avoiding heavy com-putational costs during the training phase. We evaluate the effectiveness of our proposed method on four widely used UHR segmentation bench-marks. Experimental results demonstrate that our approach enhances UHR segmentation accuracy without incurring additional memory overhead dur-ing the inference stage. The code is available at https://github.com/StuLiu/SCPSeg. 
+
+# 1 Introduction 
+
+Semantic segmentation is a foundational challenge in com-puter vision with applications ranging from land cover map-ping in remote sensing to object extraction in medical imag-ing and scene parsing in autonomous driving. Deep learn-ing approaches have shown impressive performance in recent years [Azad et al. , 2024; Badrinarayanan et al. , 2017]. How-ever, the increasing resolution of images captured by mod-
+
+> ∗Corresponding Author
+
+ern sensors presents a significant obstacle to semantic seg-menting ultra-high-resolution images (UHRSS) on memory-constrained edge devices [Zhu et al. , 2024]. Our focus is on developing an accurate and memory-efficient UHRSS method tailored to the limitations of edge equipment, offer-ing a promising solution for this challenging scenario. To address the above challenge, the downscaling paradigm is employed, which involves resizing the UHR images to a more manageable size before feeding them into the seg-menter. However, this approach leads to coarse predictions due to the loss of fine-grained detail [Minaee et al. , 2022]. An alternative is the stride inference paradigm, which works by cropping image patches from the original UHR image and processing these patches individually. While this method pre-serves more detail, it suffers from insufficient contextual in-formation. Ultimately, both strategies fail to strike a balance between detail preservation and context utilization. In recent years, various advanced methods have been pro-posed to address the trade-off between local detail preserva-tion and the need for global context understanding in pars-ing UHR images. These methods can be categorized into detail refinement [Huynh et al. , 2021; Cheng et al. , 2020], shallow and deep fusion [Guo et al. , 2022; Ji et al. , 2023b; Ji et al. , 2023a], and cropped global and local fusion [Li et al. , 2021; Ding et al. , 2022; Zhang et al. , 2024; Zhu et al. ,2024], as depicted in Figure 1 (a)-(d). In the detail refine-ment paradigm, a refining module is introduced to correct the coarse predictions obtained from down-scaled images based on either the detailed output [Huynh et al. , 2021] or global predictions [Cheng et al. , 2020]. However, this approach re-quires pre-processing the global predictions, leading to a high computational cost. The shallow and deep fusion paradigm utilizes a shallow branch to process the original UHR im-ages and a deep segmenter to parse the down-scaled images. The cropped global and local fusion paradigm parses global patches by a shallow branch and the local patches by a deep branch. Despite these paradigms achieving better perfor-mance than generic ones, they still suffer from high memory consumption due to the multi-branch architecture. In this study, we introduce a novel single-branch UHRSS approach that incorporates context information into patches, illustrated in Figure 1 (d). Our method processes images in a single branch akin to slide inference, compressing redundant context surrounding local patches using a Context Squeez-Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI-25) 
+
+> 1603 Figure 1: The architectures of the UHRSS methods. (a) Detail refinement methods. (b) Shallow and deep fusion methods. (c) Cropped global and local fusion methods. (d) Our context squeezing method with a single branch.
+
+ing Module (CSM). By slightly downsizing local patches and squeezing in context data efficiently, our CSM achieves a bal-ance between global context awareness and local detail reten-tion. Additionally, we propose an auxiliary super-resolution decoder (SRD) assisted local feature alignment loss (LFA) to enhance segmenter detail features, aiding in preserving local intricacies when analyzing the squeezed global patch. This approach enhances context and detail information without imposing excessive memory demands during testing, elevat-ing segmentation accuracy for UHR image processing com-pared to conventional methods. The key contributions of this work are as follows: • We introduce SCPSeg, a method for semantic segmenta-tion of UHR images that efficiently incorporates context into local patches within a single branch. • Specifically, we propose a context squeezing module (CSM) to merge global context understanding with lo-cal detail retention effectively. • Furthermore, we employ a multi-task learning strategy and propose a local feature alignment loss to enhance detail preservation within the segmenter. • Through extensive experiments, SCPSeg demonstrates an exceptional balance between memory efficiency and segmentation accuracy, outperforming conventional se-mantic segmentation methods without increasing mem-ory demands during testing. 
+
+# 2 Related Works 
+
+2.1 Generic Semantic Segmentation 
+
+Semantic segmentation has made notable advancements in recent years with the development of convolutional neural networks [He et al. , 2016] and vision transformers [Xie 
+
+et al. , 2021]. Most of these methods follow an encoder-decoder architecture [Ronneberger et al. , 2015] inspired by the first fully convolutional networks for semantic segmen-tation [Long et al. , 2015]. To enhance segmentation accu-racy, several strategies are commonly adopted, including in-creasing the receptive field [Zhao et al. , 2017; Chen et al. ,2018], integrating global and local features [Lin et al. , 2017; Fu et al. , 2019], and maintaining high-resolution branches [Yu et al. , 2018; Sun et al. , 2019; Zhao et al. , 2018]. In efforts to reduce computational costs, numerous real-time semantic segmentation methods have been developed [Pan 
+
+et al. , 2023; Xu et al. , 2023]. These methods typically feature a lightweight encoder [Fan et al. , 2021; Sandler et al. , 2018], an efficient segmentation head [Li et al. , 2020; Xie et al. , 2021], and sometimes an auxiliary training decoder for detailed prediction [Fan et al. , 2021; Zhao et al. , 2018]. However, these generic semantic segmentation methods face challenges related to high memory consumption when pro-cessing UHR images. 
+
+2.2 Semantic Segmentation for UHR Images 
+
+Despite the potential of employing slide inference and im-age down-scaling techniques to alleviate the substantial mem-ory overhead associated with parsing Ultra-High-Resolution (UHR) images, these methods often suffer from decreased ac-curacy due to the loss of contextual information and detail blurring. To address the challenge of achieving both high accuracy and efficient memory utilization for UHR image segmentation, a set of specialized methods has been devel-oped, primarily falling into two categories: detail refinement [Xia et al. , 2016; Cheng et al. , 2020; Huynh et al. , 2021; Kirillov et al. , 2020] and global-local fusion [Zhao et al. ,2018; Chen et al. , 2019; Li et al. , 2021; Guo et al. , 2022; Ji et al. , 2023b; Ji et al. , 2023a]. Detail refinement approaches typically involve segmenting high-resolution scenes in multi-ple stages. For example, the Cascade Segmentation Refine-ment model [Cheng et al. , 2020] generates detailed results by parsing coarse predictions with high-resolution images. Like-wise, MagNet [Huynh et al. , 2021] parses high-resolution im-age patches by integrating low-resolution outputs from pre-ceding stages. However, this iterative refinement paradigm makes them computationally intensive and impractical for real-time applications. Global-local fusion often segments high-resolution images using a multi-branch encoder, where a local branch extracts detailed information, and global patches collect contextual details. For example, recent approaches such as ISDNet [Guo et al. , 2022], FCtL [Li et al. , 2021], and GINet [Zhu et al. , 2024] use lightweight shallow CNNs to extract detailed features in the high-resolution branch and an efficient image encoder for context features in the low-resolution branch. Nevertheless, the incorporation of multi-branches introduces additional computational and memory Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI-25) 
+
+> 1604
+
+Figure 2: The overview of the proposed SCPSeg for RSISS. (a) The training pipeline. (b) The illustration of the proposed context squeezing module. (c) The illustration of the proposed local feature alignment loss. 
+
+costs, posing challenges for deployment on edge devices. 
+
+# 3 Method 
+
+This section outlines the architecture and functionalities of the proposed SCPSeg and its components in detail. 
+
+3.1 Overview of the Proposed Method 
+
+This work presents a novel ultra-high-resolution segmenta-tion approach, named SCPSeg, as illustrated in Figure 2. SCPSeg effectively integrates global context and local details within a single-branch encoder fE, achieving high accuracy with limited memory consumption. The fundamental con-cept behind SCPSeg involves compressing global context in-formation into local patches, enabling the segmentation net-work to sense a broader image field. To facilitate this, we employ a context squeezing module (CSM) that strategically aggregates context information into local patches, ensuring effective utilization of both macro-level context and micro-level details. Furthermore, to enhance the preservation of lo-cal details, we introduce a super-resolution guided local fea-ture alignment technique (LFA), that helps the segmentation decoder yield detailed predictions. Additionally, the single-branch encoder processes ultra-high-resolution (UHR) im-ages in a sliding window manner. A series of global patches 
+
+XG are cropped from the origin UHR image XUHR and fed into the encoder. The overall architecture is optimized using a multi-task learning strategy, which combines segmentation loss LCE , super-resolution loss LSR , and a novel local fea-ture alignment loss LLFA to ensure comprehensive training and achieve optimal performance. 
+
+Figure 3: The illustration of several context-squeezing examples on the ISPRS Potsdam datasets. The green boxes indicate the local images. For each example, the top image is the original context image, and the bottom ones are the local patch and squeezed image. 
+
+3.2 Context Squeezing Module (CSM) 
+
+The CSM is the cornerstone of our proposed SCPSeg frame-work. Its primary function is to compress and integrate global context information into local patches through a series of in-terpolations. The CSM operates on the principle of context compression, where redundant pixels in the global context are removed. This process involves the following steps: Given a square-like global patch XG with size of G where its centric is the local patch XL with size of L. We first resize the local patch to a down-scaled local patch XD:
+
+XD = ∇ (XL) (1) where ∇ () represents the resize operation. Secondly, we squeeze the context information (the blue part in Figure 2 (b)): 
+
+Xp1 C = ∇  stack  X1C, X3C, X7C, X9C
+
+ (2) Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI-25) 
+
+1605 Xp2 C = ∇  stack  X2C, X4C, X6C, X8C
+
+ (3) where stack () indicates the tensor stack operation. Finally, we concatenate the squeezed context Xp1 C , Xp2 C , and the scaled local patch Xcs L to get the final squeezed patch XCS :
+
+XCS = cat 
+
+
+
+Xp1 C , Xp2 C , Xcs L
+
+
+
+(4) where cat () indicates the tensor concatenate operation. The squeezed context and local patch XCS has the same size as the origin local patch XL.The final squeezed patches contain both highly squeezed global context and slightly squeezed local details, providing a comprehensive representation of the image. The effective-ness of the CSM lies in its ability to compress context infor-mation without losing critical details. In this way, the CSM ensures that the segmenter can perceive a larger image field while maintaining high accuracy. This approach is particu-larly beneficial for UHR images, where both global context and local details are essential for accurate segmentation. 
+
+3.3 Local Feature Alignment (LFA) 
+
+To further enhance the preservation of local details, we intro-duce a super-resolution guided local feature alignment tech-nique. This technique leverages the high-resolution details features in the super-resolution decoder (SRD) hSR to guide the alignment of local features in the segmentation decoder 
+
+hSS . The primary goal is to ensure precise alignment of local features, leading to more accurate segmentation outputs. 
+
+Super-resolution Decoding 
+
+For the auxiliary super-resolution task, we utilized several convolutions and de-convolutions to construct the SRD hSR .It decodes the encoded local features and recovers the original high-resolution local patch: 
+
+PSR = hSR (fE (XCS )) (5) where fE is the image encoder. Then, a super-resolution loss is computed between the predicted high-resolution local patch PSR and the real high-resolution local patch XL:
+
+LSR = 1L × L
+
+XL×L 
+
+> i=0
+
+ccrop  Pi
+
+> SR
+
+ − Xi 
+
+> L
+> p=1
+
+(6) where ∥·∥ p=1 is the L1 norm. ccrop () indicates the center-crop function for cut out the features of XL.
+
+Local Feature Aligning 
+
+The features of the SRD contain rich structural information of the original image, although they do not explicitly map the categories. Since computing similarity over all the fea-ture pixels will lead to heavy memory and computational cost, we can effectively model the pixel relationship within sliding windows with a size of k × k. These relationships can implic-itly deliver semantic information, thus benefiting the task of semantic segmentation. Firstly, the segmentation features PSS and super-resolution features PSR are cropped by the slide windows. Then, we compute the self-similarity matrix within the sliding window: 
+
+Si,j = Pi
+
+∥Pi∥p=2 
+
+!T
+
+· Pj
+
+∥Pj ∥p=2 
+
+!
+
+(7) where Si,j indicates the similarity between pixel i and pixel 
+
+j within a sliding window. Besides, PSS = hSS (fE (XCS )) .The decoded features P can be crop( PSS ) and crop( PSR ).At last, to optimize the alignment process, we introduce a lo-cal feature alignment loss to align the features by minimizing the similarity matrixes between slide windows at the same location: 
+
+LLFA = 1
+
+k × k
+
+Xki=0 
+
+Xkj=0 Si,j  
+
+> SR
+
+− Si,j 
+
+> SS
+> p=1
+
+(8) 
+
+3.4 Optimization 
+
+The final objective function is computed as follows: 
+
+L=LCE +w1 × L SR +w2 × L LFA (9) where LCE is the cross-entropy loss for segmentation. LSR 
+
+is the super-reolution loss defined in Equation.6. LLFA is the local feature alignment loss defined in Equation.8. w1 and 
+
+w2 are set as 0.5 and 0.5, making the gradients of the loss components ranges comparable. 
+
+# 4 Experiments 
+
+4.1 Datasets 
+
+We conduct experiments on four UHRSS datasets to compre-hensively evaluate the effectiveness of our proposed method. 
+
+ISPRS Potsdam. This dataset is a land cover mapping dataset collected in an urban area. It contains 38 tiles with the size of 6000 × 6000 . The train , val , and test sets are split to 18 , 6, and 14 tiles following [Zhang et al. , 2024]. The bands of this dataset include red, green, blue, near-infrared, and DSM information. 
+
+BLU. This dataset is collected in urban and rural areas. It contains 4 tiles with the size of 15680 × 15680 . We crop the original URH data into nonoverlapped tiles with resolution 
+
+2048 × 2048 following [Ding et al. , 2022]. It is split into 192 ,
+
+28 , and 32 tiles for training, validating, and testing, respec-tively. 
+
+DeepGlobe. This is a land cover mapping dataset collected in both urban and rural areas. It contains 803 tiles with the size of 2448 ×2448 . We split it into 455 , 142 , and 206 subsets for training, validating, and testing following previous work [Chen et al. , 2019]. 
+
+Inria Aerial. Inria Aerial is a building extraction dataset collected in urban areas. It contains 180 UHR images with 
+
+5000 × 5000 pixels. We split it into 126 , 27 , and 27 subsets for training, validating, and testing following previous work [Chen et al. , 2019]. 
+
+4.2 Evaluation Metrics 
+
+We utilize the mean intersection-of-union (mIoU), mean F1 (mF1), and accuracy (Acc) to assess the effectiveness. The GPU memory cost is monitored by the ”gpustat” tool. Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI-25) 
+
+> 1606
+
+Methods mIoU ↑ mF1 ↑ Acc ↑ Mem ↓
+
+Generic Methods 
+
+FCN-8s † 83.8 91.0 89.4 2447 DeepLabv3+ 83.9 91.1 89.7 5122 PSPNet 82.3 90.0 89.3 6289 ST-UNet 84.5 90.1 - -BiTSRS 75.5 - 83.6 -UNetFormer 84.6 91.6 89.7 4644 GLOTS 82.8 - - -CF-Net 84.1 90.9 89.6 4278 LANet † 83.7 90.7 89.5 2642 
+
+UHR Methods 
+
+GLNet 84.0 90.4 85.6 2663 WiCoNet † 84.1 91.2 89.8 2014 TCNet † 85.0 91.7 90.3 2445 
+
+SCPSeg (ours) † 86.7 92.7 91.0 1818 SCPSeg (ours) 87.6 87.5 91.7 1834 Table 1: Experiment results on ISPRS Potsdam test set. † indicates that FCN-8s with a ResNet50 encoder is used as the basic segmenter. 
+
+4.3 Implementation Details 
+
+We utilize Deeplabv3+ with a ResNet-18-d8 as the basic seg-menter. All the experiments are conducted in a single Nvidia RTX4090. The encoders were pre-trained on the ImageNet-1K dataset. SGD is used to optimize the neural networks. The learning rate is initially set to 0.01 and decayed by a cosine learning rate policy after each iteration. The training iteration number is set to 40000 . The slide window size k in LFA is set to 7. For the ISPRS Potsdam, BLU, and Inria Aerial datasets, we set G = 512 , L = 256 , and D = 192 , respectively. The training batch size is set to 16 . For DeepGlobe datasets, we set G = 1024 , L = 512 , and D = 384 , respectively. The training batch size is set to 8.
+
+4.4 Comparing with Other Methods 
+
+In this section, we compare our method with other state-of-the-art ones including FCN-8s [Long et al. , 2015], DeepLabv3+ [Zhao et al. , 2017], PSPNet [Zhao et al. , 2017], ST-UNet [He et al. , 2022], BiTSRS [Liu et al. , 2023a], UN-etFormer [Libo et al. , 2022], GLOTS [Liu et al. , 2023b], CF-Net [Peng et al. , 2022], LANet [Ding et al. , 2021], GLNet [Chen et al. , 2019], WiCoNet [Ding et al. , 2022], TCNet [Zhang et al. , 2024], U-Net [Ronneberger et al. , 2015], ICNet [Zhao et al. , 2018], BiseNetv1[Yu et al. , 2018], STDC [Fan 
+
+et al. , 2021], CascadePSP [Cheng et al. , 2020], PointRend [Kirillov et al. , 2020], MagNet [Huynh et al. , 2021], ISD-Net [Guo et al. , 2022], FCtL [Li et al. , 2021], WSDNet [Ji 
+
+et al. , 2023b], and GINet [Zhu et al. , 2024] on ISPRS Pots-dam, BLU, DeepGlobe, and Inria Aerial, in terms of mIoU (%), mF1 (%), OA (%), Mem (M). Some of these meth-ods are generic semantic segmentation methods denoted as ”Generic Methods” and the other methods are specially de-signed for UHR images, denoted as ”UHR Methods”. The generic methods tagged by ”*” are tested in the slide infer-ence mode. 
+
+Methods mIoU ↑ mF1 ↑ Acc ↑ Mem ↓
+
+Generic Methods 
+
+FCN-8s † 70.1 81.9 86.5 2447 DeepLabv3+ 68.2 80.4 86.3 5122 PSPNet 70.4 82.2 86.7 6289 ST-UNet 68.2 80.4 - -CF-Net 70.7 82.3 86.9 4278 LANet 70.4 82.1 86.5 2642 
+
+UHR Methods 
+
+GLNet 70.5 82.2 - 2663 WiCoNet † 71.0 82.5 87.0 2014 TCNet † 71.6 82.9 87.4 2445 
+
+SCPSeg (ours) † 71.1 82.6 87.2 1818 SCPSeg (ours) 71.9 83.5 87.9 1834 Table 2: Experiment results on BLU test set. † indicates that FCN-8s with a ResNet50 backbone is utilized as the basic segmenter. 
+
+Results on the ISPRS Potsdam Dataset. We compare our SCPSeg with the aforementioned methods on the ISPRS Potsdam testing set. Due to the high inter-class similar-ity between buildings and impervious surfaces, this dataset poses significant challenges. Table 1 presents the perfor-mance of each semantic segmentation method. The experi-ments demonstrate that our method outperformed all others in terms of mean Intersection over Union (mIoU), mean F1 score (mF1), and overall accuracy (Acc). Specifically, we sur-pass the UHRSS methods (GLNet, WiCoNet, and TCNet) by substantial margins, clearly demonstrating the effectiveness of our segmentation approach and the improvements in per-formance. Additionally, we evaluate memory usage during the testing phase, and the experimental results indicate that our approach achieves the highest scores among all models in this regard. With such impressive performance, our method strikes an excellent balance between accuracy and memory cost. 
+
+Results on the BLU Dataset. Table 2 presents the per-formance metrics for both generic and UHRSS methods on the BLU dataset. In all evaluation scenarios, our approach demonstrated the highest accuracy coupled with the low-est memory usage. Overall, the UHRSS methods consis-tently outperformed the generic methods, highlighting the ad-vantages of utilizing extensive contextual information in se-mantic segmentation tasks. Notably, our method surpassed the performance of the cropped global and local fusion ap-proach, WiCoNet and TCNet, indicating the effectiveness of our context-squeezing strategy, which achieves superior re-sults with lower memory requirements compared to this ar-chitecture. 
+
+Results on the DeepGlobe Dataset. As shown in Table 3, we first compare our method with the above-mentioned meth-ods on the DeepGlobe testing set. The WSDNet achieves the best performance because it encodes the whole image which contains all the context information. Our method achieves comparable results to other UHRSS methods. With such im-pressive performance, our method is economical in the mem-Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI-25) 
+
+> 1607 Figure 4: Illustration of the ISPRS Potsdam validating set, compared with the other methods. ’*’ indicates the slide inference mode.
+
+Methods mIoU ↑ mF1 ↑ Acc ↑ Mem ↓
+
+Generic Methods 
+
+U-Net 38.4 - - 5507 U-Net ∗ 37.3 - - 949 ICNet 40.2 - - 2557 PSPNet 56.6 - - 6289 DeepLabv3+ 63.5 - - 3199 DeepLabv3+ ∗ 63.1 - - 1279 FCN-8s 68.8 79.8 86.2 5227 FCN-8s ∗ 71.8 82.6 87.6 1963 BiseNetv1 53.0 - - 1801 DANet 53.8 - - 6812 STDC 70.3 - - 2580 
+
+UHR Methods 
+
+CascadePSP 68.5 79.7 85.6 3236 PPN 71.9 - - 1193 
+
+PointRend 71.8 - - 1593 MagNet 72.9 - - 1559 GLNet 71.6 83.2 88.0 1865 ISDNet 73.3 84.0 88.7 1948 FCtL 73.5 83.8 88.3 3167 WSDNet 74.1 85.2 89.1 1876 GINet 73.5 - - 4086 
+
+SCPSeg (ours) 74.0 84.0 88.1 2124 Table 3: Experiment results on DeepGlobe test set. ’*’ indicates the slide inference mode when testing the generic methods. 
+
+ory cost, attaining a satisfactory balance between effective-ness and memory efficiency. 
+
+Results on the Inria Aerial Dataset. We present a com-parison using the Inria Aerial test dataset in Table 4. This dataset is particularly challenging, featuring images with ap-proximately 25 million pixels, around four times that of the 
+
+Methods mIoU ↑ mF1 ↑ Acc ↑ Mem ↓
+
+Generic Methods 
+
+DeepLabv3+ 55.9 - - 5122 FCN-8s 69.1 81.7 93.6 2447 STDC 72.4 - - 7410 
+
+UHR Methods 
+
+CascadePSP 69.4 81.8 93.2 3236 GLNet 71.2 - - 2663 ISDNet 74.2 84.9 95.6 4680 FCtL 73.7 84.1 94.6 4332 WSDNet 75.2 86.0 96.0 4379 GPWFormer 76.5 86.2 96.7 4710 GINet 76.6 - - 4086 
+
+SCPSeg (ours) 78.6 88.0 95.8 1818   
+
+> Table 4: Experiment results on Inria Aerial test set.
+
+DeepGlobe dataset. The substantial size of this UHR dataset places significant demands on memory usage for semantic segmentation tasks. Our experimental results demonstrate that SCPSeg significantly outperforms other UHRSS meth-ods across all accuracy metrics while maintaining superior memory efficiency. 
+
+4.5 Ablation Study 
+
+In this section, we investigate the proposed modules and demonstrate their effectiveness. All the ablation studies are performed on the ISPRS Potsdam validating set. 
+
+Effectiveness of the SCPSeg Components. We conduct experiments to verify the effectiveness of the proposed SCPSeg based on various basic segmenters, such as FCN-8s [Long et al. , 2015], Deeplabv3+ [Chen et al. , 2018], PSPNet [Zhao et al. , 2017], SegFormer [Xie et al. , 2021], TopFormer [Zhang et al. , 2022], DDRNet [Pan et al. , 2023], PIDNet [Xu 
+
+et al. , 2023]. The experiment results show that the segmen-Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI-25) 
+
+> 1608
+
+Basic Segmenter FCN-8s Deeplabv3+ PSPNet SegFormer TopFormer LANet DDRNet PIDNet w/o SCPSeg 84.5 86.5 84.7 84.9 84.7 84.9 85.2 86.1 w SCPSeg 86.2 87.8 85.8 85.3 86.1 86.1 86.3 87.6 Table 5: Ablation study for the effectiveness of incorporating our method. 
+
+Segmenter CSM SRD LFA mIoU Mem 
+
+FCN-8s (ResNet50) 84.5 1818 
+
+! 85.6 1818 
+
+! ! 85.9 1818 
+
+! ! ! 86.2 1818 Deeplabv3+ (ResNet18) 86.5 1834 
+
+! 87.4 1834 
+
+! ! 87.7 1834 
+
+! ! ! 87.8 1834 
+
+> Table 6: Ablation study for the key components of our SCPSeg on the ISPRS Potsdam validating set.
+> Figure 5: Illustration of the different context size and down-scaled local size versus mIoU on the ISPRS Potsdam validating set.
+
+tation accuracy (mIoU) improves around 1.2% after incorpo-rating the proposed method, which indicates the effectiveness of our SCPSeg. We also verify the effectiveness of different components in SCPSeg, as shown in Table 6. Firstly, incor-porating CSM leads to considerable performance gain, indi-cating the effectiveness of the context-squeezing paradigm. Secondly, the auxiliary SRD improves the performance of the segmentation task slightly, which proves that super-resolution guided multi-task learning is useful for parsing down-scaled local images. Thirdly, a considerable improvement is gained after the utilization of LFA because the local feature align-ment loss helps transfer mutual knowledge from different de-coders. Lastly, the memory footprint is not increased, indi-cating our method is memory-efficient in the testing stage. 
+
+Influence of Window Size. We conduct experiments to an-alyze the influence of the context window size G and down-scaled local size D. As Figure 5 shows, the best perfor-mance gains when the context size is set to 512 × 512 and the down-scaled local size is set to 192 × 192 . As context size increases, the performance decreases because squeez-ing too much context information into a fixed area results in context degradation. Moreover, leveraging a few context information improves performance only marginally. As the down-scaled local size increases, the squeezed context infor-mation decreases, which results in a decrease in performance. 
+
+> Figure 6: The feature visualization of the semantic segmentation and super-resolution branches. (a) Input images. (b) Features of the super-resolution branch. (c) Features of the segmentation branch be-fore aligning. (d) Features of the segmentation branch after aligning.
+
+As the down-scaled local size decreases, the local images be-come blurred, which leads to poor segmentation performance. Therefore, a moderate context window size and a properly down-scaled local size are important to balance the global in-formation and local details. 
+
+Visualization of Features. To show the effectiveness of the proposed local feature alignment, we visualize the features of super-resolution and semantic segmentation branches in Fig-ure 6. By comparing (b) and (c) in Figure 6, we can easily find that the super-resolution branches contain more complete structure information of objects. The locally aligned semantic features in Figure 6 (d) have clearer edges than the unaligned features. It indicates that the local-consistent relationship be-tween super-resolution features can be effectively transferred to the semantic segmentation branch, thus benefiting the task of semantic segmentation. 
+
+# 5 Conclusion 
+
+We proposed a memory-efficient semantic segmentation method, SCPSeg, for the UHR images. It leverages both the global context and local fine structure effectively to enhance the segmentation in the scenario of ultra-high resolution with-out sacrificing the GPU memory usage. Our work provides a bright new paradigm for parsing UHR images where squeez-ing redundant context information is useful. Extensive ex-periments indicate that our method provides a good trade-off between accuracy and memory efficiency. In the future, we plan to extend SCPSeg to other high-resolution vision tasks, such as object detection and instance segmentation, to further validate its generalizability. Besides, adaptive mechanisms to dynamically adjust memory usage based on image complex-ity will be investigated. Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI-25) 
+
+> 1609
+
+# Acknowledgments 
+
+We sincerely thank the reviewers for their valuable and con-structive comments, which have greatly improved this arti-cle. This work was supported in part by the National Key Research and Development Program of China under Grant 2021YFA0715203; in part by the Science Fund for Creative Research Groups of the National Natural Science Foundation of China under Grant 62221002; in part by the National Nat-ural Science Foundation of China under Grant 62201207 and 62371185; in part by the Natural Science Foundation of Hu-nan Province under Grant 2023JJ40163; in part by the Sci-ence and Technology Innovation Program of Hunan Province under Grant 2023RC3124 and 2024RC1030. 
+
+# References 
+
+[Azad et al. , 2024] Reza Azad, Ehsan Khodapanah Aghdam, Amelie Rauland, Yiwei Jia, Atlas Haddadi Avval, Afshin Bozorgpour, Sanaz Karimijafarbigloo, Joseph Paul Cohen, Ehsan Adeli, and Dorit Merhof. Medical image segmenta-tion review: The success of u-net. IEEE Transactions on Pattern Analysis and Machine Intelligence , 46(12):10076– 10095, 2024. [Badrinarayanan et al. , 2017] Vijay Badrinarayanan, Alex Kendall, and Roberto Cipolla. Segnet: A deep convolu-tional encoder-decoder architecture for image segmenta-tion. IEEE Transactions on Pattern Analysis and Machine Intelligence , 39(12):2481–2495, 2017. [Chen et al. , 2018] Liang-Chieh Chen, Yukun Zhu, George Papandreou, Florian Schroff, and Hartwig Adam. Encoder-decoder with atrous separable convolution for se-mantic image segmentation. In Proceedings of the Euro-pean Conference on Computer Vision , September 2018. [Chen et al. , 2019] Wuyang Chen, Ziyu Jiang, Zhangyang Wang, Kexin Cui, and Xiaoning Qian. Collaborative global-local networks for memory-efficient segmentation of ultra-high resolution images. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , June 2019. [Cheng et al. , 2020] Ho Kei Cheng, Jihoon Chung, Yu-Wing Tai, and Chi-Keung Tang. Cascadepsp: Toward class-agnostic and very high-resolution segmentation via global and local refinement. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,June 2020. [Ding et al. , 2021] Lei Ding, Hao Tang, and Lorenzo Bruz-zone. Lanet: Local attention embedding to improve the semantic segmentation of remote sensing images. 
+
+IEEE Transactions on Geoscience and Remote Sensing ,59(1):426–435, 2021. [Ding et al. , 2022] Lei Ding, Dong Lin, Shaofu Lin, Jing Zhang, Xiaojie Cui, Yuebin Wang, Hao Tang, and Lorenzo Bruzzone. Looking outside the window: Wide-context transformer for the semantic segmentation of high-resolution remote sensing images. IEEE Transactions on Geoscience and Remote Sensing , 60:1–13, 2022. [Fan et al. , 2021] Mingyuan Fan, Shenqi Lai, Junshi Huang, Xiaoming Wei, Zhenhua Chai, Junfeng Luo, and Xiaolin Wei. Rethinking bisenet for real-time semantic segmen-tation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 9716– 9725, June 2021. [Fu et al. , 2019] Jun Fu, Jing Liu, Haijie Tian, Yong Li, Yongjun Bao, Zhiwei Fang, and Hanqing Lu. Dual at-tention network for scene segmentation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pat-tern Recognition , June 2019. [Guo et al. , 2022] Shaohua Guo, Liang Liu, Zhenye Gan, Yabiao Wang, Wuhao Zhang, Chengjie Wang, Guannan Jiang, Wei Zhang, Ran Yi, Lizhuang Ma, and Ke Xu. Is-dnet: Integrating shallow and deep networks for efficient ultra-high resolution segmentation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 4351–4360, 2022. [He et al. , 2016] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recog-nition. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 770–778, 2016. [He et al. , 2022] Xin He, Yong Zhou, Jiaqi Zhao, Di Zhang, Rui Yao, and Yong Xue. Swin transformer embedding unet for remote sensing image semantic segmentation. IEEE Transactions on Geoscience and Remote Sensing , 60:1– 15, 2022. [Huynh et al. , 2021] Chuong Huynh, Anh Tuan Tran, Khoa Luu, and Minh Hoai. Progressive semantic segmentation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 16755–16764, June 2021. [Ji et al. , 2023a] Deyi Ji, Feng Zhao, and Hongtao Lu. Guided patch-grouping wavelet transformer with spatial congruence for ultra-high resolution segmentation. In 
+
+International Joint Conference on Artificial Intelligence ,page 920–928, 2023. [Ji et al. , 2023b] Deyi Ji, Feng Zhao, Hongtao Lu, Mingyuan Tao, and Jieping Ye. Ultra-high resolution segmentation with ultra-rich context: A novel benchmark. In Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 23621–23630, 2023. [Kirillov et al. , 2020] Alexander Kirillov, Yuxin Wu, Kaim-ing He, and Ross Girshick. Pointrend: Image segmenta-tion as rendering. In Proceedings of the IEEE/CVF Con-ference on Computer Vision and Pattern Recognition , June 2020. [Li et al. , 2020] Xiangtai Li, Ansheng You, Zhen Zhu, Hou-long Zhao, Maoke Yang, Kuiyuan Yang, Shaohua Tan, and Yunhai Tong. Semantic flow for fast and accurate scene parsing. In Proceedings of the European Conference on Computer Vision , volume 12346, pages 775–793, 2020. [Li et al. , 2021] Qi Li, Weixiang Yang, Wenxi Liu, Yuan-long Yu, and Shengfeng He. From contexts to local-Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI-25) 
+
+> 1610
+
+ity: Ultra-high resolution image segmentation via locality-aware contextual correlation. In Proceedings of the IEEE/CVF International Conference on Computer Vision ,pages 7252–7261, October 2021. [Libo et al. , 2022] Wang Libo, Li Rui, Zhang Ce, Fang Shenghui, Duan Chenxi, Meng Xiaoliang, and M. Atkin-son Peter. Unetformer: A unet-like transformer for ef-ficient semantic segmentation of remote sensing urban scene imagery. ISPRS Journal of Photogrammetry and Re-mote Sensing , 190:196–214, 2022. [Lin et al. , 2017] G. Lin, A. Milan, C. Shen, and I. Reid. Refinenet: Multi-path refinement networks for high-resolution semantic segmentation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , jul 2017. [Liu et al. , 2023a] Yuheng Liu, Yifan Zhang, Ye Wang, and Shaohui Mei. Bitsrs: A bi-decoder transformer segmentor for high-spatial-resolution remote sensing images. Remote Sensing , 15:840, 2023. [Liu et al. , 2023b] Yuheng Liu, Yifan Zhang, Ye Wang, and Shaohui Mei. Rethinking transformers for semantic seg-mentation of remote sensing images. IEEE Transactions on Geoscience and Remote Sensing , 61:1–15, 2023. [Long et al. , 2015] Jonathan Long, Evan Shelhamer, and Trevor Darrell. Fully convolutional networks for seman-tic segmentation. In Proceedings of the IEEE/CVF Con-ference on Computer Vision and Pattern Recognition , June 2015. [Minaee et al. , 2022] Shervin Minaee, Yuri Boykov, Fatih Porikli, Antonio Plaza, Nasser Kehtarnavaz, and Demetri Terzopoulos. Image segmentation using deep learning: A survey. IEEE Transactions on Pattern Analysis and Ma-chine Intelligence , 44(7):3523–3542, 2022. [Pan et al. , 2023] Huihui Pan, Yuanduo Hong, Weichao Sun, and Yisong Jia. Deep dual-resolution networks for real-time and accurate semantic segmentation of traffic scenes. 
+
+IEEE Transactions on Intelligent Transportation Systems ,24(3):3448–3460, 2023. [Peng et al. , 2022] Chengli Peng, Kaining Zhang, Yong Ma, and Jiayi Ma. Cross fusion net: A fast semantic segmen-tation network for small-scale semantic information cap-turing in aerial scenes. IEEE Transactions on Geoscience and Remote Sensing , 60:1–13, 2022. [Ronneberger et al. , 2015] Olaf Ronneberger, Philipp Fis-cher, and Thomas Brox. U-net: Convolutional networks for biomedical image segmentation. In Medical im-age computing and computer-assisted intervention , pages 234–241, 2015. [Sandler et al. , 2018] Mark Sandler, Andrew G. Howard, Menglong Zhu, Andrey Zhmoginov, and Liang-Chieh Chen. Mobilenetv2: Inverted residuals and linear bottle-necks. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 4510– 4520, 2018. [Sun et al. , 2019] Ke Sun, Bin Xiao, Dong Liu, and Jing-dong Wang. Deep high-resolution representation learn-ing for human pose estimation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 5686–5696, 2019. [Xia et al. , 2016] Fangting Xia, Peng Wang, Liang-Chieh Chen, and Alan L. Yuille. Zoom better to see clearer: Hu-man and object parsing with hierarchical auto-zoom net. In Proceedings of the European Conference on Computer Vision , pages 648–663, June 2016. [Xie et al. , 2021] Enze Xie, Wenhai Wang, Zhiding Yu, An-ima Anandkumar, Jose M. Alvarez, and Ping Luo. Seg-former: Simple and efficient design for semantic segmen-tation with transformers. In Advances in Neural Informa-tion Processing Systems , volume 34, pages 12077–12090, 2021. [Xu et al. , 2023] Jiacong Xu, Zixiang Xiong, and Shankar P. Bhattacharyya. Pidnet: A real-time semantic segmenta-tion network inspired by pid controllers. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pat-tern Recognition , pages 19529–19539, June 2023. [Yu et al. , 2018] Changqian Yu, Jingbo Wang, Chao Peng, Changxin Gao, Gang Yu, and Nong Sang. Bisenet: Bi-lateral segmentation network for real-time semantic seg-mentation. In Proceedings of the European Conference on Computer Vision , September 2018. [Zhang et al. , 2022] Wenqiang Zhang, Zilong Huang, Guozhong Luo, Tao Chen, Xinggang Wang, Wenyu Liu, Gang Yu, and Chunhua Shen. Topformer: Token pyramid transformer for mobile semantic segmentation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 12083–12093, June 2022. [Zhang et al. , 2024] Li Zhang, Zhenshan Tan, Guo Zhang, Wen Zhang, and Zhijiang Li. Learn more and learn use-fully: Truncation compensation network for semantic seg-mentation of high-resolution remote sensing images. IEEE Transactions on Geoscience and Remote Sensing , 62:1– 14, 2024. [Zhao et al. , 2017] Hengshuang Zhao, Jianping Shi, Xiao-juan Qi, Xiaogang Wang, and Jiaya Jia. Pyramid scene parsing network. In Proceedings of the IEEE/CVF Con-ference on Computer Vision and Pattern Recognition , July 2017. [Zhao et al. , 2018] Hengshuang Zhao, Xiaojuan Qi, Xiaoy-ong Shen, Jianping Shi, and Jiaya Jia. Icnet for real-time semantic segmentation on high-resolution images. In Pro-ceedings of the European Conference on Computer Vision ,September 2018. [Zhu et al. , 2024] Peng Zhu, Xiangrong Zhang, Xiao Han, Puhua Chen, Xu Tang, Xina Cheng, and Licheng Jiao. High-resolution remote sensing image segmentation with global-guided normalization and local affinity distillation. 
+
+IEEE Transactions on Geoscience and Remote Sensing ,62:1–12, 2024. Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI-25)

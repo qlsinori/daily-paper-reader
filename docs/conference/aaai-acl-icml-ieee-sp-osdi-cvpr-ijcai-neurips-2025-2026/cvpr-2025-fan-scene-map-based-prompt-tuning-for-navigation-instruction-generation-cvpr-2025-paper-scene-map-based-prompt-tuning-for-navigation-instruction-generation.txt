@@ -1,0 +1,456 @@
+Title: Scene Map-based Prompt Tuning for Navigation Instruction Generation
+
+URL Source: https://openaccess.thecvf.com/content/CVPR2025/papers/Fan_Scene_Map-based_Prompt_Tuning_for_Navigation_Instruction_Generation_CVPR_2025_paper.pdf
+
+Published Time: Sun, 18 May 2025 22:33:13 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+# Scene Map-based Prompt Tuning for Navigation Instruction Generation 
+
+## Sheng Fan, Rui Liu, Wenguan Wang, Yi Yang †
+
+ReLER, CCAI, Zhejiang University 
+
+https://github.com/FanScy/MAPInstructor 
+
+## Abstract 
+
+Navigation instruction generation (NIG), which provides interactive feedback and guidance to humans along a tra-jectory, is vital for developing embodied agents capable of human-machine communication and collaboration through natural language. Early data-driven methods directly map sequences of past observations to trajectory descriptions on limited datasets, lacking the necessary spatial understand-ing in complex 3D environments. While recent approaches leverage Large Language Models (LLMs) to improve NIG, they often overlook the global spatial context in navigation, such as the inherent space discretization in maps. Instead of straightforwardly feeding textual descriptions of the map into LLMs, we propose a scene map-based prompt tuning framework for NIG, MAPI NSTRUCTOR , which incorpo-rates map context for parameter-efficient updating of LLMs. 
+
+MAPI NSTRUCTOR comprises three key components: (i) 
+
+scene representation encoding, where egocentric observa-tions are projected into 3D voxels for fine-grained scene understanding; (ii) map prompt tuning, which integrates a topological map representation of the entire trajectory into an LLM-based decoder; and (iii) landmark uncertainty as-sessment, which mitigates hallucinations in landmark pre-dictions, thereby enhancing the reliability and coherence of instruction generation. Extensive experiments on three navigation datasets (i.e., R2R, REVERIE, RxR) confirm the generalization and effectiveness of our algorithm. 
+
+## 1. Introduction 
+
+Navigation instruction generation (NIG), a critical task in embodied intelligence, has garnered significant interest across various domains, such as robotics [8, 23, 69, 85, 87], psychology [65, 71, 72], and cognitive science [16, 37]. It requires an embodied agent to provide detailed descrip-tions of the navigation trajectory using natural language. Over the past decade, the rapid development of multimodal learning [39, 55, 60] has substantially boosted NIG in both                 
+
+> †Corresponding author: Yi Yang .... Continuing forward ,a set of couches is on your
+> left ,and stop at the living room.
+> ... dinner table is on your left . W alk pass the rug ,
+> and the couch is on your right . Stop by the chair .
+> chair
+> Spatial Reasoning
+> dinner table dinner table
+> couch couch
+> rug
+
+Figure 1. MAPI NSTRUCTOR verbalizes concise instructions. General LLM-based models fail to capture all scene details through text alone. By encoding a comprehensive scene understanding for map prompt tuning in LLM, MAPI NSTRUCTOR enables accurate descriptions of directions and landmarks. 
+
+semantic accuracy and descriptive diversity. The majority of NIG methods [20, 61, 70, 75] leverage vision-language alignment pre-trained on extensive unsupervised corpus, 
+
+e.g ., CLIP [55] and LXMERT [60]. However, these stud-ies are typically limited to 2D images, fundamentally lack-ing explicit 3D spatial reasoning capabilities. Recent ad-vancements in scene representation learning [17, 45] for NIG establish projective geometry mapping between 3D en-vironments and unified 2D parameterized planes. Concur-rently, numerous studies [17, 34, 48, 81, 82, 88] harness the advanced linguistic capabilities of LLMs to improve the agent’s generalization through prompt engineering. Although existing NIG solutions have achieved remark-able progress, several key challenges remain unresolved. First, previous methods [2, 17, 42, 45] compress height-aware features onto the BEV plane, which compromises the holistic structure of the 3D environment, leading to a loss of critical spatial information. Thorough 3D scene under-standing can offer a more detailed and context-aware rep-resentation of the environment, thereby enhancing spatial This CVPR paper is the Open Access version, provided by the Computer Vision Foundation. Except for this watermark, it is identical to the accepted version; the final published version of the proceedings is available on IEEE Xplore. 6898 awareness of the surroundings. Second, topological maps enable agents to develop a global perspective of the envi-ronment, facilitating the extraction of crucial spatial cues from the real world. Existing methods [9, 57, 88] incor-porate map information into LLMs through textual descrip-tions. This approach necessitates extensive data annotation and model training while struggling to capture fine-grained scene details in zero-shot or few-shot settings, resulting in the omission of crucial landmarks. To address these challenges, we introduce a Scene Map Prompt Tuning-based Instructor (MAPI NSTRUCTOR ), which incorporates topological map information and fine-grained 3D scene understanding to improve the quality of in-structions. First, rather than relying on compressed seman-tic representations [2, 78], MAPI NSTRUCTOR introduces 3D voxel representations to build a comprehensive scene understanding for each viewpoint. This local 3D represen-tation enables agents to capture more detailed and accu-rate landmarks. Second, MAPI NSTRUCTOR constructs a global scene map for the entire trajectory. In contrast to text-based map descriptions, MAPI NSTRUCTOR integrates scene maps as latent features, providing the agent with topo-logical information of the entire environment. Furthermore, MAPI NSTRUCTOR designs a two-stage generation pipeline powered by LLM — landmark prediction and instruction completion. During the landmark prediction phase, MAP-INSTRUCTOR introduces a landmark uncertainty assess-ment, which generates multiple landmark sequences and filters potential landmarks based on a semantic uncertainty score, formalized by semantic entropy [36]. This approach mitigates hallucinations in landmark prediction, thereby en-hancing the instruction completion phase and improving the accuracy of the generated instructions. We conduct experiments on R2R [4], REVERIE [54] and RxR [35] datasets. Experimental results demonstrate that MAPI NSTRUCTOR outperforms the counterparts [17, 20, 34, 61, 70, 75, 76], e.g ., 2.7 % and 4.0 % CIDEr gains on R2R val seen and unseen splits, respectively. 
+
+## 2. Related Work 
+
+Navigation Instruction Generation. Over the past decade, active research has been devoted to interaction between humans and robotics by natural language. Previous stud-ies have spanned various fields, e.g ., instruction follow-ing [20, 61, 75], cognitive psychology [1, 13, 74], and ar-chitectural design [17, 34]. Early studies adopt LSTM-based models to capture complex visual cues and verbal-ize navigation trajectories [20, 61, 67, 70]. Numerous NIG studies demonstrate that improving the linguistic capabil-ities of models can significantly enhance instruction qual-ity [17, 34, 70, 75, 76]. More recently, the emergence of LLMs further empowers NIG models with advanced language understanding and extensive pre-trained knowl-edge [17, 28, 34, 58, 88]. Existing studies [17, 34, 75] predominantly focus on ac-tion and visual information within a single viewpoint, ne-glecting the underlying topological relationships across dis-tinct viewpoints —- an essential factor for precise action de-scriptions and self-localization. Consequently, these meth-ods struggle to capture spatial variation in complex scenes. In contrast, MAPI NSTRUCTOR is incorporated with topo-logical map representations, providing trajectory-level con-textual information that strengthens the agent’s implicit un-derstanding of the environment. 
+
+Scene Representation for Embodied Agents. The abil-ity to understand 3D scenes from 2D observations plays a crucial role in robotic interactions with the physical world. Previous solutions to 3D scene understanding fo-cus on learning the spatial structure of the 3D environ-ment [24, 38, 68], modeling spatial relationships among ob-jects [3, 10, 40, 50], or employing 3D environment recon-struction to obtain a unified representation of the scene lay-out [17, 45, 47]. While metric maps derived from classical SLAM frameworks have long served as the spatial represen-tation for robotic navigation [7, 52, 62], emerging evidence from cognitive psychology challenges this paradigm. Sub-stantial evidence suggests that animals predominantly nav-igate using landmark-based mechanisms [19, 22, 56, 73], relying on a qualitative topological understanding of the environment rather than precise geometric reconstructions. This fundamental discrepancy has driven recent efforts to bridge the gap between geometric and cognitive mapping paradigms. To this end, [56] proposes a semi-parametric topological graph based on observations, yet it lacks ex-plicit object-level connectivity. [32] addresses this limi-tation by incorporating object-aware topological graphs to facilitate contextual reasoning in image-based goal naviga-tion. [5] creates a topological map representation from a vi-sual SLAM map, though this approach imposes significant computational demands on robotic hardware. Despite their outstanding contributions, rare efforts in spatial scene understanding have been devoted to NIG. [17] employs BEV representations to capture object relation-ships within a scene. However, the restricted geometric in-formation in BEV hampers the finer-grained alignment be-tween instructions and visual cues, particularly in complex scenes. Therefore, MAPI NSTRUCTOR enables the seam-less integration of finer-grained discrete occupancy for each viewpoint, capturing more comprehensive geometric details of the scene and enhancing instruction generation. 
+
+Prompting for Multimodal LLMs. With the advance-ment of Multimodal Large Language Models (MLLMs), prompt engineering has been a promising approach to har-ness their power. This approach enables control over in-put instructions, allowing MLLMs to generate contextually adaptive outputs without requiring full model retraining. 6899 MLLM   
+
+> Couch, ...
+> Kitchen, ...
+> Sofa, ...
+> Walk past the fridge. Then turn
+> left and stop in the room with two
+> white sofas opposite each other. time
+> : action
+> . . .
+> Query pt,k at
+> Eq. 5 F3d
+> Eq. 4
+> Query
+
+# ⊕
+
+> Eq. 7
+> Eq. 9
+> Eq. 10
+> ˆv
+> Semantic Entropy
+> Instruction
+> Generation
+
+(i) (ii) (iii) 
+
+Figure 2. Overview of MAPI NSTRUCTOR for NIG. (i) The scene representation encoding module captures fine-grained 3D scene features and comprises perspective embedding encoding and 3D scene representation encoding (§3.2); (ii) The map prompt tuning module aggre-gates environment connectivity and visual cues across viewpoints, subsequently feeding topological representations into the LLM (§3.3); (iii) The landmark uncertainty assessment pipeline leverages semantic entropy to focus on crucial landmarks, thereby enhancing the accu-racy of instruction generation (§3.4). Please refer to §3 for more details. 
+
+Researchers have explored various prompting strategies for MLLMs, such as in-context learning [15, 21, 43, 49], multi-modal prompting [14, 30, 31, 41, 44, 57, 59, 89], and Chain-of-Thought (CoT) [29, 51, 77, 79, 83, 84]. Recently, there has been a growing emphasis on employing cross-modality fusion through multimodal prompts to fine-tune MLLMs for navigation tasks [17, 28, 34, 88]. Inspired by these pioneering works, we advocate for a holistic scene understanding approach built on topological maps. By utilizing the topological map as structured prompt features, we aggregate visual cues from multiple viewpoints to guide the agent’s self-localization and movement predic-tion, improving the alignment between spatial context and instruction generation. 
+
+## 3. Approach 
+
+In this section, we first formalize the NIG task setting in §3.1. Next, we introduce a scene representation encoding module in §3.2, which constructs local 3D voxel represen-tations for each viewpoint to enhance scene understanding. We then present a map prompt tuning module in §3.3, which integrates global map information along with trajectories in a prompt-based manner. Furthermore, we propose a land-mark uncertainty assessment pipeline in §3.4, which identi-fies crucial landmarks to improve the accuracy and reliabil-ity of generated instructions. 
+
+3.1. Problem Formulation 
+
+For brevity, we draw on the technical details of R2R [4]. The task of NIG involves verbalizing a navigation route based on sequences of navigational actions and correspond-ing panorama views. In R2R, an agent receives T steps of panorama views O = {Ot}Tt=1 along with action A =
+
+{at}Tt=1 . Each view Ot consists of K discrete views 
+
+{ot,k }Kk=1 (i.e ., RGB images). More specifically, given an RGB image with a resolution of H×W , each view 
+
+ot,k is associated with a 2D visual feature extracted from a frozen pre-trained model ( e.g ., CLIP [55]), denoted as 
+
+{F 2dt,k ∈ RDe×HW } and the corresponding orientation fea-ture rt,k = (cos θt,k , sin θt,k , cos ϕt,k , sin ϕt,k ). The action 
+
+at is defined as selecting one of the K discrete views from panorama views. Hence, the agent needs to generate an in-struction consisting of L words, X = {xl ∈ RD }Ll=1 , in an autoregressive manner based on the panorama-action se-quences {O , A} , where D is the dimension of features and 
+
+Θ denotes the model parameter: 
+
+max 
+
+> Θ
+
+XLl=1 log PΘ(xl|x<l , O, A). (1) 
+
+3.2. Scene Representation Encoding 
+
+Perspective-Action Embedding. The agent extracts a dense semantic representation from the panorama-action se-quence along the trajectory. The perspective embedding is calculated by the panorama image feature and the corre-sponding discrete orientation information: 
+
+pt,k = Ep(F 2dt,k ) + Eδ (rt,k ) + Et + Eo ∈ RDe , (2) where Ep and Eδ represent linear embedding layers, Et ∈
+
+RD and Eo ∈ RD denote the learnable embeddings of step 
+
+t and panorama observation token type, respectively. In ad-dition, the agent takes actions across viewpoints along the trajectory. Specifically, the action embedding is denoted by the image feature and current heading and evaluation to the next viewpoint. As a result, the action embedding follows a similar formulation to the perspective embedding pt,k :
+
+at = Ea(F 2dt,a ) + Eδ (rt,a ) + Et + Ea ∈ RDe , (3) where Ea is a linear layer and Ea ∈ RD is the learnable embedding of action token type. 6900 Perspective-3D Transformation. At each step t, the agent receives the panorama views from its surroundings. Cross-View Attention (CVA) is proposed to fuse perspective fea-tures F t,k into a unified 3D representation by a group of learnable query Q ∈ RDe×X×Y ×Z (t is omitted for sim-plicity). Concretely, we exploit a series of 3D queries Q
+
+located at (x, y, z ) to sample surrounding K perspective features F 2d according to the given intrinsic and extrinsic ((x, y, z ) is omitted for simplicity): 
+
+F 3d = 1
+
+K
+
+> K
+
+X
+
+> k=1
+
+Fcva (Q, P k, F 2dk (h′, w ′)) ∈ RDe×X×Y×Z ,
+
+(4) where (h′, w ′) is the sample point location on the image plane (H, W ). P k indicates the k-th 3D-to-2D projection function. Fcva is represented by deformable attention [42, 90] to aggregate information. Thus the p-th output feature 
+
+FpCV A is obtained via query q ∈ Q as the weighted sum of sampled features: 
+
+Fpcva (q, p, f 2d) = 
+
+> Nhead
+
+X
+
+> i=1
+
+WiNkey 
+
+X
+
+> j=1
+
+Aij W ′ 
+
+> i
+
+f 2d(p + ∆ pij ),
+
+(5) where Wi and W ′ 
+
+> i
+
+denote the learnable weights, and Aij ∈
+
+[0 , 1] is the normalized attention coefficient. Nhead and 
+
+Nkey represent the number of attention heads and sampled keys. f 2d(p + ∆ pij ) is the 2D image feature located at 
+
+(p + ∆ pij ). In contrast to the 2D plane in BEV represen-tations, this 3D voxel architecture preserves height-aware features, facilitating robust 3D geometry reconstruction. 
+
+Multi-Scale Scene Prediction. Previous studies [47, 63, 80, 86] have shown that end-to-end modeling of entire scenes, especially in complex environments, encounters substantial limitations. Building on these pioneering ef-forts, we segment the perspective-3D transformation into 
+
+M levels within a cascaded structure. This approach achieves a better trade-off between low-level details and high-level semantics. Specifically, we employ different lev-els of 3D deformable attention layers to extract multi-scale 3D features {F 3d(j) ∈ RDe× X     
+
+> 2j×Y
+> 2j×Z
+> 2j
+
+}Jj=1 . We upsample 
+
+(j−1) -th scale and obtain the desired cascaded 3D features: 
+
+F 3d(j) = F↑(F 3d(j−1) ), j = 2 , . . . , J, (6) where F↑ denotes the up-sampling function. The 3D fea-tures {F 3d(j)}Jj=1 are supervised at each scale. 
+
+Scene Representation. To enhance the scene understand-ing of the model, we introduce a scene encoding module based on perspective-3D features. Specifically, at each step 
+
+t, the concatenation of the perspective-3D feature pair is mapped into a unified representation vt:
+
+vt = Fs([ F 3dt ⊕ pt ⊕ at]) ∈ RDe×Ns , (7) where ⊕ denotes the broadcast and addition operation. F 3dt
+
+represents the final scale of the 3D feature, designed to cap-ture the semantics of scenes while minimizing computa-tional cost. Fs is the embedding module composed of mul-tiple linear layers. Thus {vt}Tt=1 maintains the geometric information and finer-grained spatial scene understanding. 
+
+3.3. Map Prompt Tuning 
+
+In this section, we propose Map Prompt Tuning (MPT), which enables agents to encapsulate both visual appearance and environment connectivity for LLM-based agents. 
+
+Topological Map Construction. Prior studies [46, 68, 87] have shown that navigation agents can readily acquire their global position ( e.g ., via GPS) [6]. Rather than classic NIG methods [17, 20, 61, 70, 75] that rely solely on perspec-tive embeddings as input, the underlying dependencies be-tween global locations are considered and formalized as a graph-structured map in MAPI NSTRUCTOR . Notably, nearby nodes exhibit stronger correlations than distant ones. Thus, we introduce a graph neural network [33] to model node interactions and gather the corresponding spatial in-formation. Concretely, the navigation trajectory is denoted as a directed graph G = {V , E} . Each node v ∈ V in Eq. 7 is augmented with a location encoding and a navigation step encoding. To further incorporate 2D and 3D spatial rela-tionships across viewpoints, the location encoding is de-rived from Euclidean distance d to the previous node in two-and three-dimensional space: 
+
+vloc t = Fv (∆ d2dt , ∆d3dt ) ∈ RDe ×Ns ,
+
+˜vt = vt + vloc t ∈ RDe ×Ns , (8) where Fv is the linear embedding function. ˜vt indicates the updated scene node representation, enriched with spatial information from neighboring nodes. An edge e ∈ E repre-sents a pairwise distance matrix, encoding the relative ori-entation and spatial distance between connected node pairs. Topological structure information among nodes is aggre-gated through iterative parametric message passing, where node representations are updated by propagating messages along adjacency relationships. Specifically, at each iteration 
+
+s, the node representation ˜v iteratively attends to the mes-sage information mv received from its neighboring nodes (t is omitted for simplicity): 
+
+mv = X  
+
+> w∈N (v)
+
+˜vsw, ˜vs+1 = ϕ(mv , ˜vs), (9) where ϕ(·) denotes the update function. N (v) represents neighbour nodes of v. After s iteration of message passing, each node’s representation converges, yielding the node fea-ture ˜v′ that incorporates topological contextual features. 
+
+Map Prompt Tuning. A line of work [11, 12, 32, 47, 75] has demonstrated the effectiveness of constructed maps for 6901 navigation. However, how to leverage the map tailored for NIG has not been fully explored or exploited. Drawing inspiration from these prior efforts (particularly studies on mapping for navigation), we propose a map prompt tuning approach that incorporates the global scene understanding into LLM-based agents. Specifically, akin to LLM-based agents [17, 34], we devise LLMs as the language model in MAPI NSTRUCTOR , and fine-tune them in a parameter-efficient manner to retain the world knowledge pre-trained on a curated corpus of interleaved image-text pairs. In addi-tion, we employ a lightweight transformer decoder architec-ture to compress tokens and further aggregate the informa-tion. Specifically, a single query Qv ∈ RDe×Nq is adopted to map ˜v′ into a fixed-length Nq tensor: 
+
+ˆv = Fdecoder (Qv , ˜v′) ∈ RDe×Nq . (10) Then ˆv, which contains scene topological attributes and 3D semantics, is encoded into LLM to generate instructions step by step, as defined in Eq. 1: 
+
+xl = FLLM  
+
+> Θ∗
+
+(ˆ v; xl−1), (11) where Θ∗ (|Θ∗| ≪ | Θ|) is the partial trainable parameter. 
+
+3.4. Landmark Uncertainty Assessment 
+
+The task of NIG requires careful consideration of both the semantic accuracy and the structural coherence of generated instructions. Given the complexity of navigation scenes, such as the presence of diverse and crucial landmarks along the trajectory, generating a varied yet semantically con-sistent set of instructions poses a significant challenge for agents. Inspired by semantic uncertainty in nature language generation [18, 36], we propose a semantic uncertainty-based generation pipeline. Specifically, we decompose the generation process into two stages, i.e ., landmark predic-tion and instruction completion, leveraging the generative strengths of LLMs. During the landmark prediction phase, MAPI NSTRUCTOR generates M sequences of key land-marks {s1, . . . , sM }, and Eq. 11 is reformulated as: 
+
+sml = FLLM  
+
+> Θ∗
+
+(ˆ v; sml−1), m = 1 , . . . , M. (12) To mitigate redundant or erroneous details, the semantic accuracy of landmarks is emphasized in MAPI NSTRUCTOR .We introduce landmark semantic entropy to estimate semantic equivalence relations, leveraging prompts to constrain the output into a structured format, such as lists of landmarks. Analogously to [36], we use the Deberta-large model [27] to assess whether arbitrary landmark lists have similar semantics. Thus {s1, . . . , sM } can be clustered into sets {c1, . . . , cN } based on their semantic similarity. The landmark semantic entropy is then calculated by aggregating probabilities of all outputs s within each cluster: 
+
+LE (v) = − X
+
+> c
+
+p(c | ˆv) log p(c | ˆv)= − X
+
+> c
+
+ (X
+
+> s∈c
+
+p(s | ˆv)) log X
+
+> s∈c
+
+p(s | ˆv). (13) If LE (v) ≤ τ , where τ ∈ [0 , 1] , the landmark predictions generated by the current agent are semantically determined and vice versa. The instruction completion process then uti-lizes these landmark predictions as an additional prompt to guide the generation of navigation instructions. 
+
+3.5. Implementation Details 
+
+Network Architecture. MAPI NSTRUCTOR is an LLM-based NIG model built upon previous methods [17, 34]. Akin to [17, 34], MAPI NSTRUCTOR employs the Llama-7B [64] model as the initial LLM decoder. The resolution 
+
+(H, W ) of F 2dt,k is (14 , 14) and the 3D spatial resolution 
+
+(X, Y, Z ) of F 3d is (7 , 7, 7) . To model spatial relationships, we adopt GCN [33] to process topological maps. 
+
+Training. For fairness, we follow the same training set-tings as [17], including batch size, optimizers, maximum iterations, and learning rates. Additionally, we utilize syn-thesized navigation route-instruction pairs from PREVA-LENT [26], consistent with previous methods [17, 20, 61, 70, 75]. MAPI NSTRUCTOR adopts a two-stage training strategy, i.e ., landmark prediction and instruction comple-tion. In the landmark prediction phase, MAPI NSTRUCTOR 
+
+uses GPT-4 [53] to extract ground-truth landmarks from the 
+
+train splits as labels. In the instruction completion phase, these ground-truth landmark terms serve as prompts, guid-ing the final instruction generation. 
+
+Inference. During the inference phase, MAPI NSTRUCTOR 
+
+first performs 3 rounds of landmark prediction, and assesses the entropy of landmark semantics (§3.4). τ is set to 0.4. If 
+
+LE (v) > τ , MAPI NSTRUCTOR randomly samples from all landmark predictions to create a new landmark prompt for instruction completion. 
+
+Reproducibility. MAPI NSTRUCTOR is implemented in PyTorch architecture and trained on a single machine with 2 NVIDIA A40 GPUs. 
+
+## 4. Experiment 
+
+4.1. Experimental Settings 
+
+Datasets. Following existing studies [17, 34, 75, 76], we conduct experiments on three datasets: R2R [4] and REVERIE [54], and more challenging dataset — RxR [35]. 
+
+Evaluation Metrics. As in previous studies [17, 20, 34, 61, 70, 75, 76], we employ BLEU, CIDEr, METEOR, ROUGE, and SPICE as evaluation metrics to assess the quality of generated navigation instructions. 6902 R2R val seen R2R val unseen 
+
+Methods SPICE ↑ Bleu-1 ↑ Bleu-4 ↑ CIDEr ↑ Meteor ↑ Rouge ↑ SPICE ↑ Bleu-1 ↑ Bleu-4 ↑ CIDEr ↑ Meteor ↑ Rouge ↑
+
+BT-speaker [20] [NeurIPS2018] 0.182 0.685 0.253 0.483 0.227 0.473 0.178 0.658 0.250 0.391 0.209 0.440 EDrop-speaker [61] [NAACL2019] 0.195 0.701 0.265 0.486 0.224 0.463 0.184 0.660 0.260 0.413 0.215 0.455 CCC-speaker [70] [CVPR2022] 0.196 0.698 0.267 0.498 0.233 0.467 0.183 0.679 0.254 0.401 0.226 0.456 Lana [75] [CVPR2023] 0.201 0.694 0.270 0.503 0.230 0.473 0.194 0.689 0.260 0.419 0.219 0.463 Lana+ [76] [TPAMI2023] 0.208 0.721 0.275 0.514 0.232 0.467 0.199 0.692 0.262 0.424 0.220 0.462 C-I NSTRUCTOR † [34] [ECCV2024] 0.230 0.729 0.280 0.534 0.246 0.483 0.211 0.711 0.263 0.450 0.237 0.469 BEVI NSTRUCTOR † [17] [ECCV2024] 0.220 0.731 0.285 0.549 0.238 0.480 0.208 0.699 0.264 0.449 0.230 0.467 MAPI NSTRUCTOR † (Ours) 0.229 0.746 0.301 0.576 0.243 0.497 0.209 0.715 0.285 0.490 0.234 0.485 
+
+Table 1. Quantitative comparison results (§4.2) for NIG on R2R [4] val seen and unseen . †: LLM-based models. 
+
+REVERIE val seen REVERIE val unseen 
+
+Methods SPICE ↑ Bleu-1 ↑ Bleu-4 ↑ CIDEr ↑ Meteor ↑ Rouge ↑ SPICE ↑ Bleu-1 ↑ Bleu-4 ↑ CIDEr ↑ Meteor ↑ Rouge ↑
+
+BT-speaker [20] [NeurIPS2018] 0.121 0.693 0.347 0.269 0.223 0.602 0.103 0.664 0.302 0.190 0.200 0.519 EDrop-speaker [61] [NAACL2019] 0.133 0.666 0.353 0.517 0.237 0.589 0.114 0.655 0.312 0.252 0.222 0.534 CCC-speaker [70] [CVPR2022] 0.138 0.680 0.377 0.549 0.244 0.593 0.117 0.671 0.329 0.280 0.233 0.533 Lana [75] [CVPR2023] 0.137 0.714 0.408 0.619 0.280 0.615 0.108 0.701 0.332 0.406 0.237 0.542 Lana+ [76] [TPAMI2023] 0.140 0.721 0.410 0.606 0.272 0.611 0.111 0.705 0.331 0.401 0.233 0.539 C-I NSTRUCTOR † [34] [ECCV2024] 0.191 0.774 0.437 0.753 0.308 0.638 0.139 0.751 0.366 0.524 0.265 0.593 
+
+BEVI NSTRUCTOR † [17] [ECCV2024] 0.208 0.773 0.425 0.745 0.324 0.635 0.159 0.732 0.335 0.489 0.267 0.560 MAPI NSTRUCTOR † (Ours) 0.186 0.791 0.450 0.771 0.313 0.641 0.158 0.766 0.388 0.562 0.271 0.589 
+
+Table 2. Quantitative comparison results (§4.2) for NIG on REVERIE [54] val seen and unseen . †: LLM-based models. 
+
+RxR val seen RxR val unseen 
+
+Methods Bleu-1 ↑ Bleu-4 ↑ CIDEr ↑ Meteor ↑ Rouge ↑ Bleu-1 ↑ Bleu-4 ↑ CIDEr ↑ Meteor ↑ Rouge ↑
+
+BT-speaker [20] [NeurIPS2018] 0.322 0.067 0.024 0.165 0.249 0.311 0.064 0.022 0.160 0.243 EDrop-speaker [61] [NAACL2019] 0.287 0.052 0.028 0.141 0.250 0.294 0.056 0.027 0.143 0.253 CCC-speaker [70] [CVPR2022] 0.277 0.044 0.018 0.116 0.212 0.266 0.042 0.016 0.113 0.206 Lana [75] [CVPR2023] 0.339 0.121 0.041 0.130 0.269 0.314 0.111 0.045 0.126 0.267 Lana+ [76] [TPAMI2023] 0.341 0.126 0.047 0.129 0.267 0.308 0.115 0.046 0.125 0.268 C-I NSTRUCTOR † [34] [ECCV2024] 0.406 0.133 0.056 0.189 0.314 0.366 0.124 0.053 0.181 0.301 BEVI NSTRUCTOR † [17] [ECCV2024] 0.379 0.124 0.049 0.178 0.302 0.351 0.112 0.043 0.174 0.292 MAPI NSTRUCTOR † (Ours) 0.507 0.169 0.075 0.194 0.326 0.411 0.159 0.057 0.191 0.323 
+
+Table 3. Quantitative comparison results (§4.2) for NIG on RxR [35] val seen and unseen . †: LLM-based models. 
+
+4.2. Quantitative Results 
+
+Performance on R2R. Table 1 presents the numerical results of MAPI NSTRUCTOR with several top-leading methods on R2R. Notably, MAPI NSTRUCTOR outperforms the other methods across most evaluation metrics on both val seen 
+
+and unseen . Specifically, MAPI NSTRUCTOR surpasses competitors by 2.7 % and 4.0 % on CIDEr, underscoring the generalization of our method. 
+
+Performance on REVERIE. Table 2 demonstrates com-parisons of MAPI NSTRUCTOR against previous methods on REVERIE. As an object-centric dataset, REVERIE [54] places a strong emphasis on object detection capabilities. As seen, MAPI NSTRUCTOR still leads to appealing perfor-mance. Note that, except that SPICE, Meteor, and Rouge scores, MAPI NSTRUCTOR outperforms other counterparts across most evaluation metrics. Remarkably, MAPI N-
+
+STRUCTOR surpasses BEVInstructor by 1.8 %/ 3.8 % CIDEr on seen /unseen , indicating better scene understanding. 
+
+Performance on RxR. Table 3 compares MAPI NSTRUC -
+
+TOR with several competitive models on RxR. Given the complexity of instructions in RxR, evaluating the SPICE metric poses challenges. Therefore, we omit this evaluation to ensure a fair comparison. Notably, MAPI NSTRUCTOR 
+
+achieves the best performance across all metrics. Specifi-cally, MAPI NSTRUCTOR surpasses all existing NIG meth-ods by 4.5 %/ 3.5 %/ 0.4 %/ 1.0 %/ 2.2 % across all metrics on 
+
+val unseen , demonstrating its effectiveness in handling more flexible forms of instruction. 
+
+4.3. Qualitative Results 
+
+The qualitative results in Fig. 3 highlight the superiority of MAPI NSTRUCTOR . Basically, MAPI NSTRUCTOR effec-tively captures fine-grained and crucial landmarks along the trajectory ( e.g ., the target object “picture” in REVERIE), thanks to the scene representation encoding module. The existence of scene map-based prompt tuning provides es-sential spatial cues, resulting in more accurate action pre-dictions in the instructions, e.g ., “turn right”. Additionally, MAPI NSTRUCTOR generates three rounds of landmark se-quences for assessment, enabling the model to focus on rel-evant landmarks while reducing redundancy. 6903 Exercise                           
+
+> ball
+> Couch
+> Picture
+> treadmill Exercise
+> bike
+> Landmark Prediction :
+> 1. the couch , the hallway, the exercise room, the exercise bike
+> 2. the sofa, the hallway , the gym, the exercise bike
+> 3. the couch , the hallway, the exercise room, the ball
+> Instruction Generation :walk past the couch and turn right. walk into
+> the exercise room and stop by the exercise bike .
+> Landmark Prediction :
+> 1. the gym, the treadmill ,the picture
+> 2. the exercise room, the treadmill ,the picture
+> 3. the gym ,couch ,the ball ,the picture
+> Instruction Generation :Go to the gym and take down the picture by
+> the treadmill .
+> R2R REVERIE
+> Ground -Truth :Walk past the kitchen and go behind the couch and
+> take a right into the fitness room. Stop next to the treadmill.
+> Ground -Truth :Go to the gym and straighten the picture on the wall by
+> the treadmill .
+> Goal object :picture
+> Map
+
+Figure 3. Visual comparison results between ground truth and MAPI NSTRUCTOR on R2R and REVERIE. See (§4.3) for more details. 
+
+R2R val unseen 
+
+# SRE MPT LUA CIDEr ↑ Meteor ↑ Rouge ↑
+
+1 0.449 0.230 0.467 2 ✓ 0.465 0.231 0.471 3 ✓ 0.476 0.232 0.476 4 ✓ 0.460 0.231 0.469 5 ✓ ✓ ✓ 0.490 0.234 0.485 
+
+Table 4. Ablation study of each core module (§4.4). 
+
+4.4. Diagnostic Experiment 
+
+To gain more insights into MAPI NSTRUCTOR , we conduct a series of ablative studies on R2R. 
+
+Key Component Analysis. We investigate the essential de-signs in MAPI NSTRUCTOR , i.e ., scene representation en-coding (SRE) (§3.2), map prompt tuning (MPT) (§3.3), and landmark uncertainty assessment (LUA) (§3.4). The re-sults are summarized in Table 4, where row #1 refers to the vanilla baseline that is implemented following [17]. Row #2 demonstrates that the scene representation encoding (Eq. 4) yields notable improvement against baseline across all met-rics. This evidences that 3D voxel representation can pro-duce finer-grained reconstruction details, enriching agents’ perception. Next, we observe compelling gains by incorpo-rating map prompt tuning into the baseline, confirming the necessity of topological maps to NIG. Additionally, land-mark uncertainty assessment in row #4 leads to a significant improvement by enhancing landmark selection and reduc-ing hallucinations. In row #5, we combine all components and achieve a satisfactory performance. R2R val unseen 
+
+Models SPICE ↑ CIDEr ↑ Meteor ↑ Rouge ↑
+
+BEV[17] 0.208 0.479 0.231 0.479 Ours 0.209 0.490 0.234 0.485 
+
+Table 5. Ablation study of scene construction (§4.4). 
+
+R2R val unseen 
+
+Models SPICE ↑ CIDEr ↑ Meteor ↑ Rouge ↑
+
+GraphSAGE[25] 0.207 0.486 0.237 0.483 GCN[33] 0.209 0.490 0.234 0.485 
+
+GAT[66] 0.209 0.485 0.235 0.479 
+
+Table 6. Ablation study of mapping architecture (§4.4). 
+
+R2R val unseen 
+
+#Rounds SPICE ↑ CIDEr ↑ Meteor ↑ Rouge ↑
+
+M = 1 0.208 0.479 0.231 0.477 
+
+M = 3 0.209 0.490 0.234 0.485 
+
+M = 5 0.207 0.488 0.236 0.483 
+
+Table 7. Ablation study of LUA rounds (§4.4). 
+
+Scene Construction. In Table 5, we study the impact of different scene construction methods, i.e ., BEV fea-tures [17] and the 3D representation used in MAPI N-
+
+STRUCTOR (Eq. 4). Specifically, we follow the BEV hy-perparameters in [17] for a fair comparison. A clear perfor-mance drop is observed in Table 5, e.g ., CIDEr drops from 
+
+0.490 to 0.479 on R2R. This reveals that finer-grained 3D construction is beneficial to object-level detection. 
+
+Mapping Architecture. We further investigate the im-pact of different graph methods, e.g ., GraphSAGE [25], 6904 HAMT [11] DUET [12] Method SR ↑ SPL ↑ SR ↑ SPL ↑
+
+Human annotation [54] [CVPR2020] 32.95 30.20 46.98 33.73 BT-speaker [20] [NeurIPS2018] 22.48 19.47 28.41 15.30 EDrop-speaker [61] [NAACL2019] 23.74 20.98 30.66 19.27 CCC-speaker [70] [CVPR2022] 23.80 21.18 28.84 14.36 Lana [75] [CVPR2023] 23.94 21.34 31.61 21.26 Lana+ [76] [TPAMI2023] 24.03 21.30 31.56 21.33 C-I NSTRUCTOR † [34] [ECCV2024] 26.42 23.39 34.22 23.86 BEVI NSTRUCTOR † [17] [ECCV2024] 25.68 22.48 33.81 23.23 MAPI NSTRUCTOR † (Ours) 27.31 24.12 35.26 24.63 
+
+(a) The performance of HAMT [11] and DUET [12] guided by different models on REVERIE [54] val unseen .
+
+R2R val unseen 
+
+Data Source TL NE ↓ SR ↑ SPL ↑
+
+Original [54] [CVPR2020] 9.62 5.86 45.4 41.8 + BT-speaker [20] [NeurIPS2018] 9.81 5.95 45.1 41.5 + EDrop-speaker [61] [NAACL2019] 9.33 5.68 45.5 42.2 + CCC-speaker [70] [CVPR2022] 9.43 5.73 45.3 42.0 + Lana [75] [CVPR2023] 9.48 5.75 45.6 42.1 + Lana+ [76] [TPAMI2023] 9.39 5.77 45.9 42.5 + C-I NSTRUCTOR † [34] [ECCV2024] 9.87 5.60 47.0 43.5 + BEVI NSTRUCTOR † [17] [ECCV2024] 9.96 5.66 47.1 43.6 MAPI NSTRUCTOR † (Ours) 10.12 5.54 48.2 44.3 
+
+(b) The results of EDrop-follower [61] using different models for data augmentation on R2R [4] val unseen .Table 8. A set of analysis of instruction quality. See §4.5 for more details. †: LLM-based models. 
+
+GAT [66], GCN [33]. The results in Table 6 indicate that these classic graph-based approaches exhibit similar effects on instruction generation performance. Given the static ge-ometric map for navigation, these message passing-based methods achieve comparable performance. 
+
+Landmark Uncertainty Assessment. We examine the ef-fect involving different rounds of landmark uncertainty as-sessment in Table 7. Note that M = 1 indicates that MAP-INSTRUCTOR adopts a single round of landmark prediction, without landmark uncertainty assessment (§3.4). Compared to this vanilla prediction, the performance improves when 
+
+M > 1. However, as M consistently increases, the perfor-mance gain becomes marginal. 
+
+4.5. Instruction Quality Analysis 
+
+To further evaluate instruction quality, we conduct analy-sis experiments following [17, 34], e.g ., path guiding profi-ciency, data augmentation, and user study. 
+
+Path Guiding Proficiency. We generate one instructions per trajectory on REVERIE [54] val unseen using dif-ferent NIG models. All generated instructions are evalu-ated with typical vision-language navigation (VLN) mod-els, e.g ., HAMT [11] and DUET [12]. Following VLN stud-ies [11, 12], we adopt Success Rate (SR) and Success rate weighted by Path Length (SPL) of navigation as evaluation metrics to assess navigation performance. Table 8a presents the performance of instructions generated by different mod-els when tested with HAMT and DUET. Notably, MAP-INSTRUCTOR attains impressive results, with 24.12 % and 
+
+24.63 % SPL on HAMT and DUET, respectively, approach-ing the performance of human-annotated instructions. 
+
+Data Augmentation. Data augmentation, as a classic appli-cation of generators in VLN, is a crucial method for eval-uating the comprehensive performance of different mod-els. As shown in [17, 34], we randomly sample trajectories from the R2R train splits and generate corresponding in-structions using various models as augmentation for EDrop-follower [61]. In Table 8b, MAPI NSTRUCTOR achieves commendable performance across all metrics, yielding ap-proximately 1.1 % and 0.7 % increases in SR and SPL on the R2R val unseen splits. This highlights the high quality of instructions generated by MAPI NSTRUCTOR .
+
+User Study. We study the diversity and semantic align-ment of generated instructions through a human eval-uation study, following the approach in [17, 34, 76]. Concretely, 30 college students are invited to evaluate 100 instructions generated by various models alongside corresponding trajectories of REVERIE val unseen .These instructions are produced by MAPI NSTRUCTOR , C-INSTRUCTOR, BEVI NSTRUCTOR , BT-speaker, EDrop-speaker, CCC-speaker, Lana, and Lana+. Each instruc-tion is rated on a scale from 0 to 5 based on overall performance. As a result, MAPI NSTRUCTOR achieves the highest score, with an average of 4.11 , outperform-ing the other models: BT-speaker ( 3.21 ), EDrop-speaker (3.39 ), CCC-speaker ( 3.56 ), Lana ( 3.74 ), Lana+ ( 3.79 ), C-INSTRUCTOR ( 3.83 ), and BEVI NSTRUCTOR (3.91 ). This confirms the generalizability of our model. 
+
+## 5. Conclusion 
+
+In this paper, we address the challenges of NIG, where pre-vious studies overlook the role of topological maps in spa-tial scene understanding. We propose MAPI NSTRUCTOR ,a scene map prompt tuning NIG framework. By implicitly incorporating topological graph connections across view-points as map prompt features, MAPI NSTRUCTOR achieves promising performance in complex indoor environments. For local scene representations, MAPI NSTRUCTOR designs a 3D voxel representation for finer-grained, object-level de-tection. Moreover, MAPI NSTRUCTOR introduces a land-mark uncertainty assessment pipeline to reduce landmark prediction hallucinations. Experimental results on NIG datasets ( e.g ., R2R, REVERIE, and RxR) validate its supe-riority over existing methods. In the future, we will explore more LLM-based NIG frameworks with spatial intelligence. 6905 Acknowledgement 
+
+This work was supported by “Pioneer” and “Leading Goose” R&D Program of Zhejiang (No. 2024C01161), the National Natural Science Foundation of China (No. 62372405), and the Fundamental Research Funds for the Central Universities (No. 226-2024-00058). 
+
+## References 
+
+[1] Sanyam Agarwal, Devi Parikh, Dhruv Batra, Peter Ander-son, and Stefan Lee. Visual landmark selection for gener-ating grounded and interpretable navigation instructions. In 
+
+CVPR Workshop , 2019. 2 [2] Dong An, Yuankai Qi, Yangguang Li, Yan Huang, Liang Wang, Tieniu Tan, and Jing Shao. Bevbert: Multimodal map pre-training for language-guided navigation. In ICCV , 2023. 1, 2 [3] Dong An, Hanqing Wang, Wenguan Wang, Zun Wang, Yan Huang, Keji He, and Liang Wang. Etpnav: Evolving topo-logical planning for vision-language navigation in continu-ous environments. IEEE TPAMI , 2024. 2 [4] Peter Anderson, Qi Wu, Damien Teney, Jake Bruce, Mark Johnson, Niko Sünderhauf, Ian Reid, Stephen Gould, and Anton Van Den Hengel. Vision-and-language navigation: Interpreting visually-grounded navigation instructions in real environments. In CVPR , 2018. 2, 3, 5, 6, 8 [5] Fabian Blochliger, Marius Fehr, Marcin Dymczyk, Thomas Schneider, and Rol Siegwart. Topomap: Topological map-ping and navigation based on visual slam maps. In ICRA ,2018. 2 [6] Angel Chang, Angela Dai, Thomas Funkhouser, Maciej Hal-ber, Matthias Niessner, Manolis Savva, Shuran Song, Andy Zeng, and Yinda Zhang. Matterport3D: Learning from RGB-D data in indoor environments. In 3DV , 2017. 4 [7] Devendra Singh Chaplot, Dhiraj Prakashchand Gandhi, Ab-hinav Gupta, and Russ R Salakhutdinov. Object goal naviga-tion using goal-oriented semantic exploration. In NeurIPS ,2020. 2 [8] Jinyu Chen, Wenguan Wang, Si Liu, Hongsheng Li, and Yi Yang. Omnidirectional information gathering for knowledge transfer-based audio-visual navigation. In ICCV , 2023. 1 [9] Jiaqi Chen, Bingqian Lin, Ran Xu, Zhenhua Chai, Xi-aodan Liang, and Kwan-Yee K. Wong. Mapgpt: Map-guided prompting with adaptive path planning for vision-and-language navigation. In ACL , 2024. 2 [10] Mu Chen, Liulei Li, Wenguan Wang, and Yi Yang. Dif-fvsgg: Diffusion-based online video scene graph generation. In CVPR , 2025. 2 [11] Shizhe Chen, Pierre-Louis Guhur, Cordelia Schmid, and Ivan Laptev. History aware multimodal transformer for vision-and-language navigation. In NeurIPS , 2021. 4, 8 [12] Shizhe Chen, Pierre-Louis Guhur, Makarand Tapaswi, Cordelia Schmid, and Ivan Laptev. Think global, act local: Dual-scale graph transformer for vision-and-language navi-gation. In CVPR , 2022. 4, 8 [13] Yibo Cui, Liang Xie, Yakun Zhang, Meishan Zhang, Ye Yan, and Erwei Yin. Grounded entity-landmark adaptive pre-training for vision-and-language navigation. In ICCV , 2023. 2[14] Hideki Deguchi, Kazuki Shibata, and Shun Taguchi. Lan-guage to map: Topological map generation from natural lan-guage path instructions. In ICRA , 2024. 3 [15] Qingxiu Dong, Lei Li, Damai Dai, Ce Zheng, Jingyuan Ma, Rui Li, Heming Xia, Jingjing Xu, Zhiyong Wu, Baobao Chang, Xu Sun, Lei Li, and Zhifang Sui. A survey on in-context learning. In EMNLP , 2024. 3 [16] Gary W Evans, David G Marrero, and Patricia A Butler. En-vironmental learning and cognitive mapping. Environment and behavior , 13(1):83–104, 1981. 1 [17] Sheng Fan, Rui Liu, Wenguan Wang, and Yi Yang. Navi-gation instruction generation with bev perception and large language models. In ECCV , 2024. 1, 2, 3, 4, 5, 6, 7, 8 [18] Sebastian Farquhar, Jannik Kossen, Lorenz Kuhn, and Yarin Gal. Detecting hallucinations in large language models using semantic entropy. Nature , 630(8017):625–630, 2024. 5 [19] Patrick Foo, William H. Warren, Andrew Duchon, and Michael J. Tarr. Do humans integrate routes into a cogni-tive map? map- versus landmark-based navigation of novel shortcuts. Journal of Experimental Psychology: Learning, Memory, and Cognition , page 195–215, 2005. 2 [20] Daniel Fried, Ronghang Hu, Volkan Cirik, Anna Rohrbach, Jacob Andreas, Louis-Philippe Morency, Taylor Berg-Kirkpatrick, Kate Saenko, Dan Klein, and Trevor Darrell. Speaker-follower models for vision-and-language naviga-tion. In NeurIPS , 2018. 1, 2, 4, 5, 6, 8 [21] Yuan Gan, Zongxin Yang, Xihang Yue, Lingyun Sun, and Yi Yang. Efficient emotional adaptation for audio-driven talking-head generation. In ICCV , 2023. 3 [22] Sabine Gillner and Hanspeter A. Mallot. Navigation and ac-quisition of spatial knowledge in a virtual maze. Journal of Cognitive Neuroscience , 10(4):445–463, 1998. 2 [23] Robert Goeddel and Edwin Olson. Dart: A particle-based method for generating easy-to-follow directions. In IROS ,2012. 1 [24] Muraleekrishna Gopinathan, Giang Truong, and Jumana Abu-Khalaf. Indoor semantic scene understanding using 2d-3d fusion. In DICTA , 2021. 2 [25] William L. Hamilton, Rex Ying, and Jure Leskovec. Induc-tive representation learning on large graphs. In NeurIPS ,2017. 7 [26] Weituo Hao, Chunyuan Li, Xiujun Li, Lawrence Carin, and Jianfeng Gao. Towards learning a generic agent for vision-and-language navigation via pre-training. In CVPR , 2020. 5[27] Pengcheng He, Xiaodong Liu, Jianfeng Gao, and Weizhu Chen. Deberta: Decoding-enhanced bert with disentangled attention. In ICLR , 2021. 5 [28] Yining Hong, Haoyu Zhen, Peihao Chen, Shuhong Zheng, Yilun Du, Zhenfang Chen, and Chuang Gan. 3d-llm: Inject-ing the 3d world into large language models. In NeurIPS ,2023. 2, 3 6906 [29] Yushi Hu, Weijia Shi, Xingyu Fu, Dan Roth, Mari Osten-dorf, Luke Zettlemoyer, Noah A Smith, and Ranjay Krishna. Visual sketchpad: Sketching as a visual chain of thought for multimodal language models. In NeurIPS , 2024. 3 [30] Menglin Jia, Luming Tang, Bor-Chun Chen, Claire Cardie, Serge Belongie, Bharath Hariharan, and Ser-Nam Lim. Vi-sual prompt tuning. In ECCV , 2022. 3 [31] Bowen Jin, Gang Liu, Chi Han, Meng Jiang, Heng Ji, and Jiawei Han. Large language models on graphs: A compre-hensive survey. IEEE TKDE , 36(12):8622–8642, 2024. 3 [32] Nuri Kim, Obin Kwon, Hwiyeon Yoo, Yunho Choi, Jeongho Park, and Songhwai Oh. Topological semantic graph mem-ory for image-goal navigation. In CoRL , 2023. 2, 4 [33] Thomas N. Kipf and Max Welling. Semi-supervised classi-fication with graph convolutional networks. In ICLR , 2017. 4, 5, 7, 8 [34] Xianghao Kong, Jinyu Chen, Wenguan Wang, Hang Su, Xi-aolin Hu, Yi Yang, and Si Liu. Controllable navigation in-struction generation with chain of thought prompting. In 
+
+ECCV , 2024. 1, 2, 3, 5, 6, 8 [35] Alexander Ku, Peter Anderson, Roma Patel, Eugene Ie, and Jason Baldridge. Room-Across-Room: Multilingual vision-and-language navigation with dense spatiotemporal ground-ing. In EMNLP , 2020. 2, 5, 6 [36] Lorenz Kuhn, Yarin Gal, and Sebastian Farquhar. Semantic uncertainty: Linguistic invariances for uncertainty estima-tion in natural language generation. In ICLR , 2023. 2, 5 [37] Benjamin Kuipers. Modeling spatial knowledge. Cognitive science , 2(2):129–153, 1978. 1 [38] Chia-Wen Kuo, Chih-Yao Ma, Judy Hoffman, and Zsolt Kira. Structure-encoding auxiliary tasks for improved visual representation in vision-and-language navigation. In WACV ,2023. 2 [39] Junnan Li, Dongxu Li, Silvio Savarese, and Steven Hoi. Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models. In ICML ,2023. 1 [40] Liulei Li, Wenguan Wang, and Yi Yang. Human-object inter-action detection collaborated with large relation-driven diffu-sion models. In NeurIPS , 2024. 2 [41] Xingyuan Li, Jinyuan Liu, Zhixin Chen, Yang Zou, Long Ma, Xin Fan, and Risheng Liu. Contourlet residual for prompt learning enhanced infrared image super-resolution. In ECCV , 2024. 3 [42] Zhiqi Li, Wenhai Wang, Hongyang Li, Enze Xie, Chong-hao Sima, Tong Lu, Yu Qiao, and Jifeng Dai. Bevformer: Learning bird’s-eye-view representation from multi-camera images via spatiotemporal transformers. In ECCV , 2022. 1, 4[43] Haokun Liu, Derek Tam, Mohammed Muqeeth, Jay Mohta, Tenghao Huang, Mohit Bansal, and Colin A Raffel. Few-shot parameter-efficient fine-tuning is better and cheaper than in-context learning. In NeurIPS , 2022. 3 [44] Haotian Liu, Chunyuan Li, Qingyang Wu, and Yong Jae Lee. Visual instruction tuning. In NeurIPS , 2023. 3 [45] Rui Liu, Xiaohan Wang, Wenguan Wang, and Yi Yang. Bird’s-eye-view scene graph for vision-language navigation. In ICCV , 2023. 1, 2 [46] Rui Liu, Wenguan Wang, and Yi Yang. Vision-language nav-igation with energy-based policy. In NeurIPS , 2024. 4 [47] Rui Liu, Wenguan Wang, and Yi Yang. Volumetric envi-ronment representation for vision-language navigation. In 
+
+CVPR , 2024. 2, 4 [48] Jiageng Mao, Yuxi Qian, Junjie Ye, Hang Zhao, and Yue Wang. Gpt-driver: Learning to drive with gpt. In NeurIPS Workshop , 2023. 1 [49] Sewon Min, Xinxi Lyu, Ari Holtzman, Mikel Artetxe, Mike Lewis, Hannaneh Hajishirzi, and Luke Zettlemoyer. Re-thinking the role of demonstrations: What makes in-context learning work? In EMNLP , 2022. 3 [50] Abhinav Moudgil, Arjun Majumdar, Harsh Agrawal, Ste-fan Lee, and Dhruv Batra. Soat: A scene-and object-aware transformer for vision-and-language navigation. In NeurIPS ,2021. 2 [51] Yao Mu, Qinglong Zhang, Mengkang Hu, Wenhai Wang, Mingyu Ding, Jun Jin, Bin Wang, Jifeng Dai, Yu Qiao, and Ping Luo. EmbodiedGPT: Vision-language pre-training via embodied chain of thought. In NeurIPS , 2023. 3 [52] Medhini Narasimhan, Erik Wijmans, Xinlei Chen, Trevor Darrell, Dhruv Batra, Devi Parikh, and Amanpreet Singh. Seeing the un-scene: Learning amodal semantic maps for room navigation. In ECCV , 2020. 2 [53] OpenAI. Gpt-4 technical report, 2023. 5 [54] Yuankai Qi, Qi Wu, Peter Anderson, Xin Wang, William Yang Wang, Chunhua Shen, and Anton van den Hengel. Reverie: Remote embodied visual referring expres-sion in real indoor environments. In CVPR , 2020. 2, 5, 6, 8[55] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learn-ing transferable visual models from natural language super-vision. In ICML , 2021. 1, 3 [56] Nikolay Savinov, Alexey Dosovitskiy, and Vladlen Koltun. Semi-parametric topological memory for navigation. In 
+
+ICLR , 2018. 2 [57] Dhruv Shah, Bła˙ zej Osi´ nski, Sergey Levine, et al. Lm-nav: Robotic navigation with large pre-trained models of lan-guage, vision, and action. In CoRL , 2023. 2, 3 [58] Yucheng Suo, Fan Ma, Linchao Zhu, and Yi Yang. Knowledge-enhanced dual-stream zero-shot composed im-age retrieval. In CVPR , 2024. 2 [59] Yucheng Suo, Fan Ma, Kaixin Shen, Linchao Zhu, and Yi Yang. Long-horizon visual instruction generation with logic and attribute self-reflection. In ICLR , 2025. 3 [60] Hao Tan and Mohit Bansal. Lxmert: Learning cross-modality encoder representations from transformers. In 
+
+EMNLP , 2019. 1 [61] Hao Tan, Licheng Yu, and Mohit Bansal. Learning to nav-igate unseen environments: Back translation with environ-mental dropout. In NAACL , 2019. 1, 2, 4, 5, 6, 8 [62] Sebastian Thrun. Learning metric-topological maps for in-door mobile robot navigation. Artificial intelligence , 99(1): 21–71, 1998. 2 6907 [63] Wenwen Tong, Chonghao Sima, Tai Wang, Li Chen, Silei Wu, Hanming Deng, Yi Gu, Lewei Lu, Ping Luo, Dahua Lin, et al. Scene as occupancy. In ICCV , 2023. 4 [64] Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, et al. Llama: Open and efficient foundation language models. 
+
+arXiv preprint arXiv:2302.13971 , 2023. 5 [65] Eric J Vanetti and Gary L Allen. Communicating environ-mental knowledge: The impact of verbal and spatial abili-ties on the production and comprehension of route directions. 
+
+Environment and Behavior , 20(6):667–682, 1988. 1 [66] Petar Veliˇ ckovi´ c, Guillem Cucurull, Arantxa Casanova, Adriana Romero, Pietro Liò, and Yoshua Bengio. Graph at-tention networks. In ICLR , 2018. 7, 8 [67] Hanqing Wang, Wenguan Wang, Tianmin Shu, Wei Liang, and Jianbing Shen. Active visual information gathering for vision-language navigation. In ECCV , 2020. 2 [68] Hanqing Wang, Wenguan Wang, Wei Liang, Caiming Xiong, and Jianbing Shen. Structured scene memory for vision-language navigation. In CVPR , 2021. 2, 4 [69] Hanqing Wang, Wei Liang, Luc V Gool, and Wenguan Wang. Towards versatile embodied navigation. In NeurIPS ,2022. 1 [70] Hanqing Wang, Wei Liang, Jianbing Shen, Luc Van Gool, and Wenguan Wang. Counterfactual cycle-consistent learn-ing for instruction following and generation in vision-language navigation. In CVPR , 2022. 1, 2, 4, 5, 6, 8 [71] Hanqing Wang, Wei Liang, Luc Van Gool, and Wenguan Wang. Dreamwalker: Mental planning for continuous vision-language navigation. In ICCV , 2023. 1 [72] Hanqing Wang, Wenguan Wang, Wei Liang, Steven CH Hoi, Jianbing Shen, and Luc Van Gool. Active perception for visual-language navigation. IJCV , 131(3):607–625, 2023. 1 [73] Ranxiao Frances Wang and Elizabeth S Spelke. Human spa-tial representation: insights from animals. Trends in Cogni-tive Sciences , 6(9):376–382, 2002. 2 [74] Su Wang, Ceslee Montgomery, Jordi Orbay, Vighnesh Birod-kar, Aleksandra Faust, Izzeddin Gur, Natasha Jaques, Austin Waters, Jason Baldridge, and Peter Anderson. Less is more: Generating grounded navigation instructions from landmarks. In CVPR , 2022. 2 [75] Xiaohan Wang, Wenguan Wang, Jiayi Shao, and Yi Yang. Lana: A language-capable navigator for instruction follow-ing and generation. In CVPR , 2023. 1, 2, 4, 5, 6, 8 [76] Xiaohan Wang, Wenguan Wang, Jiayi Shao, and Yi Yang. Learning to follow and generate instructions for language-capable navigation. IEEE TPAMI , 46(5):3334–3350, 2023. 2, 5, 6, 8 [77] Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc V Le, Ed H. Chi, Sharan Narang, Aakanksha Chowdhery, and Denny Zhou. Self-consistency improves chain of thought reasoning in language models. In ICLR , 2023. 3 [78] Zihan Wang, Xiangyang Li, Jiahao Yang, Yeqi Liu, and Shuqiang Jiang. Gridmm: Grid memory map for vision-and-language navigation. In ICCV , 2023. 2 [79] Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Fei Xia, Ed Chi, Quoc V Le, Denny Zhou, et al. Chain-of-thought prompting elicits reasoning in large lan-guage models. In NeurIPS , 2022. 3 [80] Yi Wei, Linqing Zhao, Wenzhao Zheng, Zheng Zhu, Jie Zhou, and Jiwen Lu. Surroundocc: Multi-camera 3d occu-pancy prediction for autonomous driving. In ICCV , 2023. 4[81] Zhenhua Xu, Yujia Zhang, Enze Xie, Zhen Zhao, Yong Guo, Kwan-Yee K Wong, Zhenguo Li, and Hengshuang Zhao. Drivegpt4: Interpretable end-to-end autonomous driving via large language model. IEEE RAL , 2024. 1 [82] Yu Yan, Rongtao Xu, Jiazhao Zhang, Peiyang Li, Xiaodan Liang, and Jianqin Yin. Instrugen: Automatic instruction generation for vision-and-language navigation via large mul-timodal models. arXiv preprint arXiv:2411.11394 , 2024. 1 [83] Zongxin Yang, Guikun Chen, Xiaodi Li, Wenguan Wang, and Yi Yang. Doraemongpt: Toward understanding dynamic scenes with large language models (exemplified as a video agent). In ICML , 2024. 3 [84] Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Tom Griffiths, Yuan Cao, and Karthik Narasimhan. Tree of thoughts: Deliberate problem solving with large language models. In NeurIPS , 2024. 3 [85] Jiazhao Zhang, Kunyu Wang, Rongtao Xu, Gengze Zhou, Yicong Hong, Xiaomeng Fang, Qi Wu, Zhizheng Zhang, and He Wang. Navid: Video-based vlm plans the next step for vision-and-language navigation. In RSS , 2024. 1 [86] Yunpeng Zhang, Zheng Zhu, and Dalong Du. Occformer: Dual-path transformer for vision-based 3d semantic occu-pancy prediction. In ICCV , 2023. 4 [87] Yusheng Zhao, Jinyu Chen, Chen Gao, Wenguan Wang, Lirong Yang, Haibing Ren, Huaxia Xia, and Si Liu. Target-driven structured transformer planner for vision-language navigation. In ACM MM , 2022. 1, 4 [88] Gengze Zhou, Yicong Hong, and Qi Wu. Navgpt: Explicit reasoning in vision-and-language navigation with large lan-guage models. In AAAI , 2024. 1, 2, 3 [89] Deyao Zhu, Jun Chen, Xiaoqian Shen, Xiang Li, and Mo-hamed Elhoseiny. MiniGPT-4: Enhancing vision-language understanding with advanced large language models. In 
+
+ICLR , 2024. 3 [90] Xizhou Zhu, Weijie Su, Lewei Lu, Bin Li, Xiaogang Wang, and Jifeng Dai. Deformable detr: Deformable transformers for end-to-end object detection. In ICLR , 2020. 4 6908

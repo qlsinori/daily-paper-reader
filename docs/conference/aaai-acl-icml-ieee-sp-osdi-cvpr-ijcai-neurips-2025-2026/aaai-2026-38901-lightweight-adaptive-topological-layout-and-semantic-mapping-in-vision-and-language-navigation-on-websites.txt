@@ -1,0 +1,590 @@
+Title: Lightweight Adaptive Topological Layout and Semantic Mapping in Vision-and-Language Navigation on Websites
+
+URL Source: https://ojs.aaai.org/index.php/AAAI/article/download/38901/42863
+
+Number of Pages: 9
+
+Markdown Content:
+# Lightweight Adaptive Topological Layout And Semantic Mapping in Vision-and-Language Navigation on Websites 
+
+## Pingrui Lai 1, Zihao Xie 1, Hua Yang 1* 
+
+> 1
+
+School of Information Science and Electronical Engineering & School of Integrated Circuits, Shanghai Jiao Tong University, Shanghai, China laipingrui@sjtu.edu.cn, xzh031202@sjtu.edu.cn, hyang@sjtu.edu.cn 
+
+Abstract 
+
+Vision-and-Language navigation on websites requires agents to navigate target webpages and answer questions based on human instructions. Current web agents primarily leverage Large Language Models (LLMs) for semantic understanding and reasoning, but still suffer from limited navigation perfor-mance and slow inference speed. Constructing a global map across webpages can effectively enhance both navigation ac-curacy and efficiency. However, this is challenged by the open structure of web navigation graphs and the dynamic nature of web layouts. In this paper, we propose ATLAS: Adap-tive Topological Layout And Semantic mapping, a framework that adaptively constructs a time-varying, unbounded topo-logical map across webpages and unifies heterogeneous el-ements through semantic representation. This enables both global path planning and local element selection for web-based navigation and question answering. As a lightweight approach, ATLAS significantly outperforms existing state-of-the-art methods on the WebVLN benchmark with a 10% improvement in success rate, and achieves the highest aver-age task success rate on both the Mind2Web and WebArena benchmarks. 
+
+Code — https://github.com/26aaai/ATLAS 
+
+## Introduction 
+
+Every day, billions of users interact with the web—clicking links, filling out forms, and retrieving information. Automat-ing such interactions is essential for building intelligent agents, yet enabling machines to navigate the web effec-tively remains a challenging task. Current web navigation can be regarded as a vision-and-language navigation problem (Anderson et al. 2018), where agents follow instructions, comprehend the structural layout of webpages, and locate specific information accordingly. Previous approaches typically trained web agents using re-inforcement learning (RL) or multimodal models. In recent years, with the rapid advancement of large language models (LLMs), recent works have attempted to leverage LLMs to build web agents capable of navigating webpages that follow natural language instructions. These agents have achieved promising results in web navigation tasks. 
+
+> *
+
+Corresponding author. Copyright © 2026, Association for the Advancement of Artificial Intelligence (www.aaai.org). All rights reserved. Click the     
+
+> "Outdoor
+> furniture"
+> button
+> Click
+> the
+> corresp
+> onding
+> button
+> Search
+> for
+> “Outdoor
+> furniture
+> " in the
+> search
+> bar
+> Scroll
+> through
+> the page,
+> and click
+> the
+> relevant
+> button
+> Instruction: What is the price of the IDZO Liberte Accent Chairs
+> Set of 2 on the Amazon website?
+> Scroll
+> :Current
+> Node
+> :Visited
+> Node
+> :Accessible
+> Node
+> :Unreachable
+> Node
+> Website
+> Navigation
+> Semantic
+> Map
+> Website
+> Navigation
+> Semantic
+> Map
+> Same website,
+> different
+> layouts
+
+Figure 1: An Example of the Dynamic Nature of Web-page Layouts. Even the same webpage can vary structurally when accessed by different users or at different times. This results in a mismatch between theoretically reachable nodes and those that are practically accessible in the web seman-tic graph. The agent is supposed to make decisions based on varying observation spaces. However, most existing web agents heavily rely on the memory and reasoning capabilities of LLMs. While the strength of pre-trained LLMs lies in their zero-shot gener-alization across tasks, two major limitations persist: (1) lim-ited navigation performance and (2) slow inference speed. LLMs lack explicit modules for efficient state representa-tion and action selection, and their token-by-token genera-tion introduces significant latency. In terms of both task suc-cess rate and completion time, LLM-based web agents still lag far behind human performance, indicating that current LLM-centric approaches are insufficient for supporting effi-cient web navigation systems. We observe that web navigation, like robot navigation, can be formulated as a Partially Observable Markov Deci-The Fortieth AAAI Conference on Artificial Intelligence (AAAI-26) 
+
+18370 sion Process (POMDP) (Kaelbling, Littman, and Cassandra 1998). The action space of a web agent (e.g., clicking but-tons or scrolling pages) is analogous to that of robot navi-gation (e.g., moving forward or turning left) where each ac-tion leads to a new observation space. From this perspective, one of the key factors that has significantly improved perfor-mance and efficiency in robot navigation is the construction of a global map during exploration (e.g., via Simultaneous Localization and Mapping, SLAM (Durrant-Whyte and Bai-ley 2006)), which provides a global view and structured en-vironmental representation for decision-making. However, applying global map construction to web nav-igation poses a significant challenge due to the openness of the navigation graph structure . Unlike navigation maps in the real world that typically exhibit well-defined bound-aries, webpages contain a wide variety of elements such as buttons, hyperlinks, and content blocks, which lead to dif-ferent target pages. This results in a connection graph that can expand indefinitely, making it nearly impossible for the agent to exhaustively explore all possible regions. Another key challenge lies in the dynamic nature of webpage lay-outs . As illustrated in Figure 1, even the same webpage may exhibit notable layout variations across different users or access times. Such variability introduces discrepancies be-tween theoretically reachable nodes and those that are ac-tually accessible in the current state, leading to a mismatch between the observation space and the action space. This further increases the complexity of the agent’s perception and decision-making processes. To address these challenges, we propose ATLAS :
+
+Adaptive Topological Layout And Semantic mapping. AT-LAS facilitates the exploration process in navigation by pro-gressively constructing a time-varying, unbounded topolog-ical map of the web environment, supporting both global path planning and local element selection. In addition, it introduces a semantic mapping module that unifies diverse HTML elements into a structured representation, enabling consistent scene understanding. Compared to existing meth-ods, ATLAS is a lightweight approach that achieves supe-rior navigation performance while significantly reducing in-ference latency. Specifically, ATLAS achieves state-of-the-art (sota) performance on WebVLN, Mind2Web, and We-bArena datasets. In terms of inference speed, ATLAS runs 2 to 5 times faster than open-source LLMs (e.g., Llama 3). Our contributions are summarized as follows: • We propose ATLAS, a lightweight web navigation framework that constructs adaptive topological layouts to enable more effective global and local planning. • We design a semantic mapping module that transforms heterogeneous HTML elements into a unified represen-tation, allowing the agent to reason over structured web content. • ATLAS outperforms sota methods on the WebVLN benchmark by over 10% in success rate, and achieves 2–5× faster inference compared to open-source LLMs. 
+
+## Related Work 
+
+Traditional Web Navigation Methods 
+
+Web navigation tasks (Shi et al. 2017; Yang et al. 2023) have evolved from simple scenarios—such as answering ques-tions based on a single webpage (Chang et al. 2022)—to more complex, multi-step decision-making settings (Zhou et al. 2023). Early research leveraged RL to enable agents to explore web environments (Liu et al. 2018). Subsequent work (Jia, Kiros, and Ba 2019; He et al. 2021) extended ca-pabilities by utilizing the Document Object Model (DOM) structure to perform more complex tasks such as book-ing flights. Other studies have expanded the scope from pure navigation to interactive operation tasks, involving both static page manipulations (Deng et al. 2023) and dynamic web interactions (Yao et al. 2022). Recent approaches aim to unify web element understand-ing through language and multimodal models. For instance, WebAgent (Gur et al. 2023) pretrains a T5 model to extract HTML information and employs Flan-U-PaLM (Chowdh-ery et al. 2023) for agent construction. PIX2ACT (Shaw et al. 2023) takes webpage screenshots as input to predict agent actions end-to-end. WebGUM (Furuta et al. 2023) combines T5 (Raffel et al. 2020) with a Vision Transformer, jointly leveraging screenshots and HTML text for naviga-tion. Although some systems have been successfully de-ployed on live websites (Zhou et al. 2023), there remains a significant performance gap between agents and human users (Lai et al. 2024), and effective strategies for further improving navigation performance are still lacking. 
+
+Web Navigation with Large Language Models 
+
+The strong reasoning capabilities of LLMs enable zero-shot performance on web navigation tasks. Accordingly, there has been growing interest in integrating LLMs with web environments. Early work such as WebGPT (Nakano et al. 2021) and WebGLM (Liu et al. 2023a) connected LLMs with web interfaces to perform question-answering (QA) tasks. Several efforts have focused on enabling LLMs to bet-ter handle structured web data. StructGPT (Jiang et al. 2023) explored ways to enhance zero-shot reasoning over struc-tured information. MindAct (Deng et al. 2023) proposed a method to identify target elements via iterative filtering and multiple-choice selection mechanisms. (Kim, Baldi, and McAleer 2023) introduced a recursive prompting method to improve GPT-4’s navigation capabilities. (Liu et al. 2023c) proposed a multi-agent collaboration framework to improve performance in the WebShop environment (Yao et al. 2022). (Zeng et al. 2023) fine-tuned LLaMA-2 on in-teraction trajectories and instruction data, achieving better performance than traditional agent-based baselines. Recent work has shifted focus toward evaluating LLM-based agents on online websites. WebVoyager (He et al. 2024) constructed a multimodal agent capable of accom-plishing tasks in real-world online environments. AutoWe-bGLM (Lai et al. 2024), based on ChatGLM, demonstrated strong web browsing capabilities. SeeAct (Zheng et al. 2024) conducted the first human evaluation on live web-sites. AgentTrek (Xu et al. 2024) utilized GPT-4o to filter 18371 Elements  ℬ𝑡              
+
+> CNN
+> LUT
+> MLP MLP
+> Type Textual
+> 𝒇 𝒊
+> [CLS] What is the price range of …
+> [SEP] You can find it on CarMax.
+> BERT
+> 𝑉 : Language Tokens
+> Cross -
+> Attention
+> Self -
+> Attention
+> Feed
+> Forward
+> Action
+> Decoder
+> 𝑎 𝑡
+> local
+> 𝑡
+> NodeEncoder
+> Dynamic Node Addition
+> Web -Aware Edge Construction
+> 𝒉
+> ~
+> 𝑖
+> 𝒈 𝑡
+> MLP
+> 𝑎 𝑖
+> global
+> MLP
+> 𝛽
+> 𝑎 𝑡
+> final
+> Fusion
+> 𝑠 𝐸 𝑂𝐴
+> QAEncoder
+> QADecoder
+> From $24,897
+> to $32,998.
+> Response 𝑅
+> Webpage
+> GAT
+> 𝒇 𝒊
+> 𝐥
+> :Current Node
+> :Visited Node
+> :Accessible
+> :Unreachabl e
+> :Concatenate
+> 1. State
+> and
+> Context
+> Initialization
+> 2. Adaptive Topological Layout Construction
+> 3. Semantic Mapping Module
+> 4. Graph -Guided
+> Navigation Planning
+> 5. Web -Aware Answer Generation
+
+Figure 2: Overview of ATLAS. ATLAS comprises five main components: (1) State and Context Initialization, which en-codes language tokens using a pre-trained BERT, (2) Adaptive Topological Layout Construction, which dynamically builds a web-oriented graph structure, (3) Semantic Mapping Module, which transforms heterogeneous HTML elements into unified semantic representations, (4) Graph-Guided Navigation Planning, which performs both global navigation and local element selection, and (5) Web-Aware Answer Generation, which leverages the constructed semantic graph for question answering. low-quality trajectories using task descriptions, actions, and reasoning traces. Despite the promising potential of LLM-based web agents, several limitations remain. These include high response latency (e.g., WebVoyager suffers from token overload) and an overreliance on LLMs, which makes it dif-ficult to achieve architectural improvements in navigation performance through either fine-tuning or prompt engineer-ing alone (Xue et al. 2025). 
+
+## Method 
+
+Problem Formulation 
+
+This task can be formulated as a POMDP, represented by the tuple (S, A, O, T, R). Here, S denotes the set of en-vironment states, with each state corresponding to the in-formation of a specific webpage. At the beginning of each episode, the agent receives a natural language instruction Q
+
+and an auxiliary description D, which specify the naviga-tion goal and relevant details. At each timestep t, the agent is in state st ∈ S and receives an observation ot ∈ O ,where ot = ( It, Bt). It is an RGB screenshot of the cur-rent webpage, and Bt is the set of clickable buttons on the current page. Each button b ∈ B t is described by a tuple 
+
+(db, e b), where db is a textual description (e.g., the HTML 
+
+alt attribute), and eb is an associated image if available. The agent selects an action at ∈ A , where the action space 
+
+At ⊆ B t ∪ { b[EOA] } consists of the subset of reachable click-able buttons and a special ”stop” action b[EOA] indicating the end of navigation. After executing action at, the agent tran-sitions to a new state st+1 according to the transition func-tion T (st+1 | st, a t), which follows the corresponding struc-ture of the website. The episode terminates when the agent selects the “stop” action or reaches a predefined maximum number of steps. Upon termination, the agent is required to generate a response or answer R to the initial question Q
+
+based on the information in the final state s[EOA ]. The ob-jective is to learn a policy π(at | ht), where ht is the history of observations and actions up to time t, so as to maximize the expected reward R, which reflects both the success of navigation to the target webpage and the correctness of the generated answer. 
+
+Overview 
+
+As illustrated in Figure 2, ATLAS consists of five main com-ponents. 
+
+1. State and Context Initialization We utilize a pre-trained BERT model (Devlin et al. 2019) to initialize the model state and context tokens. At initialization ( t = 0 ), the model receives a sequence consisting of the classifica-tion token [CLS], the separation token [SEP], and language tokens V extracted from the question Q and auxiliary de-scription D. The embedded [CLS] token serves as the initial state representation s0 and is continuously updated during navigation to maintain awareness of the overall task. The initialization process is defined as: 
+
+s0, V = Init ([ CLS ], Q, [SEP ], D ), (1) where Init (·) denotes the initialization function. The lan-guage tokens V are generated only once at initialization and are subsequently used as keys and values in the Transformer. 
+
+2. Adaptive Topological Layout Construction The adap-tive topological layout module incrementally builds a web-oriented graph representation, capturing both the structural relationships between pages and the semantic coherence of 18372 navigation paths. At each timestep t, we maintain a graph 
+
+Gt = {V t, Et} and construct the nodes and edges of the graph as follows: 
+
+Dynamic Node Addition The node set Vt contains three types of nodes: (1) visited nodes Vvisited  
+
+> t
+
+, (2) accessible nodes 
+
+Vaccessible  
+
+> t
+
+, and (3) the current node vcurrent  
+
+> t
+
+. Each node vi is as-sociated with a semantic representation hi that encodes both visual and textual features. The computation of hi depends on the node’s state: [a] For visited nodes. [b] For accessible but unvisited nodes. [c] For the current node. hi is computed as: 
+
+hi =
+
+
+
+> 1
+> |O i|
+
+P
+
+> o∈O i
+
+o, if [a]
+
+> 1
+> |N i|
+
+P 
+
+> vj∈N i
+
+oj→i, if [b]
+
+olatest  
+
+> i
+
+, if [c]
+
+(2) where Oi denotes all past observations at node vi, Ni is the set of neighboring nodes with partial views of vi, and olatest 
+
+> i
+
+refers to the recent observation at the current node. 
+
+Web-Aware Edge Construction The edges between nodes in the graph are constructed by combining structural hyper-link information with semantic similarity. The edge weight 
+
+eij between nodes vi and vj is defined as: 
+
+eij = 1link (vi, v j ) + α · cos  hi, hj
+
+, (3) where 1link (vi, v j ) is a binary indicator function defined as: 
+
+1link (vi, v j ) = 
+
+1, if there exists a link from vi to vj ,
+
+0, otherwise. (4) 
+
+cos( hi, hj ) = h⊤   
+
+> ihj
+> ∥hi∥∥ hj∥
+
+denotes the similarity between the semantic embeddings hi and hj of nodes i and j, respec-tively. α is a hyperparameter that balances the relative con-tributions of structural connectivity and semantic similarity. 
+
+Adaptive Graph Update When the agent visits a new web-page, the graph is updated as: 
+
+Vt+1 = Vt ∪ { vcurrent  
+
+> t+1
+
+} ∪ N (vcurrent  
+
+> t+1
+
+), (5) 
+
+Et+1 = Et ∪ { (vcurrent  
+
+> t
+
+, v current  
+
+> t+1
+
+)} ∪ E new , (6) where N (·) denotes accessible neighboring webpages, and 
+
+Enew denotes newly discovered edges. 
+
+3. Semantic Mapping Module Let Bt = {b1, . . . , b |B t|}
+
+denote the set of HTML elements on page t. The seman-tic mapping module encodes each element bi ∈ B t into a unified semantic representation fi ∈ Rd through a sequence of modality-specific embeddings and transformer-based fu-sion. 
+
+Multi-Modal Embedding Each bi is mapped into a type embedding vector based on its HTML tag and attributes: 
+
+ti = ϕtype (bi) (7) where ϕtype (·) is a learnable function that combines a tag embedding lookup ϕtag and a MLP over selected attributes 
+
+ϕattr , followed by a linear projection: 
+
+ϕtype (bi) = Wt · [ϕtag (tag (bi)) , ϕ attr (attributes (bi))] + bt
+
+(8) where Wt and bt are learnable parameters of the linear pro-jection. The final element representation fi ∈ Rd is obtained by concatenating its visual, type, and textual features: 
+
+fi = [ ϕvis (bi), ϕ type (bi), ϕ text (bi)] (9) where ϕvis : B → Rdv extracts features from the bounding box region of element b, using a Convolutional Neural Net-work (CNN) encoder. ϕtext : B → Rds encodes the textual content using a Multilayer Perceptron (MLP) encoder. 
+
+Semantic Coherence To capture structural and contextual relationships among all elements on the webpage, we apply a multi-layer transformer encoder (SemanticEncoder) over the sequence of fused element embeddings: 
+
+[f ′
+
+> 1
+
+, . . . , f ′|B t|] = SemanticEncoder ([ f1, . . . , f|B t|]) , (10) where each transformer layer alternates between: 
+
+z(ℓ) 
+
+> i
+
+= MHA 
+
+
+
+f (ℓ−1)  
+
+> i
+
+, F(ℓ−1) , F(ℓ−1) 
+
+, (11) 
+
+f (ℓ) 
+
+> i
+
+= FFN 
+
+
+
+LayerNorm (z(ℓ) 
+
+> i
+
+)
+
+
+
++ z(ℓ) 
+
+> i
+
+, (12) where MHA denotes multi-head attention, FFN is a feed-forward network, and F(ℓ−1) is the set of all element features from the previous layer. Cross-attention with instruction to-kens V can be inserted between layers. 
+
+4. Graph-Guided Navigation Planning The agent per-forms hierarchical decision-making by leveraging both global topological reasoning and local element interactions. 
+
+Global Navigation Planning To reason over the topological structure of the web environment, we first encode all nodes 
+
+vi ∈ V t in the graph Gt using a Transformer-based node encoder: ehi = NodeEncoder (hi), (13) where hi is the initial pooled representation of node vi, as computed in the topological layout module. hcurr  
+
+> t
+
+denotes the semantic embedding of the current node at time t, gt is the global graph context at time t. These transformed node em-beddings are then concatenated with V , and processed by a graph attention network (Veliˇ ckovi´ c et al. 2017): 
+
+gt = GAT (Gt, [ehi, V ], hcurr  
+
+> t
+
+), (14) 
+
+aglobal  
+
+> t
+
+= FFN ([ ehi, gt, hcurr  
+
+> t
+
+]) , (15) where aglobal  
+
+> t
+
+means the global action, GAT( ·) means Graph Attention Transformer, it applies graph attention condi-tioned on the node context and instruction tokens. 
+
+Local Element Selection For local decision-making, we ap-ply a transformer-based action decoder over the previously computed semantic features f (ℓ) 
+
+> i
+
+:
+
+alocal  
+
+> t
+
+= ActionDecoder ([ st, f (ℓ)1 , . . . , f (ℓ)
+
+> |B t|
+
+]) , (16) where alocal  
+
+> t
+
+means the local action. 
+
+Feature Fusion To integrate global planning with local ev-idence, we compute a fusion weight βt and interpolate be-tween global and local scores: 
+
+βt = σ(FFN ([ gt, f (ℓ)1 , . . . , f (ℓ)
+
+> |B t|
+
+]) , (17) 
+
+afinal  
+
+> t
+
+= βt · aglobal  
+
+> t
+
++ (1 − βt) · alocal  
+
+> t
+
+, (18) where σ is the sigmoid function, afinal  
+
+> t
+
+is the fused action at timestep t after combining global and local evidence. 18373 5. Web-Aware Answer Generation To generate answers grounded in both the navigation trajectory and the underly-ing web structure, we adopt a multi-stage process that fuses global semantic context with the language query. 
+
+Context Representation Construction We first construct a context representation that integrates the final naviga-tion state sEOA and the dynamically constructed topological graph Gfinal :
+
+canswer = QAEncoder ([ sEOA , gfinal ]) (19) where QAEncoder is a multi-layer transformer. It jointly en-codes the fused sequence of the final navigation state, lan-guage context, and the web-aware topological embedding. 
+
+Answer Generation Given the encoded context canswer , we decode the final answer using a Transformer-based QADe-coder: 
+
+R = QADecoder (canswer ) (20) where QADecoder is a transformer decoder that generates the answer sequence conditioned on the context embedding. 
+
+Training Strategy 
+
+Our training objective consists of three major components: semantic understanding, navigation policy learning, and an-swer generation. The semantic mapping loss Lsemantic cap-tures the structural understanding of HTML content through three sub-losses: 
+
+Lsemantic = Ltype + Lrel + Lcoh , (21) where Ltype = P 
+
+> i
+
+CE (ytype  
+
+> i
+
+, ˆytype  
+
+> i
+
+) is the element type clas-sification loss, computed via cross-entropy over predicted types, Lrel = P 
+
+> (i,j )
+
+BCE (rij , ˆrij ) supervises pairwise re-lationships using binary cross-entropy, where rij denotes the ground-truth relation between elements i and j, Lcoh =
+
+∥G − ˆG∥22 enforces global layout coherence, where G is the ground-truth graph embedding and ˆG is the predicted one. The navigation policy is trained using supervised learn-ing: 
+
+Lnav = − X
+
+> t
+
+log p(at | st) (22) where at is the ground-truth action, pt is the predicted prob-ability distribution. The answer generation loss is defined as: 
+
+Lans =
+
+> L
+
+X
+
+> l=1
+
+− log p(wl|w<l , s EOA ), (23) The total training loss integrates all three components: 
+
+Ltotal = Lnav + λLans + γLsemantic , (24) where λ and γ are hyperparameters. 
+
+## Experiments 
+
+Datasets and Evaluation Metrics 
+
+We evaluate our model primarily on WebVLN dataset (Chen et al. 2024), which jointly measures navigation success and 0 10 20 30 40 12345WebRL DigiRL AWR Filtered BC SFT (Llama3.1-8B) SFT (Qwen2.5-3B) Llama3.1-8B ATLAS TTI AutoWebGLM NNetNav CodeAct AgentLM-13b AgentLM-7b AT SR 
+
+> Over 2× speed of open-source small models
+
+Figure 3: Task success rate (SR) and Average Time Per Step (AT) on WebArena (Online). ■: open-source models, 
+
+▲: closed-source models. QA accuracy. We further assess performance and efficiency on two widely used datasets for web manipulation tasks: Mind2Web (Deng et al. 2023) and WebArena (Zhou et al. 2023). 
+
+WebVLN contains 14,825 tasks that combine navigation with QA. Agents should reach the target page and answer questions based on its content. Evaluation includes navi-gation metrics—Success Rate (SR), Oracle Success Rate (OSR), Success Rate weighted by Path Length (SPL), and Trajectory Length (TL)—as well as QA metrics based on Wu-Palmer Similarity (WUPS) at thresholds 0.0 and 0.9. 
+
+Mind2Web includes 2,350 tasks from 137 websites across 31 domains, designed to test generalization across tasks, websites, and domains. The main metric is task Success Rate (SR), requiring all steps to be completed in the correct order. 
+
+WebArena consists of 812 tasks covering scenarios such as search, navigation, and manipulation. Evaluation focuses on task Success Rate (SR) and inference speed, measured by Average Time per step (AT) during online execution. 
+
+Implementation Details 
+
+The feature extraction backbone for webpage is a ResNet-152 model pre-trained on ImageNet (Anderson et al. 2018). The transformer layers for the NodeEncoder, ActionDe-coder, QAEncoder, and QADecoder are set to 9, 2, 4, and 4 layers, respectively. During initialization, we adopt the OSCAR pre-trained weights to initialize the BERT model (Hong et al. 2020). For hyperparameter settings, we follow the same configuration as WebVLNNet, with α = 1 ,
+
+λ = 1 and γ = 1 (Chen et al. 2024). Model training and inference are conducted using NVIDIA Tesla A100 and NVIDIA RTX 3090 GPUs. For the Mind2Web and We-bArena datasets, we made task-specific modifications due to differences in action space compared to the WebVLN task. 
+
+Comparison with SOTAs 
+
+Web Navigation We compare our method with two cat-egories of sota approaches: one category comprises web navigation-based methods (see Table 1), and the other in-cludes LLM-based zero-shot/few-shot methods (see Table 2). Experimental results demonstrate that: (1) ATLAS sig-nificantly improves web navigation performance : On the validation set, ATLAS achieves a 12.5% ↑ in SR, a 16.56% ↑18374 Methods Validation Test 
+
+SR ↑ OSR ↑ SPL ↑ TL ↓ WUPS0.9 ↑ WUPS0.0 ↑ SR ↑ OSR ↑ SPL ↑ TL ↓ WUPS0.9 ↑ WUPS0.0 ↑
+
+Random 0.05 0.17 0.02 6.49 0.00 0.00 0.04 0.17 0.02 6.50 0.00 0.00 VLNBERT (Hong et al. 2020) 17.59 17.59 16.73 6.81 9.99 13.91 11.28 12.04 10.75 7.55 7.12 9.26 VLNBERT* 18.62 18.62 18.14 6.96 11.23 14.98 12.23 12.23 11.74 7.72 8.50 10.36 WebGUM (Furuta et al. 2023) 6.02 6.02 6.02 2.99 1.84 4.08 9.71 9.71 9.71 3.15 3.57 6.98 WebGUM † 31.22 31.78 31.22 3.44 18.26 24.88 29.29 29.39 29.26 3.44 17.34 23.48 WebVLN-Net (Chen et al. 2024) 39.46 39.54 39.46 3.71 24.26 31.87 34.76 34.80 34.59 4.34 22.13 28.58 
+
+ATLAS (Ours) 51.51 56.10 51.44 3.90 31.21 41.43 51.79 56.72 51.73 4.48 30.56 41.54 
+
+Table 1: Comparison with Navigation-Based Methods on WebVLN Dataset. ∗ denotes the model is initialized by LXMERT. WebGUM and WebGUM † denote the models based on T5-small and T5-base separately. 
+
+Methods SR ↑ OSR ↑ SPL ↑ TL ↓ WUPS0.9 ↑ WUPS0.0 ↑
+
+AgentBench [1] 6.97 11.94 4.13 5.39 1.64 4.65 NavGPT [2] 7.46 12.94 4.53 4.98 2.43 5.23 NavGPT ∗ 16.92 21.89 11.61 5.43 5.97 12.06 ActionVerse [3] 40.02 41.18 39.78 5.62 - -
+
+ATLAS (Ours) 51.79 56.72 51.73 4.48 30.56 41.54 
+
+Table 2: Comparison with LLM-Based Methods on We-bVLN Dataset. ∗ denotes using GPT4. Research works: [1]: (Liu et al. 2023b), [2]: (Zhou, Hong, and Wu 2024) [3]: (Wang, Zhuang, and Wu 2025).                                               
+
+> Method Cross-Task Cross-Website Cross-Domain Avg
+> GPT-3.5-Turbo 17.4 16.2 18.6 17.4 GPT-4 †36.2 30.1 26.4 30.9 Flan-T5-XL-3B ∗52.0 38.9 39.6 43.5 LLaMA2-7B ∗52.7 47.1 50.3 50.1 LLaMA2-70B ∗55.8 51.6 55.7 54.4 Qwen-VL ∗12.6 10.1 8.0 10.2 SeeClick ∗(Cheng et al. 2024) 23.7 18.8 20.2 20.9 CogVLM (Wang et al. 2024) 37.1 23.4 26.3 23.9 AutoWebGLM (Lai et al. 2024) 66.4 56.4 55.8 59.5 CogAgent (Hong et al. 2024) 62.3 54.0 59.4 58.2
+> ATLAS (1.5B) 68.0 58.2 57.2 61.0
+
+Table 3: Task Success Rate on Mind2Web. The best scores are highlighted in red and the secondary scores are high-lighted in blue. Avg: Average. ∗ indicates the model’s fine-tuning on training set, and † denotes element selection from top-10 element candidates, others from top-50, following previous works (Lai et al. 2024). in OSR, and an 11.98 ↑ in SPL compared to the navigation-based sota method WebVLN-Net. The performance gains on the test set are even more substantial, with a 17.03% ↑
+
+in SR, a 21.92% ↑ in OSR, and a 17.14 ↑ in SPL. Com-pared to LLM-based approaches, ATLAS not only achieves higher navigation SR but also achieves the lowest TL, re-ducing it by 10% relative to sota. This indicates that ATLAS makes fewer erroneous page jumps or suboptimal search de-cisions, further validating the effectiveness of adaptive graph construction. (2) ATLAS substantially improves QA per-formance : Compared to WebVLN-Net, ATLAS achieves a 6.95 ↑ in WUPS0.9 and a 9.56 ↑ in WUPS0.0 on the vali-dation set. On the test set, the improvements are even more pronounced, with an 8.43 ↑ in WUPS0.9 and a 13.03 ↑ in WUPS0.0. These results indicate that ATLAS can not only accurately reach the target webpage but also effectively inte-grate webpage information to answer questions. (3) ATLAS Method Red. Git. CMS Map Shop. Avg                                                                        
+
+> Qwen2.5-3B 5.3 13.3 5.7 0.0 4.4 6.1 Llama3.1-8B 5.3 10.0 5.7 15.4 8.9 8.5 Qwen2.5-32B 10.5 20.0 20.0 19.2 17.8 16.9 GPT-4o 10.5 20.0 20.0 20.0 11.1 13.9 GPT-4o-Turbo 10.5 16.7 14.3 36.7 13.3 17.6 QwQ-32B 15.8 33.3 25.7 15.4 20.0 22.4 OpenAI-o3 36.8 46.7 45.7 38.5 33.3 39.4 OpenAI-o4-mini 47.4 43.3 45.7 26.9 28.9 36.9 SteP ∗(Bai et al. 2024) 59.4 31.7 24.2 30.3 36.9 33.5 LM-TS ∗(Koh et al. 2024) 10.5 13.3 16.5 25.8 28.1 19.2 BC †(Torabi, Warnell, and Stone 2018) 36.8 6.7 20.0 33.3 17.8 20.6 AWR †(Peng et al. 2019) 57.9 26.7 31.4 26.7 17.8 28.5 Filtered BC †(Pan et al. 2024) 52.6 20.0 31.4 23.3 8.9 23.0 DigiRL †(Bai et al. 2024) 57.9 26.7 37.1 33.3 17.8 30.3
+> ATLAS (Ours) 52.0 45.0 50.0 32.0 36.0 41.0
+
+Table 4: Task success rate on WebArena-Lite (Offline). 
+
+The best scores are highlighted in red and the secondary scores are highlighted in blue. Avg: Average. ∗: model based on GPT-4o. †: model based on Llama3.1-8B. ATL SM GP F SR ↑ OSR ↑ SPL ↑ TL ↓ WUPS0.9 ↑ WUPS0.0 ↑
+
+✓ ✓ ✓ 30.98 37.88 30.99 3.32 18.54 24.88 
+
+✓ ✓ ✓ 39.55 47.87 39.56 4.92 27.52 33.71 
+
+✓ ✓ ✓ 40.65 47.48 40.52 4.66 28.55 34.37 
+
+✓ ✓ ✓ 40.66 47.48 40.45 4.61 38.55 34.72 
+
+✓ ✓ ✓ ✓ 51.79 56.72 51.73 4.48 30.56 41.54 
+
+Table 5: Ablation Study on System Architecture. leads to an increase in trajectory length : While ATLAS maintains the shortest TL compared to LLM-based methods, it exhibits a moderate increase in TL relative to navigation-based methods. specifically, a 5.12% ↑ over WebVLN-Net. This is primarily due to the graph construction process, which involves exploration, the agent needs sufficient ex-ploration to identify relevant paths, particularly in dynamic web environments. 
+
+Web Manipulation Web manipulation tasks require agents to perform concrete operations on webpages, such as filling out forms, uploading files, and more. The re-sults on Mind2Web and WebArena are presented in Table 3 and Table 4, respectively. Experimental findings demon-strate the following: (1) ATLAS exhibits strong general-ization across tasks and websites : On both the Cross-Task and Cross-Website settings of Mind2Web, ATLAS outper-forms sota methods. It also achieves higher SR than sota 18375 Lnav Ltype Lrel Lcoh Lans SR ↑ OSR ↑ SPL ↑ TL ↓ WUPS0.9 ↑ WUPS0.0 ↑                              
+
+> ✓47.78 51.45 43.85 4.66 9.75 10.30
+> ✓✓47.85 52.08 47.82 4.65 10.04 11.85
+> ✓✓✓49.90 53.53 48.66 4.55 10.25 12.74
+> ✓✓✓✓51.50 56.10 51.44 4.50 10.54 13.35
+> ✓✓✓✓✓51.79 56.72 51.73 4.48 30.56 41.54
+
+Table 6: Ablation Study on Training Loss. Response: Please fill out the lost item              
+
+> inquiry form, wait for the lost and found .. .Response :
+> You can chat online with Chuck by cli
+> cking [Link ]...
+> Question: Find out what to do when I lose an item on a bus on us.megabus .
+> ATLAS WebVLN -Net
+> Step 1
+> Step 2
+> Step 3
+> Step 4
+> Step 5
+> (a) )
+> (b) )
+> (c) )
+> (d) )
+> (c) )
+> (a) )
+> (b) )
+> (c) )
+> (d) )
+> State Transition Alluvial Diagram
+
+Figure 4: Qualitative Analysis of ATLAS and WebVLN-Net. In this task, ATLAS successfully guided the user to fill out the lost and found form and wait for further pro-cessing, whereas WebVLN-Net provided relatively irrele-vant suggestions, such as advising the user to contact cus-tomer service via online chat or email. baselines on both datasets, with 1.5% ↑ on Mind2Web and 1.6% ↑on WebArena. (2) ATLAS still faces challenges in information integration and tool usage : In environ-ments such as Reddit, where successful task completion requires reasoning over posts, replies, and search content, and Map, which involves interacting with multiple software tools, ATLAS performs relatively worse—without major modifications to its system components. Nevertheless, AT-LAS still demonstrates strong performance on long-horizon tasks, achieving 4.3% ↑ in the CMS environment. (3) AT-LAS strikes a balance between efficiency and perfor-mance : Figure 3 compares the SR and AT of different mod-els under online evaluation. Compared with the proprietary LLM pipeline (ScribeAgent + GPT-4o), ATLAS achieves over 10× speedup with a 10% ↓ in SR. Moreover, while being more than 2× faster, ATLAS consistently outperforms open-source lightweight LLM-based baselines. 
+
+Qualitative Analysis We present a case study comparing ATLAS and WebVLN-Net, as illustrated in Figure 4. After correctly navigating to the target page, ATLAS further ex-plored subsequent pages (the “Contact Us” page), but upon identifying that the additional content was less relevant to the question, it effectively backtracked and produced an ac-curate answer. In contrast, WebVLN-Net performed a linear navigation through the webpages and, although it generated a plausible answer, its relevance to the question was rela-tively weak. This demonstrates that the graph-based strat-egy adopted by ATLAS enables a more effective balance between exploration and exploitation, resulting in more ac-curate web navigation and question answering. 
+
+Ablation Study 
+
+We design two types of ablation studies to evaluate the ef-fectiveness of the system architecture and training strategy. 
+
+System Architecture : We conducted ablation studies by individually removing four key components of the AT-LAS architecture: Adaptive Topological Layout Construc-tion (ATL), Semantic Mapping module (SM), Graph-Guided Navigation Planning (GP), and Feature Fusion (F), as shown in Table 5. The results demonstrate the following: (1) The inclusion of ATL significantly enhances system perfor-mance : Removing ATL leads to a substantial drop in SR from 51.79 to 30.98 and in SPL from 51.73 to 30.99, high-lighting the critical role of adaptive layout construction in effective web navigation. (2) Each module plays a vital role in the overall system : These components contribute complementarily by bridging web structural understanding with semantic interpretation. The integration of all modules enables ATLAS to effectively balance navigation efficiency and answer accuracy. 
+
+Training Strategy : We conduct an ablation study on the loss function, as shown in Table 6. The results demon-strate that the strategy incorporating all five loss compo-nents achieves the best performance across nearly all eval-uation metrics. Specifically, adding Lrel and Lcoh on top of Lnav and Ltype significantly improves navigation perfor-mance (SR increases from 47.85 to 51.50) and enhances semantic relevance in answers (WUPS@0.0 improves from 11.85 to 13.35). Introducing Lans leads to a substantial gain in answer accuracy, with WUPS@0.0 jumping from 13.35 to 41.54. These findings underscore the importance of jointly optimizing all loss terms for achieving robust performance in both navigation and question answering tasks. 
+
+## Conclusion 
+
+In this paper, we propose ATLAS: Adaptive Topological Layout And Semantic mapping, a framework that dynam-ically constructs webpage topological relations through an adaptive mechanism and aligns the distribution of web ele-ments via semantic mapping. This enables the integration of global planning and local decision-making for effective web navigation and QA. ATLAS achieves over a 10% improve-ment in success rate compared to sota methods on the We-bVLN dataset. It also improves task success rates by 1.5% and 1.6% on the Mind2Web and WebArena datasets, respec-tively, while delivering a 2–5× speedup over existing open-source LLM-based approaches. Although ATLAS exhibits certain limitations in information integration and tool usage, it offers a lightweight solution for the design of web agents. 18376 Acknowledgments 
+
+This research was partly supported by grants of National Natural Science Foundation of China (NSFC, Grant No. 62171281), Science and Technology Commission of Shang-hai Municipality (STCSM, Grant Nos. 25GA32001003). 
+
+## References 
+
+Anderson, P.; Wu, Q.; Teney, D.; Bruce, J.; Johnson, M.; S¨ underhauf, N.; Reid, I.; Gould, S.; and Van Den Hen-gel, A. 2018. Vision-and-language navigation: Interpreting visually-grounded navigation instructions in real environ-ments. In Proceedings of the IEEE conference on computer vision and pattern recognition , 3674–3683. Bai, H.; Zhou, Y.; Pan, J.; Cemri, M.; Suhr, A.; Levine, S.; and Kumar, A. 2024. Digirl: Training in-the-wild device-control agents with autonomous reinforcement learning. 
+
+Advances in Neural Information Processing Systems , 37: 12461–12495. Chang, Y.; Narang, M.; Suzuki, H.; Cao, G.; Gao, J.; and Bisk, Y. 2022. Webqa: Multihop and multimodal qa. In Pro-ceedings of the IEEE/CVF conference on computer vision and pattern recognition , 16495–16504. Chen, Q.; Pitawela, D.; Zhao, C.; Zhou, G.; Chen, H.-T.; and Wu, Q. 2024. Webvln: Vision-and-language navigation on websites. In Proceedings of the AAAI Conference on Artifi-cial Intelligence , volume 38, 1165–1173. Cheng, K.; Sun, Q.; Chu, Y.; Xu, F.; Li, Y.; Zhang, J.; and Wu, Z. 2024. Seeclick: Harnessing gui grounding for ad-vanced visual gui agents. arXiv preprint arXiv:2401.10935 .Chowdhery, A.; Narang, S.; Devlin, J.; Bosma, M.; Mishra, G.; Roberts, A.; Barham, P.; Chung, H. W.; Sutton, C.; Gehrmann, S.; et al. 2023. Palm: Scaling language model-ing with pathways. Journal of Machine Learning Research ,24(240): 1–113. Deng, X.; Gu, Y.; Zheng, B.; Chen, S.; Stevens, S.; Wang, B.; Sun, H.; and Su, Y. 2023. Mind2web: Towards a gen-eralist agent for the web. Advances in Neural Information Processing Systems , 36: 28091–28114. Devlin, J.; Chang, M.; Lee, K.; and Toutanova, K. 2019. BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Burstein, J.; Doran, C.; and Solorio, T., eds., Proceedings of the 2019 Conference of the North American Chapter of the Association for Com-putational Linguistics: Human Language Technologies, Vol-ume 1 (Long and Short Papers) , 4171–4186. Minneapolis, Minnesota: Association for Computational Linguistics. Durrant-Whyte, H.; and Bailey, T. 2006. Simultaneous lo-calization and mapping: part I. IEEE robotics & automation magazine , 13(2): 99–110. Furuta, H.; Lee, K.-H.; Nachum, O.; Matsuo, Y.; Faust, A.; Gu, S. S.; and Gur, I. 2023. Multimodal web naviga-tion with instruction-finetuned foundation models. arXiv preprint arXiv:2305.11854 .Gur, I.; Furuta, H.; Huang, A.; Safdari, M.; Matsuo, Y.; Eck, D.; and Faust, A. 2023. A real-world webagent with plan-ning, long context understanding, and program synthesis. 
+
+arXiv preprint arXiv:2307.12856 .He, H.; Yao, W.; Ma, K.; Yu, W.; Dai, Y.; Zhang, H.; Lan, Z.; and Yu, D. 2024. WebVoyager: Building an end-to-end web agent with large multimodal models. arXiv preprint arXiv:2401.13919 .He, K.; Huang, Y.; Wu, Q.; Yang, J.; An, D.; Sima, S.; and Wang, L. 2021. Landmark-rxr: Solving vision-and-language navigation with fine-grained alignment supervision. Ad-vances in Neural Information Processing Systems , 34: 652– 663. Hong, W.; Wang, W.; Lv, Q.; Xu, J.; Yu, W.; Ji, J.; Wang, Y.; Wang, Z.; Dong, Y.; Ding, M.; et al. 2024. Cogagent: A visual language model for gui agents. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 14281–14290. Hong, Y.; Wu, Q.; Qi, Y.; Rodriguez-Opazo, C.; and Gould, S. 2020. A recurrent vision-and-language bert for naviga-tion. arXiv preprint arXiv:2011.13922 .Jia, S.; Kiros, J.; and Ba, J. 2019. Dom-q-net: Grounded rl on structured language. arXiv preprint arXiv:1902.07257 .Jiang, J.; Zhou, K.; Dong, Z.; Ye, K.; Zhao, W. X.; and Wen, J.-R. 2023. Structgpt: A general framework for large lan-guage model to reason over structured data. arXiv preprint arXiv:2305.09645 .Kaelbling, L. P.; Littman, M. L.; and Cassandra, A. R. 1998. Planning and Acting in Partially Observable Stochastic Do-mains. Artificial Intelligence , 101(1–2): 99–134. Kim, G.; Baldi, P.; and McAleer, S. 2023. Language models can solve computer tasks. Advances in Neural Information Processing Systems , 36: 39648–39677. Koh, J. Y.; McAleer, S.; Fried, D.; and Salakhutdinov, R. 2024. Tree search for language model agents. arXiv preprint arXiv:2407.01476 .Lai, H.; Liu, X.; Iong, I. L.; Yao, S.; Chen, Y.; Shen, P.; Yu, H.; Zhang, H.; Zhang, X.; Dong, Y.; et al. 2024. Au-toWebGLM: A Large Language Model-based Web Navigat-ing Agent. In Proceedings of the 30th ACM SIGKDD Con-ference on Knowledge Discovery and Data Mining , 5295– 5306. Liu, E. Z.; Guu, K.; Pasupat, P.; Shi, T.; and Liang, P. 2018. Reinforcement learning on web interfaces using workflow-guided exploration. arXiv preprint arXiv:1802.08802 .Liu, X.; Lai, H.; Yu, H.; Xu, Y.; Zeng, A.; Du, Z.; Zhang, P.; Dong, Y.; and Tang, J. 2023a. WebGLM: towards an efficient web-enhanced question answering system with hu-man preferences. In Proceedings of the 29th ACM SIGKDD conference on knowledge discovery and data mining , 4549– 4560. Liu, X.; Yu, H.; Zhang, H.; Xu, Y.; Lei, X.; Lai, H.; Gu, Y.; Ding, H.; Men, K.; Yang, K.; et al. 2023b. Agentbench: Evaluating llms as agents. arXiv preprint arXiv:2308.03688 .Liu, Z.; Yao, W.; Zhang, J.; Xue, L.; Heinecke, S.; Murthy, R.; Feng, Y.; Chen, Z.; Niebles, J. C.; Arpit, D.; et al. 2023c. Bolaa: Benchmarking and orchestrating llm-augmented au-tonomous agents. arXiv preprint arXiv:2308.05960 .Nakano, R.; Hilton, J.; Balaji, S.; Wu, J.; Ouyang, L.; Kim, C.; Hesse, C.; Jain, S.; Kosaraju, V.; Saunders, W.; et al. 18377 2021. Webgpt: Browser-assisted question-answering with human feedback. arXiv preprint arXiv:2112.09332 .Pan, J.; Zhang, Y.; Tomlin, N.; Zhou, Y.; Levine, S.; and Suhr, A. 2024. Autonomous evaluation and refinement of digital agents. arXiv preprint arXiv:2404.06474 .Peng, X. B.; Kumar, A.; Zhang, G.; and Levine, S. 2019. Advantage-weighted regression: Simple and scal-able off-policy reinforcement learning. arXiv preprint arXiv:1910.00177 .Raffel, C.; Shazeer, N.; Roberts, A.; Lee, K.; Narang, S.; Matena, M.; Zhou, Y.; Li, W.; and Liu, P. J. 2020. Explor-ing the limits of transfer learning with a unified text-to-text transformer. Journal of machine learning research , 21(140): 1–67. Shaw, P.; Joshi, M.; Cohan, J.; Berant, J.; Pasupat, P.; Hu, H.; Khandelwal, U.; Lee, K.; and Toutanova, K. N. 2023. From pixels to ui actions: Learning to follow instructions via graphical user interfaces. Advances in Neural Information Processing Systems , 36: 34354–34370. Shi, T.; Karpathy, A.; Fan, L.; Hernandez, J.; and Liang, P. 2017. World of bits: An open-domain platform for web-based agents. In International Conference on Machine Learning , 3135–3144. PMLR. Torabi, F.; Warnell, G.; and Stone, P. 2018. Behavioral cloning from observation. arXiv preprint arXiv:1805.01954 .Veliˇ ckovi´ c, P.; Cucurull, G.; Casanova, A.; Romero, A.; Lio, P.; and Bengio, Y. 2017. Graph attention networks. arXiv preprint arXiv:1710.10903 .Wang, W.; Lv, Q.; Yu, W.; Hong, W.; Qi, J.; Wang, Y.; Ji, J.; Yang, Z.; Zhao, L.; XiXuan, S.; et al. 2024. Cogvlm: Visual expert for pretrained language models. Advances in Neural Information Processing Systems , 37: 121475–121499. Wang, X.; Zhuang, B.; and Wu, Q. 2025. Action as a Modal-ity: Turning Multi-Modal LLMs to General Action Plan-ners. OpenReview . Available at https://openreview.net/pdf? id=jaIxmAVAqF. Xu, Y.; Lu, D.; Shen, Z.; Wang, J.; Wang, Z.; Mao, Y.; Xiong, C.; and Yu, T. 2024. AgentTrek: Agent Trajectory Synthesis via Guiding Replay with Web Tutorials. arXiv preprint arXiv:2412.09605 .Xue, T.; Qi, W.; Shi, T.; Song, C. H.; Gou, B.; Song, D.; Sun, H.; and Su, Y. 2025. An illusion of progress? as-sessing the current state of web agents. arXiv preprint arXiv:2504.01382 .Yang, Z.; Li, L.; Lin, K.; Wang, J.; Lin, C.-C.; Liu, Z.; and Wang, L. 2023. The dawn of lmms: Preliminary explorations with gpt-4v (ision). arXiv preprint arXiv:2309.17421 , 9(1): 1. Yao, S.; Chen, H.; Yang, J.; and Narasimhan, K. 2022. Webshop: Towards scalable real-world web interaction with grounded language agents. Advances in Neural Information Processing Systems , 35: 20744–20757. Zeng, A.; Liu, M.; Lu, R.; Wang, B.; Liu, X.; Dong, Y.; and Tang, J. 2023. Agenttuning: Enabling generalized agent abilities for llms. arXiv preprint arXiv:2310.12823 .Zheng, B.; Gou, B.; Kil, J.; Sun, H.; and Su, Y. 2024. Gpt-4v (ision) is a generalist web agent, if grounded. arXiv preprint arXiv:2401.01614 .Zhou, G.; Hong, Y.; and Wu, Q. 2024. Navgpt: Explicit reasoning in vision-and-language navigation with large lan-guage models. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 38, 7641–7649. Zhou, S.; Xu, F. F.; Zhu, H.; Zhou, X.; Lo, R.; Sridhar, A.; Cheng, X.; Ou, T.; Bisk, Y.; Fried, D.; et al. 2023. Webarena: A realistic web environment for building au-tonomous agents. arXiv preprint arXiv:2307.13854 .18378

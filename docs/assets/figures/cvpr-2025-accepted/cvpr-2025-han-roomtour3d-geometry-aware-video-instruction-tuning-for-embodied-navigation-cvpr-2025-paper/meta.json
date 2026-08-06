@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "figures": [
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-roomtour3d-geometry-aware-video-instruction-tuning-for-embodied-navigation-cvpr-2025-paper/fig-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1064,
+      "height": 899,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-roomtour3d-geometry-aware-video-instruction-tuning-for-embodied-navigation-cvpr-2025-paper/fig-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 644,
+      "height": 84,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-roomtour3d-geometry-aware-video-instruction-tuning-for-embodied-navigation-cvpr-2025-paper/fig-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 1792,
+      "height": 733,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-roomtour3d-geometry-aware-video-instruction-tuning-for-embodied-navigation-cvpr-2025-paper/fig-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 1809,
+      "height": 629,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-han-roomtour3d-geometry-aware-video-instruction-tuning-for-embodied-navigation-cvpr-2025-paper/fig-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 1623,
+      "height": 608,
+      "label": "Figure"
+    }
+  ]
+}

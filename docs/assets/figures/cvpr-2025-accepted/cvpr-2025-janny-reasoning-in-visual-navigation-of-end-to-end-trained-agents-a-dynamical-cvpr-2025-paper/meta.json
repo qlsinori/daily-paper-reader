@@ -1,0 +1,96 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "figures": [
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-janny-reasoning-in-visual-navigation-of-end-to-end-trained-agents-a-dynamical-cvpr-2025-paper/fig-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 787,
+      "height": 530,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-janny-reasoning-in-visual-navigation-of-end-to-end-trained-agents-a-dynamical-cvpr-2025-paper/fig-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 453,
+      "height": 378,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-janny-reasoning-in-visual-navigation-of-end-to-end-trained-agents-a-dynamical-cvpr-2025-paper/fig-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 1835,
+      "height": 397,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-janny-reasoning-in-visual-navigation-of-end-to-end-trained-agents-a-dynamical-cvpr-2025-paper/fig-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 435,
+      "height": 191,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-janny-reasoning-in-visual-navigation-of-end-to-end-trained-agents-a-dynamical-cvpr-2025-paper/fig-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 856,
+      "height": 354,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-janny-reasoning-in-visual-navigation-of-end-to-end-trained-agents-a-dynamical-cvpr-2025-paper/fig-006.webp",
+      "caption": "",
+      "page": 0,
+      "index": 6,
+      "width": 731,
+      "height": 721,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-janny-reasoning-in-visual-navigation-of-end-to-end-trained-agents-a-dynamical-cvpr-2025-paper/fig-007.webp",
+      "caption": "",
+      "page": 0,
+      "index": 7,
+      "width": 1639,
+      "height": 503,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-janny-reasoning-in-visual-navigation-of-end-to-end-trained-agents-a-dynamical-cvpr-2025-paper/fig-008.webp",
+      "caption": "",
+      "page": 0,
+      "index": 8,
+      "width": 1637,
+      "height": 420,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-janny-reasoning-in-visual-navigation-of-end-to-end-trained-agents-a-dynamical-cvpr-2025-paper/fig-009.webp",
+      "caption": "",
+      "page": 0,
+      "index": 9,
+      "width": 732,
+      "height": 564,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-janny-reasoning-in-visual-navigation-of-end-to-end-trained-agents-a-dynamical-cvpr-2025-paper/fig-010.webp",
+      "caption": "",
+      "page": 0,
+      "index": 10,
+      "width": 827,
+      "height": 410,
+      "label": "Figure"
+    }
+  ]
+}

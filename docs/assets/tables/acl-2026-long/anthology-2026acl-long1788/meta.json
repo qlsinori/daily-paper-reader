@@ -1,0 +1,105 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "tables": [
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1581,
+      "height": 416,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 730,
+      "height": 255,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 444,
+      "height": 230,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 784,
+      "height": 456,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 649,
+      "height": 103,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-006.webp",
+      "caption": "",
+      "page": 0,
+      "index": 6,
+      "width": 1557,
+      "height": 146,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-007.webp",
+      "caption": "",
+      "page": 0,
+      "index": 7,
+      "width": 816,
+      "height": 487,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-008.webp",
+      "caption": "",
+      "page": 0,
+      "index": 8,
+      "width": 651,
+      "height": 148,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-009.webp",
+      "caption": "",
+      "page": 0,
+      "index": 9,
+      "width": 578,
+      "height": 125,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-010.webp",
+      "caption": "",
+      "page": 0,
+      "index": 10,
+      "width": 574,
+      "height": 169,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/acl-2026-long/anthology-2026acl-long1788/table-011.webp",
+      "caption": "",
+      "page": 0,
+      "index": 11,
+      "width": 559,
+      "height": 169,
+      "label": "Table"
+    }
+  ]
+}

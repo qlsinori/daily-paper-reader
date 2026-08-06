@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "tables": [
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-han-roomtour3d-geometry-aware-video-instruction-tuning-for-embodied-navigation-cvpr-2025-paper/table-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1647,
+      "height": 296,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-han-roomtour3d-geometry-aware-video-instruction-tuning-for-embodied-navigation-cvpr-2025-paper/table-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 732,
+      "height": 731,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-han-roomtour3d-geometry-aware-video-instruction-tuning-for-embodied-navigation-cvpr-2025-paper/table-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 1630,
+      "height": 747,
+      "label": "Table"
+    }
+  ]
+}
