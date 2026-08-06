@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-06T04:27:03.345754+00:00",
+  "generated_at": "2026-08-06T06:47:42.585141+00:00",
   "updated_date": "20260708-20260806",
   "carryover_days": 9,
   "tag_states": {
@@ -315,6 +315,48 @@
           "matched_query_tag": "query:semantic-map",
           "matched_query_text": "semantic map representation for navigation and environment understanding",
           "matched_requirement_id": "req-8",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.23797v1",
+          "carry_days": 1
+        }
+      ]
+    },
+    "vln-memory": {
+      "updated_date": "20260708-20260806",
+      "carryover_days": 9,
+      "items": [
+        {
+          "id": "2607.23797v1",
+          "source": "arxiv",
+          "title": "Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map",
+          "abstract": "A robot carrying a persistent, behavior-annotated map faces two planning questions, and its memory answers only one well. The \\emph{spatial-navigation} question -- how to walk around a room -- we address first and report a negative: building on Vision--Language--Motion Maps (VLMM), a behavior-aware planner cost cuts a planning-time objective by $\\sim$35\\% over 28 AI2-THOR scenes, but under closed-loop execution the real benefit nearly vanishes ($\\sim$4\\%) and an on-demand vision--language model (VLM) does as well. The \\emph{resource-allocation} question differs: under a limited perception budget, what should the robot re-observe now to keep its map fresh? Framing re-perception as this attention decision, we show a persistent map's memory (change-history, or even just recency of last sighting) yields the best schedule (held-out), matching an oracle, while the memoryless VLM prior is poor. Because the schedule reallocates budget toward what matters, memory's benefit concentrates on the important objects ($\\sim$1.6$\\times$ the mean), and a downstream fetch task confirms fewer wasted trips; the gain grows with per-instance heterogeneity exactly as a Cauchy--Schwarz bound predicts -- it equals $\\mathrm{Var}(\\sqrtλ)$, the variance of root-volatility. With a real CLIP prior on rendered objects the advantage is $+21$--$26\\%$. The map's distinctive value appears when the task is \\emph{language-conditioned}: told what to track, VLMM grounds the relevant objects (open-vocabulary) and tracks their change (memory), beating even a strong relevance-weighted recency baseline ($+2.5\\%$) -- so its motion channel adds value beyond a last-seen timestamp -- and an on-demand VLM ($+8.9\\%$); neither language nor dynamics alone suffices. The map earns its keep not by telling the robot how to walk around a room, but by telling it what to pay attention to.",
+          "authors": [
+            "Dibyendu Ghosh"
+          ],
+          "primary_category": "cs.RO",
+          "categories": [
+            "cs.RO"
+          ],
+          "published": "2026-07-26T18:49:54+00:00",
+          "link": "https://arxiv.org/pdf/2607.23797v1",
+          "tags": [
+            "keyword:vln-memory",
+            "query:vln-memory"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "persistent map memory for embodied navigation",
+          "llm_evidence_cn": "持久地图作为具身导航的记忆，并用于感知资源分配",
+          "llm_evidence": "持久地图作为具身导航的记忆，并用于感知资源分配",
+          "canonical_evidence": "持久地图作为具身导航的记忆，并用于感知资源分配",
+          "llm_tldr_en": "This paper explores a persistent Vision-Language-Motion Map for navigation; the spatial-planning benefit fades in closed-loop, but framing re-perception as attention decision keeps map useful under limited perception budgets.",
+          "llm_tldr_cn": "本文研究携带持久行为标注地图的机器人在导航中的两个规划问题。在空间导航问题上，基于视觉-语言-运动地图的行为感知规划器在28个AI2-THOR场景中将规划目标降低约35%，但闭环执行时收益几乎消失。相反，在有限感知预算下将重感知视为注意力决策，可有效保持地图新鲜度。该结果表明持久地图的价值更多体现在感知资源分配而非直接导航收益。",
+          "llm_tldr": "本文研究携带持久行为标注地图的机器人在导航中的两个规划问题。在空间导航问题上，基于视觉-语言-运动地图的行为感知规划器在28个AI2-THOR场景中将规划目标降低约35%，但闭环执行时收益几乎消失。相反，在有限感知预算下将重感知视为注意力决策，可有效保持地图新鲜度。该结果表明持久地图的价值更多体现在感知资源分配而非直接导航收益。",
+          "llm_tags": [
+            "query:vln-memory"
+          ],
+          "matched_query_tag": "query:vln-memory",
+          "matched_query_text": "long-term spatial memory for robot navigation",
+          "matched_requirement_id": "req-4",
           "selection_source": "carryover_cache",
           "paper_id": "2607.23797v1",
           "carry_days": 1

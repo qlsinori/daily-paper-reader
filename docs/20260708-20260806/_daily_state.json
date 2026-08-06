@@ -1,9 +1,9 @@
 {
   "date": "20260708-20260806",
   "date_label": "2026-07-08 ~ 2026-08-06",
-  "generated_at": "2026-08-06 04:47:42 UTC",
+  "generated_at": "2026-08-06 06:54:28 UTC",
   "recommend_exists": true,
-  "run_count": 1,
+  "run_count": 2,
   "papers": [
     {
       "paper_id": "2607.12630v2",
@@ -14,12 +14,280 @@
         {
           "kind": "query",
           "label": "embodied-nav"
+        },
+        {
+          "kind": "query",
+          "label": "semantic-map"
         }
       ],
       "score": 10.0,
-      "evidence": "提出实例增强语义地图，从颜色和深度构建2.5D实例级地图以支持视觉语言导航",
+      "evidence": "实例级语义地图用于VLN，直接对应语义地图导航",
       "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.23504v1",
+      "route": "20260708-20260806/2607.23504v1-memvln-episodic-and-procedural-memory-for-vision-and-language-navigation",
+      "title": "MemVLN: Episodic and Procedural Memory for Vision-and-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        },
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "面向视觉-语言导航的情节记忆与程序记忆",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.29600v1",
+      "route": "20260708-20260806/2607.29600v1-ham-vln-harnessing-hierarchical-agentic-memory-for-zero-shot-vision-and-language-navigation",
+      "title": "HAM-VLN: Harnessing Hierarchical Agentic Memory for Zero-Shot Vision-and-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        },
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "用于零样本VLN的层级智能体记忆，构建持久深度世界图",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.10383v3",
+      "route": "20260708-20260806/2607.10383v3-abot-n1-toward-a-general-visual-language-navigation-foundation-model",
+      "title": "ABot-N1: Toward a General Visual Language Navigation Foundation Model",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "视觉语言导航基础模型",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.10744v2",
+      "route": "20260708-20260806/2607.10744v2-traj-vln-learning-pixel-space-interaction-via-autoregressive-trajectory-generation",
+      "title": "Traj-VLN: Learning Pixel-Space Interaction via Autoregressive Trajectory Generation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "连续环境中的视觉语言导航，结合大语言模型与自回归轨迹生成",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.11529v1",
+      "route": "20260708-20260806/2607.11529v1-parse-search-and-confirmation-training-free-aerial-vision-and-dialog-navigation-with-chain-of-thought-reasoning-and-structured-spatial-memory",
+      "title": "Parse, Search, and Confirmation: Training-Free Aerial Vision-and-Dialog Navigation with Chain-of-Thought Reasoning and Structured Spatial Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        },
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向无训练空中视觉-对话导航的结构化空间记忆与思维链推理。",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.11638v2",
+      "route": "20260708-20260806/2607.11638v2-da-nav-direction-aware-city-scale-vision-language-navigation",
+      "title": "DA-Nav: Direction-Aware City-Scale Vision-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于方向指令和空间定位的城市级视觉语言导航",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.14514v1",
+      "route": "20260708-20260806/2607.14514v1-vtm-nav-hierarchical-visual-topological-memory-for-cross-episode-object-goal-navigation",
+      "title": "VTM-Nav: Hierarchical Visual-Topological Memory for Cross-Episode Object-Goal Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        },
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向跨情节物体目标导航的持久层次化视觉拓扑记忆",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.15758v1",
+      "route": "20260708-20260806/2607.15758v1-skillnav-score-level-skill-intervention-for-zero-shot-object-goal-navigation",
+      "title": "SkillNav: Score-Level Skill Intervention for Zero-Shot Object Goal Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于技能干预的零样本物体目标导航，利用空间价值地图",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.16806v1",
+      "route": "20260708-20260806/2607.16806v1-token-wise-latent-streaming-from-slow-reasoners-to-fast-planners-for-dynamic-vision-language-navigation",
+      "title": "Token-Wise Latent Streaming from Slow Reasoners to Fast Planners for Dynamic Vision Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "SPARK-VLN 面向动态视觉语言导航，属于具身导航主题",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.17767v1",
+      "route": "20260708-20260806/2607.17767v1-vln-avp-zero-shot-vision-language-navigation-with-hybrid-long-short-term-memory-for-autonomous-valet-parking",
+      "title": "VLN-AVP: Zero-Shot Vision-Language Navigation with Hybrid Long-Short-Term Memory for Autonomous Valet Parking",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        },
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "混合长短时记忆的视觉语言导航",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.20785v1",
+      "route": "20260708-20260806/2607.20785v1-robostral-navigate",
+      "title": "Robostral Navigate",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于单目RGB的视觉语言导航模型，在图像空间预测路点",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.22226v1",
+      "route": "20260708-20260806/2607.22226v1-offline-vision-language-navigation-with-geometric-goal-localization-for-outdoor-environments",
+      "title": "Offline Vision-Language Navigation with Geometric Goal Localization for Outdoor Environments",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向室外机器人的离线视觉语言导航与几何目标定位。",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.25106v1",
+      "route": "20260708-20260806/2607.25106v1-imprint-image-conditioned-query-enrichment-for-long-tail-object-goal-navigation",
+      "title": "IMPRINT: Image-Conditioned Query Enrichment for Long-Tail Object Goal Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "可查询语义地图上的零样本目标导航",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2608.00527v1",
+      "route": "20260708-20260806/2608.00527v1-sstg-nav-metric-grounded-spatial-semantic-topological-graphs-for-reusable-object-navigation",
+      "title": "SSTG-Nav: Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        },
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "用于物体导航的可复用度量语义记忆，以空间语义拓扑图形式保存环境经验",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2608.04574v1",
+      "route": "20260708-20260806/2608.04574v1-when-memory-lies-an-empirical-study-of-spatial-memory-staleness-in-vlm-agents",
+      "title": "When Memory Lies: An Empirical Study of Spatial Memory Staleness in VLM Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "针对VLM智能体导航过程中空间记忆陈旧性的实证研究。",
+      "first_seen_at": "2026-08-06 06:54:28 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
     },
     {
       "paper_id": "2607.08359v1",
@@ -50,54 +318,6 @@
       ],
       "score": 9.0,
       "evidence": "具身视觉语言导航综述，包含SOTA分类与评估",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
-      "paper_id": "2607.10383v3",
-      "route": "20260708-20260806/2607.10383v3-abot-n1-toward-a-general-visual-language-navigation-foundation-model",
-      "title": "ABot-N1: Toward a General Visual Language Navigation Foundation Model",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "面向具身任务的视觉语言导航基础模型",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
-      "paper_id": "2607.10744v2",
-      "route": "20260708-20260806/2607.10744v2-traj-vln-learning-pixel-space-interaction-via-autoregressive-trajectory-generation",
-      "title": "Traj-VLN: Learning Pixel-Space Interaction via Autoregressive Trajectory Generation",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "连续环境中的视觉语言导航，遵循自然语言指令",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
-      "paper_id": "2607.11638v2",
-      "route": "20260708-20260806/2607.11638v2-da-nav-direction-aware-city-scale-vision-language-navigation",
-      "title": "DA-Nav: Direction-Aware City-Scale Vision-Language Navigation",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "遵循方向性指令的视觉语言导航",
       "first_seen_at": "2026-08-06 04:47:42 UTC",
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
@@ -166,22 +386,6 @@
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
     {
-      "paper_id": "2607.14514v1",
-      "route": "20260708-20260806/2607.14514v1-vtm-nav-hierarchical-visual-topological-memory-for-cross-episode-object-goal-navigation",
-      "title": "VTM-Nav: Hierarchical Visual-Topological Memory for Cross-Episode Object-Goal Navigation",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "在室内环境中定位目标物体类别的物体目标导航",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
       "paper_id": "2607.14586v1",
       "route": "20260708-20260806/2607.14586v1-softnav-injecting-3d-scene-tokens-into-vlms-for-embodied-navigation",
       "title": "SoftNav: Injecting 3D Scene Tokens into VLMs for Embodied Navigation",
@@ -198,38 +402,6 @@
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
     {
-      "paper_id": "2607.15758v1",
-      "route": "20260708-20260806/2607.15758v1-skillnav-score-level-skill-intervention-for-zero-shot-object-goal-navigation",
-      "title": "SkillNav: Score-Level Skill Intervention for Zero-Shot Object Goal Navigation",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "提出SkillNav框架，通过价值地图上的分数级技能干预实现零样本物体目标导航",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
-      "paper_id": "2607.16806v1",
-      "route": "20260708-20260806/2607.16806v1-token-wise-latent-streaming-from-slow-reasoners-to-fast-planners-for-dynamic-vision-language-navigation",
-      "title": "Token-Wise Latent Streaming from Slow Reasoners to Fast Planners for Dynamic Vision Language Navigation",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "动态视觉语言导航，结合自然语言推理与反应式规划",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
       "paper_id": "2607.16956v1",
       "route": "20260708-20260806/2607.16956v1-g2-nav-grounded-and-guarded-vision-language-costmaps-for-robot-social-navigation",
       "title": "G2-Nav: Grounded and Guarded Vision-Language Costmaps for Robot Social Navigation",
@@ -242,22 +414,6 @@
       ],
       "score": 9.0,
       "evidence": "视觉语言模型接地成本图用于机器人社交导航",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
-      "paper_id": "2607.17767v1",
-      "route": "20260708-20260806/2607.17767v1-vln-avp-zero-shot-vision-language-navigation-with-hybrid-long-short-term-memory-for-autonomous-valet-parking",
-      "title": "VLN-AVP: Zero-Shot Vision-Language Navigation with Hybrid Long-Short-Term Memory for Autonomous Valet Parking",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "面向代客泊车的视觉语言导航，遵循自然语言指令",
       "first_seen_at": "2026-08-06 04:47:42 UTC",
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
@@ -310,22 +466,6 @@
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
     {
-      "paper_id": "2607.20785v1",
-      "route": "20260708-20260806/2607.20785v1-robostral-navigate",
-      "title": "Robostral Navigate",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "8B视觉语言导航模型，从单目RGB预测航点",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
       "paper_id": "2607.21400v1",
       "route": "20260708-20260806/2607.21400v1-voln-vision-only-long-horizon-navigation---paradigm-benchmark-and-method",
       "title": "VoLN: Vision-Only Long-Horizon Navigation---Paradigm, Benchmark, and Method",
@@ -342,22 +482,6 @@
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
     {
-      "paper_id": "2607.22226v1",
-      "route": "20260708-20260806/2607.22226v1-offline-vision-language-navigation-with-geometric-goal-localization-for-outdoor-environments",
-      "title": "Offline Vision-Language Navigation with Geometric Goal Localization for Outdoor Environments",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "离线视觉语言导航与几何目标定位",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
       "paper_id": "2607.23181v1",
       "route": "20260708-20260806/2607.23181v1-towards-dual-brain-minimal-sufficient-representation-for-vision-language-navigation",
       "title": "Towards Dual-Brain Minimal Sufficient Representation for Vision-Language Navigation",
@@ -370,38 +494,6 @@
       ],
       "score": 9.0,
       "evidence": "连续环境视觉语言导航，将语言与自我中心观察对齐",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
-      "paper_id": "2607.23504v1",
-      "route": "20260708-20260806/2607.23504v1-memvln-episodic-and-procedural-memory-for-vision-and-language-navigation",
-      "title": "MemVLN: Episodic and Procedural Memory for Vision-and-Language Navigation",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "具身连续环境下的视觉语言导航，结合情节/程序记忆与LLM",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
-      "paper_id": "2607.25106v1",
-      "route": "20260708-20260806/2607.25106v1-imprint-image-conditioned-query-enrichment-for-long-tail-object-goal-navigation",
-      "title": "IMPRINT: Image-Conditioned Query Enrichment for Long-Tail Object Goal Navigation",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "基于图像条件查询增强的物体目标导航",
       "first_seen_at": "2026-08-06 04:47:42 UTC",
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
@@ -438,38 +530,6 @@
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
     {
-      "paper_id": "2607.29600v1",
-      "route": "20260708-20260806/2607.29600v1-ham-vln-harnessing-hierarchical-agentic-memory-for-zero-shot-vision-and-language-navigation",
-      "title": "HAM-VLN: Harnessing Hierarchical Agentic Memory for Zero-Shot Vision-and-Language Navigation",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "利用分层智能体记忆实现零样本视觉语言导航",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
-      "paper_id": "2608.00527v1",
-      "route": "20260708-20260806/2608.00527v1-sstg-nav-metric-grounded-spatial-semantic-topological-graphs-for-reusable-object-navigation",
-      "title": "SSTG-Nav: Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation",
-      "section": "deep",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 9.0,
-      "evidence": "用于物体导航的可复用空间-语义记忆",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
       "paper_id": "2608.03143v1",
       "route": "20260708-20260806/2608.03143v1-from-routes-to-steps-separating-semantic-progress-from-local-execution-in-vision-and-language-navigation",
       "title": "From Routes to Steps: Separating Semantic Progress from Local Execution in Vision-and-Language Navigation",
@@ -500,6 +560,70 @@
       "evidence": "认知系统中的空间长期记忆机制；皮层记忆印迹中的自我中心空间支架",
       "first_seen_at": "2026-08-06 04:47:42 UTC",
       "updated_at": "2026-08-06 04:47:42 UTC"
+    },
+    {
+      "paper_id": "2607.09267v1",
+      "route": "20260708-20260806/2607.09267v1-remind-re-identification-with-memory-for-indoor-navigation",
+      "title": "REMIND: RE-Identification with Memory for INDoor Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "持久记忆用于室内长期目标重识别导航",
+      "first_seen_at": "2026-08-06 06:54:28 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.10350v3",
+      "route": "20260708-20260806/2607.10350v3-abot-agentos-a-general-robotic-agent-os-with-lifelong-multi-modal-memory",
+      "title": "ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "具身室内外场景中的终身多模态记忆与导航",
+      "first_seen_at": "2026-08-06 06:54:28 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.17574v1",
+      "route": "20260708-20260806/2607.17574v1-predictive-training-with-latent-imagination-for-visual-quadruped-navigation",
+      "title": "Predictive Training with Latent Imagination for Visual Quadruped Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "通过预测性记忆增强的视觉导航",
+      "first_seen_at": "2026-08-06 06:54:28 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.18042v2",
+      "route": "20260708-20260806/2607.18042v2-anticipate-before-acting-future-state-conditioned-vision-language-navigation",
+      "title": "Anticipate Before Acting: Future-State-Conditioned Vision-Language Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于未来状态条件化因果策略的视觉语言导航",
+      "first_seen_at": "2026-08-06 06:54:28 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
     },
     {
       "paper_id": "2607.06882v1",
@@ -534,22 +658,6 @@
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
     {
-      "paper_id": "2607.11529v1",
-      "route": "20260708-20260806/2607.11529v1-parse-search-and-confirmation-training-free-aerial-vision-and-dialog-navigation-with-chain-of-thought-reasoning-and-structured-spatial-memory",
-      "title": "Parse, Search, and Confirmation: Training-Free Aerial Vision-and-Dialog Navigation with Chain-of-Thought Reasoning and Structured Spatial Memory",
-      "section": "quick",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "embodied-nav"
-        }
-      ],
-      "score": 8.0,
-      "evidence": "面向空中视觉-对话导航，结合自然语言指令与结构化空间记忆",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
       "paper_id": "2607.14899v1",
       "route": "20260708-20260806/2607.14899v1-oasis-map-object-level-change-detection-in-multi-session-mapping-using-semantic-correspondence-matching",
       "title": "OASIS-Map: Object-Level Change Detection in Multi-Session Mapping using Semantic Correspondence Matching",
@@ -566,6 +674,42 @@
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
     {
+      "paper_id": "2607.18368v3",
+      "route": "20260708-20260806/2607.18368v3-neuro-symbolic-meta-policies-for-temporal-knowledge-graph-memory-under-partial-observability",
+      "title": "Neuro-Symbolic Meta-Policies for Temporal Knowledge-Graph Memory under Partial Observability",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        },
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "部分可观测下用于具身智能体的时间知识图谱记忆与神经符号元策略",
+      "first_seen_at": "2026-08-06 04:47:42 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2608.04765v1",
+      "route": "20260708-20260806/2608.04765v1-explicit-language-memory-for-long-horizon-planning-in-vision-language-action-models",
+      "title": "Explicit Language Memory for Long-Horizon Planning in Vision-Language-Action Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向具身智能体的视觉-语言-动作模型中的显式语言记忆与长时程规划",
+      "first_seen_at": "2026-08-06 06:54:28 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
       "paper_id": "2607.15265v1",
       "route": "20260708-20260806/2607.15265v1-scenebind-binding-what-and-where-across-vision-audio-and-language",
       "title": "SceneBind: Binding What and Where Across Vision, Audio and Language",
@@ -578,22 +722,6 @@
       ],
       "score": 7.0,
       "evidence": "面向环境理解的语义-空间场景表示，包含对象级空间槽位",
-      "first_seen_at": "2026-08-06 04:47:42 UTC",
-      "updated_at": "2026-08-06 04:47:42 UTC"
-    },
-    {
-      "paper_id": "2607.18368v3",
-      "route": "20260708-20260806/2607.18368v3-neuro-symbolic-meta-policies-for-temporal-knowledge-graph-memory-under-partial-observability",
-      "title": "Neuro-Symbolic Meta-Policies for Temporal Knowledge-Graph Memory under Partial Observability",
-      "section": "quick",
-      "tags": [
-        {
-          "kind": "query",
-          "label": "semantic-map"
-        }
-      ],
-      "score": 7.0,
-      "evidence": "强化学习中面向保留、检索和遗忘的长期记忆架构",
       "first_seen_at": "2026-08-06 04:47:42 UTC",
       "updated_at": "2026-08-06 04:47:42 UTC"
     },
@@ -628,6 +756,38 @@
       "evidence": "海马空间重映射与神经动力学关联阿尔茨海默病中的空间记忆编码",
       "first_seen_at": "2026-08-06 04:47:42 UTC",
       "updated_at": "2026-08-06 04:47:42 UTC"
+    },
+    {
+      "paper_id": "2607.20679v2",
+      "route": "20260708-20260806/2607.20679v2-towards-capability-aware-traversability-navigation-for-unstructured-environments",
+      "title": "Towards Capability-Aware Traversability Navigation for Unstructured Environments",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向非结构化环境的机器人可通行性导航中的语义地形图调制",
+      "first_seen_at": "2026-08-06 06:54:28 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
+    },
+    {
+      "paper_id": "2607.23899v1",
+      "route": "20260708-20260806/2607.23899v1-embodied-gpt-51-evidence-of-a-world-model",
+      "title": "Embodied GPT-5.1: Evidence of a World Model?",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "具身移动机器人导航中涌现的物体位置短时空间记忆",
+      "first_seen_at": "2026-08-06 06:54:28 UTC",
+      "updated_at": "2026-08-06 06:54:28 UTC"
     },
     {
       "paper_id": "2607.24368v1",
