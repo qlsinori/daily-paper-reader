@@ -1,0 +1,349 @@
+{
+  "date": "20260729-20260807",
+  "date_label": "2026-07-29 ~ 2026-08-07",
+  "generated_at": "2026-08-07 03:17:30 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2607.26914v1",
+      "route": "20260729-20260807/2607.26914v1-biovln-a-simulation-platform-for-visual-language-navigation-in-biomedical-laboratories",
+      "title": "BioVLN: A Simulation Platform for Visual Language Navigation in Biomedical Laboratories",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "生物医学实验室中的视觉语言导航仿真平台",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.28474v1",
+      "route": "20260729-20260807/2607.28474v1-tea-agrivln-traversability-estimation-alarm-for-agricultural-vision-and-language-navigation",
+      "title": "TEA-AgriVLN: Traversability Estimation Alarm for Agricultural Vision-and-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向农业场景的VLN-CE智能体依据自然语言指令从起点导航至目标",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2608.00970v1",
+      "route": "20260729-20260807/2608.00970v1-freqnav-stage-wise-frequency-routing-for-object-oriented-aerial-vision-language-navigation",
+      "title": "FreqNav: Stage-Wise Frequency Routing for Object-Oriented Aerial Vision-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于分阶段频率路由的面向目标空中视觉-语言导航",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2608.01802v1",
+      "route": "20260729-20260807/2608.01802v1-conav-uav-cooperative-dual-altitude-aerial-navigation-via-stackelberg-learning",
+      "title": "CoNav-UAV: Cooperative Dual-Altitude Aerial Navigation via Stackelberg Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "通过双高度协同学习实现面向目标的空中视觉-语言导航",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2608.03143v1",
+      "route": "20260729-20260807/2608.03143v1-from-routes-to-steps-separating-semantic-progress-from-local-execution-in-vision-and-language-navigation",
+      "title": "From Routes to Steps: Separating Semantic Progress from Local Execution in Vision-and-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "视觉语言导航遵循自然语言指令，并将路线进度分解为逐步执行",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2608.05078v1",
+      "route": "20260729-20260807/2608.05078v1-spikingnav-robust-embodied-navigation-with-spiking-neural-policies",
+      "title": "SpikingNav: Robust Embodied Navigation with Spiking Neural Policies",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于脉冲神经策略的室内具身导航",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.17879v1",
+      "route": "20260729-20260807/2607.17879v1-exploratory-and-assimilating-reflection-reflective-recall-cycle-for-long-term-memory",
+      "title": "Exploratory and Assimilating Reflection: Reflective Recall Cycle for Long-term Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向LLM智能体的长期记忆架构与反思回召",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.21571v1",
+      "route": "20260729-20260807/2607.21571v1-beyond-episodic-evaluation-memory-architectural-bottlenecks-in-sequential-embodied-question-answering",
+      "title": "Beyond Episodic Evaluation: Memory Architectural Bottlenecks in Sequential Embodied Question Answering",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "研究连续具身问答中的记忆架构，探讨跨查询保留与重用信息",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.23797v1",
+      "route": "20260729-20260807/2607.23797v1-memory-for-attention-language-conditioned-re-perception-with-a-vision--language--motion-map",
+      "title": "Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        },
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "用于导航与环境理解的持久语义图表示",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.26657v1",
+      "route": "20260729-20260807/2607.26657v1-enfold-folding-world-generator-computation-into-predictive-representations-for-efficient-embodied-control",
+      "title": "Enfold: Folding World-Generator Computation into Predictive Representations for Efficient Embodied Control",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "从视觉上下文和语言指令学习预测表示以支持具身控制",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.28300v1",
+      "route": "20260729-20260807/2607.28300v1-monovoc-decoupling-geometry-and-semantics-for-lightweight-monocular-open-vocabulary-3d-gaussians",
+      "title": "MonoVoc: Decoupling Geometry and Semantics for Lightweight Monocular Open-Vocabulary 3D Gaussians",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "轻量单目开放词汇语义建图，输出紧凑对象级语义表示",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.28560v1",
+      "route": "20260729-20260807/2607.28560v1-x-navdp-generalizing-navigation-diffusion-policy-to-novel-behavior-and-embodiments-with-group-q-score-reweighted-matching",
+      "title": "X-NavDP: Generalizing Navigation Diffusion Policy to Novel Behavior and Embodiments with Group Q-score Reweighted Matching",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "导航扩散策略，通过强化学习后训练提升对不同本体和行为的泛化",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2608.01456v1",
+      "route": "20260729-20260807/2608.01456v1-long-horizon-embodied-decision-making-via-multimodal-memory-compression",
+      "title": "Long-Horizon Embodied Decision-Making via Multimodal Memory Compression",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "长时间跨度具身决策基准，智能体需在多个住宅环境中导航并压缩多模态记忆",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.27703v2",
+      "route": "20260729-20260807/2607.27703v2-spatialcli-learning-to-reason-with-spatial-tools-then-without-them",
+      "title": "SpatialCLI: Learning to Reason With Spatial Tools, Then Without Them",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "教视觉语言模型使用空间工具并内化空间推理能力，提升具身智能体的空间理解",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.28256v1",
+      "route": "20260729-20260807/2607.28256v1-when-robots-exchange-meaning-a-demo-of-goal-oriented-semantic-communications-for-collaborative-robotics",
+      "title": "When Robots Exchange Meaning: A Demo of Goal-Oriented Semantic Communications for Collaborative Robotics",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向自主智能体的机器人RTAB-Map语义建图",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.28935v1",
+      "route": "20260729-20260807/2607.28935v1-group-wise-supervision-with-focal-dice-loss-for-long-tailed-indoor-semantic-occupancy-prediction",
+      "title": "Group-wise Supervision with Focal-Dice Loss for Long-Tailed Indoor Semantic Occupancy Prediction",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "预测室内场景的稠密3D语义占用，提供语义地图表示",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.29009v1",
+      "route": "20260729-20260807/2607.29009v1-d-vlc-decentralized-vision-language-collaboration-for-heterogeneous-embodied-multi-robot-systems-in-unknown-environments",
+      "title": "D-VLC: Decentralized Vision-Language Collaboration for Heterogeneous Embodied Multi-Robot Systems in Unknown Environments",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向未知环境异构多机器人具身导航的去中心化视觉语言协作",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.27922v1",
+      "route": "20260729-20260807/2607.27922v1-learning-social-robot-navigation-by-sensing-human-legs",
+      "title": "Learning Social Robot Navigation By Sensing Human Legs",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "在自定义模拟器中利用2D LiDAR腿部特征学习安全社交导航策略",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2607.29569v1",
+      "route": "20260729-20260807/2607.29569v1-safe-vision-language-action-models-via-barrier-enhanced-flow-matching",
+      "title": "Safe Vision Language Action Models via Barrier Enhanced Flow Matching",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向具身智能体的安全视觉语言动作轨迹生成",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2608.01614v1",
+      "route": "20260729-20260807/2608.01614v1-linear-multi-timescale-retention-as-a-memory-efficient-vision-language-bridge",
+      "title": "Linear Multi-Timescale Retention as a Memory-Efficient Vision-Language Bridge",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "用于视觉-语言理解的内存高效跨模态桥接",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    },
+    {
+      "paper_id": "2608.02428v1",
+      "route": "20260729-20260807/2608.02428v1-df3-world-modeling-via-decoder-free-feature-forecasting-in-autonomous-navigation",
+      "title": "DF$^3$: World Modeling via Decoder-Free Feature Forecasting in Autonomous Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向自主导航的隐空间特征预测世界模型",
+      "first_seen_at": "2026-08-07 03:17:30 UTC",
+      "updated_at": "2026-08-07 03:17:30 UTC"
+    }
+  ]
+}

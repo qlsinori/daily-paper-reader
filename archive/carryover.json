@@ -1,15 +1,105 @@
 {
-  "generated_at": "2026-08-06T06:47:42.585141+00:00",
-  "updated_date": "20260708-20260806",
+  "generated_at": "2026-08-07T03:09:04.256065+00:00",
+  "updated_date": "20260729-20260807",
   "carryover_days": 9,
   "tag_states": {
     "embodied-nav": {
-      "updated_date": "20260708-20260806",
+      "updated_date": "20260729-20260807",
       "carryover_days": 9,
-      "items": []
+      "items": [
+        {
+          "id": "2608.03244v1",
+          "source": "arxiv",
+          "title": "UniNav: A Unified World-Action Diffusion Model for Visual Navigation",
+          "abstract": "Image-goal visual navigation is a fundamental capability for embodied agents. Existing navigation policies efficiently predict waypoint trajectories but lack visual foresight, while navigation world models can anticipate future observations but often require costly planning rollouts. We present UniNav, a unified world-action model that generates future visual observations and continuous waypoint trajectories through a single diffusion process. Given history frames and a goal image, UniNav jointly denoises visual and waypoint tokens within a single transformer, unifying future prediction and action generation in a shared framework. To improve spatial grounding, we incorporate geometry-aware camera tokens. We also train on both trajectory-labeled navigation data and video-only data, enabling the model to benefit from diverse videos without waypoint annotations. Based on this unified framework, we introduce two variants: UniNav-Full jointly predicts interpretable future observations and their corresponding trajectories, while UniNav-Fast removes future-image tokens at inference for efficient trajectory prediction. Experiments on navigation benchmarks show that UniNav outperforms the strongest baseline in ATE across all datasets. With one-step inference, UniNav-Fast achieves a latency of 0.1s without a substantial accuracy drop. Code will be released.",
+          "authors": [
+            "Changqing Zhou",
+            "Yueru Luo",
+            "Zeyu Jiang",
+            "Changhao Chen"
+          ],
+          "primary_category": "cs.AI",
+          "categories": [
+            "cs.AI"
+          ],
+          "published": "2026-08-04T07:15:45+00:00",
+          "link": "https://arxiv.org/pdf/2608.03244v1",
+          "tags": [
+            "keyword:embodied-nav",
+            "keyword:semantic-map",
+            "keyword:vln-memory",
+            "query:embodied-nav",
+            "query:semantic-map",
+            "query:vln-memory"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "unified world-action diffusion for image-goal visual navigation",
+          "llm_evidence_cn": "用于图像目标视觉导航的统一世界-动作扩散模型",
+          "llm_evidence": "用于图像目标视觉导航的统一世界-动作扩散模型",
+          "canonical_evidence": "用于图像目标视觉导航的统一世界-动作扩散模型",
+          "llm_tldr_en": "UniNav presents a diffusion-based world-action model that jointly generates future observations and waypoint trajectories for image-goal navigation, unifying prediction and control in a shared transformer.",
+          "llm_tldr_cn": "UniNav针对图像目标视觉导航中策略缺乏视觉预见、世界模型规划开销大的问题，提出统一的世界-动作扩散模型。该模型在单一Transformer中联合去噪视觉与航点令牌，同时生成未来观测和连续轨迹，并加入几何感知相机令牌增强空间接地。在轨迹标注导航数据上的训练使模型兼具预测与规划能力。这一统一框架为具身智能体的视觉导航提供了高效的新范式。",
+          "llm_tldr": "UniNav针对图像目标视觉导航中策略缺乏视觉预见、世界模型规划开销大的问题，提出统一的世界-动作扩散模型。该模型在单一Transformer中联合去噪视觉与航点令牌，同时生成未来观测和连续轨迹，并加入几何感知相机令牌增强空间接地。在轨迹标注导航数据上的训练使模型兼具预测与规划能力。这一统一框架为具身智能体的视觉导航提供了高效的新范式。",
+          "llm_tags": [
+            "query:embodied-nav"
+          ],
+          "matched_query_tag": "query:embodied-nav",
+          "matched_query_text": "embodied navigation agent in simulated environments",
+          "matched_requirement_id": "req-4",
+          "selection_source": "carryover_cache",
+          "paper_id": "2608.03244v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2608.04825v1",
+          "source": "arxiv",
+          "title": "Deliberate Before You Fly: Vision-Guided Spatial Deliberation for UAV See-and-Reach Navigation",
+          "abstract": "UAV see-and-reach navigation requires an aerial agent to approach a language-specified target visible in its initial view and stop reliably near it. Existing methods typically map vision-language representations directly to action outputs without explicitly modeling intermediate fine-grained spatial decisions. This direct mapping causes semantic-control misalignment, leading to inconsistent maneuvers and unreliable termination. To address this issue, we propose DBFly, a vision-language waypoint prediction framework that introduces explicit vision-guided spatial deliberation before waypoint generation. Specifically, DBFly introduces a spatial maneuver decision chain that progressively performs target-direction anchoring, spatial diagnosis, and maneuver decision, enabling high-level maneuver intent to explicitly guide continuous waypoint generation. DBFly further constructs an implicit flight corridor by transforming the initial target-direction prior into a persistent geometric reference and deriving an online corridor state from the UAV's current position, thereby providing soft geometric guidance for spatial diagnosis and maneuver correction. In addition, DBFly develops a terminal-convergence-aware stopping strategy that characterizes terminal states through both target proximity and short-horizon motion convergence, enabling more reliable stopping near the target. Extensive experiments across seen, unseen-object, and unseen-scene test sets demonstrate that DBFly improves the success rate over the SOTA baseline by an average of 25.07 percentage points. The project homepage is available at https://xuefanfu.github.io/DBFly-Page.",
+          "authors": [
+            "Fanfu Xue",
+            "En Yu",
+            "Bohang Liu",
+            "Hongjun Wang",
+            "Yang Yang",
+            "Xindi Wang",
+            "Jiande Sun"
+          ],
+          "primary_category": "cs.RO",
+          "categories": [
+            "cs.RO"
+          ],
+          "published": "2026-08-05T13:27:07+00:00",
+          "link": "https://arxiv.org/pdf/2608.04825v1",
+          "tags": [
+            "keyword:embodied-nav",
+            "keyword:semantic-map",
+            "keyword:vln-memory",
+            "query:embodied-nav",
+            "query:semantic-map",
+            "query:vln-memory"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "vision-language waypoint prediction for UAV see-and-reach navigation with language-specified target",
+          "llm_evidence_cn": "面向语言指定目标看即达导航的视觉语言航点预测框架",
+          "llm_evidence": "面向语言指定目标看即达导航的视觉语言航点预测框架",
+          "canonical_evidence": "面向语言指定目标看即达导航的视觉语言航点预测框架",
+          "llm_tldr_en": "DBFly proposes a vision-language waypoint prediction framework with an explicit spatial maneuver decision chain for UAV see-and-reach navigation. It performs target-direction anchoring and spatial deliberation before generating waypoints, addressing semantic-control misalignment in direct vision-language-to-action mapping and improving maneuver consistency and termination reliability.",
+          "llm_tldr_cn": "无人机看即达导航需要根据语言指出的目标安全到达并停止，现有方法将视觉语言特征直接映射为动作，缺少中间空间决策，导致操控不一致和终止不可靠。本文提出DBFly航点预测框架，引入空间机动决策链，在执行前先进行目标方向锚定与空间避险等显式视觉引导的空间深思，从而改善语义-控制对齐，并在导航实验中提升操控一致性与终止可靠性。",
+          "llm_tldr": "无人机看即达导航需要根据语言指出的目标安全到达并停止，现有方法将视觉语言特征直接映射为动作，缺少中间空间决策，导致操控不一致和终止不可靠。本文提出DBFly航点预测框架，引入空间机动决策链，在执行前先进行目标方向锚定与空间避险等显式视觉引导的空间深思，从而改善语义-控制对齐，并在导航实验中提升操控一致性与终止可靠性。",
+          "llm_tags": [
+            "query:embodied-nav"
+          ],
+          "matched_query_tag": "query:embodied-nav",
+          "matched_query_text": "vision language navigation following natural language instructions",
+          "matched_requirement_id": "req-1",
+          "selection_source": "carryover_cache",
+          "paper_id": "2608.04825v1",
+          "carry_days": 1
+        }
+      ]
     },
     "semantic-map": {
-      "updated_date": "20260708-20260806",
+      "updated_date": "20260729-20260807",
       "carryover_days": 9,
       "items": [
         {
@@ -56,7 +146,7 @@
           "matched_requirement_id": "req-13",
           "selection_source": "carryover_cache",
           "paper_id": "biorxiv-10-64898-2026-07-20-739519-v1",
-          "carry_days": 1
+          "carry_days": 2
         },
         {
           "id": "biorxiv-10-64898-2026-07-16-738868-v1",
@@ -99,48 +189,7 @@
           "matched_requirement_id": "req-10",
           "selection_source": "carryover_cache",
           "paper_id": "biorxiv-10-64898-2026-07-16-738868-v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.17879v1",
-          "source": "arxiv",
-          "title": "Exploratory and Assimilating Reflection: Reflective Recall Cycle for Long-term Memory",
-          "abstract": "LLM-based autonomous agents require external memory to overcome their statelessness and limited context window for long-term interaction and dynamic knowledge reasoning. However, existing memory retrieval methods often lack adaptability and sample efficiency, and struggle to retrieve the right mixture of memories from heterogeneous stores. We propose Exploratory-Assimilating Reflection (EAR), a framework for high initial retrieval performance and sample-efficient adaptation. EAR combines two mechanisms: Exploratory Reflection, which performs iterative search to bootstrap retrieval and collect useful experiences for each query, and Assimilating Reflection, which replays these experiences from an Experience Buffer to refine a global reranker more efficiently than methods relying only on immediate rewards. Experiments show that EAR improves retrieval by up to 17.9% over the baseline retriever on two long-term dialogue benchmarks. We also show that EAR is highly sample-efficient and robust to noisy feedback.",
-          "authors": [
-            "Ganesh Senrayan",
-            "Moyuru Yamada",
-            "Ishan Jindal",
-            "Kiran Purohit"
-          ],
-          "primary_category": "cs.AI",
-          "categories": [
-            "cs.AI"
-          ],
-          "published": "2026-07-20T12:30:17+00:00",
-          "link": "https://arxiv.org/pdf/2607.17879v1",
-          "tags": [
-            "keyword:embodied-nav",
-            "keyword:semantic-map",
-            "query:embodied-nav",
-            "query:semantic-map"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "Long-term memory architecture with reflective recall for LLM agents",
-          "llm_evidence_cn": "面向LLM智能体的长期记忆架构与反思回召",
-          "llm_evidence": "面向LLM智能体的长期记忆架构与反思回召",
-          "canonical_evidence": "面向LLM智能体的长期记忆架构与反思回召",
-          "llm_tldr_en": "EAR combines exploratory and assimilating reflection to improve long-term memory retrieval for LLM agents, enabling sample-efficient adaptation and better mixture of memories.",
-          "llm_tldr_cn": "该文针对LLM智能体长期记忆检索缺乏适应性和样本效率的问题，提出探索-同化反思（EAR）框架。探索性反思通过迭代搜索为每次查询引导检索并积累经验，同化性反思则利用经验缓冲区重放这些经验以改进全局重排。该方法在初始检索性能和样本高效适应方面均有提升，使智能体能够从异构记忆库中获取正确的记忆混合，增强长期交互中的知识动态推理能力。",
-          "llm_tldr": "该文针对LLM智能体长期记忆检索缺乏适应性和样本效率的问题，提出探索-同化反思（EAR）框架。探索性反思通过迭代搜索为每次查询引导检索并积累经验，同化性反思则利用经验缓冲区重放这些经验以改进全局重排。该方法在初始检索性能和样本高效适应方面均有提升，使智能体能够从异构记忆库中获取正确的记忆混合，增强长期交互中的知识动态推理能力。",
-          "llm_tags": [
-            "query:semantic-map"
-          ],
-          "matched_query_tag": "query:semantic-map",
-          "matched_query_text": "long-term memory architecture for continual learning and recall",
-          "matched_requirement_id": "req-12",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.17879v1",
-          "carry_days": 1
+          "carry_days": 2
         },
         {
           "id": "biorxiv-10-64898-2026-07-09-737618-v1",
@@ -180,185 +229,99 @@
           "matched_requirement_id": "req-10",
           "selection_source": "carryover_cache",
           "paper_id": "biorxiv-10-64898-2026-07-09-737618-v1",
-          "carry_days": 1
+          "carry_days": 2
         },
         {
-          "id": "2607.21571v1",
+          "id": "2608.03323v1",
           "source": "arxiv",
-          "title": "Beyond Episodic Evaluation: Memory Architectural Bottlenecks in Sequential Embodied Question Answering",
-          "abstract": "Embodied question answering (EQA) is traditionally evaluated under an episodic formulation, where agents solve each task independently and reset internal state between episodes. However, real-world robots operate continuously and must accumulate, retain, and selectively reuse information acquired from prior interactions. Despite this practical requirement, the architectural mechanisms needed to support sequential memory in EQA remain underexplored. In this work, we investigate how different memory architectures behave when EQA agents are evaluated sequentially, with multiple questions answered in the same scene while memory is carried forward across queries. We find that simply preserving existing memory is often insufficient. Agents that retain only traversability information, such as 2D occupancy maps, remember where the robot has explored but not the visual-semantic evidence needed for later questions. Agents trained on short-horizon episodic data face a different challenge: when exposed to continuous, multi-query histories, their inherited context suffers from severe temporal mismatch, rather than forming a reusable scene representation. To overcome this architectural bottleneck, we highlight the necessity of structured, spatially grounded memory: architectures that map persistent visual observations onto metric 3D geometry preserve visual-semantic evidence in a coherent scene representation. Extensive experiments in simulated environments reveal that this form of memory breaks the accuracy-efficiency tradeoff in sequential settings, simultaneously achieving higher answer accuracy and lower navigation costs. We further validate these findings on a real-world mobile robot, demonstrating that spatially grounded visual memory is critical for enabling continuous, intelligent operation in physical environments.",
+          "title": "PolyLayout: Multi-room Manhattan Layout Estimation",
+          "abstract": "Estimating room layouts from multi-view imagery is a core task for indoor scene understanding. Existing methods are typically limited either by poor generalization to new datasets or restrictive geometric assumptions of the room shape or camera configuration. Most also estimate rooms independently, failing to exploit shared building structure such as dominant directions, ground plane or ceiling height.   We propose PolyLayout, a multi-room layout estimation method that parameterizes room layouts as Manhattan 3D polygons and optimizes them jointly across multiple rooms. The optimization objective is predicted by a neural network on top of robust pre-trained visual features and trained end-to-end with supervision only on output room layouts. At the same time, camera projection and polygon updates remain explicit and model-based. This separation between learned scoring and geometry improves generalization to new datasets and camera parameters. During optimization, PolyLayout adaptively refines the polygon topology through iterative wall split and merge operations while jointly utilizing structural cues across rooms. We introduce two new multi-view multi-room layout benchmarks by providing layout annotations to existing datasets, and experiments show that PolyLayout outperforms prior approaches, both in terms of accuracy and robustness.   Project page: https://ghanning.github.io/PolyLayout",
           "authors": [
-            "Zikui Cai",
-            "Kaushal Janga",
-            "Tan Dat Dao",
-            "Seungjae Lee",
-            "Shivin Dass",
-            "Mingyo Seo",
-            "Kaiyu Yue",
-            "Mintong Kang",
-            "Nandhu Pillai",
-            "Monte Hoover",
-            "Aadi Palnitkar",
-            "Ruchit Rawal",
-            "Ruijie Zheng",
-            "Bo Li",
-            "Yuke Zhu",
-            "Roberto Martín-Martín",
-            "Tom Goldstein",
-            "Furong Huang"
+            "Gustav Hanning",
+            "Shaohui Liu",
+            "Rémi Pautrat",
+            "Marc Pollefeys",
+            "Kalle Åström",
+            "Viktor Larsson"
           ],
-          "primary_category": "cs.RO",
+          "primary_category": "cs.CV",
           "categories": [
-            "cs.RO"
+            "cs.CV"
           ],
-          "published": "2026-07-23T17:50:45+00:00",
-          "link": "https://arxiv.org/pdf/2607.21571v1",
+          "published": "2026-08-04T08:30:36+00:00",
+          "link": "https://arxiv.org/pdf/2608.03323v1",
           "tags": [
             "keyword:embodied-nav",
             "keyword:semantic-map",
-            "query:embodied-nav",
+            "keyword:vln-memory",
             "query:semantic-map"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "investigates memory architectures for sequential embodied question answering with memory carried across episodes",
-          "llm_evidence_cn": "研究连续具身问答中的记忆架构，探讨跨查询保留与重用信息",
-          "llm_evidence": "研究连续具身问答中的记忆架构，探讨跨查询保留与重用信息",
-          "canonical_evidence": "研究连续具身问答中的记忆架构，探讨跨查询保留与重用信息",
-          "llm_tldr_en": "Embodied question answering is usually evaluated episodically. This paper evaluates agents sequentially with memory carried across queries, finding that simply preserving existing memory is often insufficient and identifying architectural bottlenecks that must be addressed for continuous lifelong operation.",
-          "llm_tldr_cn": "具身问答通常在单回合情境下评测，但真实机器人需要连续积累和复用信息。本研究在连续问答中评估不同记忆架构，发现简单地保留既有记忆往往不够，记忆架构的瓶颈会限制连续操作。作者认为需要在架构层面设计更好的记忆读写与更新机制，并指出跨查询的记忆选择与遗忘策略是关键。这项工作为构建可长期运行的具身智能体提供了重要启示。",
-          "llm_tldr": "具身问答通常在单回合情境下评测，但真实机器人需要连续积累和复用信息。本研究在连续问答中评估不同记忆架构，发现简单地保留既有记忆往往不够，记忆架构的瓶颈会限制连续操作。作者认为需要在架构层面设计更好的记忆读写与更新机制，并指出跨查询的记忆选择与遗忘策略是关键。这项工作为构建可长期运行的具身智能体提供了重要启示。",
+          "llm_evidence_en": "Multi-room layout estimation from multi-view imagery for indoor scene understanding, directly supports building semantic room maps",
+          "llm_evidence_cn": "从多视图图像估计多房间布局，直接支持构建房间语义地图",
+          "llm_evidence": "从多视图图像估计多房间布局，直接支持构建房间语义地图",
+          "canonical_evidence": "从多视图图像估计多房间布局，直接支持构建房间语义地图",
+          "llm_tldr_en": "PolyLayout jointly optimizes multi-room Manhattan 3D polygon layouts from multi-view imagery, exploiting shared building structure, enabling semantic room map construction for navigation.",
+          "llm_tldr_cn": "现有房间布局估计方法独立处理各房间，未利用共享建筑结构，且泛化能力受限。PolyLayout将多房间布局参数化为曼哈顿三维多边形，并利用共享主导方向、地面和天花板高度进行联合优化。网络基于预训练视觉特征预测优化目标，端到端训练仅需布局标注。该方法可从多视图图像重建房间级语义地图，为机器人长期导航提供建图基础。",
+          "llm_tldr": "现有房间布局估计方法独立处理各房间，未利用共享建筑结构，且泛化能力受限。PolyLayout将多房间布局参数化为曼哈顿三维多边形，并利用共享主导方向、地面和天花板高度进行联合优化。网络基于预训练视觉特征预测优化目标，端到端训练仅需布局标注。该方法可从多视图图像重建房间级语义地图，为机器人长期导航提供建图基础。",
           "llm_tags": [
             "query:semantic-map"
           ],
           "matched_query_tag": "query:semantic-map",
-          "matched_query_text": "long-term memory architecture for continual learning and recall",
-          "matched_requirement_id": "req-12",
+          "matched_query_text": "How to build a semantic map of rooms for long term robot navigation?",
+          "matched_requirement_id": "req-14",
           "selection_source": "carryover_cache",
-          "paper_id": "2607.21571v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.29440v1",
-          "source": "arxiv",
-          "title": "Beyond Retrieval: Analytic Memory for Multimodal Agents",
-          "abstract": "Long-term multimodal memory must support not only retrieving relevant information but also computing over observations accumulated across interactions. Existing systems largely emphasize \\emph{retrieval memory}, organizing interaction histories through summaries and indexes to return query-relevant information at multiple granularities, from high-level abstractions to underlying records. In this paper, we formulate \\emph{analytic memory} as a complementary abstraction that organizes recurring multimodal observations into queryable structures supporting filtering, aggregation, ranking, and temporal comparison. We present AdaMM, a framework that jointly supports retrieval and analytic memory. Rather than relying on application-defined schemas, AdaMM extracts provenance-linked attribute-value observations from dialogue, images, and contextual metadata, discovers recurring field structures, and materializes them for analytical access. At inference time, a memory-aware planner decomposes queries into retrieval and analytic operations and routes each operation to the appropriate tools. Experiments on two long-term multimodal memory benchmarks, MemEye and MemGallery, show that AdaMM improves performance by up to 11.3\\% and 7.3\\%, respectively.",
-          "authors": [
-            "Zhoujin Tian",
-            "Yao Tian",
-            "Hao Zhang",
-            "Cheng Chen",
-            "Yakun Li",
-            "Lei Zhang",
-            "Xiaofang Zhou"
-          ],
-          "primary_category": "cs.AI",
-          "categories": [
-            "cs.AI"
-          ],
-          "published": "2026-07-31T14:07:12+00:00",
-          "link": "https://arxiv.org/pdf/2607.29440v1",
-          "tags": [
-            "keyword:embodied-nav",
-            "keyword:semantic-map",
-            "query:embodied-nav",
-            "query:semantic-map"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "analytic memory framework for long-term multimodal memory supporting queryable structures and temporal comparison",
-          "llm_evidence_cn": "面向长期多模态记忆的分析记忆框架，支持过滤、聚合、排序与时间比较",
-          "llm_evidence": "面向长期多模态记忆的分析记忆框架，支持过滤、聚合、排序与时间比较",
-          "canonical_evidence": "面向长期多模态记忆的分析记忆框架，支持过滤、聚合、排序与时间比较",
-          "llm_tldr_en": "AdaMM frames analytic memory as a complementary abstraction to retrieval memory, organizing recurring multimodal observations into queryable structures that support filtering, aggregation, ranking, and temporal comparison.",
-          "llm_tldr_cn": "现有长期多模态记忆系统多侧重检索式记忆，难以对累积观察进行计算。该工作提出分析记忆（analytic memory）这一抽象，将重复出现的多模态观察组织成可查询结构，支持过滤、聚合、排序和时间比较。并给出AdaMM框架，联合支持检索记忆与分析记忆。该框架无需应用自定义模式，可自动提取来源信息。这为长期记忆智能体的结构化记忆利用提供了新思路。",
-          "llm_tldr": "现有长期多模态记忆系统多侧重检索式记忆，难以对累积观察进行计算。该工作提出分析记忆（analytic memory）这一抽象，将重复出现的多模态观察组织成可查询结构，支持过滤、聚合、排序和时间比较。并给出AdaMM框架，联合支持检索记忆与分析记忆。该框架无需应用自定义模式，可自动提取来源信息。这为长期记忆智能体的结构化记忆利用提供了新思路。",
-          "llm_tags": [
-            "query:semantic-map"
-          ],
-          "matched_query_tag": "query:semantic-map",
-          "matched_query_text": "long-term memory architecture for continual learning and recall",
-          "matched_requirement_id": "req-12",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.29440v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.23797v1",
-          "source": "arxiv",
-          "title": "Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map",
-          "abstract": "A robot carrying a persistent, behavior-annotated map faces two planning questions, and its memory answers only one well. The \\emph{spatial-navigation} question -- how to walk around a room -- we address first and report a negative: building on Vision--Language--Motion Maps (VLMM), a behavior-aware planner cost cuts a planning-time objective by $\\sim$35\\% over 28 AI2-THOR scenes, but under closed-loop execution the real benefit nearly vanishes ($\\sim$4\\%) and an on-demand vision--language model (VLM) does as well. The \\emph{resource-allocation} question differs: under a limited perception budget, what should the robot re-observe now to keep its map fresh? Framing re-perception as this attention decision, we show a persistent map's memory (change-history, or even just recency of last sighting) yields the best schedule (held-out), matching an oracle, while the memoryless VLM prior is poor. Because the schedule reallocates budget toward what matters, memory's benefit concentrates on the important objects ($\\sim$1.6$\\times$ the mean), and a downstream fetch task confirms fewer wasted trips; the gain grows with per-instance heterogeneity exactly as a Cauchy--Schwarz bound predicts -- it equals $\\mathrm{Var}(\\sqrtλ)$, the variance of root-volatility. With a real CLIP prior on rendered objects the advantage is $+21$--$26\\%$. The map's distinctive value appears when the task is \\emph{language-conditioned}: told what to track, VLMM grounds the relevant objects (open-vocabulary) and tracks their change (memory), beating even a strong relevance-weighted recency baseline ($+2.5\\%$) -- so its motion channel adds value beyond a last-seen timestamp -- and an on-demand VLM ($+8.9\\%$); neither language nor dynamics alone suffices. The map earns its keep not by telling the robot how to walk around a room, but by telling it what to pay attention to.",
-          "authors": [
-            "Dibyendu Ghosh"
-          ],
-          "primary_category": "cs.RO",
-          "categories": [
-            "cs.RO"
-          ],
-          "published": "2026-07-26T18:49:54+00:00",
-          "link": "https://arxiv.org/pdf/2607.23797v1",
-          "tags": [
-            "keyword:embodied-nav",
-            "keyword:semantic-map",
-            "query:embodied-nav",
-            "query:semantic-map"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "persistent semantic map representation for navigation and environment understanding",
-          "llm_evidence_cn": "用于导航与环境理解的持久语义图表示",
-          "llm_evidence": "用于导航与环境理解的持久语义图表示",
-          "canonical_evidence": "用于导航与环境理解的持久语义图表示",
-          "llm_tldr_en": "Introduces a vision-language-motion map as persistent spatial memory for a robot, showing a behavior-aware planner improves planning-time objective but under closed-loop execution the gain nearly vanishes; re-perception is framed as an attention decision.",
-          "llm_tldr_cn": "针对机器人携带持久行为标注地图时面临的空间导航与资源分配问题，构建视觉-语言-运动图作为持久空间记忆。实验显示基于行为感知的地图在规划代价上降低约35%，但在闭环执行中实际收益仅约4%，而按需视觉语言模型也能达到类似效果。研究将再感知问题重新定义为注意力决策，以在有限感知预算下决定何时重新观察以保持地图新鲜。",
-          "llm_tldr": "针对机器人携带持久行为标注地图时面临的空间导航与资源分配问题，构建视觉-语言-运动图作为持久空间记忆。实验显示基于行为感知的地图在规划代价上降低约35%，但在闭环执行中实际收益仅约4%，而按需视觉语言模型也能达到类似效果。研究将再感知问题重新定义为注意力决策，以在有限感知预算下决定何时重新观察以保持地图新鲜。",
-          "llm_tags": [
-            "query:semantic-map"
-          ],
-          "matched_query_tag": "query:semantic-map",
-          "matched_query_text": "semantic map representation for navigation and environment understanding",
-          "matched_requirement_id": "req-8",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.23797v1",
+          "paper_id": "2608.03323v1",
           "carry_days": 1
         }
       ]
     },
     "vln-memory": {
-      "updated_date": "20260708-20260806",
+      "updated_date": "20260729-20260807",
       "carryover_days": 9,
       "items": [
         {
-          "id": "2607.23797v1",
+          "id": "2608.04933v1",
           "source": "arxiv",
-          "title": "Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map",
-          "abstract": "A robot carrying a persistent, behavior-annotated map faces two planning questions, and its memory answers only one well. The \\emph{spatial-navigation} question -- how to walk around a room -- we address first and report a negative: building on Vision--Language--Motion Maps (VLMM), a behavior-aware planner cost cuts a planning-time objective by $\\sim$35\\% over 28 AI2-THOR scenes, but under closed-loop execution the real benefit nearly vanishes ($\\sim$4\\%) and an on-demand vision--language model (VLM) does as well. The \\emph{resource-allocation} question differs: under a limited perception budget, what should the robot re-observe now to keep its map fresh? Framing re-perception as this attention decision, we show a persistent map's memory (change-history, or even just recency of last sighting) yields the best schedule (held-out), matching an oracle, while the memoryless VLM prior is poor. Because the schedule reallocates budget toward what matters, memory's benefit concentrates on the important objects ($\\sim$1.6$\\times$ the mean), and a downstream fetch task confirms fewer wasted trips; the gain grows with per-instance heterogeneity exactly as a Cauchy--Schwarz bound predicts -- it equals $\\mathrm{Var}(\\sqrtλ)$, the variance of root-volatility. With a real CLIP prior on rendered objects the advantage is $+21$--$26\\%$. The map's distinctive value appears when the task is \\emph{language-conditioned}: told what to track, VLMM grounds the relevant objects (open-vocabulary) and tracks their change (memory), beating even a strong relevance-weighted recency baseline ($+2.5\\%$) -- so its motion channel adds value beyond a last-seen timestamp -- and an on-demand VLM ($+8.9\\%$); neither language nor dynamics alone suffices. The map earns its keep not by telling the robot how to walk around a room, but by telling it what to pay attention to.",
+          "title": "Mimir: A Neuro-Symbolic Memory System with Dynamic Grounding for Embodied Agents in Interactive Environments",
+          "abstract": "Long-horizon embodied task requires agents to act under partial observability while preserving both scene belief and execution progress. Flat histories or implicit policy states may contain past observations, but they do not provide an explicit interface for deciding which world facts support the currently active goal. We introduce Mimir, a neuro-symbolic memory that separates world memory from task memory and dynamically grounds them before each action. World memory maintains object locations, object states, and perceptual evidence, while task memory maintains an ordered goal agenda, progress state, hand state, failures, and execution constraints. A grounding module binds the active goal to recalled world candidates, fills missing source locations, and attaches evidence before planning and embodiment-specific execution. Across tested backbones, Mimir consistently improves on different EB-ALFRED and EB-Habitat tasks, with maximum gains of 42.5% and average gains of 23.0%, respectively. Compared with the best results among prior agent and memory systems evaluated under the same backbone, Mimir improves the overall average success rate by 8.5%. Finally, on the EB-Habitat Long-horizon subset, Mimir achieves 86.0% success rate, substantially outperforming current closed-source models. Our code will be released soon.",
           "authors": [
-            "Dibyendu Ghosh"
+            "Haoming Xu",
+            "Zhenlin He",
+            "Hengyi Wang",
+            "Jiafeng Xu",
+            "Hao Dong"
           ],
           "primary_category": "cs.RO",
           "categories": [
             "cs.RO"
           ],
-          "published": "2026-07-26T18:49:54+00:00",
-          "link": "https://arxiv.org/pdf/2607.23797v1",
+          "published": "2026-08-05T14:57:24+00:00",
+          "link": "https://arxiv.org/pdf/2608.04933v1",
           "tags": [
+            "keyword:embodied-nav",
+            "keyword:semantic-map",
             "keyword:vln-memory",
+            "query:embodied-nav",
+            "query:semantic-map",
             "query:vln-memory"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "persistent map memory for embodied navigation",
-          "llm_evidence_cn": "持久地图作为具身导航的记忆，并用于感知资源分配",
-          "llm_evidence": "持久地图作为具身导航的记忆，并用于感知资源分配",
-          "canonical_evidence": "持久地图作为具身导航的记忆，并用于感知资源分配",
-          "llm_tldr_en": "This paper explores a persistent Vision-Language-Motion Map for navigation; the spatial-planning benefit fades in closed-loop, but framing re-perception as attention decision keeps map useful under limited perception budgets.",
-          "llm_tldr_cn": "本文研究携带持久行为标注地图的机器人在导航中的两个规划问题。在空间导航问题上，基于视觉-语言-运动地图的行为感知规划器在28个AI2-THOR场景中将规划目标降低约35%，但闭环执行时收益几乎消失。相反，在有限感知预算下将重感知视为注意力决策，可有效保持地图新鲜度。该结果表明持久地图的价值更多体现在感知资源分配而非直接导航收益。",
-          "llm_tldr": "本文研究携带持久行为标注地图的机器人在导航中的两个规划问题。在空间导航问题上，基于视觉-语言-运动地图的行为感知规划器在28个AI2-THOR场景中将规划目标降低约35%，但闭环执行时收益几乎消失。相反，在有限感知预算下将重感知视为注意力决策，可有效保持地图新鲜度。该结果表明持久地图的价值更多体现在感知资源分配而非直接导航收益。",
+          "llm_evidence_en": "neuro-symbolic memory for embodied agents with world/task memory and dynamic grounding",
+          "llm_evidence_cn": "面向具身智能体的神经符号记忆，区分世界记忆与任务记忆",
+          "llm_evidence": "面向具身智能体的神经符号记忆，区分世界记忆与任务记忆",
+          "canonical_evidence": "面向具身智能体的神经符号记忆，区分世界记忆与任务记忆",
+          "llm_tldr_en": "Introduces Mimir, a neuro-symbolic memory separating world and task memory with dynamic grounding, enabling embodied agents to preserve scene belief and execution progress in long-horizon tasks.",
+          "llm_tldr_cn": "长时程具身任务要求智能体在部分可观测环境中同时维护场景信念与进度，而扁平历史难以显式支撑当前目标。该文提出Mimir，将世界记忆（物体位置、状态与感知证据）与任务记忆（目标议程、进度、约束）分离，并在每次动作前动态接地。该方法能更清晰地为具身决策提供支撑，对导航类记忆系统有直接参考价值。",
+          "llm_tldr": "长时程具身任务要求智能体在部分可观测环境中同时维护场景信念与进度，而扁平历史难以显式支撑当前目标。该文提出Mimir，将世界记忆（物体位置、状态与感知证据）与任务记忆（目标议程、进度、约束）分离，并在每次动作前动态接地。该方法能更清晰地为具身决策提供支撑，对导航类记忆系统有直接参考价值。",
           "llm_tags": [
             "query:vln-memory"
           ],
           "matched_query_tag": "query:vln-memory",
-          "matched_query_text": "long-term spatial memory for robot navigation",
-          "matched_requirement_id": "req-4",
+          "matched_query_text": "memory for navigation agents in embodied environments",
+          "matched_requirement_id": "req-19",
           "selection_source": "carryover_cache",
-          "paper_id": "2607.23797v1",
+          "paper_id": "2608.04933v1",
           "carry_days": 1
         }
       ]

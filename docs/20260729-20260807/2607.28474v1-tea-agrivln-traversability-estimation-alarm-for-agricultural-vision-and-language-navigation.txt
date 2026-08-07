@@ -1,0 +1,494 @@
+Title: TEA-AgriVLN: Traversability Estimation Alarm for Agricultural Vision-and-Language Navigation
+
+URL Source: https://arxiv.org/pdf/2607.28474v1
+
+Published Time: Fri, 31 Jul 2026 01:28:27 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# TEA-AgriVLN: Traversability Estimation Alarm for Agricultural Vision-and-Language Navigation 
+
+## Xiaobei Zhao 1,2 , Xingqi Lyu 1, Xin Chen 1,2 ∗, Xiang Li 1,2 ∗
+
+> 1
+
+China Agricultural University 
+
+> 2
+
+China Agricultural University-Sichuan Advanced Agricultural & Industrial Institute {xiaobeizhao2002,lxq99725}@163.com, {chxin,cqlixiang}@cau.edu.cn 
+
+Abstract 
+
+Vision-and-Language Navigation in Continuous Environ-ments (VLN-CE) requires an agent to follow a natural lan-guage instruction, predicting a sequence of low-level actions to navigate a robot from a starting point to a target location. The A2A benchmark and the AgriVLN method pioneeringly extended VLN-CE from indoor scenes to agricultural scenes, while we observed a challenging distinction: In indoor scenes, whether a zone is traversable tends to be clear to classify, such as wood floors are traversable but concrete walls are not. In agricultural scenes, however, this issue tends to be ambiguous, such as an unripe cornfield might be traversable for a robotic dog but might be non-traversable for a human. To address this issue, we propose the TEA module, which estimates the traversability of the camera image, then alarm the decision-maker for rethinking when the predicted action does not align with the traversability map. We integrate it into the AgriVLN backbone to build our TEA-AgriVLN method. When evalu-ated on A2A, it improves Success Rate (SR) from 0.47 to 0.54 and Navigation Error (NE) from 2.91 m to 2.70 m, showing the state-of-the-art performance in the agricultural VLN-CE do-main. We further implement the ablation studies and the case study, discussing the effectiveness and limitations of TEA on different ground categories and scene classes. 
+
+Code — https://github.com/AlexTraveling/TEA-AgriVLN 
+
+## 1 Introduction 
+
+Agricultural robotic agents have been becoming useful helpers in a wide range of agricultural tasks, such as laser weeding (Zhao et al. 2025), growth monitoring (Lobefaro et al. 2025) and cross-pollination (Xie et al. 2025). How-ever, most of them still heavily rely on manual operations or fixed railways for movement, resulting in limited mobility and poor adaptability on diversified scenarios. In contrast, Vision-and-Language Navigation (VLN) (An-derson et al. 2018) enables agents to follow the natural lan-guage instructions to navigate to the target positions, having demonstrated strong performance across various domains (Zhang et al. 2024), such as R2R (Anderson et al. 2018) for indoor rooms, TOUCHDOWN (Chen et al. 2019) for urban streets, and AerialVLN (Liu et al. 2023) for aerial spaces. To better align with the realistic conditions, Vision-and-Language Navigation in Continuous Environments (VLN-CE) (Krantz et al. 2020) further extends VLN from dis-
+
+> ∗
+
+Corresponding author. 
+
+Figure 1: TEA-AgriVLN running on a simple example. crete topologies to continuous sequences. Motivated by prior Vision-Language Model (VLM)-based methods (Zhou, Hong, and Wu 2024; Zhou et al. 2024; Song et al. 2025), Zhao et al. (Zhao, Lyu, and Li 2025) proposed the A2A benchmark and the AgriVLN method, pioneeringly extending VLN-CE from urban domains to agricultural domains. When evalu-ated on A2A, however, AgriVLN only achieves Success Rate (SR) of 0.47 and Navigation Error (NE) of 2.91 m, leaving a large gap to the performance of human. We observed a challenging distinction between agricul-tural scenes and urban scenes: In urban scenes, whether a zone is traversable tends to be clear to classify, such as wood floors are traversable but concrete walls are not. In agri-arXiv:2607.28474v1 [cs.RO] 30 Jul 2026 cultural scenes, however, this issue tends to be ambiguous, such as an unripe cornfield might be traversable for a robotic dog but might be non-traversable for a human. This chal-lenging distinction raised us a question: May the ambigu-ous traversability be one of the reasons to the gap between AgriVLN and human? 
+
+To answer this question, we attempt to introduce atraversability estimator into the AgriVLN backbone. We ap-proximately summarize the existing traversability estimation methods into two categories: the rule-based and the learning-based. Traditionally, the rule-based estimators (Hosseinpoor et al. 2021; Guan et al. 2022; Leininger et al. 2024) use RGB camera to capture semantic features or depth camera to cap-ture geometric features, then formulate a classification policy in a manual manner, which is good with efficiency and inter-pretability but is limited on poor generalization. Recently, the learning-based estimators (Frey et al. 2023; Ægidius et al. 2025; Cho et al. 2026) use visual sensors to record envi-ronmental views and pose sensors to record running statues, then train a classification network in a self-supervised man-ner, which is good with accuracy and generalization but is dependent on elaborate training. Considering the complex semantic, the diversified geometric, and the limited affor-dance in agricultural scenes, we suggest that both rule-based and learning-based traversability estimators cannot satisfy our needs. In this paper, we propose the module of Traversability 
+
+Estimation Alarm ( TEA ), which estimates the traversability of the camera image, then alarm the decision-maker for re-thinking when the predicted action does not align with the traversability map. We integrate it into the AgriVLN back-bone to build the method of Traversability Estimation Alarm for Agri cultural Vision-and-Language Navigation ( TEA-AgriVLN ). When evaluated on A2A, our TEA-AgriVLN method improves SR from 0.47 to 0.54 and NE from 2.91 m to 2.70 m, showing the state-of-the-art performance in the agricultural VLN-CE domain. We further implement the ab-lation studies and the case study, discussing the effectiveness and limitations of TEA on different ground categories and scene classes. Here we share a simple example to demonstrate how our TEA-AgriVLN method works, as illustrated in Figure 1. After moving for a while, the decision-maker thinks that 
+
+"the weeds seems to be met now" , so improperly chooses to [STOP] . Immediately, the TEA module is activated. It thinks that "the flat and clear soil path is suitable for the four-legged robotic dog" , so judges the alarming zone as traversable. Next, it alarms the decision-maker with the traversability map, successfully assisting it to rethink that 
+
+"the traversability map indicates a clear path forward" then properly change to choose to move [FORWARD] .In summary, our main contributions are as follows: 
+
+• TEA , a traversability estimation-driven module, which can alarm the decision-maker for rethinking when the predicted action does not align with the traversability map. 
+
+• TEA-AgriVLN , an agricultural VLN-CE method inte-grating the TEA module into the AgriVLN backbone, which can navigate agricultural robots to target positions following natural language instructions. 
+
+• We implement the comparison experiment showing the state-of-the-art performance of TEA-AgriVLN in the agricultural VLN-CE domain, and we implement the ab-lation studies and the case study discussing the effective-ness and limitations of TEA in different conditions. 
+
+## 2 Related Works 
+
+2.1 Benchmark for Agricultural VLN-CE 
+
+Agriculture-to-Agriculture (A2A) (Zhao, Lyu, and Li 2025) is currently the only one VLN benchmark specially designed for agricultural robots, consisting of 1,560 episodes across 6 types of scene: farm, greenhouse, forest, mountain, garden and village, in which all the instructions belong to the step-by-step format and the action space belongs to the continuous environment. 
+
+2.2 Method for Agricultural VLN-CE 
+
+Vision-and-Language Navigation for Agricultural Robots (AgriVLN) (Zhao, Lyu, and Li 2025) is the first agricultural VLN-CE method, which uses NavGPT (Zhou, Hong, and Wu 2024) as the backbone and integrate the Large Language Model (LLM)-based Subtask List (STL) module, enabling an agricultural robot navigating to the target positions following the natural language instructions. 
+
+2.3 Traversability Estimation in Navigation 
+
+In the macroscopic field of navigation, several studies have introduced traversability estimation to assist off-road navi-gation, such as FtF (Khizar et al. 2025) in vegetations, GND (Liang et al. 2025) in campuses, and V-STRONG (Jung et al. 2024) in mountains. These studies show that traversability estimation can effectively assist decision-makers to better un-derstand the environments. In the specialized field of VLN, none of the existing studies, as far as we know, has done that before. The possible reason is that most scenes in clas-sical VLN benchmarks belong to on-road scenes, in which whether a zone is traversable tends to be clear to classify. In the more specialized field of Agricultural VLN-CE, how-ever, most scenes belong to off-road scenes. Hence, we sug-gest traversability estimation as a potential solution to the traverse ambiguity. 
+
+## 3 Methodology 
+
+In this section, we present our TEA-AgriVLN method, as il-lustrated in Figure 2. First, we introduce the task definition in Section 3.1. Second, we present our TEA module in Section 3.2. Third, we integrate the TEA module into the AgriVLN backbone to build the TEA-AgriVLN method in Section 3.3. 
+
+3.1 Task Definition 
+
+The task of Agricultural Vision-and-Language Navigation (Zhao, Lyu, and Li 2025) is defined as follows: In each episode, the model is given an instruction in natural lan-guage, denoted as W = ⟨w1, w 2, . . . , w L⟩, where L is the number of words. At each time step t, the model is <instruction>       
+
+> … keep running
+> towards the
+> weeds. Stop
+> when the weeds
+> occupy large
+> portion of your
+> view.
+> </instruction>
+> Segmenter
+> Classifier
+> <thought>
+> ...
+> </thought>
+> <t_seg>
+> 1
+> </t_seg>
+> <non-t_seg>
+> 2
+> </non-t_seg>
+> Alarm
+> Decision-
+> Maker
+> <thought>
+> … this
+> condition
+> seems to be
+> met now.
+> </thought>
+> <action>
+> [STOP] ( ✗)
+> </action>
+> Decision-
+> Maker
+> <thought>
+> … traversability map
+> indicates a clear
+> path … approach it
+> more closely …
+> </thought>
+> <action>
+> [FORWARD] ( ✓)
+> </action>
+> <identity> This is a four-leg robotic dog. </identity>
+> …
+> Traversability Map
+> Reasoning
+> Overlaying
+> Segmentation
+> Visual Inputs
+> Visual Input
+> Multimodal Inputs
+> Multimodal
+> Inputs
+> Linguistic
+> Input
+> Activation
+> if a = or ?
+> Reasoning
+> Linguistic Input
+> Visual Input
+> Reasoning
+> Linguistic Input
+> Activation
+> Visual
+> Input
+> If No
+> If On
+> Current Camera
+> Equip
+> Original Backbone New TEA Module New Backbone
+
+Figure 2: TEA-AgriVLN illustration: The TEA module estimates the traversability of the camera image, then alarm the decision-maker for rethinking when the predicted action does not align with the traversability map. Please note that the two decision-makers are identical. given the front-facing RGB image It. The purpose is under-standing both W and It, to select the best low-level action 
+
+ˆat from action space {[FORWARD] , [LEFT ROTATE] ,
+
+[RIGHT ROTATE] , [STOP] }, thereby leading the robot navigate from the starting point to the target position. 
+
+3.2 TEA Module 
+
+We design the TEA module running in a three-stage paradigm: segmentation, classification, and alarm. 
+
+Stage One The inputs for the TEA module are an RGB image I ∈ R3×h×w and a predicted action ˆa. We use a pre-trained instance segmenter S ( · ) to divide I into a group of small segments, defined as: 
+
+{M1, M 2, M 3, . . . , M m} = S(I) (1) where Mi ∈ { True , False }h×w is the i-th segment. We calculate the area of Mi by counting the number of pixel with the True value, then filter all the noisy segments with areas less than τa × h × w, defined as: 
+
+{M1, M 2, . . . , M m′ } filter 
+
+←−−
+
+> τa
+
+{M1, M 2, M 3, . . . , M m} (2) where τa is the threshold of area ratio, and m′ is the length of the segment group after filtering. We separately overlay every mask Mi with its number i on the original image I,defined as: 
+
+{O1, O 2, . . . , O m′ } overlay 
+
+←−−−
+
+> cu
+
+I, {M1, M 2, . . . , M m′ } (3) where cu is the color mode for overlaying unclassified mask. 
+
+Oi ∈ R3×h×w is the i-th overlaid image, in which we over-lay the mask on the corresponding position and overlay the number on the top-left corner. 
+
+Stage Two We prompt a pre-trained VLM in a zero-shot manner as the classifier C ( · ), which takes the robot identity 
+
+R, the camera image I, and the group of overlaid images 
+
+{O1, O 2, . . . , O m′ } as the inputs, to classify whether a mask overlaid area is traversable, defined as: 
+
+T = C P C
+
+> sys
+
+, P C 
+
+> usr
+
+(R, I, {O1, O 2, . . . , O m′ }) (4) where P C 
+
+> sys
+
+and P C 
+
+> usr
+
+( · ) are the system and user prompt templates for C ( · ), respectively. T is the textual response message. We design P C 
+
+> sys
+
+in the following format: 
+
+You are an expert in agricultural robot navigation. Your task is to understand both the robot identity and the scene images, to classify each candidate segment as either traversable or non-traversable for this robot. Input: <robot_identity> ... </robot_identity> <images> ... </images> Output format: <thought_summary> ... </thought_summary> <traversable_seg> ... </traversable_seg> <non-traversable_seg> ... </non-traversable_seg> 
+
+Then we use the simple yet effective regex match to extract the three tag pairs from T , defined as: 
+
+ρC , G +, G −
+
+> extract
+
+←−−− T (5) where ρC is the thought summary of C ( · ), which provides an explicit interpretation to its reasoning process. G+ and 
+
+G− are the sets of the numbers of the traversable and non-traversable regions, respectively. G+ ∪G− = {1, 2, . . . , m ′}
+
+and G+ ∩ G− = ∅. We divide the set of candidate re-gions {M1, M 2, . . . , M m′ } into the set of traversable re-gions {Mi | i ∈ G+} and the set of non-traversable regions {Mj | j ∈ G−}, which serves as the output of traversability estimation. We overlay them together on the original camera image I, defined as: 
+
+O overlay 
+
+←−−−−
+
+> c+,c −
+
+I, {Mi | i ∈ G+} , {Mj | j ∈ G−} (6) where c+ and c− are the different color modes for overlaying traversable and non-traversable masks. O ∈ R3×h×w is the traversability map in the RGB representation. 
+
+Stage Three If a robot was moving forward in a 3D envi-ronment, there would be a zone in front of it that it is about to pass through. In this paper, we define this zone as the alarming zone. When we map it onto a 2D camera image, it transforms into a trapezoidal shape, so we denote the alarm-ing zone on 2D camera images as Z = ( tz , b z , h z ), where 
+
+tz , bz and hz are the top base ratio, bottom base ratio, and height ratio, respectively. We respectively calculate the intersection areas of the traversable regions {Mi | i ∈ G+} and the non-traversable regions {Mj | j ∈ G−} inside the alarming zone Z, defined as: 
+
+S′ 
+
+> +
+
+=
+
+ [
+
+> i∈G+
+
+Mi
+
+ ∩ Z (7) where | · | is the quantity of points. Then we calculate the proportion of the intersection area S′ 
+
+> +
+
+in the alarming zone 
+
+Z, defined as: 
+
+S+ = S′
+
+> +
+
+|Z| . (8) where S+ is the intersection proportion of the traversable regions, and we calculate the intersection proportion of the non-traversable regions S− in the same paradigm. Next, according to the predicted action ˆa, we design the rule-based alarm A ( · ) running in a bi-directional activation manner: 
+
+• If ˆa = [FORWARD] , the goal is to judge whether the alarming zone includes non-traversable regions, then alarm the decision-maker that moving forward might be dangerous when happened, defined as: 
+
+A(S+, S −) = 
+
+on , if S− > τ −,
+
+off , otherwise. (9) 
+
+• If ˆa = [STOP] , the goal is to judge whether the alarming zone has both enough traversable regions and few enough non-traversable regions, then alarm the decision-maker that stop moving might be conservative when happened, defined as: 
+
+A(S+, S −) = 
+
+on , if S+ > τ + ∧ S− < τ −,
+
+off , otherwise. (10) where τ+ and τ− are the thresholds of traversable and non-traversable intersection proportions, respectively. A ∈{on , off } serves as the output of the TEA module. 
+
+3.3 Backbone 
+
+To build the TEA-AgriVLN method, we follow the architec-ture of AgriVLN (Zhao, Lyu, and Li 2025) as our backbone, and we integrate the TEA module as a post-processing layer after the decision-making. We prompt a pre-trained VLM in a one-shot manner as the decision-maker D ( · ). At each time step t, D ( · ) takes the instruction W and the current camera image It as the inputs, to predict the most appropriate low-level action ˆat, defined as: 
+
+T = D P D
+
+> sys
+
+, P D 
+
+> usr
+
+(STL (W ), I t) (11) 
+
+ˆat, ρ t
+
+> extract
+
+←−−− T (12) where STL ( · ) is the Subtask List module followed from the AgriVLN backbone. P D 
+
+> sys
+
+and P D 
+
+> usr
+
+( · ) are the system and user prompt templates for D ( · ), respectively. ρt is the thought summary of D ( · ), which provides an explicit inter-pretation to its reasoning process. When ˆat ∈ { [LEFT ROTATE] , [RIGHT ROTATE] },TEA keeps silent. When ˆat ∈ { [FORWARD] , [STOP] },TEA is activated to estimate the traversability of It then raise the alarm according to ˆat, defined as: 
+
+At, O t = TEA (It, ˆat) (13) where Ot ∈ R3×h×w is the traversability map from Equation 6, and At ∈ { on , off } is the alarm result from Equation 9 or 10. If and only if At = on , we re-prompt the identical decision-maker D ( · ). In this turn, we additionally input the traversability map Ot, and insert a sentence to describe it in the system prompt P D
+
+> sys
+
+, defined as: 
+
+T = D P D
+
+> sys
+
+, P D 
+
+> usr
+
+(STL (W ), I t, O t) (14) 
+
+ˆat, ρ t
+
+> extract
+
+←−−− T (15) where underline marks the differences between the two decision-making turns. We use the new predicted action ˆat
+
+to replace the old one. As the time step t goes by, the predicted action sequence 
+
+⟨ ˆa0, ˆa1, ˆa2, . . . , ˆat⟩ navigates the robot from the starting point to the target position. In an episode, D ( · ) ends when one of the following conditions happens: 1) ˆat′ = [STOP] ;2) The predicted action sequence ⟨ ˆat′−δ , ˆat′−δ+1 ,. . . , ˆat′ ⟩ is deviated to the ground-truth action se-quence ⟨at′−δ , a t′−δ+1 , . . . , a t′ ⟩;3) t′ reaches the max limitation of time step. where δ is the deviation time threshold. t′ is the ending time step. 
+
+## 4 Experiments 
+
+4.1 Experimental Settings 
+
+We implement all the experiments on the A2A (Zhao, Lyu, and Li 2025) benchmark. Following the settings in A2A, we adopt GPT-4.1 as the LLM and GPT-4.1-mini as the VLM. We access all the LLMs and VLMs through APIs. Besides, we locally deploy pre-trained SAM2.1-large as the instance segmenter. Regarding hyper-parameters, we set the image # Method Publication A2A (low) A2A (high) A2A SR ↑ NE ↓ SR ↑ NE ↓ SR ↑ NE ↓
+
+1 Random - 0.13 7.30 0.04 6.74 0.09 7.03 2 Fixed - 0.00 0.00 0.06 6.32 0.03 3.06 3 SIA-VLN (Hong et al. 2020) EMNLP 2020 0.52 1.46 0.08 5.12 0.31 3.24 4 NavGPT (Zhou, Hong, and Wu 2024) AAAI 2024 0.51 0.60 0.14 5.01 0.33 2.76 5 DILLM-VLN (Wang et al. 2025) RA-L 2025 0.41 1.36 0.32 3.90 0.36 2.60 
+
+6 AgriVLN (Zhao, Lyu, and Li 2025) arXiv 2025 0.58 2.32 0.35 3.54 0.47 2.91 7 TEA-AgriVLN (Ours) - 0.65 2.09 0.43 3.36 0.54 2.70 8 Human - 0.93 0.32 0.80 0.82 0.87 0.57 Table 1: Comparison results between our TEA-AgriVLN method and the state-of-the-art methods on the low-complexity portion (subtask = 2), the high-complexity portion (subtask ≥ 3), and the whole of the A2A benchmark. Bold and underline mark the best and worst scores, respectively. size h = 360 and w = 640, the filtering area ratio threshold τa
+
+= 0.02, the overlaying color modes in BGR cu = (210, 210, 255), c+ = (185, 225, 255) and c− = (210, 210, 255), the robot identity R = "This is a four-leg robotic dog." , the alarming zone size tz = 0.32, bz = 0.4 and hz = 0.1, the inference temperature = 1e-4, the intersection proportion thresholds 
+
+τ+ = 0.5 and τ− = 0.1, and the deviation time threshold δ =4 s. All the experiments run on a single NVIDIA L20 GPU with 48 G video memory. 
+
+4.2 Evaluation Metrics 
+
+We follow the two standard VLN evaluation metrics (An-derson et al. 2018): Success Rate (SR) and Navigation Error (NE). NE measures the path length between the stopping position and the target position. SR measures the rate suc-cessfully reaching the target position within a 2-meter NE. We consider SR as the primary evaluation metric. 
+
+4.3 Comparison Experiment 
+
+We compare our TEA-AgriVLN method with four state-of-the-art methods on the A2A benchmark. Besides, we follow the scores of the methods of Random, Fixed and Human as the lower and upper bounds, respectively. The comparison experiment results are shown in Table 1. On the whole of A2A, our TEA-AgriVLN method achieves the SR of 0.54 and the NE of 2.70 m, successfully increasing SR by 7 percentage points and decreasing NE by 0.21 m compared to the AgriVLN baseline. Comprehensively con-sidering the best SR and the second best NE, we think that our TEA-AgriVLN method achieves the state-of-the-art per-formance in the agricultural VLN domain. From this comparison, we suggest that the TEA module can effectively estimate the traversability of the camera im-age, and alarm the decision-maker for rethinking when the predicted action does not align with the traversability map. 
+
+4.4 Ablation Studies 
+
+To further study the effect of our TEA module, we implement the ablation studies on four aspects: its three stages, task complexities, ground categories, and scene classes. 
+
+Three Stages in TEA We ablate the three stages in our TEA module. For ablating the segmentation stage, we replace the segmentation masks with the alarming zone. For ablating the classification stage, we remove the robot identity. The alarming stage is necessary, so we always keep it. As shown in Table 2, when the segmentation stage is ab-lated, SR drops by 2 percentages and NE drops by 0.05 m, from which we suggest that the traversability information out of the alarming zone is also valuable for the decision-maker. When the classification stage is ablated, SR drops by 3 per-centages and NE drops by 0.08 m, from which we suggest that the robot identity is valuable for the classifier to build the correct self-cognition on trafficability. In summary, we suggest that both stages are valuable, and they collaborate in a compatible manner. # TEA SR ↑ NE ↓
+
+Segm. Clas. Alrm. 
+
+9 ✓ ✓ ✓ 0.54 2.70 
+
+10 ✗ ✓ ✓ 0.52 2.75 11 ✓ ✗ ✓ 0.51 2.78 12 ✗ ✗ ✗ 0.47 2.91 Table 2: Ablation results on the three stages in TEA. Bold 
+
+and underline mark the best and worst scores, respectively. 
+
+Task Complexity We follow the subtask quantity distri-bution in the A2A benchmark. As shown in Table 3, when the TEA module is removed, we observe that SRs and NEs consistently drop across different task complexities. From this ablation study, we suggest that our TEA module works consistently across different task complexities, and we can eliminate this factor in the following discussions. # Subtask Method SR ↑ NE ↓
+
+13 2 Ours 0.65 2.09 14 w/o TEA 0.57 2.32 
+
+∆ - 0.08 + 0.23 15 ≥ 3 Ours 0.43 3.36 16 w/o TEA 0.35 3.54 
+
+∆ - 0.08 + 0.18 Table 3: Ablation results on task complexities. “ ∆” repre-sents the score change after the TEA module is removed. 
+
+Ground Category According to the ground categories of the robot moving trajectories, we manually partition the full A2A benchmark into four parts: paved roads, dirts, meadows, and sparse plants. As shown in Table 4, when the TEA module is removed, we observe the significant drops in paved roads and meadows, the major drop in dirts, and the slight drop in sparse plants. We attribute this large gap to the different semantic complex-ities across the different ground categories: In paved roads, such as a cement road, the semantic complexities tend to be single and pure. In sparse plants, such as an unripe cornfield, however, the semantic complexities tend to be multiple and chaotic. This semantic complexity distinction brings more challenges for the instance segmentation and the traversabil-ity classification, which results in the relatively poor qualities of the traversability maps. From this ablation study, we suggest that our TEA mod-ule works effectively across different ground categories, and works better on paved roads and meadows. # Ground Method SR ↑ NE ↓
+
+17 Paved Road Ours 0.56 3.13 
+
+18 w/o TEA 0.43 3.34 19 Dirt Ours 0.60 2.27 
+
+20 w/o TEA 0.57 2.33 21 Meadow Ours 0.47 2.33 
+
+22 w/o TEA 0.40 2.76 23 Sparse Plant Ours 0.55 2.65 
+
+24 w/o TEA 0.55 2.74 Table 4: Ablation results on ground categories. In every ground category, bold marks the better score. 
+
+Scene Class We follow the six scene classes in the A2A benchmark. As shown in Table 5, when the TEA module is removed, we observe the significant drops in villages and greenhouses, the major drops in farms, forests and gardens, and the unexpected slight improvements in mountains. We are surprised that our TEA-AgriVLN method almost catch up with the performance of Human in villages (#8, #35), but even slightly go backward in mountains (#31, #32). We attribute this large gap to the different ground categories across the different scene classes: In villages and green-houses, plenty of grounds belong to paved roads. In moun-tains, however, most grounds belong to dirts, meadows and sparse plants. Clearly, this ablation result matches with the ablation result on ground categories. From this ablation study, we suggest that our TEA module works effectively across most scene classes, and works better in villages and greenhouses. # Scene Method SR ↑ NE ↓
+
+25 Farm Ours 0.71 1.74 
+
+26 w/o TEA 0.66 1.79 27 Greenhouse Ours 0.49 2.35 
+
+28 w/o TEA 0.35 2.56 29 Forest Ours 0.38 3.31 
+
+30 w/o TEA 0.33 3.68 31 Mountain Ours 0.50 2.85 32 w/o TEA 0.50 2.84 
+
+33 Garden Ours 0.56 3.67 
+
+34 w/o TEA 0.49 3.77 35 Village Ours 0.80 1.99 
+
+36 w/o TEA 0.47 2.92 Table 5: Ablation results on scene classes. In every scene class, bold marks the better score. 
+
+4.5 Case Study 
+
+To make our case study be more comprehensive, we select three successful episodes and one failed episode from four different ground categories, as illustrated in Figure 3. We mark all the pivotal reasoning thoughts with italics in the text and with underline in the figure. Here we take the case running on a paved road as an ex-ample, to explain how our TEA module works. In this case, the goal is to reach the red sunflower pots. At the current time step, this goal is satisfied, so the ground-truth action should be [STOP] . However, the decision-maker improp-erly thinks that "the flowerpots are still a bit ahead" , so improperly chooses to move [FORWARD] , which results in a collision (SR = 0, NE = 0.00 m). When the TEA module is integrated, considering that this robot is "a four-legged robotic dog" , the TEA module thinks that it "can navigate on flat and stable surfaces but cannot traverse obstacles like pots" , so classifies the floor as traversable and the pots as non-traversable. Next, the TEA module alarms the decision-maker with the traversability map, successfully assisting it to <thought> … appears to be                           
+
+> close to them but not yet very
+> close. The flowerpots are still
+> a bit ahead … move forward to
+> get closer … </thought>
+> <thought> … requires moving
+> forward … until they (weeds)
+> occupy a large portion of the
+> view, this condition seems to
+> be met now. </thought>
+> <thought> … Since the robot is
+> now about to enter the river
+> (at the edge of the riverbank)
+> … The appropriate action now
+> is to stop … </thought>
+> <thought> … the tourist still
+> appears to be at a moderate
+> distance, not very close yet …
+> continue moving forward to get
+> closer … </thought>
+> <thought> … a four-legged
+> robotic dog, which can navigate
+> on flat and stable surfaces but
+> cannot traverse obstacles like
+> pots … pots or objects that
+> are obstacles and non-
+> traversable. Segment #2 is
+> the floor, which is flat and
+> stable … </thought>
+> <thought> … Segment #1
+> highlights the bare soil path,
+> which appears flat and clear,
+> suitable for the four-legged
+> robotic dog to traverse. …
+> dense vegetation, which could
+> obstruct the robot's
+> movement and is likely non-
+> traversable. … </thought>
+> <thought> Segment #1 shows
+> grassy terrain near the
+> water's edge, which is
+> generally traversable for a
+> four-legged robotic dog.
+> Segment #2 highlights dense
+> bushes or trees, which are
+> obstacles and non-traversable.
+> …</thought>
+> <thought> … The segments
+> highlighted are parts of a
+> person crouching near a tree.
+> These segments are not
+> ground surfaces or pathways
+> but parts of a human body,
+> which are obviously non-
+> traversable for the robot. … </
+> thought>
+> <thought> … shows several red
+> flowerpots very close to the
+> robot, indicating that the
+> robot has reached the target
+> proximity. … </thought>
+> <thought> The traversability
+> map indicates a clear path
+> forward on the right side of
+> the weeds. … approach it more
+> closely … </thought>
+> <thought> … robot is not yet at
+> the edge of the riverbank, as
+> there is still some traversable
+> ground before the water
+> starts … </thought>
+> <thought> … there is still some
+> distance visible between the
+> robot and the tourist …
+> continue moving forward to get
+> closer … </thought>
+> (a) A paved road case. (b) A dirt case. (c) A meadow case. (d) A sparse plant case.
+
+Figure 3: Case study illustration: In every case, the images or textboxes from top to bottom are the camera image, the thinking thought on action prediction, the traversability map, the thinking thought on traversability classification, the rethinking thought on action prediction, respectively. think that "the robot has reached the target proximity" then properly change to choose [STOP] (SR = 1, NE = 0.62 m). From the successful cases on a paved road, a dirt, and a meadow, we suggest that our TEA module shows the ef-fective bi-directional alarming function: When the decision-maker chose to move [FORWARD] , TEA could alarm it for rethinking if there were certain dangerous obstacles in the alarming zone; When the decision-maker chose to [STOP] ,TEA could alarm it for rethinking if there were enough safe spaces in the alarming zone. Meanwhile, our TEA-AgriVLN method fails on the case in sparse plants. We observe that the TEA module correctly segments and classifies the person, but omits the tree. We attribute this omitting to the instance segmentation stage: The semantic similarity between the tree trunk and the fallen leaves is very high, which makes the pre-trained segmenter struggle for distinguishing them. Clearly, this case study also matches with the ablation results on ground categories. From the failed case in sparse plants, we suggest that the chaotic off-road grounds are still challenging for the TEA module to estimate traversability. 
+
+## 5 Conclusion 
+
+In this paper, we present the TEA module, which esti-mates the traversability of the camera image, then alarm the decision-maker for rethinking when the predicted action does not align with the traversability map. We integrate it into the AgriVLN backbone to build our TEA-AgriVLN method, successfully improving SR from 0.47 to 0.54 and NE from 2.91 m to 2.70 m, from which we suggest an answer to the opening question: Yes, the ambiguous traversability is one of the reasons to the gap between AgriVLN and human, and our TEA module can effectively narrow this gap. 
+
+During experiments, we also find a main limitation. As dis-cussed in Section 4.4 and 4.5, chaotic off-road grounds, such as sparse plants, are still challenging for our TEA module. In the future, we plan to further explore if we could fine-tuned the instance segmenter, would our TEA module per-form better on chaotic off-road grounds. References 
+
+Anderson, P.; Wu, Q.; Teney, D.; Bruce, J.; Johnson, M.; Sunderhauf, N.; Reid, I.; Gould, S.; and van den Hengel, A. 2018. Vision-and-Language Navigation: Interpreting visually-grounded navigation instructions in real environ-ments. In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) .Chen, H.; Suhr, A.; Misra, D.; Snavely, N.; and Artzi, Y. 2019. TOUCHDOWN: Natural Language Navigation and Spatial Reasoning in Visual Street Environments. In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) .Cho, D.; Park, M.; Lee, J.; Yang, G.; and Cho, Y. 2026. GSAT: Geometric Traversability Estimation using Self-supervised Learning with Anomaly Detection for Diverse Terrains. In 
+
+IEEE International Conference on Robotics and Automation (ICRA) .Frey, J.; Mattamala, M.; Chebrolu, N.; Cadena, C.; Fallon, M.; and Hutter, M. 2023. Fast Traversability Estimation for Wild Visual Navigation. In Robotics: Science and Systems (RSS) .Guan, T.; Kothandaraman, D.; Chandra, R.; Sathyamoorthy, A. J.; Weerakoon, K.; and Manocha, D. 2022. GA-Nav: Efficient Terrain Segmentation for Robot Navigation in Un-structured Outdoor Environments. IEEE Robotics and Au-tomation Letters .Hong, Y.; Rodriguez-Opazo, C.; Wu, Q.; and Gould, S. 2020. Sub-Instruction Aware Vision-and-Language Navigation. In 
+
+Conference on Empirical Methods in Natural Language Pro-cessing (EMNLP) .Hosseinpoor, S.; Torresen, J.; Mantelli, M.; Pitto, D.; Kol-berg, M.; Maffei, R.; and Prestes, E. 2021. Traversabil-ity Analysis by Semantic Terrain Segmentation for Mobile Robots. In IEEE International Conference on Automation Science and Engineering (CASE) .Jung, S.; Lee, J.; Meng, X.; Boots, B.; and Lambert, A. 2024. V-STRONG: Visual Self-Supervised Traversability Learning for Off-road Navigation. In IEEE International Conference on Robotics and Automation (ICRA) .Khizar, Z.; Laconte, J.; Lenain, R.; and Aufrère, R. 2025. Feeling the Force: A Nuanced Physics-based Traversability Sensor for Navigation in Unstructured Vegetation. In Euro-pean Conference on Mobile Robots (ECMR) .Krantz, J.; Wijmans, E.; Majumdar, A.; Batra, D.; and Lee, S. 2020. Beyond the Nav-Graph: Vision-and-Language Naviga-tion in Continuous Environments. In European Conference on Computer Vision (ECCV) .Leininger, A.; Ali, M.; Jardali, H.; and Liu, L. 2024. Gaussian Process-based Traversability Analysis for Terrain Mapless Navigation. In IEEE International Conference on Robotics and Automation (ICRA) .Liang, J.; Das, D.; Song, D.; Shuvo, M. N. H.; Durrani, M.; Taranath, K.; Penskiy, I.; Manocha, D.; and Xiao, X. 2025. GND: Global Navigation Dataset With Multi-Modal Per-ception and Multi-Category Traversability in Outdoor Cam-pus Environments. In IEEE International Conference on Robotics and Automation (ICRA) .Liu, S.; Zhang, H.; Qi, Y.; Wang, P.; Zhang, Y.; and Wu, Q. 2023. AerialVLN: Vision-and-Language Navigation for UAVs. In IEEE/CVF International Conference on Computer Vision (ICCV) .Lobefaro, L.; Sodano, M.; Fusaro, D.; Magistri, F.; Malladi, M. V. R.; Guadagnino, T.; Pretto, A.; and Stachniss, C. 2025. Spatio-Temporal Consistent Semantic Mapping for Robotics Fruit Growth Monitoring. Robotics and Automation Letters .Song, X.; Chen, W.; Liu, Y.; Chen, W.; Li, G.; and Lin, L. 2025. Towards Long-Horizon Vision-Language Navigation: Platform, Benchmark and Method. In IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) .Wang, J.; Wang, T.; Cai, W.; Xu, L.; and Sun, C. 2025. Boosting Efficient Reinforcement Learning for Vision-and-Language Navigation With Open-Sourced LLM. Robotics and Automation Letters .Xie, Y.; Zhang, T.; Yang, M.; Lyu, H.; Zou, Y.; Sun, Y.; Xiao, J.; Lian, W.; Tao, J.; Han, H.; and Xu, C. 2025. En-gineering crop flower morphology facilitates robotization of cross-pollination and speed breeding. Cell .Zhang, Y.; Ma, Z.; Li, J.; Qiao, Y.; Wang, Z.; Chai, J.; Wu, Q.; Bansal, M.; and Kordjamshidi, P. 2024. Vision-and-Language Navigation Today and Tomorrow: A Survey in the Era of Foundation Models. Transactions on Machine Learning Research .Zhao, P.; Chen, J.; Li, J.; Ning, J.; Chang, Y.; and Yang, S. 2025. Design and Testing of an autonomous laser weeding robot for strawberry fields based on DIN-LW-YOLO. Com-puters and Electronics in Agriculture .Zhao, X.; Lyu, X.; and Li, X. 2025. AgriVLN: Vision-and-Language Navigation for Agricultural Robots. In arXiv 2508.07406 .Zhou, G.; Hong, Y.; Wang, Z.; Wang, X. E.; and Wu, Q. 2024. NavGPT-2: Unleashing Navigational Reasoning Capability for Large Vision-Language Models. In European Conference on Computer Vision (ECCV) .Zhou, G.; Hong, Y.; and Wu, Q. 2024. NavGPT: Explicit Reasoning in Vision-and-Language Navigation with Large Language Models. In AAAI Conference on Artificial Intelli-gence (AAAI) .Ægidius, S.; Hadjivelichkov, D.; Jiao, J.; Embley-Riches, J.; and Kanoulas, D. 2025. Watch Your STEPP: Semantic Traversability Estimation using Pose Projected Features. In 
+
+IEEE International Conference on Robotics and Automation (ICRA) .

@@ -1,0 +1,504 @@
+Title: BioVLN: A Simulation Platform for Visual Language Navigation in Biomedical Laboratories
+
+URL Source: https://arxiv.org/pdf/2607.26914v1
+
+Published Time: Thu, 30 Jul 2026 01:08:10 GMT
+
+Number of Pages: 17
+
+Markdown Content:
+# BioVLN: A Simulation Platform for Visual Language Navigation in Biomedical Laboratories 
+
+## Zhe Liu *1,2 , Quan Lu *1,2 , Zhaohui Du *1,2 , Zhe Wang †1,2 , Huanbo Jin 1,2 ,Jiaming Gu 1,2 , Qi Wang 3, Ting Xiao 3, Minting Pan 4, Dongzhan Zhou 41Key Laboratory of Smart Manufacturing in Energy Chemical Process, MoE, East China University of Science and Technology, Shanghai, China 
+
+> 2
+
+## Department of Computer Science and Engineering, East China University of Science and Technology, Shanghai, China 
+
+> 3
+
+## Department of Laboratory Medicine, Ruijin Hospital, Shanghai Jiao Tong University School of Medicine, Shanghai, China 
+
+> 4
+
+## AI for Science Center, Shanghai AI Laboratory, Shanghai, CN 
+
+## wangzhe@ecust.edu.cn https://github.com/ActiveButterflies/BioVLN 
+
+# Abstract 
+
+Biomedical laboratory robots must navigate to instruments before performing experimental procedures. Existing em-bodied navigation platforms are designed for household environments and treat a target as an object center or an arbitrary nearby position. This representation is inadequate for laboratory instruments, which must be approached from their operating side while maintaining safe clearance from surrounding equipment. We introduce BioVLN, a simulation platform for developing and evaluating visual-language navigation agents in biomedical laboratories. BioVLN represents each instrument with three regions: its physical body, a surrounding clearance region, and an operation area in front of the usable side. This model is applied consistently to scene generation, target placement, navigation evaluation, and safety analysis, so success de-pends on reaching a position from which the instrument can be accessed. BioVLN supports procedural scene gen-eration and manually designed environments, producing 47 scenes and 1,667 episodes. Standardized navigation and reinforcement-learning interfaces enable trajectory collec-tion and policy training. Experiments show that geometric exploration reaches 74.4–87.5% success, while sampling multiple valid positions in the operation area improves success to 83.3–92.5% and reduces unsafe proximity.   
+
+> * Equal contribution. †Corresponding author.
+
+# 1 Introduction 
+
+Language-conditioned embodied navigation, including visual-language navigation (VLN) and ObjectNav, has progressed rapidly through standardized simulators, large-scale indoor datasets, and increasingly capable seman-tic navigation agents. Habitat and AI2-THOR established reproducible environments for embodied learning, while ProcTHOR enabled large-scale procedural scene genera-tion Savva et al. (2019); Kolve et al. (2017); Deitke et al. (2022). ObjectNav has similarly evolved from geometric and learned exploration to open-vocabulary methods that use vision-language models and scene-level reasoning to locate unseen targets Batra et al. (2020); Yitzhak Gadre et al. (2022); Yokoyama et al. (2024); Yin et al. (2024). These platforms and benchmarks are primarily designed for homes and offices, where success is defined by reaching the target object or a nearby position. Biomedical laboratories require a more functional def-inition of navigation success. Laboratory robots must ap-proach instruments before manipulation or experimental execution can begin Holland and Davies (2020); Burger et al. (2020). A centrifuge must be reached from its control side, a refrigerator from its door, and a benchtop instru-ment with sufficient clearance from adjacent equipment. The destination is not merely the instrument location, but a position from which it can be safely accessed. This require-ment is further complicated by dense, workflow-dependent layouts and specialized instruments that can be difficult for general-purpose vision-language models to recognize. Current navigation formulations do not explicitly cap-ture these constraints. Point-based or proximity-based 1arXiv:2607.26914v1 [cs.RO] 29 Jul 2026 goals may indicate that an object has been reached, but they do not encode its operating direction or usable approach region. Standard metrics measure goal reaching and path efficiency without quantifying clearance from surrounding equipment. Mainstream scene-generation pipelines also lack a unified representation of instrument-specific oper-ating directions, approach regions, and safety constraints. These limitations leave a gap between semantic object search and navigation that can support downstream labo-ratory interaction. We introduce BioVLN, a simulation platform that for-mulates biomedical laboratory navigation around opera-tional accessibility. Its central abstraction is a three-zone operational envelope comprising the instrument body, a surrounding clearance region, and an operation area in front of the usable side. This abstraction is applied consis-tently to scene construction, goal placement, episode gen-eration, navigation evaluation, and trajectory-level safety analysis. Our contributions are summarized as follows: 
+
+• We present BioVLN, an extensible simulation plat-form for visual-language navigation in biomedical laboratories. It introduces operational-face goals and a three-zone spatial model that couples instrument ge-ometry, approach accessibility, and safety constraints throughout scene generation and evaluation. 
+
+• We develop a dual-entry scene pipeline supporting both procedural construction and designer-authored scene import through the Blender-based LabScene Annotation Toolkit (LSAT). The platform provides 47 scenes and 1,667 episodes, with standardized trajectory-recording and Gym-compatible interfaces for zero-shot evaluation and policy learning. 
+
+• We establish a six-method benchmark across three laboratory datasets using both navigation and safety metrics. Results show that sampling multiple valid positions within the operation area improves success to 83.3–92.5% while reducing unsafe proximity, and reveal that vision-language navigation is strongly af-fected by the visual quality of rendered laboratory assets. 
+
+# 2 Related Work 
+
+## 2.1 Embodied Navigation Platforms 
+
+The embodied AI community has developed several high-fidelity simulation platforms, evolving from fixed scene sets (Habitat-Sim Savva et al. (2019), AI2-THOR Kolve et al. (2017), Gibson Xia et al. (2018)) to real-world build-ing scans (Matterport3D Chang et al. (2017), HM3D Ra-makrishnan et al. (2021)), interactive manipulation (iGib-son Li et al. (2021), BEHAVIOR Srivastava et al. (2022)), large-scale procedural generation (ProcTHOR Deitke et al. (2022)), and sim-to-real transfer (RoboTHOR Deitke et al. (2020)). All existing platforms target residential or office domains and provide no mechanisms for evaluating op-erational safety or instrument-specific spatial constraints. Table 1 contrasts BioVLN with representative platforms. 
+
+## 2.2 Object-Goal Navigation 
+
+Object-goal navigation (ObjectNav) Batra et al. (2020) tasks an agent with navigating to any instance of a specified object category. The field has progressed from classical geometry-based exploration to learned policies (PONI Ra-makrishnan et al. (2022)), semantic exploration (Sem-Exp Singh Chaplot et al. (2020)), and, most recently, zero-shot VLM-guided approaches (ZSON Majumdar et al. (2022), CoW Yitzhak Gadre et al. (2022), SG-Nav Yin et al. (2024)). A fundamental limitation persists across all formulations: goals remain point targets at object centroids without orientation or affordance constraints. For labora-tory instruments, the operational face (e.g., a refrigera-tor’s front door versus its rear panel) determines whether a navigation trajectory is functionally useful. BioVLN re-formulates the goal as an operational approach position with explicit affordance-facing direction. 
+
+## 2.3 Frontier-Based Exploration 
+
+Frontier-based exploration, introduced by Yamauchi Ya-mauchi (1997), navigates toward boundaries between ex-plored free space and unknown regions. The paradigm has evolved from hand-crafted heuristics to learned neu-ral variants (Active Neural SLAM Chaplot et al. (2020a), Neural Topological SLAM Chaplot et al. (2020b)) and large-scale RL (DD-PPO Wijmans et al. (2020)). Learned methods require environment-specific training and do not transfer zero-shot to domains with distinct visual and ge-ometric statistics. We adopt a purely geometric frontier method as a training-free baseline. 
+
+## 2.4 Vision-Language Models for Navigation 
+
+Leveraging large vision-language models (VLMs) for zero-shot semantic navigation has attracted considerable recent interest. VLFM Yokoyama et al. (2024) scores fron-tier views with BLIP-2 Li et al. (2023) and GPT-4o Hurst et al. (2024) for semantic value map construction. Instruct-Nav Long et al. (2024) leverages LLMs for instruction-following zero-shot navigation. SG-Nav Yin et al. (2024) 2Figure 1: The BioVLN platform architecture. P1 (left): designer-authored scene import, where manually built GLB scenes annotated via LSAT are processed. P2 (right): procedural generation, where instrument catalogs and layout templates drive automated construction. Both paths converge into a shared benchmark pipeline with six-method evaluation and safety metrics (MCR, VRT). introduces scene graph prompting for hierarchical LLM-based goal reasoning. CoW Yitzhak Gadre et al. (2022) and OpenFMNav Kuang, Lin, and Jiang (2024) employ vision-language foundation models for open-vocabulary object search. These methods share an implicit premise: that the VLM possesses visual familiarity with target ob-jects acquired during pre-training. Laboratory instruments such as centrifuges and incubators lie outside this dis-tribution. Whether VLM navigation failure in laboratory settings stems from deficient conceptual knowledge or in-sufficient visual signal in rendered assets remains an open question. 
+
+# 3 BioVLN Platform 
+
+## 3.1 Overview 
+
+BioVLN operates through a dual-entry pipeline (Fig. 1). Scenes can be constructed through two complementary paths. P1 imports designer-authored GLB scenes anno-tated via the LSAT Blender addon, which extracts goal positions from artist-placed markers and maps them to instrument categories. P2 procedurally generates scenes from an instrument catalog and layout templates, driving a headless Blender builder followed by semantic annota-tion, navigation mesh generation, and episode construc-tion. Both paths produce identical outputs: a scene GLB with navigation mesh and episodes. Six navigation meth-ods are evaluated in a shared action space, with safety met-rics (MCR, VRT) computed from trajectories against the three-zone model of every instrument in the scene. The platform also provides Gym-compatible and trajectory-3Table 1: Overview of existing embodied navigation platforms ( ✓ = supported, × = not supported)                                                 
+
+> Habitat AI2-THOR ProcTHOR iGibson BioVLN Savva et al. (2019) Kolve et al. (2017) Deitke et al. (2022) Li et al. (2021) (ours) Domain Home/Office Home Home Home Laboratory
+> Procedural scene generation ××✓×✓
+> Designer-authored scene import ××××✓
+> LLM-assisted layout design ××××✓
+> Operational-face goal definition ××××✓
+> Operational accessibility model ××××✓
+> Safety metrics (MCR, VRT) ××××✓
+> Blender-based scene annotation ××××✓
+
+recording interfaces for policy learning. 
+
+## 3.2 Problem Formulation 
+
+We describe the platform’s core components: the operational-face goal formulation, the laboratory asset cat-alog, and the three-zone operational envelope model. 
+
+Operational-Face Goal Navigation. Let 
+
+I = {𝐼 1, . . . , 𝐼 𝐾 } be the set of instruments in ascene. Each instrument 𝐼 𝑖 is characterized by a 3D centroid c𝑖 , an operational face direction f𝑖 ∈ R2 (unit vector indicating the interactive surface normal), and a half-depth 𝑑 𝑖 (distance from centroid to face). The goal position is: 
+
+g𝑖 = c𝑖 + f𝑖 · ( 𝑑 𝑖 + 𝛿 𝑖 ) (1) where 𝛿 𝑖 is an instrument-specific approach distance (0.5– 0.9 m). The goal is placed at floor height ( 𝑧 =0 in Blender Z-up coordinates). The agent initializes at a random navigable start position 
+
+s on the navigation mesh. At each step 𝑡 , the agent receives an egocentric RGB-D observation and selects 𝑎 𝑡 ∈ A =
+
+{forward 0.25 m, turn_left 30 ◦, turn_right 30 ◦, stop }. An episode succeeds if the agent calls stop within a distance 
+
+𝑟 𝑖 of g𝑖 , where 𝑟 𝑖 is an instrument-specific success radius (0.8–1.3 m). The task is zero-shot: the agent receives no training episodes from the target scene. 
+
+Laboratory Asset Catalog. Table 2 lists the instrument and infrastructure assets used in BioVLN. Each asset is stored as a GLB file with geometry centered at the model-space origin, allowing uniform world-space placement and rotation without per-asset coordinate adjustments. Dimen-sions and support surface heights were verified through Blender vertex analysis. Operational face directions were determined by manual inspection of each instrument’s 3D model in Blender. Table 2: Laboratory Asset Catalog                                              
+
+> Asset Dimensions (m) Zone Op. Face 𝑑 half (m) Refrigerator 0.89 ×0.91 ×1.78 wall −𝑌 0.455 Incubator 1.35 ×0.85 ×1.90 wall −𝑋 0.673 Centrifuge 0.49 ×0.42 ×0.63 table_top −𝑋 0.245 Mini-Centrifuge 0.66 ×0.50 ×0.43 table_top −𝑋 0.332 Pipette 0.04 ×0.32 ×0.28 table_top −𝑌 0.159 Cabinet 1.38 ×0.57 ×1.77 wall +𝑋 0.692 Waste Bin 0.38 ×0.37 ×0.51 floor +𝑋 0.183 Room infrastructure Lab Bench 1.55 ×5.94 ×0.76 ———Lab Table 2.40 ×0.90 ×1.10 ———Room (inner) 8.00 ×6.00 ×3.24 ———
+
+Three-Zone Operational Envelope. BioVLN’s defin-ing spatial abstraction is a three-zone model around each instrument. The operational-face navigation concept un-derlying this model is illustrated in Fig. 2, and the three zones jointly govern scene generation, collision avoidance, and navigation evaluation. (1) Zone 1: Physical body. The instrument’s axis-aligned bounding box, derived from its GLB geometry (Table 2). This zone represents the space that the instru-ment physically occupies. Wall instruments contact the wall on one face; table-top instruments rest on support surfaces at precisely measured heights ( 𝑍 bench =0.76 m, 
+
+𝑍 table =0.78 m). (2) Zone 2: Safety clearance. A buffer of 𝜀 𝑐 =0.25 mextends beyond Zone 1 on all four horizontal sides, repre-senting the minimum clearance required for safe naviga-tion. During scene generation, the Zone 2 regions of any two instruments cannot overlap: 
+
+|𝑥 𝑖 −𝑥 𝑗 | ≥ 𝑠 𝑥,𝑖 +𝑠 𝑥, 𝑗  
+
+> 2
+
++2𝜀 𝑐 or |𝑦 𝑖 −𝑦 𝑗 | ≥ 𝑠 𝑦,𝑖 +𝑠 𝑦, 𝑗  
+
+> 2
+
++2𝜀 𝑐 (2) This guarantees navigable gaps of at least 0.5 m between instruments. During evaluation, Zone 2 violations are recorded and reported as safety metrics (Fig. 4). 4Figure 2: Operational-face goal navigation. Left: blue solid = correct navigation to the operational face (red point); red dashed = incorrect (reaches incubator but not its oper-ational surface). Right: top-down view of the operational face. (3) Zone 3: Operational envelope. A rectangular re-gion of depth 𝛿 𝑖 (0.5–0.9 m, instrument-dependent) ex-tending outward from the operational face along f𝑖 . The goal g𝑖 sits at its outer boundary (Eq. 1). Zone 3 defines the task-relevant navigation target: the standing position from which a human or robot can operate the instrument. The three-zone model departs deliberately from stan-dard ObjectNav. Habitat ObjectNav Savva et al. (2019) projects bounding-box centers to the floor, producing po-sitions that may lie inside furniture or against walls. Mat-terport3D Chang et al. (2017) uses human-annotated view-points without explicit spatial constraints. BioVLN makes spatial semantics explicit and uses the three-zone model for safety evaluation. 
+
+## 3.3 Scene Generation Pipeline 
+
+Zero-Origin Architecture 
+
+Our pipeline uses origin-centered GLB assets: each model’s geometry is centered at (0, 0, 0) in its local coor-dinate frame, and world-space placement and rotation are applied uniformly at import time. This design contrasts with conventional baked-GLB workflows, where vertex coordinates are pre-transformed to world space, prevent-ing repositioning or layout variation. P1 (designer-authored import) begins with a manu-ally built GLB scene containing artist-placed target_* 
+
+markers. LSAT extracts these markers and maps them to instrument categories. A hand-authored configuration file supplies semantic mesh annotations, after which the shared pipeline stages (semantic annotation, navigation mesh, episode construction) produce the final benchmark scene. P2 (procedural generation) uses a specification gener-ator that produces a JSON description encoding each in-strument’s world position, rotation, and operational goal. A headless Blender builder imports room and instrument 
+
+Figure 3: Scene-level operational-face goal positions. Left: oblique overview. Right: top-down visualization per in-strument. GLBs at the specified positions, then the shared pipeline stages process the assembled scene. Both paths converge on identical outputs: a scene GLB file with vertex-level semantic annotations (COLOR_0 en-coding), a Recast navigation mesh, and episode definitions with sampled starts and operational-face goals. 
+
+Rotation and Placement 
+
+Instruments against walls must rotate so their operational face points toward the room interior. Given a model-space face vector (𝑚 𝑥 , 𝑚 𝑦 ) and wall-determined interior direc-tion (𝑤 𝑥 , 𝑤 𝑦 ), the Z-axis rotation 𝜃 is: 
+
+𝜃 = atan2 (𝑚 𝑥 𝑤 𝑦 − 𝑚 𝑦 𝑤 𝑥 , 𝑚 𝑥 𝑤 𝑥 + 𝑚 𝑦 𝑤 𝑦 ) (3) This formulation handles all four wall orientations and arbitrary model-space face directions. Table-top instru-ments align perpendicular to the nearest table edge; floor instruments (waste bin) are unconstrained. Vertical placement uses surface height and model off-sets: 
+
+𝑍 place = 𝑍 table_top + 𝑍 bb_center − 𝑍 bottom (4) where 𝑍 table_top is the measured support surface height (0.76 m bench, 0.78 m table), 𝑍 bb_center is the instrument’s bounding-box center Z, and 𝑍 bottom is its lowest vertex Z. 
+
+Layout Templates 
+
+We define four layout templates; two (single-room, two-room) are implemented and used in benchmarks, while suite and open-plan are defined for future expansion. Fig. 3 shows the resulting goal positions across all instruments in a single-room scene. Table 3 summarizes generation statistics. The generator randomizes which instrument slots are active (2–5 out of 6 for single-room) and which instruments fill those slots, producing layout diversity. Each scene is identified by a seed value that deterministically controls random choices. 5Table 3: Layout Templates and Generation Statistics Template Room Configuration Scenes Episodes single-room 8×6 m 39 1,363 two-room 6×5 m + 3.5×3.5 m 8 304 Total 47 1,667 
+
+Episode Construction 
+
+Start positions are randomly sampled from the naviga-tion mesh at least 1.0 m from obstacles. Goal positions are snapped to the nearest navigable navmesh point. The geodesic shortest path from start to goal is computed via the navmesh graph. View-points are generated at the goal, oriented toward the target instrument. Episodes are clas-sified by geodesic distance: easy ( 𝑑 geo < 3.0 m), medium (3.0 ≤ 𝑑 geo ≤ 6.0 m), hard ( 𝑑 geo > 6.0 m). On Multi-Scene DEV (160 episodes), the distribution is 11.9% easy, 28.1% medium, 60.0% hard. 
+
+## 3.4 LSAT Annotation Toolkit 
+
+We developed the LabScene Annotation Toolkit (LSAT), a Blender 5.1.2 addon (13 modules, ∼2,500 lines of Python) that bridges designer-authored 3D scenes and the BioVLN benchmark format. LSAT implements two complementary goal-extraction strategies. The first extracts world-space coordinates from artist-placed target_* empty nodes in the GLTF file, mapping node names to instrument cat-egories through fuzzy string matching (Levenshtein dis-tance threshold of 2). The second computes goal positions from detected instrument meshes using their centroids and operational-face geometry (Eq. 1), serving as a fallback when target markers are absent. LSAT achieved 100% coverage on the human-annotated test scene and exports to BioVLN goal format, LSAT internal format, and Isaac Sim USD. 
+
+# 4 Experimental Setup 
+
+## 4.1 Benchmark Datasets 
+
+We define three benchmark datasets (Table 4): Multi-Scene spans 7 held-out scenes (4 DEV, 1 VAL, 2 TEST) drawn from 47 total built scenes across 2 lay-out templates, with 2–4 instrument categories per scene. The three-way split ensures no scene appears in more than one split, testing generalization. Two-Room contains two connected rooms joined by a 1.5 m-wide central corridor, with 10 instrument categories and 50 episodes specifically testing cross-room navigation. LSAT Target is a human-annotated scene with 8 instrument categories and LSAT Table 4: Benchmark Dataset Statistics                            
+
+> Dataset Scenes Eps. Cat. Goal Source MS DEV 4160 4Computed MS VAL 150 4Computed MS TEST 2120 4Computed Two-Room 150 10 Computed LSAT Target 140 8Human-annotated Total —420 —
+
+Strategy 1 goal positions, isolating the effect of goal place-ment precision. 
+
+## 4.2 Evaluation Metrics 
+
+We report six metrics spanning navigation effectiveness and operational safety. Navigation Metrics. (1) Success Rate (SR): fraction of episodes ending within the instrument-specific success radius. (2) SPL: success weighted by ℓopt  
+
+> 𝑖
+
+/max (ℓ𝑖 , ℓ opt  
+
+> 𝑖
+
+),where ℓopt  
+
+> 𝑖
+
+is the optimal geodesic path length. (3) Dis-tance to Goal (DTG): final Euclidean distance to the goal, averaged over all episodes. (4) Average Steps: mean ac-tions per successful episode. Safety Metrics. Two metrics derived from the three-zone model, computed from the agent’s full trajectory against all instruments in the scene: (1) Minimum Clearance Radius (MCR): the closest distance (m) between the agent and any instrument surface over the entire trajectory. Values below the Zone 2 hazard threshold ( 0.5 m) indicate a safety vio-lation. (2) Violation Rate at Threshold (VRT): the fraction of trajectory steps during which the agent is within 0.5 mof any instrument surface. VRT captures persistent unsafe proximity, not single-point violations. 
+
+## 4.3 Baseline Methods 
+
+Six methods spanning random actions to VLM-guided se-mantic exploration, all operating in the same action space 
+
+A with a 500-step maximum. Random. Uniformly samples from the three movement actions (forward, turn left, turn right) with a 5% per-step stop probability. Serves as a pure-chance lower bound. Oracle. Follows the pre-computed geodesic shortest path on the navigation mesh. Because navmesh-snapped goals may be unreachable under discrete actions (0.25 m forward, 30 ◦ turns), the Oracle does not achieve 100% success; it provides an empirical upper bound. Frontier Exploration. A purely geometric method us-ing a depth-based 2D occupancy grid ( 0.05 m resolu-tion, 100 ×100 m extent), frontier clustering, and nearest-frontier navigation. This baseline tests whether systematic 6geometric coverage alone suffices for laboratory naviga-tion, without any semantic understanding of instrument appearance or location. LLM-Frontier. Extends Frontier Exploration by query-ing DeepSeek-chat Xu et al. (2026) when multiple fron-tiers are approximately equidistant. The LLM receives a structured prompt describing the target instrument, agent position, and top-3 frontier candidates, then selects which to pursue. This baseline tests whether an LLM’s semantic priors about instrument locations improve frontier selec-tion in laboratory layouts. 3-Zone Oracle. An oracle agent that samples multiple candidate approach points within the target instrument’s Zone 3, navigating to each until one succeeds. This base-line isolates the benefit of zone-aware multi-point goal sampling over single-point navmesh snapping. VLFM. Our reimplementation of VLFM Yokoyama et al. (2024) with vlm_vmap mode: Grounding DINO Liu et al. (2024) for open-vocabulary detection, GPT-4o Hurst et al. (2024) for detection verification and direction scor-ing, and SAM Kirillov et al. (2023) for segmentation. The agent early-stops after 100 consecutive steps without progress. VLFM tests whether pretrained visual represen-tations from VLM-guided zero-shot navigation transfer to rendered laboratory assets. 
+
+## 4.4 Implementation Details 
+
+All experiments run on a single NVIDIA RTX 4090 (24 GB) with habitat-sim 0.2.5. Frontier Exploration and LLM-Frontier operate at ∼5 steps/s; VLFM at ∼0.25 steps/s due to VLM API latency. GPT-4o and DeepSeek are accessed via API endpoints. LSAT is developed for Blender 5.1.2 Blender Foundation (2018). Beyond zero-shot evaluation, BioVLN supports trajec-tory collection and policy learning through a trajectory recorder that captures per-step observations during evalu-ation, a PyTorch dataset class that computes agent-centric goal vectors, and a Gymnasium environment with step-wise reward: 
+
+𝑟 𝑡 = (𝑑 𝑡 −1 − 𝑑 𝑡 ) + I[𝑑 𝑡 < 𝑟 𝑖 ] · 10 
+
+− 0.01 − I[𝑑 clearance < 0.5] · 0.05 (5) where 𝑑 𝑡 is the Euclidean distance to goal at step 𝑡 , 𝑟 𝑖 is the instrument-specific success radius, and 𝑑 clearance is the minimum distance to any instrument surface. The first term provides dense reward for approaching the goal; the second awards a sparse success bonus; the step penalty encourages efficient paths; the safety term penalizes proximity below the Zone 2 threshold. 
+
+Figure 4: Safety boundary: red dashed violates instrument clearance; blue solid maintains safe clearance. 
+
+# 5 Experiments 
+
+## 5.1 Geometric Coverage Is Sufficient for Single-Room Layouts 
+
+Table 5 reports all metrics. Frontier Exploration achieves 74.4% SR on MS-DEV, surpassing the geodesic Oracle (71.9%) by 2.5 pp (McNemar 𝑝 =0.219 ); on Two-Room, Frontier reaches 84.0% vs. Oracle’s 80.0% ( +4.0 pp, 
+
+𝑝 =0.500 ). Systematic geometric coverage compensates for discretization error in reaching navmesh-snapped goals under 0.25 m steps and 30 ◦ turns. 3-Zone Oracle achieves the highest SR overall (83.3–92.5%), confirming that zone-aware multi-point sampling further compensates for dis-cretization. LLM-Frontier matches Frontier on 4 of 5 splits; the LLM is consulted in only 10–20% of episodes because single-room layouts lack room-level semantic choices. VLFM achieves 62.5% SR on LSAT Target but drops to 19.4% on MS-DEV; on Two-Room, all successes are confined to Room A instruments. 
+
+## 5.2 Per-Instrument Difficulty Reflects Spa-tial Layout 
+
+Table 6 disaggregates Frontier Exploration by instrument category. Wall instruments (refrigerator: 60–65%; cabi-net: 70–100%) are harder than table-top instruments (cen-trifuge: 80–100%), whose approach paths benefit from open space at the room center. LSAT Target’s higher SR (87.5%) confirms that human annotators avoid placing goals near obstacles. 7Table 5: Navigation and safety results across all benchmarks.                                                                                                              
+
+> MS DEV MS VAL MS TEST Two-Room LSAT Method SR SPL MCR VRT SR SPL SR SPL SR SPL MCR VRT SR MCR VRT Random 26.9 0.212 0.976 11.9 22.0 0.149 31.7 0.270 10.0 0.066 0.637 12.7 32.5 0.135 55.3 Oracle 71.9 0.719 0.944 9.7 76.0 0.760 79.2 0.792 80.0 0.800 0.563 10.7 77.5 0.124 68.2 Frontier 74.4 0.744 0.918 9.8 80.0 0.800 82.5 0.825 84.0 0.840 0.504 11.3 87.5 0.104 70.3 LLM-Frn. 74.4 0.744 ——84.0 0.839 82.5 0.825 84.0 0.840 ——87.5 ——3-Zone Or. 83.8 0.838 1.115 4.9 84.0 0.840 83.3 0.833 86.0 0.860 0.672 6.3 92.5 0.110 61.3 VLFM 19.4 —1.853 4.7 38.0 ———28.0 —0.822 3.8 62.5 2.165 5.3 SR: success rate (%). SPL: success weighted by path length. MCR: min. clearance radius (m). VRT: violation rate (%). VLFM SPL N/A (VLM paths not geodesic-comparable). TEST omitted (API limits). MS-VAL safety: MCR=1.07, VRT=18.2. LLM-Frontier safety: — = identical to Frontier (same geometric path).
+
+Table 6: Frontier SR by Instrument Category (%) 
+
+Category MS-DEV LSAT Two-Room Cabinet 70.0 80.0 100.0 Centrifuge 80.0 — 100.0 Incubator — 100.0 80.0 Lab Bench — 100.0 100.0 Lab Table — 80.0 60.0 Mini-Centrifuge — 100.0 80.0 Pipette — 60.0 80.0 Refrigerator 65.0 80.0 60.0 Waste Bin 82.5 100.0 80.0 Overall 74.4 87.5 84.0 
+
+> — : instrument category not present in that dataset.
+
+## 5.3 Safety Depends on Layout Density 
+
+Fig. 4 shows an example trajectory with safety viola-tions. Safety is dominated by layout density (Table 5). On the compact LSAT layout, VRT reaches 55.3–70.3% for Frontier and Oracle, spending more than half the episode within 0.5 m of instruments. On Two-Room, VRT drops to 6.3–11.3% because the corridor separates navigation paths from instrument zones. VLFM achieves the lowest VRT but also the lowest SR, revealing a success-safety trade-off. 3-Zone Oracle achieves the lowest VRT among high-SR methods by constraining navigation endpoints to Zone 3. 
+
+## 5.4 VLM Analysis 
+
+GPT-4o identifies all instruments from text yet only 13.3% from rendered views (Table 7). Recognition follows sur-face color diversity: 3/3 for the biosafety cabinet (12.6k– 14.9k colors), 0/6 for near-uniform surfaces. VLM failure stems from sparse textures, not deficient knowledge. Table 7: VLM Recognition vs. Surface Color Diversity 
+
+Instrument Colors GPT-4o Answer Correct 𝑛 
+
+Biosafety Cab. 12.6k–14.9k “Biosafety cabinet” 3/3 3Incubator 6.1k–7.6k “Laboratory freezer” 0/3 3Centrifuge 1.9k–14.0k “Yellow trash bin” 0/6 6Micropipette 1.8k–19.8k “Lab equipment” 1/6 6Refrigerator 1–1.8k “Gray rectangle” 0/6 6Waste Bin 1–2 “Gray square” 0/6 6
+
+Table 8: Centroid vs. Operational-Face Goals 
+
+Split ( 𝑛 ) Centroid Op-Face Δ 𝑝 
+
+DEV (160) 82.5 74.4 +8.1 0.035 VAL (50) 62.0 80.0 −18.0 0.035 TEST (120) 79.2 82.5 −3.3 0.557 Overall 78.2 78.2 0.0 —
+
+## 5.5 Operational-Face Goals Are Layout-Invariant 
+
+Frontier Exploration with centroid vs. operational-face goals on the combined 330-episode Multi-Scene set yields identical aggregate SR (78.2%, Table 8). Aggregate par-ity masks opposing per-split effects: centroid improves DEV (+8.1 pp, 𝑝 =0.035 ) yet degrades VAL ( −18.0 pp, 
+
+𝑝 =0.035 ). Each formulation wins 38 episodes the other loses. Operational-face goals avoid this layout-dependent fluctuation because the goal is defined relative to the ori-ented face, not the centroid projection. 
+
+## 5.6 Behavioral Cloning Baseline 
+
+A behavioral cloning policy trained on Frontier trajecto-ries achieves 41.9% SR on held-out VAL (vs. Frontier’s 80.0%), establishing a reference for future learned meth-ods. 86 Conclusion 
+
+We presented BioVLN, a simulation platform for biomed-ical laboratory navigation built on operational-face goals and a three-zone operational envelope. Frontier Explo-ration (74.4–87.5% SR) approaches the oracle bound through geometric coverage. 3-Zone Oracle (83.3–92.5%) achieves the highest success by sampling within the oper-ational envelope. VLFM (19.4–62.5%) reveals a surface-texture bottleneck: GPT-4o identifies all instruments from text but recognizes only 13.3% from rendered views. A be-havioral cloning baseline (41.9% SR) confirms the training pipeline. Key limitations and future directions: 
+
+Asset visual quality. Flat-shaded materials limit VLM recognition; richer textures would bridge this domain gap. 
+
+Scene diversity. Texture randomization and clutter would produce more realistic laboratory scenes. 
+
+Domain generalization. The operational-face model extends to any domain with affordance-directed surfaces. 
+
+Sim-to-real transfer. Deploying trained policies to physical robots remains an open direction. 
+
+# References 
+
+Batra, D.; Gokaslan, A.; Kembhavi, A.; Maksymets, O.; Mottaghi, R.; Savva, M.; Toshev, A.; and Wijmans, E. 2020. Objectnav revisited: On evaluation of em-bodied agents navigating to objects. arXiv preprint arXiv:2006.13171 .Blender Foundation. 2018. Blender-a 3D modelling and rendering package. Burger, B.; Maffettone, P. M.; Gusev, V. V.; Aitchison, C. M.; Bai, Y.; Wang, X.; Li, X.; Alston, B. M.; Li, B.; Clowes, R.; et al. 2020. A mobile robotic chemist. 
+
+Nature , 583(7815): 237–241. Chang, A.; Dai, A.; Funkhouser, T.; Halber, M.; Niess-ner, M.; Savva, M.; Song, S.; Zeng, A.; and Zhang, Y. 2017. Matterport3d: Learning from rgb-d data in indoor environments. arXiv preprint arXiv:1709.06158 .Chaplot, D. S.; Gandhi, D.; Gupta, S.; Gupta, A.; and Salakhutdinov, R. 2020a. Learning to explore using active neural slam. arXiv preprint arXiv:2004.05155 .Chaplot, D. S.; Salakhutdinov, R.; Gupta, A.; and Gupta, S. 2020b. Neural topological slam for visual navigation. In 
+
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 12875–12884. Deitke, M.; Han, W.; Herrasti, A.; Kembhavi, A.; Kolve, E.; Mottaghi, R.; Salvador, J.; Schwenk, D.; VanderBilt, E.; Wallingford, M.; et al. 2020. Robothor: An open simulation-to-real embodied ai platform. In Proceed-ings of the IEEE/CVF conference on computer vision and pattern recognition , 3164–3174. Deitke, M.; VanderBilt, E.; Herrasti, A.; Weihs, L.; Ehsani, K.; Salvador, J.; Han, W.; Kolve, E.; Kembhavi, A.; and Mottaghi, R. 2022. ProcTHOR: Large-Scale Embodied AI Using Procedural Generation. Advances in Neural Information Processing Systems , 35: 5982–5994. Holland, I.; and Davies, J. A. 2020. Automation in the life science research laboratory. Frontiers in bioengineering and biotechnology , 8: 571777. Hurst, A.; Lerer, A.; Goucher, A. P.; Perelman, A.; Ramesh, A.; Clark, A.; Ostrow, A.; Welihinda, A.; Hayes, A.; Radford, A.; et al. 2024. Gpt-4o system card. arXiv preprint arXiv:2410.21276 .Kirillov, A.; Mintun, E.; Ravi, N.; Mao, H.; Rolland, C.; Gustafson, L.; Xiao, T.; Whitehead, S.; Berg, A. C.; Lo, W.-Y.; et al. 2023. Segment anything. In Proceedings of the IEEE/CVF international conference on computer vision , 4015–4026. Kolve, E.; Mottaghi, R.; Han, W.; VanderBilt, E.; Weihs, L.; Herrasti, A.; Deitke, M.; Ehsani, K.; Gordon, D.; Zhu, Y.; et al. 2017. Ai2-thor: An interactive 3d envi-ronment for visual ai. arXiv preprint arXiv:1712.05474 .Kuang, Y.; Lin, H.; and Jiang, M. 2024. Openfmnav: To-wards open-set zero-shot object navigation via vision-language foundation models. In Findings of the Asso-ciation for Computational Linguistics: NAACL 2024 ,338–351. Li, C.; Xia, F.; Martín-Martín, R.; Lingelbach, M.; Srivas-tava, S.; Shen, B.; Vainio, K.; Gokmen, C.; Dharan, G.; Jain, T.; et al. 2021. igibson 2.0: Object-centric simu-lation for robot learning of everyday household tasks. 
+
+arXiv preprint arXiv:2108.03272 .Li, J.; Li, D.; Savarese, S.; and Hoi, S. 2023. Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models. In Interna-tional conference on machine learning , 19730–19742. PMLR. Liu, S.; Zeng, Z.; Ren, T.; Li, F.; Zhang, H.; Yang, J.; Jiang, Q.; Li, C.; Yang, J.; Su, H.; et al. 2024. Grounding dino: Marrying dino with grounded pre-training for open-set object detection. In European conference on computer vision , 38–55. Springer. Long, Y.; Cai, W.; Wang, H.; Zhan, G.; and Dong, H. 2024. Instructnav: Zero-shot system for generic in-struction navigation in unexplored environment. arXiv preprint arXiv:2406.04882 .9Majumdar, A.; Aggarwal, G.; Devnani, B. S.; Hoffman, J.; and Batra, D. 2022. Zson: Zero-shot object-goal navi-gation using multimodal goal embeddings. In Advances in neural information processing systems .Ramakrishnan, S. K.; Chaplot, D. S.; Al-Halah, Z.; Malik, J.; and Grauman, K. 2022. Poni: Potential functions for objectgoal navigation with interaction-free learning. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 18890–18900. Ramakrishnan, S. K.; Gokaslan, A.; Wijmans, E.; Maksymets, O.; Clegg, A.; Turner, J.; Undersander, E.; Galuba, W.; Westbury, A.; Chang, A. X.; et al. 2021. Habitat-matterport 3d dataset (hm3d): 1000 large-scale 3d environments for embodied ai. arXiv preprint arXiv:2109.08238 .Savva, M.; Kadian, A.; Maksymets, O.; Zhao, Y.; Wij-mans, E.; Jain, B.; Straub, J.; Liu, J.; Koltun, V.; Malik, J.; et al. 2019. Habitat: A platform for embodied ai re-search. In Proceedings of the IEEE/CVF international conference on computer vision , 9339–9347. Singh Chaplot, D.; Gandhi, D.; Gupta, A.; and Salakhut-dinov, R. 2020. Object Goal Navigation using Goal-Oriented Semantic Exploration. arXiv e-prints , arXiv– 2007. Srivastava, S.; Li, C.; Lingelbach, M.; Martín-Martín, R.; Xia, F.; Vainio, K. E.; Lian, Z.; Gokmen, C.; Buch, S.; Liu, K.; et al. 2022. Behavior: Benchmark for everyday household activities in virtual, interactive, and ecolog-ical environments. In Conference on robot learning ,477–490. PMLR. Wijmans, E.; Kadian, A.; Morcos, A.; Lee, S.; Essa, I.; Parikh, D.; Savva, M.; and Batra, D. 2020. DD-PPO: Learning Near-Perfect PointGoal Navigators from 2.5 Billion Frames. In International Conference on Learn-ing Representations (ICLR) .Xia, F.; Zamir, A.; He, Z.-Y.; Sax, A.; Malik, J.; and Savarese, S. 2018. Gibson env: Real-world perception for embodied agents. arXiv preprint arXiv:1808.10654 .Xu, A.; Lin, B.; Xue, B.; Wang, B.; Xu, B.; Wu, B.; Zhang, B.; Lin, C.; Dong, C.; Ling, C.; et al. 2026. Deepseek-v4: Towards highly efficient million-token context intel-ligence. arXiv preprint arXiv:2606.19348 .Yamauchi, B. 1997. A frontier-based approach for au-tonomous exploration. In Proceedings 1997 IEEE Inter-national Symposium on Computational Intelligence in Robotics and Automation CIRA’97.’Towards New Com-putational Principles for Robotics and Automation’ ,146–151. IEEE. Yin, H.; Xu, X.; Wu, Z.; Zhou, J.; and Lu, J. 2024. Sg-nav: Online 3d scene graph prompting for llm-based zero-shot object navigation. Advances in neural information processing systems , 37: 5285–5307. Yitzhak Gadre, S.; Wortsman, M.; Ilharco, G.; Schmidt, L.; and Song, S. 2022. CoWs on Pasture: Baselines and Benchmarks for Language-Driven Zero-Shot Ob-ject Navigation. arXiv e-prints , arXiv–2203. Yokoyama, N.; Ha, S.; Batra, D.; Wang, J.; and Bucher, B. 2024. Vlfm: Vision-language frontier maps for zero-shot semantic navigation. In 2024 IEEE International Conference on Robotics and Automation (ICRA) , 42– 48. IEEE. 
+
+# A Per-Method Detailed Metrics 
+
+Table 9 reports Success Rate (SR, %), Distance to Goal (DTG, m), and average steps per successful episode for all methods evaluated on the Multi-Scene dataset. DTG measures the Euclidean distance between the agent’s final position and the operational-face goal. Average steps are computed over successful episodes only. Table 10 reports metrics for LSAT Target and Two-Room datasets. Due to differences in evaluation infrastruc-ture, per-episode DTG and step counts are not available for the Random and Oracle baselines on these datasets; wall-clock elapsed time is reported instead. 
+
+# B Per-Difficulty Performance 
+
+Episodes are stratified by geodesic distance 𝑑 geo : easy (𝑑 geo < 3.0 m), medium ( 3.0 ≤ 𝑑 geo ≤ 6.0 m), and hard (𝑑 geo > 6.0 m). On Multi-Scene DEV (160 episodes), the class distribution is 11.9% easy, 28.1% medium, and 60.0% hard. Table 11 reports Frontier and 3-Zone Oracle SR disaggregated by difficulty across Multi-Scene splits. Both methods achieve uniformly high SR for easy episodes. For hard episodes, performance drops to 66.7– 82.3%, consistent with the expectation that geodesic dis-tance is the primary source of navigation difficulty in single-room laboratory layouts. 
+
+# C Centroid vs. Operational-Face Ablation 
+
+Frontier Exploration was evaluated under two goal for-mulations on Multi-Scene (330 episodes). In the centroid condition, goals are defined as the floor projection of the instrument bounding-box center, consistent with standard 10 Table 9: Detailed Navigation Metrics on Multi-Scene                                                         
+
+> DEV VAL TEST Method SR DTG Steps SR DTG Steps SR DTG Steps Random 26.9 5.20 410.1 22.0 4.03 426.9 31.7 3.99 382.3 Oracle 71.9 2.96 157.1 76.0 2.31 133.1 79.2 2.75 117.3 Frontier 74.4 2.98 145.5 80.0 2.15 114.5 82.5 2.82 101.5 LLM-Frontier 74.4 2.97 145.5 84.0 2.43 105.5 82.5 2.82 101.5 3-Zone Oracle 83.8 3.87 97.0 84.0 2.85 94.7 83.3 3.15 95.6
+
+Table 10: Detailed Metrics on LSAT Target and Two-Room                                
+
+> LSAT Target (40 eps) Two-Room (50 eps) Method SR Elapsed (s) SPL SR Elapsed (s) SPL Random 32.5 1.6 —10.0 2.1 —Oracle 77.5 1.5 0.775 80.0 1.7 0.800 Frontier 87.5 7.4 0.875 84.0 14.1 0.840 3-Zone Oracle 92.5 1.5 0.925 86.0 1.6 0.860
+
+Table 11: SR (%) by Difficulty Tier                          
+
+> Frontier 3-Zone Oracle Difficulty DEV VAL TEST DEV VAL TEST Easy 89.5 100.0 100.0 100.0 100.0 100.0 Medium 84.4 73.7 83.3 97.8 73.7 83.3 Hard 66.7 70.6 68.9 74.0 82.3 71.1
+
+ObjectNav. In the operational-face condition, goals lie at the outer boundary of Zone 3 (Eq. 1, main text). McNe-mar’s test for paired binary outcomes was applied per split. The opposing per-split effects correspond to instrument placement. On DEV, centroid goals raise refrigerator SR (85.0% vs. 65.0%) by removing the approach-direction constraint; the agent can reach the refrigerator from any side. On VAL, centroid goals degrade refrigerator SR (40.0% vs. 100.0%) because the projected centroid lies behind a wall and is unreachable on the navigation mesh. Across the two splits, the two effects cancel at the aggre-gate level (78.2% each). Cabinet and centrifuge exhibit no material difference between conditions, as their place-ment positions project to navigable floor locations in both formulations. 
+
+# D VLM Recognition Experiment Details 
+
+A recognition experiment was conducted to determine whether VLFM navigation failures originate from defi-cient domain knowledge or insufficient visual texture in rendered simulation frames. Six laboratory instruments were rendered at 1024 ×768 pixels under the default Habitat-sim no_lights rendering mode, with no post-processing. For each instrument, 3–6 distinct viewpoints were captured from the operational-face goal position, ori-ented toward the instrument. GPT-4o (gpt-4o-2024-08-06) was queried per view-point: “What laboratory instrument is shown in this im-age? Answer with the instrument name only.” Unique sur-face colors were computed by counting distinct RGB val-ues within the instrument’s segmented region (background removed via SAM mask). A text-only control confirmed that GPT-4o identifies all six instruments by name, demonstrating complete concep-tual knowledge. Recognition from rendered images follows surface color diversity (Table 8, main text): the biosafety cabinet (12.6k–14.9k unique colors; visible vents, seams, and labels) is correctly identified in 3/3 viewpoints; in-struments with near-uniform surfaces (refrigerator: 1–1.8k colors, waste bin: 1–2 colors) are classified as generic ge-ometric shapes in 0/6 viewpoints. Two rendering factors influence the degree of texture sparsity. First, the no_lights rendering mode sup-presses dynamic lighting, reducing per-instrument color diversity by a factor of 3–5 × compared to lit rendering. Second, gamma correction applied during frame extrac-tion further homogenizes pixel intensity. After correcting the lighting pipeline, recognition improved for instruments with moderate texture (incubator, centrifuge) but not for near-uniform surfaces (refrigerator, waste bin). 11 Table 12: Centroid vs. Operational-Face Goals — Per-Split Comparison 
+
+Split ( 𝑛 ) Centroid SR Op-Face SR Δ (pp) 𝑝 (McNemar) Cent. Wins OpF. Wins DEV (160) 82.5 74.4 +8.1 0.035 28 15 VAL (50) 62.0 80.0 −18.0 0.035 3 12 TEST (120) 79.2 82.5 −3.3 0.557 7 11 Overall (330) 78.2 78.2 0.0 — 38 38 
+
+> Cent. Wins (OpF. Wins): episodes where centroid (operational-face) formulation succeeds and the other fails.
+
+# E McNemar Test Formulation 
+
+McNemar’s test for paired nominal data evaluates whether the per-episode success/failure patterns of two methods 
+
+( 𝐴, 𝐵 ) differ in distribution. For a given data split, let 𝑛 00 
+
+denote episodes where both methods fail, 𝑛 01 where 𝐴 fails and 𝐵 succeeds, 𝑛 10 where 𝐴 succeeds and 𝐵 fails, and 𝑛 11 
+
+where both succeed. The test statistic is: 
+
+𝜒 2 = (| 𝑛 01 − 𝑛 10 | − 1)2
+
+𝑛 01 + 𝑛 10 
+
+(6) with one degree of freedom. When 𝑛 01 +𝑛 10 < 10 , the exact binomial test is used. All reported 𝑝 -values are two-sided. 
+
+# F Scene Generation and LSAT Ar-chitecture 
+
+Table 14 summarizes the per-template scene generation statistics for the BioVLN platform. The single-room tem-plate randomizes 2–5 of 6 instrument slots per scene; the two-room template uses 10 fixed instrument slots across two connected rooms. The LSAT (LabScene Annotation Toolkit) addon com-prises 12 Python modules in three layers. The parsing layer handles GLB deserialization, GLTF node traversal, and Blender-to-Habitat coordinate transforms. The extraction layer implements two strategies: Strategy 1 extracts world-space coordinates from artist-placed target_* empty nodes via fuzzy string matching (Levenshtein distance threshold of 2) and maps matched names to instrument categories; Strategy 2 detects instrument meshes by name matching, computes centroids and bounding-box dimen-sions, and applies Eq. 1 for goal computation. The export layer generates BioVLN goal JSON, an internal interme-diate format, and USD files for Isaac Sim. When Strategy 2 cannot determine an operational face direction from geometry alone, the most frequent config-uration for that instrument category is used as a default (derived from the instrument catalog, Table 2 of the main text). 
+
+# G Per-Method Experiment Config-uration 
+
+Table 15 specifies the complete configura-tion for each baseline method evaluated in the main text. All methods share the action space 
+
+A = {forward 0.25 m, turn_left 30 ◦, turn_right 30 ◦, stop }
+
+(except BioVLNGym training, which uses 10 ◦ turns as noted below) and a 500-step episode limit. Habitat-sim rendering is configured at 640 × 480 RGB-D with 
+
+no_lights mode; the no_lights mode flattens lighting but provides consistent color across viewpoints, which is relevant when interpreting VLM recognition results. 
+
+# H Training Pipeline Architecture 
+
+## H.1 Data Collection 
+
+Trajectories are recorded by attaching a
+
+TrajectoryRecorder callback to any 
+
+BioVLNPolicy during evaluation. The recorder is non-invasive: it wraps the existing evaluation loop without modifying biovln_eval.py . Each episode produces one gzip-compressed JSONL entry containing per-step records with the following fields: 
+
+Field Description 
+
+step_idx Step index within episode 
+
+action Action: 0=STOP, 1=FOR-WARD, 2=LEFT, 3=RIGHT 
+
+obs.position Agent position [𝑥, 𝑦, 𝑧 ] (Y-up) 
+
+obs.heading Heading vector [ℎ𝑥 , ℎ 𝑧 ]
+
+obs.goal_position Goal position [𝑥, 𝑧 ]
+
+obs.rgb_path PNG path (when storing im-ages) 
+
+obs.depth Base64-encoded depth array 
+
+dist_to_goal Distance to goal (m) 
+
+success Episode success flag (bool) 
+
+The recorder supports two modes controlled by 
+
+compress_images : (a) full mode stores RGB observa-tions as PNG files in an images/ subdirectory alongside the JSONL gzip, producing ∼8 MB per thousand steps; (b) 12 Table 13: Pairwise McNemar Test Results                                          
+
+> Method A Method B Split 𝑛 01 𝑛 10 𝑝
+> Frontier Oracle MS DEV 20 16 0.619 Frontier Oracle MS VAL 860.791 Frontier Oracle MS TEST 16 12 0.572 Frontier Oracle Two-Room 530.727 LLM-Frontier Frontier MS VAL 20—
+> 𝑛 01 :𝐴 fails & 𝐵 succeeds. 𝑛 10 :𝐴 succeeds & 𝐵 fails. LLM-Frontier vs. Frontier on MS VAL: 𝑛 01 +𝑛 10 <10 , test not applicable.
+
+Table 14: Scene Generation by Layout Template                 
+
+> Template Instr. Furn. Active Slots Episodes single_room 432–5 1,363 two_room 10 310 304 Total ———1,667
+> single_room: 35 (2 active), 30 (3), 40 (4–5) eps/scene. two_room: 38 eps/scene, all 10 slots active in every scene.
+
+trace-only mode omits image payloads and stores only position/action/goal traces, reducing per-episode size to 
+
+∼50 KB and enabling fast training with goal-vector-only inputs. 
+
+## H.2 Dataset Construction and Training 
+
+TrajectoryDataset loads one or more recording directories and merges them into a unified PyTorch 
+
+Dataset . For each step, it constructs a four-dimensional agent-centric goal vector: 
+
+• [𝑣 0, 𝑣 1]: unit vector from agent to goal in agent-local coordinates 
+
+• [𝑣 2]: Euclidean distance to goal (m) 
+
+• [𝑣 3]: progress ratio clip (dist /5.0, 0, 1)
+
+The dataset supports configurable observation trans-forms (torchvision Resize , Normalize with ImageNet statistics) and optional position noise for data augmenta-tion. For our behavioral cloning demonstration, we used: 
+
+• Training split : 487 successful Frontier Exploration trajectories from Multi-Scene DEV (119 eps) and Two-Room (42 eps), totaling 7,142 forward/turn steps (STOP actions excluded) 
+
+• Validation : Multi-Scene VAL (50 episodes, held-out scenes) 
+
+• Architecture : ResNet-18 (pretrained on ImageNet) 
+
+→ 512-dim feature → concat with 4-dim goal vector 
+
+→ 128-dim FC (ReLU) → 4-way softmax 
+
+• Input : 3×224 ×224 RGB, normalized with ImageNet 
+
+𝜇 /𝜎 , augmented with random horizontal flip and ±5% 
+
+brightness jitter 
+
+• Training : Adam optimizer (lr =10 −4, weight decay 
+
+10 −5), batch size 32, cross-entropy loss, 500 epochs with early-stopping (patience 50 epochs on validation loss) 
+
+• Hardware : Single NVIDIA RTX 4090 (24 GB), training time ∼2 hours The trained BC policy achieves 41.9% SR (0.325 SPL) on unseen Multi-Scene VAL scenes versus Frontier’s 80.0% zero-shot, a gap expected for BC operating with single-frame RGB input and no mapping. Per-category breakdown on VAL: Cabinet 33.3%, Centrifuge 50.0%, Refrigerator 42.9%, Waste Bin 40.0% (Frontier zero-shot: 80.0%, 80.0%, 80.0%, 80.0% respectively). 
+
+## H.3 Gym Environment for RL Training 
+
+BioVLNGym implements the standard Gymnasium Env 
+
+interface with the reward function defined in Eq. 5 (main text). Key configuration differences from zero-shot evalu-ation: 
+
+• Action granularity : 10 ◦ turns (vs. 30 ◦ in evaluation), providing finer control for RL exploration 
+
+• Episode resampling : Episodes are shuffled at initial-ization and iterated cyclically; reset() advances to the next episode, enabling continuous training with-out manual episode scheduling 
+
+• Observation normalization : Position coordinates normalized to [− 1, 1] by dividing by 4.0 m; heading stored as unit vector 
+
+• Safety penalty : Proportional to clearance deficit be-low Zone 2 threshold ( 0.5 m), scaled by 1.0 × ( 1 −
+
+clearance /0.5)
+
+• Compatibility : Directly usable with Stable-Baselines3 PPO , A2C , and SAC ; also compatible with 13 Table 15: Per-Method Experiment Configuration 
+
+Method Core Parameters External Dependencies Runtime Random Stop probability: 5% per step None < 0.01 s/step Oracle Navmesh shortest-path fol-lower, goal radius: 0.8–1.3 m (instru.-specific) Recast navmesh < 0.01 s/step Frontier Occupancy grid: 0.05 m res., 
+
+100 ×100 m extent; cluster ra-dius: 1.0 m; min frontier size: 10 cells; depth clip: 10 mNone (geometry-only) ∼ 0.2 s/step LLM-Frontier Frontier params identical to above; equidistance threshold: 
+
+1.0 m; top-𝑘 =3 candidates DeepSeek-chat API ∼ 1.5 s/step (incl. API) 3-Zone Oracle Zone-3 samples: 8 candidate points per instrument; grid spacing: 0.15 m; fallback: cen-troid projection Recast navmesh < 0.01 s/step VLFM vlm_vmap mode; value map resolution: 0.05 m; detection interval: every 5 steps; early-stop: 100 no-progress steps GPT-4o (gpt-4o-2024-08-06), Grounding DINO (Swin-T), SAM (ViT-H) 
+
+∼ 4 s/step (VLM bottleneck) BC (training) ResNet-18 backbone (pre-trained ImageNet); hidden: 128-dim FC + ReLU; ac-tion head: 4-way softmax; optimizer: Adam (lr= 10 −4,wd= 10 −5); batch_size: 32; epochs: 500; early-stop pa-tience: 50; input: 3×224 ×224 
+
+RGB + 4-dim goal vector PyTorch 2.x, torchvision ∼ 2 h training on RTX 4090    
+
+> BioVLNGym uses finer action granularity ( 10 ◦turns) to support RL exploration; evaluation uses 30 ◦turns for comparability.
+
+CleanRL and Ray RLlib via the standard gym.Env 
+
+protocol 
+
+# I Per-Category Safety Analysis 
+
+Table 16 disaggregates MCR and VRT by instrument cat-egory for Frontier Exploration on Multi-Scene DEV. The data reveal that safety outcomes are instrument-dependent: larger wall instruments (refrigerator, cabinet) force navi-gation paths through narrower corridors, producing lower MCR; table-top instruments (centrifuge) sit on benches elevated 0.76–0.78 m above floor level, and the agent nav-igating at floor height experiences effectively larger clear-ance. Refrigerators exhibit the worst-case safety profile: the lowest SR (65.0%) and highest VRT (9.6%) among all cat-egories. This reflects corner placement in the single-room template, where the approach path passes near adjacent wall instruments. Cabinets show elevated VRT (14.7%) Table 16: Per-Category Safety Metrics — Frontier Explo-ration on MS DEV 
+
+Category Eps. SR (%) MCR (m) VRT (%) Steps Cabinet 40 70.0 0.869 14.7 152.3 Centrifuge 40 80.0 0.797 6.3 118.7 Refrigerator 40 65.0 0.976 9.6 165.4 Waste Bin 40 82.5 0.933 8.4 145.8 Overall 160 74.4 0.918 9.8 145.5 
+
+despite moderate MCR (0.869 m), indicating that while minimum clearance is rarely violated, the approach trajec-tory passes through regions where multiple Zone 2 bound-aries overlap. 14 J Scene Generation Reproducibility 
+
+BioVLN’s procedural generator uses deterministic ran-dom seeds to control all stochastic decisions during scene construction: which instrument slots are active, which in-strument categories fill each slot, and small position jitter applied after initial placement. This design enables exact reproduction of any scene from its seed value alone. Table 17 lists the seed values and instrument com-positions for the 7 held-out scenes used in Multi-Scene evaluation. All 7 scenes use the single-room template (8×6 m) with the same four instrument categories (cabinet, centrifuge, refrigerator, waste bin). Each seed produces a distinct spatial arrangement; for example, refrigerator placement varies between corner positions (constrained by two adjacent walls) and mid-wall positions (constrained by one wall), directly affecting Frontier Exploration suc-cess rates as discussed in the main text. Scenes are di-vided into DEV (4 scenes, seeds 150–153, 40 episodes each), VAL (1 scene, seed 154, 50 episodes), and TEST (2 scenes, seeds 155–156, 60 episodes each) splits. The full procedural generation configuration is provided in the pipeline code: config.py defines instrument catalogs and layout templates for single-room generation, while 
+
+config_two_room.py defines the corresponding con-figuration for the Two-Room benchmark. 
+
+# K VLM Domain-Gap Experiment 
+
+To isolate whether VLFM navigation failures originate from deficient domain knowledge or insufficient visual sig-nal in rendered frames, we conducted a controlled recog-nition experiment. For each of the 6 laboratory instru-ments, we captured 3 to 6 rendered viewpoints from the operational-face goal position at 1024 ×768 resolution un-der Habitat-sim no_lights rendering mode. GPT-4o (gpt-4o-2024-08-06) was queried per viewpoint with the prompt: “What laboratory instrument is shown in this im-age? Answer with the instrument name only.” As a text-only control, GPT-4o was asked to name each instrument from its category label alone, confirming perfect concep-tual knowledge (6/6 correct). Table 18 reports the complete per-viewpoint recognition results. The experiment produced 30 instrument-viewpoint pairs, of which only 4 were correctly identified (13.3%). Recognition accuracy is strictly monotonic in surface color diversity. The biosafety cabinet, with 12.6k–14.9k unique RGB colors, visible ventilation grilles, door seams, and warning labels, was recognized in all 3 viewpoints. Instru-ments with moderate texture (incubator: 6.1k–7.6k colors; centrifuge: 1.9k–14.0k colors) were never correctly identi-fied in the default rendering condition, though recognition improved after enabling lit rendering and gamma correc-tion (incubator: 0/3 to 2/3; centrifuge: 0/6 to 2/6). Near-uniform surfaces (refrigerator: 1.0k–1.8k colors; waste bin: 1–2 colors) received zero correct identifications regardless of lighting configuration. The data support two conclusions. First, the recogni-tion gap is a rendering-quality problem, not a knowledge problem—GPT-4o knows what all six instruments are, but cannot identify them from rendered frames when surface texture is sparse. Second, recognition accuracy correlates strongly with color diversity ( 𝑟 =0.84 , 𝑝< 0.05 ), with a threshold of ∼5,000 unique colors below which recog-nition probability drops to near zero. This finding has im-plications for future embodied AI benchmarks using syn-thetic assets: surface texture quality directly determines whether VLM-based methods can leverage their pretrained visual knowledge. 
+
+# L Behavioral Cloning Per-Category Results 
+
+We train a behavioral cloning policy on 487 success-ful Frontier Exploration trajectories recorded from Multi-Scene DEV (119 episodes) and Two-Room (42 episodes). The policy architecture uses a ResNet-18 backbone pre-trained on ImageNet, with the 512-dimensional feature vector concatenated with a 4-dimensional agent-centric goal vector before a 128-dimensional fully-connected layer with ReLU activation and a 4-way softmax action head. Input frames are resized to 3×224 ×224 , normal-ized with ImageNet statistics ( 𝜇 =[0.485 , 0.456 , 0.406 ],
+
+𝜎 =[0.229 , 0.224 , 0.225 ]), and augmented with random horizontal flips and ±5% brightness jitter during train-ing. The optimizer is Adam with learning rate 10 −4 and weight decay 10 −5, using cross-entropy loss with a batch size of 32. Training runs for 500 epochs with early stop-ping (patience of 50 epochs on validation loss), requiring approximately 2 hours on a single NVIDIA RTX 4090. Table 19 reports per-category SR on Multi-Scene VAL (50 held-out episodes). The policy was evaluated in the same action space as zero-shot evaluation ( 30 ◦ turns, 500-step maximum). The performance gap is consistent across categories (−30.0 to −46.7 pp) and reflects a fundamental difference in information access. Frontier Exploration maintains a full occupancy grid with explicit frontier detection accu-mulated across hundreds of exploration steps; the BC pol-icy receives only the current frame and a four-dimensional goal vector, with no map, no history, and no explicit ex-ploration mechanism. The largest gaps occur for cabinet (−46.7 pp) and waste bin ( −40.0 pp), categories whose ap-proach paths are relatively direct in the single-room tem-plate. Centrifuge shows the smallest gap ( −30.0 pp), likely because its table-top placement produces more distinctive 15 Table 17: Multi-Scene Held-Out Scene Composition 
+
+Scene Name Template Split Active Instruments Eps. 
+
+lab_s150_v0 single DEV cabinet, centrifuge, refrigera-tor, waste bin 40 
+
+lab_s151_v0 single DEV cabinet, centrifuge, refrigera-tor, waste bin 40 
+
+lab_s152_v0 single DEV cabinet, centrifuge, refrigera-tor, waste bin 40 
+
+lab_s153_v0 single DEV cabinet, centrifuge, refrigera-tor, waste bin 40 
+
+lab_s154_v0 single VAL cabinet, centrifuge, refrigera-tor, waste bin 50 
+
+lab_s155_v0 single TEST cabinet, centrifuge, refrigera-tor, waste bin 60 
+
+lab_s156_v0 single TEST cabinet, centrifuge, refrigera-tor, waste bin 60 Total 330     
+
+> Each seed deterministically controls slot activation and layout. Config: pipeline/config.py (single-room), pipeline/config_two_room.py (Two-Room).
+
+Table 18: VLM Recognition by Instrument and Viewpoint 
+
+Instrument Views Colors Corr. GPT-4o Response Biosafety Cabinet 3 12.6k–14.9k 3/3 “Biosafety cabinet” ×3Incubator 3 6.1k–7.6k 0/3 “Laboratory freezer” Centrifuge 6 1.9k–14.0k 0/6 “Yellow trash bin” Micropipette 6 1.8k–19.8k 1/6 “Lab equipment” (1 ×), “Tool” (5 ×)Refrigerator 6 1.0k–1.8k 0/6 “Gray rectangle”, “Metal box” Waste Bin 6 1–2 0/6 “Gray square”, “Floor tile” Total 30 — 13.3% 
+
+> Colors = distinct RGB values in SAM-segmented instrument region. Text control: 6/6 correct. Lighting fix: incubator 2/3, centrifuge 2/6.
+
+Table 19: BC Policy vs. Frontier Zero-Shot on MS VAL 
+
+Category Eps. BC (%) Frontier (%) Δ
+
+Cabinet 12 33.3 80.0 −46.7 Centrifuge 12 50.0 80.0 −30.0 Refrigerator 14 42.9 80.0 −37.1 Waste Bin 12 40.0 80.0 −40.0 Overall 50 41.9 80.0 −38.1 
+
+visual context in single-frame observations. These results establish a reference baseline for future learned methods on BioVLN; integrating an explicit map representation, re-current history, or auxiliary exploration objectives would narrow this performance gap. 
+
+# M Available Supplementary Mate-rials 
+
+The following supplementary materials are available with the BioVLN release: 
+
+• Scene maps. 28 top-down PNG visualizations of all held-out scenes with instrument placement, naviga-tion mesh overlay, and operational-face goal posi-tions. Maps are generated via Habitat-sim top-down rendering with the agent height set to 20 m for or-thographic projection. Each map includes the Recast navigation mesh as a semi-transparent overlay, allow-ing visual inspection of navigable regions. 
+
+• Frontier trajectory renders. 12 top-down trajectory visualizations and 12 MP4 videos showing Fron-tier Exploration trajectories on individual episodes, color-coded by success (green) and failure (red). Ren-ders are captured at 5 fps from an overhead camera 16 and include the instrument safety boundaries (Zone 2) as dashed circles. 
+
+• Hard scene analysis. 7 figures analyzing episodes classified as hard ( 𝑑 geo >6.0 m). Each figure shows the start position, operational-face goal, geodesic short-est path, and the occupied and free cells of the agent’s occupancy grid at episode termination. 
+
+• VLM experiment images. 50 rendered instrument images (5 viewpoints × 6 instruments) at 1024 ×768 
+
+resolution used in the domain-gap recognition exper-iment. Lighting-fix variants with lit rendering and gamma correction are included for comparison. 
+
+• Per-episode result JSON. Complete per-episode evaluation data for all 6 methods across 3 datasets. Each JSON record includes per-step safety metrics (minimum clearance, Zone 2 violation flag), full agent trajectory positions, and episode metadata (tar-get category, difficulty tier, geodesic distance). These files allow exact reproduction of every aggregate met-ric reported in the main text (Tables 5–8) and in this appendix, without re-running the evaluation pipeline. Summary JSONs in each results directory provide pre-computed per-method aggregates. 
+
+• LSAT addon source. The complete 12-module Blender 5.1.2 Python addon ( ∼2,500 lines), organized into parsing, extraction, and export layers. The pars-ing layer handles GLB deserialization, GLTF node traversal, and Blender-to-Habitat coordinate trans-forms. The extraction layer implements the dual-strategy goal extraction pipeline described in the main text. The export layer generates BioVLN goal JSON, LSAT internal intermediate format, and USD files for Isaac Sim. Each module includes docstrings, usage examples, and inline comments referencing the rele-vant equations and sections of the paper. The addon is loaded via Blender’s standard addon installation mechanism and registers a panel in the 3D Viewport sidebar. 17

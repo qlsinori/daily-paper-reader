@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-07-08 ~ 2026-08-06</span>
+      <span class="dpr-home-dashboard-kicker">2026-07-29 ~ 2026-08-07</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 51 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 21 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
-    <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>2 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>33</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>18</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>8</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>13</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-08-06 06:54:28 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-08-07 03:17:30 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,7 +62,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日聚焦视觉语言导航，共处理51篇论文，精读33篇、速读18篇。最值得看的是两篇满分论文《Instance-Enriched Semantic Maps》与《MemVLN》，均围绕语义地图和记忆增强导航；速读中《REMIND》的室内导航记忆机制也值得参考。建议从这两篇满分工作入手，理解如何用语义与记忆提升导航智能体的泛化能力。</p>
+<p>今日日报聚焦视觉语言导航（VLN）与具身智能记忆机制，共精读8篇、速读13篇。</p>
+<p>最值得关注的是两个满分9.0的VLN仿真平台：《BioVLN》面向生物医学实验室，《TEA-AgriVLN》面向农业场景，均强调环境适应与安全导航。</p>
+<p>下一步建议延伸阅读速读中的记忆架构瓶颈、语言条件重感知及开放词汇3D高斯相关工作，以拓展序列决策与场景理解视野。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -71,12 +73,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">33 篇</strong>
+    <strong class="dpr-home-dashboard-count">8 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Instance-Enriched Semantic Maps for Visual Language Navigation">Instance-Enriched Semantic Maps for Visual Language Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="MemVLN: Episodic and Procedural Memory for Vision-and-Language Navigation">MemVLN: Episodic and Procedural Memory for Vision-and-Language Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="HAM-VLN: Harnessing Hierarchical Agentic Memory for Zero-Shot Vision-and-Language Navigation">HAM-VLN: Harnessing Hierarchical Agentic Memory for Zero-Shot Vision-and-Language Navigation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="BioVLN: A Simulation Platform for Visual Language Navigation in Biomedical Laboratories">BioVLN: A Simulation Platform for Visual Language Navigation in Biomedical Laboratories</span></li><li><span class="dpr-home-dashboard-paper-title" title="TEA-AgriVLN: Traversability Estimation Alarm for Agricultural Vision-and-Language Navigation">TEA-AgriVLN: Traversability Estimation Alarm for Agricultural Vision-and-Language Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="FreqNav: Stage-Wise Frequency Routing for Object-Oriented Aerial Vision-Language Navigation">FreqNav: Stage-Wise Frequency Routing for Object-Oriented Aerial Vision-Language Navigation</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>30</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>7</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>3</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>7</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>1</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -84,12 +86,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">18 篇</strong>
+    <strong class="dpr-home-dashboard-count">13 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="REMIND: RE-Identification with Memory for INDoor Navigation">REMIND: RE-Identification with Memory for INDoor Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory">ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="Predictive Training with Latent Imagination for Visual Quadruped Navigation">Predictive Training with Latent Imagination for Visual Quadruped Navigation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Beyond Episodic Evaluation: Memory Architectural Bottlenecks in Sequential Embodied Question Answering">Beyond Episodic Evaluation: Memory Architectural Bottlenecks in Sequential Embodied Question Answering</span></li><li><span class="dpr-home-dashboard-paper-title" title="Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map">Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map</span></li><li><span class="dpr-home-dashboard-paper-title" title="MonoVoc: Decoupling Geometry and Semantics for Lightweight Monocular Open-Vocabulary 3D Gaussians">MonoVoc: Decoupling Geometry and Semantics for Lightweight Monocular Open-Vocabulary 3D Gaussians</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">semantic-map <strong>9</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>6</strong></span><span class="dpr-home-dashboard-tag">embodied-nav <strong>4</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>8</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>5</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
 </section>
 </div>
 
