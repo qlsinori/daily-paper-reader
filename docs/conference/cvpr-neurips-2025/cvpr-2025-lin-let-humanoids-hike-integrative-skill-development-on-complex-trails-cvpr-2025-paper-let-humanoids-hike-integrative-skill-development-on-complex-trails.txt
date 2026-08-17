@@ -1,0 +1,304 @@
+Title: Let Humanoids Hike! Integrative Skill Development on Complex Trails
+
+URL Source: https://openaccess.thecvf.com/content/CVPR2025/papers/Lin_Let_Humanoids_Hike_Integrative_Skill_Development_on_Complex_Trails_CVPR_2025_paper.pdf
+
+Published Time: Mon, 02 Jun 2025 12:14:56 GMT
+
+Number of Pages: 10
+
+Markdown Content:
+## Kwan-Yee Lin Stella X. Yu University of Michigan, Ann Arbor 
+
+{junyilin, stellayu}@umich.edu (b) Autonomous Local Goals 
+
+> Anticipatory Locomotion
+> Trail’s End
+> (c) Emergent Motor Skills
+> (d) Embodied Path Exploration
+
+Figure 1. LEGO-H enables humanoids to hike complex trails independently. The center H1 robot autonomously adapts to terrain gaps, using near-future navigation goals ( b) to guide movement toward the trail end. Larger to smaller bubbles indicate navigation direction, with colors showing future step progression (orange → light green → dark green). LEGO-H’s end-to-end framework integrates visual perception (a) and body dynamics for seamless navigation and locomotion. Left figures show emergent motor skills ( c) and path exploration over obstacles ( d) in a smaller G1 robot. Project page: LEGO-H-HumanoidRobotHiking.github.io .
+
+## Abstract 
+
+Hiking on complex trails demands balance, agility, and adaptive decision-making over unpredictable terrain. Cur-rent humanoid research remains fragmented and inadequate for hiking: locomotion focuses on motor skills without long-term goals or situational awareness, while semantic navi-gation overlooks real-world embodiment and local terrain variability. We propose training humanoids to hike on com-plex trails, fostering integrative skill development across visual perception, decision making, and motor execution. We develop LEGO-H, a learning framework that enables a humanoid with vision to hike complex trails independently. It has two key innovations. 1) A Temporal Vision Trans-former anticipates future steps to guide locomotion, unifying local movement and goal-directed navigation. 2) Latent representations of joint movement patterns combined with hierarchical metric learning allow smooth policy transfer from privileged training to real-world training. These tech-niques enable LEGO-H to handle diverse physical and envi-ronmental challenges without relying on predefined motion patterns. Experiments on diverse simulated hiking trails and humanoids with different morphologies demonstrate LEGO-H’s robustness and versatility, establishing a strong foundation for future humanoid development. 
+
+## 1. Introduction 
+
+Hiking [27, 29] challenges humans to master diverse mo-tor skills and adapt to complex, unpredictable terrains with steep slopes, wide ditches, tangled roots, and abrupt el-evation changes, requiring constant balance, agility, and decision-making. Hiking is thus an ideal testbed for de-veloping humanoid autonomy and coordination between vi-
+
+# Let Humanoids Hike! Integrative Skill Development on Complex Trails This CVPR paper is the Open Access version, provided by the Computer Vision Foundation. Except for this watermark, it is identical to the accepted version; the final published version of the proceedings is available on IEEE Xplore. 22498 Diverse MotorSkills     
+
+> Walking :[Gu etal, RSS2024], [Liao etal, Arxiv2024], [Radosavovic etal, Sci,Robotics2024] Running: [Smaldone etal, Frontiers Robotics AI,2022], [Sait etal, RAL2024] Parkour :[Boston Dynamics,2018], [Zhuang etal, CoRL2023] Cliffside Climbing :[Zhang etal, CoRL2024] Flipping :[Chignoli etal, Humanoids2021]
+> Body-aware Planning Perceptual-awareness
+> Soccer Behaviours :
+> [Haarnoja etal, Sci.Robotics2024] [Lin etal, Humanoids2017], [Lin etal, Auton Robots 2021], [Brandenburger etal ,IROS2021] [Wang etal, IROS2024], [Missura etal, IROS2020]
+> LEGO-H
+
+Figure 2. Conceptual Differences between our work and existing methods. The dashed area indicates that the methods only capture parts of the characteristic. Better zoom in. 
+
+sion, decision-making, and motor execution. Hiking-capable robots could explore remote areas, assist in rescue missions, and guide individuals along rugged paths. To succeed, humanoid robots must excel in three key ar-eas. 1) Locomotion versatility – The ability to handle mixed terrains like dirt, rocks, stairs, and streams, adapting dynami-cally with skills like jumping and leaping while maintaining balance. 2) Perceptual awareness - The ability to sense and respond to complex 3D environments, such as stepping over logs or navigating around trees. 3) Body awareness – The ability to adjust in real time to local obstacles, terrain changes, and body states by coordinating vision and motor control for adaptive foot placement and movement. Current humanoids struggle to meet these demands due to the lack of a unified framework that integrates low-level motor skills with high-level navigation (as illustrated in Fig 2). 1) Locomotion methods simplify terrain interactions to static patterns, focusing narrowly on walking [32, 33] or mimicry [20, 30], limiting real-world adaptability. Ad-vanced frameworks for complex skills like parkour [9] often rely heavily on user commands or engineering. 2) Naviga-tion methods struggle with real-time adaptability, relying on scene mapping [28] or rigid assumptions [26]. While LLM-s/VLMs [44] have advanced, their lack of motor skill inte-gration limits perceptual awareness and last-step feasibility. Bridging motor skills and navigation remains challenging due to asynchronous and divergent responses required for complex environments. We introduce LEGO-H, a perceptual-aware, end-to-end, embodied learning framework that enables humanoid robots to traverse complex trails using visual inputs (Fig 1). LEGO-H fosters integrative navigation and locomotion skills by refining the Hierarchical Reinforcement Learning (HRL) paradigm and improving the privileged learning scheme. To achieve perceptual awareness and embodiment at both planning and motor skill levels, a structured framework is essential to manage the interplay between navigation and locomotion. The HRL paradigm suits this purpose, but learn-ing multi-level policies within a single framework often com-promises one aspect ( e.g., [1] limits motor skills to walking, and [11] oversimplifies the environment). Our first contri-bution is reformulating high-level local navigation as a vision-based sequential anticipation problem to guide locomotion policy learning. We introduce TC-ViTs, a Tem-poral Vision Transformer tailored for HRL, combining vision transformer’s tokenization with RL’s embodiment. Instead of treating the navigation target as a static token, TC-ViTs model 1) navigation goals and 2) temporal-spatial relations, considering the robot’s past, present, and future states for sequential anticipation. The locomotion policy network then integrates these latent features with proprioceptive input to generate motor actions. This architecture ensures coordina-tion between perception and motor execution, essential for navigating complex dynamic trails. A key challenge in robot learning is to develop diverse 
+
+and safe motor skills. Privileged learning offers a solution: Assume the intermediate navigation targets are known for the teacher policy to develop versatile motor skills, then jointly train navigation and locomotion for the student policy dur-ing distillation. It improves skill acquisition but complicates action learning when integrating visual inputs, increasing the risk of errors and damage from unexpected actions. Our second contribution is a hierarchical metric loss set that distills policy based on action rationality — maintaining the structural relationships between joint movements. 
+
+Conventional privileged learning supervises overall data dis-tribution [40] or per-joint errors [18], ignoring inter-joint dependencies. We address this by using structured latent rep-resentations and masked reconstruction through Variational Autoencoders (VAEs) [16]. Masking during reconstruction constrains joint dependencies, creating a task-agnostic hier-archical loss set that improves policy learning across motor tasks. Since the latent prior comes from the oracle policy, not human motion data, the robot learns self-reliant motor behaviors suited to its own structure. We demonstrate LEGO-H’s robustness and versatility on diverse simulated hiking trails using a low-cost humanoid, Unitree H1 [43]. Ablation studies confirm the effectiveness of our design, and LEGO-H generalizes well to other types of humanoids such as Unitree G1. Contributions are sum-marised as follows: 1) We propose hiking as a testbed for integrative humanoid skill development. 2) We introduce LEGO-H, a learning framework for independent humanoid hiking. 3) Experiments on diverse simulated trails and hu-manoids with different morphologies demonstrate LEGO-H’s robustness and versatility, laying a strong foundation for future humanoid development. 
+
+## 2. Related Work 
+
+Humanoid locomotion. Existing approaches to low-level motor skill learning typically simplify environmental inter-actions, abstracting terrains into static patterns at a momen-22499 tary scale, which neglects occlusions caused by obstacles or dynamic environmental disruptions. Research in this do-main has primarily focused on learning specific locomotion skills such as walking [5, 13, 21, 32, 33], running [38, 39], and soccer-playing behaviors [14]. These approaches of-ten rely on highly engineered designs optimized for spe-cific lower-body tasks. Other works employ imitation learn-ing [20, 24, 30, 31, 41] to generate human-like behaviors from large-scale motion datasets, but this comes at the cost of reduced embodiment. Some frameworks attempt to push the boundaries of robotic motor skills by exploring tasks like parkour [9, 48], acrobatic flipping [7], or cliffside climb-ing [47]. While impressive, these methods are often bogged down by complex engineering, reliance on user commands for motion planning, or lack of perceptual awareness. 
+
+Humanoid navigation. Research on this direction often struggles to address real-time environmental constraints while accounting for the unique mechanisms and actions of humanoid robots. These limitations frequently lead to sub-optimal navigation plans in complex terrains. Conventional methods typically rely on scene mapping [8, 28] or struc-tured world assumptions [26], which restrict adaptability in dynamic and unstructured environments. Contact-aware approaches [22, 23] attempt to bridge robot configurations with environmental constraints, but they often depend on pre-generated trajectories, limiting responsiveness. Similarly, mapless methods [4] leverage visual inputs for navigation but are typically constrained to basic locomotion capabilities such as walking. Recent advancements in large language and vision-language models have shown potential for complex high-level planning [44], yet remain uncoupled from motor control systems, failing to achieve autonomous perceptual awareness and last-step feasibility required for navigating diverse, fine-grained environments, like hiking. 
+
+Joint learning of navigation and locomotion. Integrating navigation and locomotion into a unified framework remains a significant challenge. In the realm of wheeled-legged and quadruped robots, several studies [15, 19, 35, 45] have explored paradigms that unify local navigation and loco-motion. While these approaches provide valuable insights, tailoring them to humanoid robots as a baseline for hiking tasks reveals several critical gaps. First, humanoid robots possess significantly more degrees of freedom (DoF) than quadrupeds or wheeled-legged robots, complicating the de-velopment of stable locomotion policies. Achieving balance across diverse lower-body motor skills ( e.g., walking, jump-ing, and leaping etc. ) within a single framework remains an open problem. Second, the greater body height of hu-manoid robots introduces challenges in visual perception, expanding their field of view and capturing a broader range of distances. This increased perceptual complexity exac-erbates the misalignment between environmental sensing and physical contact, further complicating decision-making, navigation, and motor execution processes. 
+
+Refer to Appendix for discussion on HRL, and Privileged Learning, which form foundational pillars of our approach. 
+
+## 3. LEGO-H Framework 
+
+Sec. 3.1 concretes the definition of hiking task. Sec. 3.2 provides a concise system overview of LEGO-H. Sec 3.3 -3.5 unfold the details of LEGO-H’s learning process. 
+
+3.1. Task Definition 
+
+Drawing from human hiking paradigm [2], and considering the payloads a humanoid robot can carry in the real world (e.g., a front-mounted Depth camera, and a GPS antenna), we formalize the definition of hiking task as follows: Traversing a trail from a designed starting point PA to endpoint PB ,with efficiency, safety, and all-level autonomy. The given conditions for the humanoid robot to hike are: (1) relative position distance Drb between endpoint B and humanoid robot’s root at the moment based on GPS; (2) GPS-based 
+
+M relative distances {Drm }Mm=1 between mth intermediate sparse waypoints along the trail and humanoid robot’s root; Here, we set M = 1 , designating a single waypoint at the trail’s midpoint to account for potential forks in real-world trails. (3) The onboard proprioception data Xpro from inter-nal variables like velocity and torque, providing feedback on robot’s physical state. (4) Vision sensor data {Ck}Kk=1 1
+
+from a depth camera that lies in the humanoid robot’s eye region. For ideal hiking, whole-body control would enable optimal balance and support in trail scenarios where hands provide additional contact points to coordinate with feet. However, as a baseline prototype for this new task—and not-ing that many trails can still be traversed with leg movement alone—this study simplifies the task by freezing humanoid’s upper-body pose, focusing on lower-body functionality. 
+
+3.2. LEGO-H System Overview 
+
+The Primary goal for hiking is to reach PB with safety. From a framework perspective, the humanoid robot needs to be designed with two key requisites: (1) to autonomously 
+
+assess and adapt its local path based on environmental con-ditions spanning multiple time scales, as well as the mo-tor skills executable at each moment; (2) to enable motor skills that, while unrestricted to any pre-designed modes, but execute reasonably to prevent damage, exhibiting flexible adaptability to foster emerged behaviors that optimally meet dynamic environmental demands. To this end, we present LEGO-H, as outlined in Fig 3. The robot employs two levels of modules ( i.e., navigation mod-ule H and motor skill module E) within a unified pipeline (Fig 3(b)) to fulfill the first requisite. Specifically, given the state sreal – depth sensor data {Ck}Kk=1 , proprioception date    
+
+> 1kis the index of kth depth frame. 22500 (b) Unified Hiking Policy Learning with Vision (a) Oracle Policy Learning for Motor Skills
+
+𝜋 !"# 𝑎 𝑠 $%& Scandots Expert Heading Goals  
+
+> Proprioception
+> 𝒳 !"#
+> Priviledged information 𝒳 !"$
+> 𝒵 !"#
+
+𝜋 '(% 𝑎 𝑠 )"#*   
+
+> Depth Sequence 𝐶 %%&' (
+
+TC-ViTs 
+
+ℋ  
+
+> Hiking Terminus 𝑃 !
+> A Middle Waypoint 𝐷 "#
+> Proprioception 𝒳 $"%
+> 𝒵 $%&
+
+ℇ𝜹 𝒈𝟎 g𝟏 g𝟐 g𝟑 
+
+Guide 
+
+> Imitation Losses Hierarchical Loss Metric Set
+
+Regress Figure 3. LEGO-H Framework Overview. LEGO-H equips hu-manoid robots with adaptive hiking skills by integrating navigation 
+
+H and locomotion E in a unified, end-to-end learning framework (b). To foster the versatility of motor skills, we train the unified policy via privileged learning from oracle policy ( a). 
+
+Xpro , endpoint information PB , and one middle waypoint 
+
+M , our navigation module H, implemented as TC-ViTs (Sec 3.3), generates the implicit latent representation zuni of the surrounding trail, and anticipates N future local naviga-tion goals G = {gn}Nn=1 2 as well as the residual δg0 , which captures the difference between the last step ’s anticipated goal and the actual result after execution. The latent zuni ,proprioception Xpro , residual δg0 , and only the local goal 
+
+g1 that is nearest to the robot, flow to the low-level motor skill module E to softly guide the emergence of current ex-ecutable actions at towards the trail’s endpoint, rather than enforcing rigid alignment with H’s sequential local goal anticipation. This unified pipeline enables the robot to au-tonomously select, adapt, and navigate local paths within traversable regions, avoiding entrapment in challenging trail sections, and collisions with obstacles through visual percep-tion and physical feedback. To address the second requisite, we tailor the privi-leged learning scheme. Concretely, before training the unified pipeline, we first train an oracle motor skill policy 
+
+πtea (a|ssim ) with privileged information Xpri (e.g., terrain type, ground friction, and precise state measurements that 
+
+> 2
+
+In practice, gn ∈ [0 , 2π], indicating the goal direction, is represented as yaw angle, and measured from the robot’s root. Depth Sequence 𝐶 ! !"# $        
+
+> Hiking Terminus P!
+> Proprioception 𝒳 %&'
+> A Middle Waypoint 𝐷 "#
+> Tiling
+> Temporal Transformer Encoder
+> Spatial Temporal
+> ×𝑁 !"#$%&
+> 𝜹 𝒈𝟎 g𝟏 g𝟐 g𝟑
+> 𝜶
+> (a)
+> Current Frame 𝐶 !"(
+> Spatical Encoder
+> 𝜷
+> (b)
+> Recurrent Goal Adaptation
+> 𝜸
+> 𝒁 𝒖𝒏𝒊
+> Tokenizing Tokenizing
+> (c)
+
+Figure 4. Architecture of TC-ViTs. Three key components: (a) agoal-orientated temporal transformer encoder for robots cognizing surroundings with the final goal; (2) a dual process on the current depth frame for integrating spatially precise information to reflect the current state (c) a recurrent goal adaptation mechanism that integrates visual awareness, goal information, and proprioception. 
+
+are unavailable for unified pipeline stage) and expert naviga-tion goals as oracle inputs (Fig 3(a)). Although this teacher stage operates without vision, Xpri and scandots (which rep-resent scanned heights around the robot’s feet) provide clear and precise data to facilitate high-performance motion skill learning. Then, in the unified pipeline training, the teacher policy is distilled into E using a Hierarchical Loss Metric Set (Sec. 3.6) to ensure both diversity and robustness in final motor skills from the policy πuni (a|sreal ). This extended regulation for privileged learning scheme ensures robots’ stable and efficient movements with adaptive locomotion skills across diverse trail terrains. 
+
+3.3. TC-ViTs for Local Navigation Anticipation 
+
+Within LEGO-H, TC-ViTs ( Temporal Information Condi-tioned Vision Transformer Variants ) serves as central mech-anism to achieve unified policy learning with visual per-ception, by addressing three critical questions to navigation module: (1) how to cognize the past ,current and future states of the environment to balance both short-term reactivity with long-term goal alignment? (2) How to predict the future that remains adaptable to dynamic changes of environment and motor actuation? and (3) how to achieve seamless interplay between navigation and motor actuation, given their func-tional differences in time scale within real-world hardware settings? Fig 4 shows a detailed illustration of TC-ViTs. 
+
+Cognize surroundings with final goal. An intuitive ap-proach to perceiving the surrounding environment would assue Markovian observations and parse depth images be-tween adjacent frames via methods like explicit 3D model-ing [19]/reconstruction [46], temporal visual feature extrac-tor [6], or secondary task like semantic-aware traversable region prediction [10]. However, two critical issues arise when applying these approaches to hiking. First, the time scale challenge: both short-term dynamics and long-term environmental dependencies must be considered simultane-ously. Second, the specificity requirement: perceived visual 22501 information should directly support the execution of the im-mediate next step while ensuring alignment with final goal. A straightforward solution is to leverage a temporal vi-sion transformer with goal-oriented conditioning. Thus, the first part of TC-ViTs (Fig 4 (a)) absorbs the encoder of a classic temporal vision transformer, ViViT [3], to capture the information with both spatial and long-range dependencies via extracting spatio-temporal tokens from the input depth sequences ( 16 frames, and downsample to 4), and process-ing them through 6 transformer layers. Each layer contains multi-headed self-attention in both spatial and temporal di-mensions, with spatial attention applied first, followed by temporal attention. To ensure a continuous, tight association between each pixel (spatial and temporal ones) and the fi-nal target, we unfold the goal information PB as an image channel by tiling it to the size of (1 , H, W )3, carpeting to-gether with spatial and temporal features via tokenization. A flattened feature vector α({Ck}Kk=1 , P B ) is obtained from the final layer of the encoder. Compared to simply treating the transformer as a depth sequence extractor and feeding 
+
+PB directly to the later module, this design ensures that the goal information is embedded alongside spatial and tempo-ral features through tokenization, maintaining a cohesive alignment with the target throughout the navigation process. 
+
+Anticipate the near future. However, the above design might be well-suited for embodied-agnostic, long-horizon navigation task [37] that making decisions in coarse level, but not insufficient for humanoid hiking, which demands 
+
+multiple granularity decisions. As shown in Fig 1, hiking scenarios often encompass complex, uneven terrains, and sudden obstacles, where rapid adjustments are necessary, re-lying solely on temporal transformers for spatial and tempo-ral understanding dilute the immediate spatial detail needed for precise foot placement and reactive balance adjustments. Thus, integrating spatially precise information that directly reflects the current state is essential. To this end, the sec-ond part of TC-ViTs (Fig 4(b)) provides dual processing on the current depth image. Specifically, each current depth is processed independently through a shallow CNN, yielding high-resolution spatial features β(Ck=t) that retain critical, near-field spatial information. Since this branch is focused on immediate dynamics, goal conditioning is not applied here to master. This dual-processing setup preserves fine-grained spatial details needed for near-term navigation, while goal conditioning temporal transformer manages broader patterns across time scales. The outputs of both are con-catenated and passed through MLPs to complete each other, where γ = M LP s (concat (α, β)) . While, beyond capturing the dynamics of surrounding environment, it’s essential to account for how motor actuation and physical body states in-fluence decision-making. Thus, in the third part of TC-ViTs     
+
+> 3In practice, we set H and W to 128 . We patchify both image and frame with size 16 ×16 .
+
+(Fig 4(c)), we implement a recurrent goal adaptation mecha-nism that integrates visual awareness, goal information, and proprioception. This allows TC-ViTs to learn a latent repre-sentation that encodes the world with both visual perception and embodiment, as well as anticipated navigation goals and current goal residual between execution and the last step prediction. These serve as soft guidance for the locomotion module. Concretely, the input to this component includes vi-sual representation γ, endpoint PB , a middle waypoint Drm ,and proprioception Xpro . These inputs flow into two-layer MLPs, and following with a GRU to model sequential depen-dencies between past, present, and anticipated future states:        
+
+> zuni , δ g0, G =GRU (M LP s (γ, P B,Drm ,Xpro ))
+
+. This struc-ture enables TC-ViTs to capture visual cues with propriocep-tive insights, ensuring the navigation goal suggestion is both perceptive and responsive to the robot’s physical capabilities. 
+
+Seamless interplay between the two levels. Still and all, due to hardware limitations in real robots, navigation and lo-comotion modules operate distinct time scales. Take Unitree H1 as an example, RealSense D435i depth sensor in the real world functions at 10 ± 2Hz to capture depth sequences, and the policy’s computation frequency is set at 50 Hz on Jetson NX. This disparity introduces a gap in synchronism, where visual information and navigation decisions can lag behind the motor actuation. We use two strategies in TC-ViTs to tackle the issues: (1) Nearest Goal Forwarding . For the anticipated goals, we only forward the local goal g1 that is 
+
+nearest to the robot to the locomotion module. This prevents long-term error accumulation in navigation decisions and al-lows for timely adjustments to account for dynamic changes and motor execution, as demonstrated in the Appendix. (2) 
+
+Latent State Tiling. zuni is tiled five times before flowing to locomotion module. This tiling ensures continuous message broadcasting and a stable connection between navigation and locomotion processes. Together, these two strategies allow for seamless interplay between the two levels, ensuring the two modules work in harmony across time scales. 
+
+3.4. Oracle Policy Learning for Motor Skills 
+
+With TC-ViTs, local navigation and locomotion could be bridged in a unified manner. While, before training the uni-fied policy pipeline, we first leverage privileged information to learn an Oracle policy for locomotion (Fig 3(a)), to ensure the diversity of motor skills. Concretely, Xpro , current nav-igation goal, the latent ztea of the scandots S ∈ R66 ×2
+
+and Xpri , are input to the oracle policy. To encourage self-emergent motor behavior rather than per-defined motor modes, and promote upright locomotion, rewards on three as-pects are essential in this stage: velocity tracking alignment wrt waypoint direction rtracking , soft torso height range con-strain rbase_height , and accumulation on feet air time rair_time .Due to space limits, please refer to Appendix for details. 22502 3.5. Unified Hiking Policy Learning with Vision 
+
+Once oracle policy πtea (a|ssim ) is learned, we proceed to distill it into student stage, simultaneously learning naviga-tion and motor skills from visual observations via LEGO-H. Specifically, as shown in Fig 3(b), LEGO-H first processes depth sequences to generate latent zuni and anticipates near-future navigation goals via TC-ViTs. Then, zuni , δ g0 , g 1
+
+flow to locomotion module to obtain πuni (a|sreal ) that pre-dict at. Both π implemented as MLPs, and basic training losses for the unified pipeline are reconstructions for imita-tion in goal, latent, and action levels from teacher stage: 
+
+Lim = w1∥ztea − zuni ∥2 + w2 SmoothL1 (Gtea , Guni )+ w3 SmoothL1 (atea , auni ) (1) 
+
+3.6. Hierarchical Loss Metric Set 
+
+To mitigate challenges introduced by modality and repre-sentation disparities between teacher and student stages, the constraints on students’ action space are essential during policy distillation. We bound the student’s action space from the structural rationality aspect, with loss metrics that reflect the structural similarity between teacher and student actions at each execution. Specifically, we employ a Variational Autoencoder with masking to implicitly learn hierarchical relationships in the teacher’s action space. This enables stu-dent policy to internalize structured dependencies among joints, fostering rational and coordinated actions. 
+
+Hierarchical action structure prior learning. Concretely, during distillation, the VAE is iteratively trained on teacher actions with randomly masked portions, requiring it to re-construct the full action vector from partial inputs, where: 
+
+Lrec = w4LKL + w5Lself + w6Lmask (2) 
+
+LKL = KL (q(zvae |atea ) ∥ N (0 , I )) (3) 
+
+Lself = SmoothL1 (Dec (Enc (atea )) , atea ) (4) 
+
+Lmask = SmoothL1 (Dec (Enc (atmask )) , atea ) (5) The wx are the scaling weights, zvae is the latent space of the autoencoder, atmask is the masked teacher action with ran-domly selected masking portion, and the Kullback-Leibler term KL follows the VAE formulation [16]. As the joint ac-tions are unordered, we add positional embedding with sine and cosine functions to each joint. Upon the compactness of latent space driven by the underlying normal distribution, the masking further encourages the latent space of the VAE to learn inter-joint dependencies and structural consisten-cies that align closely with the robot’s physical mechanism, rather than motion prior from human data. 
+
+Hierarchical action prior penalizer. Once trained, the VAE encoder is used to measure alignment between teacher and student actions in structured feature space. For each student action vector auni , we compute hierarchical consistency loss 
+
+Lts relative to the corresponding teacher action: 
+
+Lts = 1 − cos_sim (Enc (atea ), Enc (auni )) (6) 
+
+= 1 − Enc (atea ) · Enc (auni )
+
+∥Enc (atea )∥∥ Enc (auni )∥ (7) To further enhance hierarchy, we introduce the triplet dis-tance with masking: 
+
+Ltrip = cmt (1 − cos_sim (Enc (atea ), Enc (aumask ))) (8) 
+
++cms (1 − cos_sim (Enc (auni ), Enc (aumask ))) (9) where aumask is a randomly masked student action, and cmt 
+
+and cms are scaling factors for the triplet distance terms. Together, the hierarchical loss metric set is: 
+
+Lhie = w7Lts + w8Ltrip (10) See Appendix for hyperparameters. As shown in Tab 1, student robots trained without these losses display task-completing motor behaviors that risk mechanical integrity due to frequent collisions. In contrast, with hierarchical losses, robots exhibit more refined, collision-free movements that align better with internal structural consistency. 
+
+## 4. Experiments 
+
+We evaluate the effectiveness of LEGO-H across several dimensions. First, we conduct ablations (Sec 4.2) to assess individual components. Then, we analyze robot’s emerged behaviors across different levels (Sec 4.3). Finally, as a new task, we benchmark humanoid hiking in diverse simulated trail environments, covering LEGO-H, and other representa-tive methodologies tailored to this task (Sec 4.4). We detail experimental setup on robot configurations/models/evalua-tion metrics (Sec 4.1). Refer to Appendix for more details. 
+
+4.1. Experimental Settings 
+
+Robots. We use Unitree H1 [43] and G1 [42] humanoids, chosen for their distinct differences in body scale and mecha-nism: H1, at adult size ( 5.9 ft/ 47 kg), contrasts with kid-sized G1 ( 4.26 ft/ 35 kg), with notable variations in torque density and morphology. These inherent differences impact key factors like visual perception range/motor stability/overall movement complexity even within identical trails. 
+
+Implementations. Proprioception (Xpro ∈ R40 ): covers lower-body joint positions, velocities, torso roll and pitch, foot contact indicators, and previous action at−1 for both robots. Actions ( at ∈ R10 ): the learned policy uses position control for joints, with positions converted to torque via a PD controller τ = Kp(ˆ q − q) + Kd( ˙ˆq − ˙q) with fixed gains ( Kp
+
+and Kd follow default configuration of Unitree). Training :for both oracle and unified policy training, we use PPO [36], 22503 supported by Dagger [34] and Actor-Critic [17] for privi-leged learning. Rewards follow those introduced in method section, with additional basic elements from [6, 12]. All physics simulations perform in Isaac Gym simulator [25]. 
+
+Metrics. We evaluate models based on three core criteria with levels of granularity: goal completeness , safeness , and 
+
+efficiency . Concretely, we use 6 evaluation metrics – (1) 
+
+Goal Completeness : Success Rate ( %) measuring the per-centage of episodes where robots reach the hiking endpoint; Trail Completion ( %) indicating the portion of the trail route a robot passed; and Traverse Rate ( %) reflecting the distance from robot’s final position (if not complete goal) to endpoint relative to total trail length. (2) Safeness : MEV ( %) as-sessing foot-edge collisions; and TTF (seconds ) evaluating robot stability based on episode duration before a fall occurs. 
+
+(3) Efficiency : Time-to-Reach (seconds ) measuring average time required for successful episodes to reach endpoint. Un-less specified, experiments are conducted with 512 randomly spawned robots over 30 seconds on 5 distinct trail types, each featuring 5 difficulty levels. Results are averaged over 
+
+5 runs to minimize random biases and verify robustness. 
+
+4.2. Ablation Study 
+
+Table 1. Ablation study of LEGO-H’s main Components on H1 robot. for best goal completeness; for most safeness; for best efficiency. Refer to Appendix for more ablations.                                                                                   
+
+> Metrics Oracle LEGO-H w TC-ViTs Vanilla Success Rate (SR) (%) ↑71 .20 ±0.72 68 .40 ±1.34 64 .73 ±2.22 42 .97 ±0.67
+> Trail Completion (TC) (%) ↑77 .73 ±0.92 52 .78 ±1.30 52 .50 ±1.52 32 .01 ±0.61
+> Traverse Rate (TR) (%) ↑73 .60 ±0.81 71 .96 ±2.37 72 .04 ±0.98 60 .26 ±0.94
+> MEV (%) ↓7.12 ±0.92 7.84 ±0.92 10 .40 ±1.50 9.41 ±1.27
+> TTF (s) ↑7.25 ±0.09 7.46 ±0.17 7.00 ±0.20 5.36 ±0.10
+> T2R (s) ↓4.59 ±0.08 4.95 ±0.12 5.13 ±0.12 6.50 ±0.07
+
+Settings. We compare full LEGO-H with following de-signs: (1) Oracle : trained with access to privileged info and expert-designed navigation goals, representing an upper-bound performance. (2) w TC-ViTs : LEGO-H trained without Hierarchical Loss Metric set (HLM). (3) Vanilla : LEGO-H variant where TC-ViTs is replaced by a ConvGRU to predict latent and goal, altering the navigation mechanism. We draw key observations here. Refer to Appendix for more detailed comparisons and analysis. 
+
+Results. Tab 1 indicates several insights. (1) TC-ViTs is es-sential for basic hiking functionality. The consistent, signifi-cant performance advantage of w TC-ViTs over Vanilla across all metrics, except MEV, reveals the essence of balancing the goal, physical state, and visual perception, which is cru-cial for coordination between navigation and locomotion. (2) 
+
+Structural action behavior helps more efficient goal accom-plishment and better stability. The absence of HLM ( wTC-ViTs) results in behaviors that complete tasks but com-promise stability, often leading to mechanical risks (worse MEV than others). Including HLM ( LEGO-H) ensures coor-dinated joint actions that align with the robot’s physical struc-ture, promoting both task success (SR rises from 64 .73% to 
+
+68 .40% ) and mechanical integrity (MEV goes from 10 .40% 
+
+to 7.84% , TTF increase to 7.46 s), leading to more efficient task accomplishment (T2R improves from 5.13 s to 4.95 s). 
+
+(3) LEGO-H rivals oracle in efficiency and safety. Com-pared to oracle which has perfect observation conditions and expert navigation goals, LEGO-H falls behind on success rate and trail completion. But surprising aspects are the ef-ficiency and safeness, where LEGO-H’s performances are comparable to or slightly better than oracle. This stresses again LEGO-H’s effectiveness and capacity. 
+
+4.3. Emerged Behaviors in Different Situations 
+
+We further explore the behaviors that emerge in humanoid robots to unfold how robots autonomously adapt their motor skills and decision-making in response to various factors. 
+
+Locomotion in diverse trail terrains. As shown in Fig 5, different terrain types trigger distinct locomotion behaviors, like walking, stepping, jumping, leaping, and leaning side-ways . Key observations include: (1) H1 robots typically opt for a walking gait on continuous surfaces, regardless of variations in friction, adjusting their body tilt as needed to maintain balance (Fig 5 (a)). (2) Irregular surfaces, like frac-tured or sloped terrains, prompt gaits like stepping, jumping, or leaping, depending on slope and gap size (Fig 5 (b)). (3) 
+
+In tight spaces, such as cracks between large obstacles, H1’s adapt by leaning sideways to navigate through these confined areas ( Lean in Fig 5 (b)). 
+
+Navigation in blocked paths. Two key behaviors are evi-dent from Fig 6: (1) When faced with tall or large obstacles, the robots typically choose to detour, maintaining a safe clearance from the obstacles. (2) For obstacles below hip height, the robots initially attempt to stride or step over; if unsuccessful, they then choose to detour. These phenomena reveal the embodied character in high-level decisions. Refer to the Appendix for more evaluations. 
+
+Motor behavior differences between robots. As shown in Fig 7, when encountering identical trails like transitions be-tween platform and flat ground, H1 and G1 exhibit different behaviors. H1 navigates down smoothly, while G1 bends its knees to jump down. This difference highlights the impact of physical mechanisms on emergent motor styles. 
+
+4.4. Humanoid Hiking Benchmark 
+
+Settings. Since current research does not directly support humanoid hiking, we selected two representative quadruped pipelines, adapting them to this task using the same input structure and oracle policy as LEGO-H. This setup allows us to investigate several key factors essential for effective hu-manoid hiking. The first adapted pipeline, EP-H , represents a modified humanoid-hiking version of EP [6]. The main methodological difference between EP-H and LEGO-H is that EP-H handles visual-aware navigation and locomotion by processing each depth frame independently, disregarding 22504 (a) (b) Walk Lean Step Jump Leap Figure 5. Locomotion in diverse trail terrains. Robots developed a large set of distinct locomotion skills to tackle different terrains, e.g., 
+
+walking on rough surfaces, leaping across wide ditches, and leaning on high obstacles. Detour around Obstacle Skip Obstacle 
+
+Figure 6. Navigation in diverse situations. Robots developed different navigation skills to tackle different situations, such as directly skipping a small obstacle and detouring around a high obstacle to edge through. Walk Down Leap Down 
+
+Figure 7. Motor behavior differences between robots. Robots with different structures developed unique skills – H1, which is higher and heavier, chooses to “walk down” step, while G1, which is shorter and more lightweight, chooses to “leap down” the step. 
+
+farther depth data to avoid distributional shifts. RMA-H and 
+
+RMA-B are the adapted pipeline from RMA [18] – the for-mer has vision inputs, and the later is blind. This pipeline originally supports blind locomotion, and employs a frozen oracle policy with an adapter network to map real-world sensory data to the oracle’s latent space for policy adapta-tion. ( We list overall performance comparison in main paper. Refer to Appendix for more comparisons and discussion). 
+
+Results. We focus on three vital questions from the bench-mark: 1) Is visual perception essential for integrated navi-gation and locomotion? 2) What type of visual information is most effective? 3) Is unified cross-level learning neces-sary? Key findings in Tab 2 and visualizations in Appendix revel the answers: (1) Vision is essential. Without vision, RMA-B struggles across all metrics, highlighting the need for visual feedback. (2) Goal-aligned, multi-scale visual perception is critical. EP-H , which processes each depth frame independently without continuous goal alignment, and brute-force cutoff distance information, results in frequent circles and fails to lock onto navigation paths. The per-formance gap between LEGO-H and EP-H across metrics underscores the importance of structured visual information. 
+
+(3) Unified learning is vital for adaptability. RMA-H per-forms adequately on straight paths but fails with turns or obstacles, showing that locomotion feedback alone is in-sufficient for embodied-aware decision-making. A unified learning framework supports essential cross-level interaction, enabling adaption and effectiveness across all levels. 
+
+Table 2. Hiking benchmark for Humanoid Robot H1 across all different trail categories. for best goal completeness; for most safeness; for best efficiency.                                                                                   
+
+> Metrics LEGO-H EP-H RMA-H RMA-B
+> Success Rate (%) ↑68 .40 ±1.34 28 .80 ±0.88 65 .17 ±2.05 48 .11 ±0.72
+> Trail Completion (%) ↑52 .78 ±1.30 25 .98 ±0.22 52 .51 ±1.41 41 .92 ±0.34
+> Traverse Rate (%) ↑71 .96 ±2.37 64 .16 ±0.48 74 .61 ±0.93 69 .85 ±1.50
+> MEV (%) ↓7.84 ±0.92 12 .44 ±1.32 8.70 ±1.55 10 .74 ±1.13
+> TTF (s) ↑7.46 ±0.17 4.64 ±0.13 6.97 ±0.17 5.22 ±0.03
+> Time-to-Reach (s) ↓4.95 ±0.12 9.79 ±0.16 4.98 ±0.11 6.19 ±0.05
+
+## 5. Conclusion 
+
+LEGO-H stresses the importance of integrative multi-level development in advancing humanoid robot autonomous ca-pabilities for complex tasks like hiking. It unifies locomo-tion and navigation within an end-to-end policy framework, achieved by: (1) a Temporal Vision Transformer variant in HRL, re-framing navigation as a sequential anticipation to softly guide rather than rigidly enforce locomotion; (2) ahierarchical metric set leveraging robot’s inherent structure for task-agnostic supervision to policy distillation. 22505 References 
+
+[1] Junhyeok Ahn, Steven Jens Jorgensen, SeungHyeon Bang, and Luis Sentis. Versatile locomotion planning and control for humanoid robots. Frontiers Robotics AI , 2021. 2 [2] AllTrails. https://www.alltrails.com/ . 3 [3] Anurag Arnab, Mostafa Dehghani, Georg Heigold, Chen Sun, Mario Luˇ ci´ c, and Cordelia Schmid. Vivit: A video vision transformer. In International Conference on Computer Vision (ICCV) , 2021. 5 [4] André Brandenburger, Diego Rodriguez, and Sven Behnke. Mapless humanoid navigation using learned latent dynamics. In IEEE/RSJ International Conference on Intelligent Robots and Systems, IROS . IEEE, 2021. 3 [5] Xuxin Cheng, Yandong Ji, Junming Chen, Ruihan Yang, Ge Yang, and Xiaolong Wang. Expressive whole-body control for humanoid robots. RSS , 2024. 3 [6] Xuxin Cheng, Kexin Shi, Ananye Agarwal, and Deepak Pathak. Extreme parkour with legged robots. In IEEE In-ternational Conference on Robotics and Automation, ICRA ,2024. 4, 7 [7] Matthew Chignoli, Donghyun Kim, Elijah Stanger-Jones, and Sangbae Kim. The MIT humanoid robot: Design, motion planning, and control for acrobatic behaviors. In IEEE-RAS International Conference on Humanoid Robots, Humanoids ,2021. 3 [8] Octavian A. Donca, Chayapol Beokhaimook, and Ayonga Hereid. Real-time navigation for bipedal robots in dynamic environments. CoRR , 2022. 3 [9] Boston Dynamics. https://bostondynamics.com/blog/leaps-bounds-and-backflips/. 2018. 2, 3 [10] Jonas Frey, Matias Mattamala, Libera Piotr, Nived Chebrolu, Cesar Cadena, Georg Martius, Marco Hutter, and Maurice Fallon. Wild Visual Navigation: Fast Traversability Learning via Pre-Trained Models and Online Self-Supervision. In Arxiv ,2024. 4 [11] Johannes Garimort, Armin Hornung, and Maren Bennewitz. Humanoid navigation with dynamic footstep plans. In IEEE International Conference on Robotics and Automation, ICRA ,2011. 2 [12] Xinyang Gu, Yen-Jen Wang, and Jianyu Chen. Humanoid-gym: Reinforcement learning for humanoid robot with zero-shot sim2real transfer. 2024. 7 [13] Xinyang Gu, Yen-Jen Wang, Xiang Zhu, Chengming Shi, Yanjiang Guo, Yichen Liu, and Jianyu Chen. Advancing humanoid locomotion: Mastering challenging terrains with denoising world model learning. In Robotics: Science and Systems , 2024. 3 [14] Tuomas Haarnoja, Ben Moran, Guy Lever, Sandy H. Huang, Dhruva Tirumala, Jan Humplik, Markus Wulfmeier, Saran Tunyasuvunakool, Noah Y. Siegel, Roland Hafner, Michael Bloesch, Kristian Hartikainen, Arunkumar Byravan, Leonard Hasenclever, Yuval Tassa, Fereshteh Sadeghi, Nathan Batche-lor, Federico Casarini, Stefano Saliceti, Charles Game, Neil Sreendra, Kushal Patel, Marlon Gwira, Andrea Huber, Nicole Hurley, Francesco Nori, Raia Hadsell, and Nicolas Heess. Learning agile soccer skills for a bipedal robot with deep reinforcement learning. Sci. Robotics , 2024. 3 [15] David Hoeller, Lorenz Wellhausen, Farbod Farshidian, and Marco Hutter. Learning a state representation and navigation in cluttered and dynamic environments. IEEE Robotics Autom. Lett. , 2021. 3 [16] Diederik P. Kingma and Max Welling. Auto-encoding varia-tional bayes. In International Conference on Learning Repre-sentations, ICLR , 2014. 2, 6 [17] Vijay R. Konda and John N. Tsitsiklis. Actor-critic algorithms. In Advances in Neural Information Processing Systems 12, [NIPS , 1999. 7 [18] Ashish Kumar, Zipeng Fu, Deepak Pathak, and Jitendra Malik. Rma: Rapid motor adaptation for legged robots. In Robotics: Science and Systems , 2021. 2, 8 [19] Joonho Lee, Marko Bjelonic, Alexander Reske, Lorenz Well-hausen, Takahiro Miki, and Marco Hutter. Learning robust autonomous navigation and locomotion for wheeled-legged robots. Sci. Robotics , 2024. 3, 4 [20] Chenhao Li, Elijah Stanger-Jones, Steve Heim, and Sangbae Kim. FLD: fourier latent dynamics for structured motion representation and learning. In ICLR , 2024. 2, 3 [21] Qiayuan Liao, Bike Zhang, Xuanyu Huang, Xiaoyu Huang, Zhongyu Li, and Koushil Sreenath. Berkeley humanoid: A research platform for learning-based control. CoRR ,abs/2407.21781, 2024. 3 [22] Yu-Chi Lin and Dmitry Berenson. Humanoid navigation in uneven terrain using learned estimates of traversability. In 
+
+IEEE-RAS International Conference on Humanoid Robotics, Humanoids . IEEE, 2017. 3 [23] Yu-Chi Lin and Dmitry Berenson. Long-horizon humanoid navigation planning using traversability estimates and previ-ous experience. Auton. Robots , 2021. 3 [24] Zhengyi Luo, Jinkun Cao, Josh Merel, Alexander Winkler, Jing Huang, Kris M. Kitani, and Weipeng Xu. Universal humanoid motion representations for physics-based control. In ICLR , 2024. 3 [25] Viktor Makoviychuk, Lukasz Wawrzyniak, Yunrong Guo, Michelle Lu, Kier Storey, Miles Macklin, David Hoeller, Nikita Rudin, Arthur Allshire, Ankur Handa, and Gavriel State. Isaac gym: High performance GPU based physics sim-ulation for robot learning. In NeurIPS Datasets and Bench-marks , 2021. 7 [26] Marcell Missura, Arindam Roychoudhury, and Maren Ben-newitz. Polygonal perception for mobile robots. In IEEE/RSJ International Conference on Intelligent Robots and Systems, IROS . IEEE, 2020. 2, 3 [27] Denise Mitten, Jillisa R Overholt, Francis I Haynes, Chiara C D’Amore, and Janet C Ady. Hiking: A low-cost, accessible intervention to promote health benefits. American journal of lifestyle medicine , 12(4):302–310, 2018. 1 [28] Omid Mohareri and Ahmad B. Rad. Autonomous humanoid robot navigation using augmented reality technique. In 2011 IEEE International Conference on Mechatronics , 2011. 2, 3 [29] Ingeborg Nordbø and Nina K Prebensen. Hiking as mental and physical experience. In Advances in hospitality and leisure , pages 169–186. 2015. 1 [30] Xue Bin Peng, Ze Ma, Pieter Abbeel, Sergey Levine, and Angjoo Kanazawa. Amp: Adversarial motion priors for styl-22506 ized physics-based character control. ACM Trans. Graph. ,2021. 2, 3 [31] Xue Bin Peng, Yunrong Guo, Lina Halper, Sergey Levine, and Sanja Fidler. Ase: Large-scale reusable adversarial skill embeddings for physically simulated characters. ACM Trans. Graph. , 2022. 3 [32] Ilija Radosavovic, Tete Xiao, Bike Zhang, Trevor Darrell, Jitendra Malik, and Koushil Sreenath. Learning humanoid locomotion with transformers. CoRR , abs/2303.03381, 2023. 2, 3 [33] Ilija Radosavovic, Tete Xiao, Bike Zhang, Trevor Darrell, Jitendra Malik, and Koushil Sreenath. Real-world humanoid locomotion with reinforcement learning. Sci. Robotics , 2024. 2, 3 [34] Stéphane Ross, Geoffrey J. Gordon, and Drew Bagnell. A reduction of imitation learning and structured prediction to no-regret online learning. In Proceedings of the Fourteenth International Conference on Artificial Intelligence and Statis-tics, AISTATS , 2011. 7 [35] Nikita Rudin, David Hoeller, Marko Bjelonic, and Marco Hutter. Advanced skills by learning locomotion and local navigation end-to-end. In IEEE/RSJ International Conference on Intelligent Robots and Systems, IROS , 2022. 3 [36] John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Rad-ford, and Oleg Klimov. Proximal policy optimization algo-rithms. CoRR , 2017. 6 [37] Dhruv Shah, Ajay Sridhar, Nitish Dashora, Kyle Stachowicz, Kevin Black, Noriaki Hirose, and Sergey Levine. Vint: A foundation model for visual navigation. In Conference on Robot Learning, CoRL . PMLR, 2023. 5 [38] Filippo M. Smaldone, Nicola Scianca, Leonardo Lanari, and Giuseppe Oriolo. From walking to running: 3d humanoid gait generation via MPC. Frontiers Robotics AI , 9, 2022. 3 [39] Sait Sovukluk, Johannes Englsberger, and Christian Ott. Highly maneuverable humanoid running via 3d slip+foot dy-namics. IEEE Robotics Autom. Lett. , 9(2):1131–1138, 2024. 3[40] Chen Tessler, Yoni Kasten, Yunrong Guo, Shie Mannor, Gal Chechik, and Xue Bin Peng. Calm: Conditional adversar-ial latent models for directable virtual characters. In ACM SIGGRAPH Conference Proceedings , 2023. 2 [41] Chen Tessler, Yunrong Guo, Ofir Nabati, Gal Chechik, and Xue Bin Peng. Maskedmimic: Unified physics-based charac-ter control through masked motion inpainting. ACM Transac-tions on Graphics (TOG) , 2024. 3 [42] UnitreeG1. https://www.unitree.com/g1/ . 6 [43] UnitreeH1. https://www.unitree.com/h1 . 2, 6 [44] Jin Wang, Arturo Laurenzi, and Nikolaos G. Tsagarakis. Au-tonomous behavior planning for humanoid loco-manipulation through grounded language model. CoRR , abs/2408.08282, 2024. 2, 3 [45] Ruihan Yang, Minghao Zhang, Nicklas Hansen, Huazhe Xu, and Xiaolong Wang. Learning vision-guided quadrupedal locomotion end-to-end with cross-modal transformers. In 
+
+ICLR , 2022. 3 [46] Ruihan Yang, Ge Yang, and Xiaolong Wang. Neural volumet-ric memory for visual locomotion control. In CVPR , 2023. 4[47] Chong Zhang, Wenli Xiao, Tairan He, and Guanya Shi. Wococo: Learning whole-body humanoid control with se-quential contacts. CoRL , 2024. 3 [48] Ziwen Zhuang, Shenzhe Yao, and Hang Zhao. Humanoid parkour learning. CoRR , abs/2406.10759, 2024. 3 22507

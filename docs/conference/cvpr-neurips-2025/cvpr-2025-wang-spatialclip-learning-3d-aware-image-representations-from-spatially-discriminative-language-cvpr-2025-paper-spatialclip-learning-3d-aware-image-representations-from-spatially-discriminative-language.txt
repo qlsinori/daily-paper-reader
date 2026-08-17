@@ -1,0 +1,314 @@
+Title: SpatialCLIP: Learning 3D-aware Image Representations from Spatially Discriminative Language
+
+URL Source: https://openaccess.thecvf.com/content/CVPR2025/papers/Wang_SpatialCLIP_Learning_3D-aware_Image_Representations_from_Spatially_Discriminative_Language_CVPR_2025_paper.pdf
+
+Published Time: Mon, 02 Jun 2025 14:15:23 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+# SpatialCLIP: Learning 3D-aware Image Representations from Spatially Discriminative Language 
+
+## Zehan Wang 1* , Sashuai Zhou 1∗, Shaoxuan He 1, Haifeng Huang 1, Lihe Yang 2,Ziang Zhang 1, Xize Cheng 1, Shengpeng Ji 1, Tao Jin 1, Hengshuang Zhao 2, Zhou Zhao 1†
+
+> 1
+
+## Zhejiang University; 2The University of Hong Kong 
+
+## https://github.com/SpatialVision/Spatial-CLIP 
+
+## Abstract 
+
+Contrastive Language-Image Pre-training (CLIP) learns robust visual models through language supervision, mak-ing it a crucial visual encoding technique for various ap-plications. However, CLIP struggles with comprehending spatial concepts in images, potentially restricting the spa-tial intelligence of CLIP-based AI systems. In this work, we propose SpatialCLIP , an enhanced version of CLIP with better spatial understanding capabilities. To capture the intricate 3D spatial relationships in images, we im-prove both “visual model” and “language supervision” of CLIP. Specifically, we design 3D-inspired ViT to re-place the standard ViT in CLIP. By lifting 2D image to-kens into 3D space and incorporating design insights from point cloud networks, our visual model gains greater po-tential for spatial perception. Meanwhile, captions with accurate and detailed spatial information are very rare. To explore better language supervision for spatial under-standing, we re-caption images and perturb their spatial phrases as negative descriptions, which compels the visual model to seek spatial cues to distinguish these hard nega-tive captions. With the enhanced visual model, we intro-duce SpatialLLaVA , following the same LLaVA-1.5 train-ing protocol, to investigate the importance of visual repre-sentations for MLLM’s spatial intelligence. Furthermore, we create SpatialBench , a benchmark specifically designed to evaluate CLIP and MLLM in spatial reasoning. Spatial-CLIP and SpatialLLaVA achieve substantial performance improvements, demonstrating stronger capabilities in spa-tial perception and reasoning, while maintaining compara-ble results on general-purpose benchmarks. 
+
+## 1. Introduction 
+
+Recently, Contrastive Language-Image Pretraining (CLIP) models [13, 22, 47, 53, 73] have demonstrated the ability to 
+
+> *Equal Contribution.
+> †Corresponding author.
+
+learn robust image representations from language supervi-sion. These models serve as foundational visual encoders for various applications, such as open-world visual recog-nition [26, 36, 40, 46, 49, 52] and Multi-modal Large Lan-guage Models (MLLM) [2, 10, 11, 41, 42, 57]. Although CLIP exhibits strong zero-shot ability across diverse tasks, it struggles with understanding spatial ar-rangement within images. As shown in Fig. 1, for a cor-rectly matched image-text pair, we introduce perturbations to the caption by modifying the object category, object at-tribute, and spatial phrases. The results reveal that alter-ing the object category or attribute significantly reduces the image-text similarity in the CLIP space. However, CLIP struggles to distinguish incorrect spatial relationship de-scriptions and even assigns a higher matching score to cap-tions with wrong spatial descriptions. Spatial intelligence is a key aspect of visual perception, and limitations in spatial understanding may constrain systems built on CLIP from effectively understanding real-world environments. In this paper, we present SpatialCLIP , a CLIP model with enhanced spatial perception capabilities. As titled in [47], CLIP models are “Learning Transferable Visual Mod-els from Natural Language Supervision” . Our SpatialCLIP advances the spatial understanding from both “visual mod-els” and “language supervision” perspectives. For “visual models,” we propose a 3D-inspired ViT that processes RGB-D input rather than RGB images. By incor-porating depth information, our visual model gains the abil-ity to perceive images from the 3D perspective. This design helps the model understand complex 3D spatial relation-ships like “behind,” “in front of,” “under,” and “far.” Specif-ically, we lift the 2D tokens into 3D space using the extra depth information. In the 3D space, we integrate two struc-tures widely used in point cloud networks: 3D convolu-tion [28, 61] and 3D relative position encoding [34, 62, 67], into the pre-trained ViT model [18]. By integrating design insights from 3D point cloud processing, our 3D-inspired ViT demonstrates enhanced potential for capturing complex 3D spatial structures in images. For “language supervision”, in current vision-language This CVPR paper is the Open Access version, provided by the Computer Vision Foundation. Except for this watermark, it is identical to the accepted version; the final published version of the proceedings is available on IEEE Xplore. 29656 Accurate: The darker-haired cat is behind the white cat.                
+
+> CLIP Score: 22.28
+> Category Error: The darker-haired bird is behind the white cat.
+> CLIP Score: 20.43 (-1.85)
+> Accurate: The white refrigerator is closer to the camera than brown door.
+> CLIP Score: 29.74
+> Category Error: The white cabinet is closer to the camera brown door.
+> CLIP Score: 25.66 (-4.08)
+> Accurate: The dark coffee machine is to the left of the mug.
+> CLIP Score: 22.10
+> Category Error: The ceramic cup is to the left of the mug.
+> CLIP Score: 19.48 (-2.62)
+> Accurate: Two people are standing behind a pile of huge-sized pipes.
+> CLIP Score: 26.62
+> Category Error: Two people are standing behind a pile of huge-sized papers.
+> CLIP Score: 16.40 (-10.22)
+> Attribute Error: The light-haired cat is behind the white cat.
+> CLIP Score: 21.22 (-1.06)
+> Spatial Error: The darker-haired cat is to the right of the white cat.
+> CLIP Score: 23.66 (+1.38)
+> Attribute Error: The dark refrigerator is closer to the camera than opened door.
+> CLIP Score: 29.39 (-0.35)
+> Spatial Error: The white refrigerator is further from the camera than brown door.
+> CLIP Score: 29.62 (-0.12)
+> Attribute Error: The old broken coffee machine is to the left of the mug.
+> CLIP Score: 21.27 (-0.83)
+> Spatial Error: The dark coffee machine is in front of the mug.
+> CLIP Score: 22.53 (+0.43)
+> Attribute Error: Two people are standing behind a pile of small pipes.
+> CLIP Score: 25.78 (-0.84)
+> Spatial Error: Two people are standing inside a pile of huge-sized pipes.
+> CLIP Score: 27.18 (+0.56)
+
+Figure 1. The preliminary analysis of OpenAI CLIP-L/14@336px. CLIP Score stands for the cosine similarity between image and language description. These examples demonstrate that while CLIP is highly sensitive to errors involving object categories and attributes, it struggles to accurately identify mistakes in spatial descriptions. 
+
+datasets [5, 50, 51] for CLIP training, the input captions are primarily simple summary texts that only describe the primary object category and attributes. The absence of pre-cise spatial information in these captions may constrain the visual model’s ability to capture spatial relationships. To enhance language supervision, we recaption images using advanced MLLMs [9, 41] and introduce perturbed spatial phrases to captions as hard negative queries. Training the model to differentiate between captions that share the same object categories and attributes but vary in spatial phrases forces it to better capture spatial cues in images. Furthermore, we explore whether SpatialCLIP, with its enhanced spatial perception, can contribute stronger spatial intelligence to MLLMs when using the same data. Recent work [7, 12, 14] mainly enhances the spatial perception capabilities of MLLMs by introducing new training data, while lacking the exploration of spatial-focused visual rep-resentations. However, as discussed in [58], visual repre-sentation is also crucial to the capabilities of MLLMs. We construct SpatialLLaVA using the same training recipe as the standard LLaVA-1.5 [41], enabling a fair and systemat-ical analysis over MLLMs. To quantitatively assess the spatial understanding capa-bilities of CLIP and MLLM, we introduce SpatialBench ,a benchmark designed to evaluate spatial comprehension within images. This benchmark challenges models to com-prehend spatial arrangements and perform complex spatial reasoning. For thorough evaluation, we curate and annotate images from both outdoor and indoor scenes. Experimentally, SpatialCLIP shows substantial improve-ments across spatial-focused benchmarks, such as Spatial-Bench and BLINK [24], and performs well on general-purpose downstream tasks [39, 69]. Similarly, Spatial-LLaVA demonstrates notably enhanced spatial perception while retaining strong general perceptual abilities. Our main contributions are as follows: • We propose SpatialCLIP , which improves the CLIP’s spatial understanding capabilities by refining both “visual model” and “language supervision”. • We develop SpatialLLaVA , by replacing the visual en-coding method in LLaVA with our SpatialCLIP while preserving other training protocols. This investigates the value of SpatialCLIP in enhancing the spatial intelligence of CLIP-based MLLM, as shown in Fig. 2. • We construct SpatialBench to evaluate the spatial capa-bilities of CLIP and MLLMs, collecting and annotating samples from both outdoor and indoor scenarios. • We conduct extensive experiments on both spatial-focused and general-purpose benchmarks to validate the effectiveness of SpatialCLIP, SpatialLLaVA, and each newly proposed component. 
+
+## 2. Related Work 
+
+2.1. Contrastive Language-Image Pre-training 
+
+CLIP models [13, 22, 47, 53] are trained on web-scale image-text paired data [5, 50, 51] using multimodal con-trastive learning as objective. By learning cross-modal semantic alignment from massive datasets, CLIP demon-strates strong zero-shot generalization capabilities and is widely used in various vision-language downstream tasks, such as image object detection [52], segmentation [48, 60], and video action recognition [40]. In recent multimodal large language models (MLLM), CLIP is the most com-mon visual encoding strategy, enabling large language mod-els with the ability to understand images. LLaVA [42] and subsequent works [35, 35, 41, 64] primarily rely on OpenAI-CLIP [47], while other state-of-the-art MLLMs like Emu2 [54], InternVL1.5 [10] and MiniCPM-v [68] also utilize various CLIP variants, such as EVA-CLIP [53], In-29657 Select the best caption for the image: 
+
+> A. Yellow electric car is closer to the camera. B. Red electric car is closer to the camera. C. Two cars are equally close to the camera.
+> LLaVA-1.5 : The best caption is B.
+> SpatialLLaVA : The best caption is A.
+
+Select the best caption for the image: 
+
+> A. The bird standing taller is smaller than the other. B. The bird standing taller is bigger than the other. C. The two birds are roughly the same size.
+> LLaVA-1.5 : The best caption is B.
+> SpatialLLaVA : The best caption is C.
+
+Select the best caption for the image: 
+
+> A. The fan is facing the camera. B. The fan is facing the white desk. C. The fan is facing the sofa. D. The fan is facing the chair.
+> LLaVA-1.5 : The best caption is A.
+> SpatialLLaVA : The best caption is D.
+
+Select the best caption for the image: 
+
+> A. All the sofas form a circle. B. All the sofas form a rectangle. C. All the sofas form an oval. D. All sofas are arranged randomly.
+> LLaVA-1.5 : The best caption is A.
+> SpatialLLaVA : The best caption is B.
+
+Select the best caption for the image: 
+
+> A. The two trains are perpendicular. B. The two trains are intersecting. C. The two trains are parallel.
+> LLaVA-1.5 : The best caption is A.
+> SpatialLLaVA : The best caption is C.
+
+Select the best caption for the image: 
+
+> A. The stop sign is taller than the wall. B. The stop sign is shorter than the wall. C. The stop sign and the wall are of the same height.
+> LLaVA-1.5 : The best caption is C.
+> SpatialLLaVA : The best caption is A.
+
+Select the best caption for the image: 
+
+> A. Ceiling light hangs above the edge of the table. B. Ceiling light hangs above the center of the table.
+> LLaVA-1.5 : The best caption is A.
+> SpatialLLaVA : The best caption is B.
+
+Select the best caption for the image: 
+
+> A. The left window is larger than the right window. B. The right window is larger than the left window. C. The Two mirrors are of the same size.
+> LLaVA-1.5 : The best caption is A.
+> SpatialLLaVA : The best caption is C.
+
+Figure 2. Visualization of LLaVA-1.5 and SpatialLLaVA on SpatialBench. The first row displays examples from outdoor scenes, while the second row features cases in indoor environments. LLaVA-1.5 often encounters difficulties with basic spatial concepts, while SpatialLLaVA improves its spatial perception ability by employing enhanced visual representations. 
+
+ternVL [11], and SigLIP [73]. However, ReCLIP [52] rec-ognizes CLIP lacks the capability of understanding spatial relationships in images. Additionally, as discussed in [58], the shortcoming in visual encoding may limit the capabili-ties of MLLMs built upon it. Our work attempts to enhance CLIP’s spatial perception and overcome the shortcomings in spatial understanding. 
+
+2.2. Spatial Intelligence in Visual Perception 
+
+Spatial understanding [8, 56] and spatial intelligence are fundamental abilities for artificial intelligence systems to perceive and interact with the complex visual world. In our 3D world, spatial understanding involves distinguishing various spatial relationships between objects, such as up and down, left and right, far and near, and inside and outside, as well as perceiving the size, thickness, length, and width of visual elements. The ability to comprehend and reason on these basic spatial concepts is crucial for solving many complex problems, including robot navigation [70, 75], ma-nipulation [25], human-computer interaction [19, 44], and applications in virtual and augmented reality [33]. MLLMs have made impressive progress in recent years. Built upon pre-trained visual representation and large lan-guage models [20, 59], these methods demonstrate strong performance across a variety of downstream tasks, such as image captioning [39], visual question answering [1], visual grounding [30, 45], and action recognition [23]. However, despite their powerful generalization capabilities, most MLLMs still struggle with spatial understanding and reasoning, as discussed in [7]. There are several works that attempt to address the shortcomings of MLLMs in spatial understanding. Spa-tialVLM [7] is the first to focus on this issue, introducing massive automatically-generated 3D spatial reasoning VQA data for training MLLM. Its successor, SpatialRGPT [12], enhances the 3D-aware data curating pipeline and provides extra visual depth and region information for MLLM. Cube-LLM [14] combines multiple existing 2D and 3D object de-tection datasets in a unified format and then trains MLLM with better spatial detection capability. Existing works mainly enhance the spatial intelligence of MLLM by improving the training data, while our work ex-plores the issue from a different perspective: improving the visual representations. Utilizing the same general-purpose training data, simply replacing the standard CLIP with our SpatialCLIP enhances the spatial understanding capabilities of LLaVA [41, 42]. 29658 Figure 3. The overview of SpatialCLIP. The visual encoder is replaced by our newly proposed 3D-Inspired Vision Transformer, which enables more informative RGB-D inputs and excels in modeling the 3D spatial structure. Language supervision is enhanced through recaption and perturbation, which prompt the encoding of visual spatial information. 
+
+## 3. SpatialCLIP 
+
+Our proposed SpatialCLIP enhances standard CLIP from two perspectives: 3D-Inspired ViT for more powerful “Vi-sual Model” in Sec. 3.1 and recaption&perturbation strategy for more informative “Language Supervision” in Sec. 3.2. 
+
+3.1. Visual Model: 3D-Inspired ViT 
+
+In RGB images, the 3D spatial structure of the world is flat-tened into a 2D plane. Many methods [12, 15, 17, 74] try to introduce depth maps for extra 3D information. However, how to effectively encode such RGB-D inputs while main-taining the pre-trained knowledge for the RGB channel is non-trivial. AlphaCLIP [55] enables an extra input channel with a simple extra input convolution layer, while Spatial-RGPT [12] repeats depth map three times as a depth im-age, and lately fuses the latent of the RGB image and depth image with the pre-trained CLIP image encoder. Our em-pirical findings show that such simple early and late fusion methods are less effective at integrating depth information. To address this, we propose 3D-inspired ViT for RGB-D in-puts to replace the standard vision transformer (ViT) widely used as the visual model in CLIP models. Recently, monocular depth estimation models [31, 65, 66] have gained impressive progress, depth maps can be easily predicted for wild-world RGB images with low cost. Moreover, the accurate depth map shows impressive results in lifting the images into 3D point clouds. Meanwhile, the architectures for processing 3D point cloud [61, 62, 67] fo-cus on capturing spatial relationships among features in 3D space. These observations inspire us to lift 2D tokens into 3D space using predicted depth information and thereby in-corporate design insights from 3D point cloud architectures to better model 3D spatial relationships in images. To this end, we first dive into the standard ViT, which processes RGB images as input. Specifically, an RGB im-age X ∈ RH×W ×3 is divided into 2D patches, and each is linearly projected into C-dimension tokens. The resulting 2D tokens map Z ∈ RHz ×Wz ×C is passed into a stack of transformer blocks, where Hz and Wz represent the tokens map’s height and width. The 2D token map for the L-th transformer block can be denoted as ZL ∈ RHz ×Wz ×CL .To integrate the well-established 3D point cloud archi-tecture designs into ViT for images, for each transformer layer, we first lift its 2D input tokens ZL ∈ RHz ×Wz ×CL
+
+into 3D voxel Z3D  
+
+> L
+
+∈ RHz ×Wz ×Dz ×CL based on the av-erage depth value of each patch, where Hz , Wz and Dz
+
+represent the grid sizes along the height, width, and depth axes. Since Z3D  
+
+> L
+
+is derived from ZL, the resulting 3D voxel grid is highly sparse. The Hz × Wz tokens in ZL are dis-tributed along the depth axis based on their corresponding depth values, and extracting tokens along the depth axis can easily compress Z3D  
+
+> L
+
+back into 2D space. For 3D voxelized tokens, 3D depth-wise convolution is widely used to capture spatial patterns across the three di-mensions. As shown in the right part of Fig. 3, we integrate this 3D convolution within each transformer block of the pre-trained ViT model, applying it to Z3D  
+
+> L
+
+and then short-cutting the resulting features back to the original ZL. This process is expressed as: 
+
+ZL = ZL + Compress(3D-Conv( Z3D L ))  (1) where 3D-Conv( ·) is the 3D depth wise convolution and 
+
+Compress( ·) indicates compressing sparse 3D voxel back into 2D token maps. 29659 Moreover, another commonly used technique in point cloud networks is 3D relative positional encoding, which explicitly indicates the relative spatial relationship between every pair of tokens in 3D space. For the self-attention op-erator of each transformer layer, we employ 3D relative po-sitional biases on the attention map. The attention score aij 
+
+between i-th and j-th token can be represented as: 
+
+aij = (ziWQ)( zj WK )T + bij 
+
+√C (2) where bij is a scalar selected from the learnable bias matrix 
+
+B ∈ R(2 Hz −1) ×(2 Wz −1) ×(2 Dz −1) , based on the relative 3D position between the i-th and j-th tokens in 3D space. By adopting the designs inspired by the structure of 3D point cloud networks, the 3D-inspired ViT can perceive 2D images from the 3D perspective, greatly enhancing the po-tential to model complex spatial relationships in images. 
+
+3.2. Language Supervision: Recaption & Perturba-tion 
+
+In the contrastive learning process of CLIP, visual represen-tations of different images are pulled close with the paired caption while pushed away from captions of other images. The guidance information in language captions strongly in-fluences the visual model’s capability. For prompting 3D-Inspired ViT to better capture spatial relationships in im-ages, more informative supervision from natural language is necessary. However, current widely-used vision-language datasets for training CLIP, such as Conceptual-12M [5] and LAION [50, 51], are inherently noisy and mainly provide simple summaries of global attributes, lacking detailed cap-tion with accurate spatial description. Recent studies [3, 6, 21, 37] have shown that re-captioning images with semantically richer and more aligned descriptions can greatly enhance the performance of vision-language models like CLIP and text-to-image mod-els. However, as discussed in [7, 12], current MLLMs excel at recognizing object categories and attributes but struggle with spatial perception. Consequently, the detailed captions they generated often fail to accurately capture all spatial re-lationships within the image. To address this “chicken-and-egg” dilemma, we propose perturbing the spatial descriptions in the dense captions generated by MLLMs. Specifically, we employ a template to randomly substitute phrases indicating spatial relation-ships with their antonymic counterparts. For instance, a caption like “two cats are standing in front of a table, while the left cat is bigger than the right one” may be modified to 
+
+“two cats are standing under a table, while the upper cat is smaller than the lower one.” 
+
+Since the generated and perturbed captions are semanti-cally consistent in terms of object categories and attributes, applying contrastive learning between these two captions encourages the model to distinguish the entirely incorrect caption from the partially correct one. Such a straight-forward perturbation method effectively promotes the vi-sual model’s ability to capture detailed spatial relationships within images. The learning objective can be expressed as: 
+
+L = − 1
+
+N
+
+> N
+
+X
+
+> i=1
+
+"
+
+log e(ti·vi/τ )
+
+PNj=1 e(ti·vj /τ )
+
++log e(ti·vi/τ )
+
+PNj=1 (e(tj ·vi/τ ) + e(˜ tj ·vi/τ ))
+
+# (3) where the vi is the visual representation of i-th image, while 
+
+ti and ˜ti denote the textual representation of the i-th caption and its perturbed version, respectively. 
+
+## 4. SpatialLLaVA 
+
+As discussed in [57, 58], the capabilities of MLLMs may be constrained by the inherent limitations of their visual repre-sentations. This raises a crucial question: Can the spatial intelligence of CLIP-based MLLM be enhanced by improv-ing the spatial perception of CLIP’s visual representations? 
+
+We utilize LLaVA-1.5, which employs the pre-trained CLIP as its visual encoding model, as the framework to investigate the effectiveness of SpatialCLIP in MLLM. Specifically, we replace the CLIP model in LLaVA-1.5 [41] with our SpatialCLIP. To ensure fair and systematic com-parisons between visual encoding methods, we follow the two-stage training strategy used in LLaVA-1.5 and apply the same training datasets and hyperparameters for each stage. The resulting MLLM is named SpatialLLaVA .
+
+## 5. SpatialBench 
+
+To evaluate the ability of CLIP and MLLM in understand-ing complex 2D/3D spatial relations in images, we build a benchmark SpatialBench , which focuses entirely on spatial perception. Our benchmark employs the caption matching task, requiring CLIP or MLLM to distinguish the caption that best matches the image from several distractors. By manually crafting the correct description and distractors, the caption-matching task requires the model to distinguish nu-anced spatial concepts in the image ( e.g. object arrange-ment, relationships, relative depth, and size). To fully assess models in various scenarios, we collect images of both outdoor and indoor scenes. Specifically, out-door images are collected from the COCO [39] validation set and the Internet, totaling 159 images. Indoor images are sourced from ScanNet [16], consisting of 140 images. Each image is paired with 2 to 4 manually crafted descriptions, of which only one is accurate, with the remaining serving as distractors. Examples of SpatialBench can be found in Fig. 2 and Appendix. 29660 Model Param 
+
+Spatial-Focused General-Purposed 
+
+SpatialBench BLINK COCO Flickr30K 
+
+OutDoor. InDoor. Spatial R@1 R@5 R@1 R@5 Random - 29.77 29.84 50.00 - - - -OpenAI CLIP-B@224px 149.6M 35.22 30.71 51.05 42.19 67.25 34.40 56.65 SpatialCLIP-B@224px 149.9M+24.8M 41.51 34.28 57.34 48.33 73.27 38.86 62.80 OpenAI CLIP-L@336px 427.9M 32.07 30.00 47.55 46.78 70.54 38.25 60.95 SpatialCLIP-L@336px 428.7M+24.8M 35.84 33.57 57.34 50.62 75.66 42.54 67.04  
+
+> Table 1. Results on CLIP benchmark. The best results are bold .
+
+SpatialBench BLINK CV-Bench 3d
+
+Training Data Model OutDoor. InDoor. Spatial Depth Corres Jigsaw Depth Distance Spatial-Focused Spatial-RGPT-7B 37.73 38.57 65.73 82.30 32.55 50.00 62.33 59.00 LLaVA-1.6-7B 39.62 33.57 68.53 51.61 29.65 48.00 53.35 51.12 LLaVA-1.6-13B 38.36 35.71 69.99 48.38 30.81 50.67 55.16 52.25 Stronger General-Purposed LLaVA-interleave-7B 33.27 37.14 69.93 56.69 34.88 51.33 57.14 62.30 
+
+LLaVA-1.5-7B 29.55 32.47 61.54 52.42 25.58 11.33 45.83 50.00 Baseline General-Purposed Spatial-LLaVA-7B 40.25 40.17 71.32 58.06 31.97 51.33 57.33 52.16               
+
+> Table 2. Results on Spatial-Focused MLLM benchmark.
+> POPE [38] MM-Vet [72] VQAv2 [27] GQA [29] RealWorldQA [63] LLaVA-1.5-7B 85.9 30.5 78.5 62.0 54.8
+> Spatial-LLaVA-7B 86.5 30.7 79.9 60.6 54.2
+> Table 3. Results on General-Purposed MLLM benchmark.
+
+For CLIP, we calculate matching scores between the im-age and its corresponding captions, selecting the descrip-tion with the highest matching score as the prediction. For MLLMs, the descriptions are presented as multiple-choice options, and the models are prompted to select the best de-scription in a question-answering manner. 
+
+## 6. Experiment 
+
+6.1. Implementation Details 
+
+Training setting. We use images in SA1B dataset [32] for training, since most images in it contain multiple ob-jects and showcase complex spatial relationships. Fol-lowing [6], LLaVA-1.5-13B [41], CoCa [71] and extra ShareGPT4V [9] are used for image reception, the three kinds of captions are randomly used in training for more di-verse and informative supervision. A detailed caption per-turbation template is provided in the Appendix. The tem-perature factor τ in Eq. 3 is set to 0.01. For optimization, we employ AdamW [43] with a learning rate of 2e-7 for pre-trained CLIP encoders and 4e-6 for the newly intro-duced components. Models are trained for 8,000 steps with a batch size of 2,048 on 8 A100 GPUs. 
+
+Model setting. We train SpatialCLIP from OpenAI CLIP-B/16@224px and OpenAI CLIP-L/14@336px, leading to SpatialCLIP-B and SpatialCLIP-L, respectively. We uti-lize the lightweight Depth Anything v2 ViT-Small as our monocular depth estimation model, which brings an extra 24.8M parameters. The kernel size of the 3D CNN in Eq. 1 is 3, and the Dw is 6. The newly added 3D CNN and 3D relative position encoding are both zero-initialized and in-troduce only nearly 1M extra parameters. We develop Spa-tialLLaVA based on SpatialCLIP-L, following LLaVA-1.5. 
+
+6.2. Comparison for CLIP 
+
+Results on spatial-focused benchmark. To assess the spatial perception ability for CLIP models, we employ our newly proposed SpatialBench and modify the “spatial rela-tion” subset of BLINK to the caption-matching task, as an-other spatial-focused benchmark. Results on these bench-marks are presented in Tab. 1. There are two key findings: 1) In both the CLIP-B and -L variants, SpatialCLIP demon-strates significant performance advantages over the original CLIP, indicating that SpatialCLIP more effectively captures spatial information in images and distinguishes between 29661 Figure 4. Qualitative comparison between LLaVA-1.5 and SpatialLLaVA. We prompt these two MLLMs to provide detailed descriptions of spatial relationships in images. Our model perform better at capturing these spatial concepts. 
+
+different spatial concepts. 2) For both the original CLIP and SpatialCLIP, performance on spatial-focused benchmarks is not correlated with model size. We conjecture this situation is derived from the scarcity of the spatial concepts in the current CLIP pre-training dataset. Increasing the parameter (i.e., enhancing learning capacity) does not necessarily lead to improved spatial perception. This highlights the value of additional designs for better spatial perception, rather than merely scaling up within the existing paradigm. 
+
+Results on general-purposed benchmark. In addition to enhancing spatial concept comprehension, accurate recog-nition of object categories and attributes is also essential for advanced applications. Since SpatialCLIP is built upon pre-trained CLIP and is further trained with high-quality images and informative captions generated by diverse MLLMs, we also observe significant performance improvements on general-purpose benchmarks, like COCO and Flickr30K for zero-shot image-text retrieval. 
+
+6.3. Comparison for MLLM 
+
+Results on spatial-focused benchmark. In Tab. 2, we comprehensively validate the spatial perception and reason-ing ability of our SpatialLLaVA on various spatial-focused MLLM benchmarks. With the same training data, Spatial-LLaVA achieves much better results than LLaVA-1.5. Spa-tialLLaVA exhibits a stronger capability to differentiate be-tween nuanced spatial concepts across indoor and outdoor scenes on our SpatialBench. We also conduct absolute performance comparison with more advanced MLLMs, including Spatial-RGPT (trained on spatial-focused data) and LLaVA-1.6/LLaVA-Interleave (trained on much broader general-purpose data). De-spite this ”unfair” comparison, Spatial-LLaVA consistently shows superior spatial perception. Interestingly, Spatial-RGPT excels in tasks it was explicitly trained for (e.g., depth and distance estimation) but underperforms on tasks beyond its training scope (e.g., spatial question-answering). This observation highlights the need to enhance visual per-ception capabilities in MLLMs beyond simply expanding training data. The advantages on BLINK underscore the importance of capturing spatial structure for high-level applications. For “visual corresponding” task, capturing spatial structure is beneficial for identifying the same scene points across dif-ferent viewpoints, lighting, or times, as the scene structure often remains consistent despite these changes. For “Jig-saw,” viewing 2D images in the 3D perspective allows the model to inspect the continuity of the 3D spatial structure rather than only relying on color and texture, aiding in or-ganizing image patches. CV-Bench 3D [57] collects and annotates samples from the 3D object detection dataset Omni3D [4], focusing on 3D understanding. Employing SpatialCLIP also leads to performance improvements for MLLM on this benchmark, further demonstrating the superiority of SpatialCLIP’s vi-sual representations in capturing 3D spatial relationships. 
+
+Results on general-purposed benchmark. In Tab. 3, we examine how enhancing spatial perception in visual repre-sentations affect the performance of MLLMs in general-purposed scenarios. Across five benchmarks, Spatial-LLaVA achieves comparable performance to LLaVA-1.5 for general-purposed questions. 29662 Row Tuning 3D CNN 3D RPE Perturb SpatialBench BLINK COCO Flickr30k OutDoor. InDoor. Spatial. R@1 R@1 1 × - - - 35.22 31.43 51.05 42.19 34.40 2 ✓ × × × 35.85 31.43 51.75 48.99 39.06 3 ✓ ✓ × × 38.36 31.43 53.85 49.04 37.76 4 ✓ × ✓ × 37.10 32.14 54.55 47.81 39.33 
+
+5 ✓ ✓ ✓ × 38.36 33.57 55.24 47.67 37.56 6 ✓ ✓ ✓ ✓ 41.51 34.28 57.34 48.34 38.86                             
+
+> Table 4. Ablation study of our “Visual Model” and “Language Supervision”. All the experiments are conducted on SpatialCLIP-B.
+> Setting SpatialBench BLINK COCO Flickr30k OutDoor InDoor Spatial R@1 R@1 OpenAI CLIP-B 35.22 31.43 51.05 42.19 34.40 Early Fusion 39.62 32.85 51.75 43.01 33.09 Late Fusion 40.25 34.28 52.45 42.38 31.80 3D-Inspried ViT 41.51 34.28 57.34 48.34 38.86
+> Table 5. Ablation study of depth channel integration strategies.
+
+Qualitative comparison. To better demonstrate the im-provement of SpatialLLaVA in spatial perception, we pro-vide visualizations of both models in Fig. 2 and 4. The qual-itative comparison of their responses reveals that Spatial-LLaVA can more accurately and comprehensively capture the spatial relationships between objects in images. 
+
+6.4. Ablation Study 
+
+Effect of recaption. In the first two rows of Tab. 4, we present the comparison between the original CLIP and its direct fine-tuning using our recaption dataset. On the general-purposed benchmarks, COCO and Flickr30k, tun-ing on our dataset leads to significant performance im-provements, underscoring the benefits of high information density and semantic alignment in recaption data. How-ever, simply using the recaption data only brings negligible changes to the spatial-focused benchmarks, motivating us to introduce more specific designs to learn spatial concepts. 
+
+Effect of 3D-inspired ViT. We ablate the designs of 3D-Inspired ViT in Row 2-5 of Tab. 4. When fine-tuning on the same recaption data, incorporating 3D convolution (Row 3) or 3D relative position encoding (Row 4) shows improved performance on spatial-focused benchmarks compared to the standard ViT (Row 2). The combination of both tech-niques results in even greater enhancements. The improve-ment in spatial perception gained from the 3D-inspired de-sign underscores the importance of integrating 3D point cloud structures into 2D ViT. Encoding images in 3D space with 3D-specific structure enables the visual model to cap-ture complex 3D spatial information more effectively. 
+
+Effect of caption perturbation. The comparison be-tween Rows 5 and 6 in Tab. 4 illustrates the benefits of caption perturbation, which prompts the model to capture spatial concepts and enhances its spatial perception ability. Since MLLMs themselves often struggle in perceiving and reasoning about spatial relationships, the captions generated by them can not fully capture all spatial details. By perturb-ing the spatial phrases, we create references that are fully incorrect in spatial relationships. This approach drives the model to learn spatial concepts by distinguishing the par-tially correct captions from the fully incorrect ones. 
+
+Different depth channel integration strategies. In ad-dition to our 3D-Inspired ViT, there are other alternative methods to enable RGB-D inputs. In Tab. 5, we discuss the commonly used early and late fusion schemes, which project the depth map into RGB features before and after the visual encoder, which are used by AlphaCLIP [55] and SpatialRGPT [12], respectively. In most benchmarks, sim-ply projecting the depth channel to the pre-trained RGB fea-tures is hard to improve the performance. Considering the additional information provided by the reception data, these schemes may even have a negative impact. Conversely, our 3D-inspired ViT makes effective use of the extra depth in-formation, yielding significant improvements. 
+
+## 7. Conclusion 
+
+We present SpatialCLIP to overcome the shortcomings of original CLIP models in spatial understanding. By intro-ducing improved “Visual Model” (3D-Inspired ViT) and enhanced “Language Supervision” (Recaption & Perturba-tion), our model achieves significant improvements, not just on spatial-focused benchmarks like our proposed Spatial-Bench and modified BLINK, but also on zero-shot image-text retrieval. Additionally, we develop SpatialLLaVA based on SpatialCLIP, adhering to the LLaVA-1.5 training protocol. This integration of visual representations specifi-cally enhanced for spatial recognition improves the spatial intelligence of MLLM. 29663 Acknowledgements 
+
+This work was supported in part by National Natural Sci-ence Foundation of China under Grant No.624B2128 and No.62222211. 
+
+## References 
+
+[1] Stanislaw Antol, Aishwarya Agrawal, Jiasen Lu, Margaret Mitchell, Dhruv Batra, C Lawrence Zitnick, and Devi Parikh. Vqa: Visual question answering. In ICCV , 2015. 3 [2] Jinze Bai, Shuai Bai, Shusheng Yang, Shijie Wang, Sinan Tan, Peng Wang, Junyang Lin, Chang Zhou, and Jin-gren Zhou. Qwen-vl: A versatile vision-language model for understanding, localization, text reading, and beyond. 
+
+arXiv:2308.12966 , 2023. 1 [3] James Betker, Gabriel Goh, Li Jing, Tim Brooks, Jianfeng Wang, Linjie Li, Long Ouyang, Juntang Zhuang, Joyce Lee, Yufei Guo, et al. Improving image generation with bet-ter captions. https://cdn.openai.com/papers/ dall-e-3.pdf , 2023. 5 [4] Garrick Brazil, Abhinav Kumar, Julian Straub, Nikhila Ravi, Justin Johnson, and Georgia Gkioxari. Omni3d: A large benchmark and model for 3d object detection in the wild. In CVPR , 2023. 7 [5] Soravit Changpinyo, Piyush Sharma, Nan Ding, and Radu Soricut. Conceptual 12m: Pushing web-scale image-text pre-training to recognize long-tail visual concepts. In CVPR ,2021. 2, 5 [6] Agneet Chatterjee, Gabriela Ben Melech Stan, Estelle Aflalo, Sayak Paul, Dhruba Ghosh, Tejas Gokhale, Ludwig Schmidt, Hannaneh Hajishirzi, Vasudev Lal, Chitta Baral, et al. Getting it right: Improving spatial consistency in text-to-image models. In ECCV , 2025. 5, 6 [7] Boyuan Chen, Zhuo Xu, Sean Kirmani, Brain Ichter, Dorsa Sadigh, Leonidas Guibas, and Fei Xia. Spatialvlm: Endow-ing vision-language models with spatial reasoning capabili-ties. In CVPR , 2024. 2, 3, 5 [8] Dave Zhenyu Chen, Angel X Chang, and Matthias Nießner. Scanrefer: 3d object localization in rgb-d scans using natural language. In ECCV , 2020. 3 [9] Lin Chen, Jinsong Li, Xiaoyi Dong, Pan Zhang, Conghui He, Jiaqi Wang, Feng Zhao, and Dahua Lin. Sharegpt4v: Improving large multi-modal models with better captions. 
+
+arXiv:2311.12793 , 2023. 2, 6 [10] Zhe Chen, Weiyun Wang, Hao Tian, Shenglong Ye, Zhang-wei Gao, Erfei Cui, Wenwen Tong, Kongzhi Hu, Jiapeng Luo, Zheng Ma, et al. How far are we to gpt-4v? closing the gap to commercial multimodal models with open-source suites. arXiv:2404.16821 , 2024. 1, 2 [11] Zhe Chen, Jiannan Wu, Wenhai Wang, Weijie Su, Guo Chen, Sen Xing, Muyan Zhong, Qinglong Zhang, Xizhou Zhu, Lewei Lu, et al. Internvl: Scaling up vision foundation mod-els and aligning for generic visual-linguistic tasks. In CVPR ,2024. 1, 3 [12] An-Chieh Cheng, Hongxu Yin, Yang Fu, Qiushan Guo, Rui-han Yang, Jan Kautz, Xiaolong Wang, and Sifei Liu. Spatial-rgpt: Grounded spatial reasoning in vision language model. 
+
+arXiv:2406.01584 , 2024. 2, 3, 4, 5, 8 [13] Mehdi Cherti, Romain Beaumont, Ross Wightman, Mitchell Wortsman, Gabriel Ilharco, Cade Gordon, Christoph Schuh-mann, Ludwig Schmidt, and Jenia Jitsev. Reproducible scal-ing laws for contrastive language-image learning. In CVPR ,2023. 1, 2 [14] Jang Hyun Cho, Boris Ivanovic, Yulong Cao, Edward Schmerling, Yue Wang, Xinshuo Weng, Boyi Li, Yurong You, Philipp Kr¨ ahenb¨ uhl, Yan Wang, et al. Language-image models with 3d understanding. arXiv:2405.03685 , 2024. 2, 3[15] Jaeyoung Chung, Jeongtaek Oh, and Kyoung Mu Lee. Depth-regularized optimization for 3d gaussian splatting in few-shot images. In CVPR , 2024. 4 [16] Angela Dai, Angel X Chang, Manolis Savva, Maciej Hal-ber, Thomas Funkhouser, and Matthias Nießner. Scannet: Richly-annotated 3d reconstructions of indoor scenes. In 
+
+CVPR , 2017. 5 [17] Kangle Deng, Andrew Liu, Jun-Yan Zhu, and Deva Ra-manan. Depth-supervised nerf: Fewer views and faster train-ing for free. In CVPR , 2022. 4 [18] Alexey Dosovitskiy. An image is worth 16x16 words: Trans-formers for image recognition at scale. arXiv:2010.11929 ,2020. 1 [19] Danny Driess, Fei Xia, Mehdi SM Sajjadi, Corey Lynch, Aakanksha Chowdhery, Brian Ichter, Ayzaan Wahid, Jonathan Tompson, Quan Vuong, Tianhe Yu, et al. Palm-e: An embodied multimodal language model. 
+
+arXiv:2303.03378 , 2023. 3 [20] Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Ab-hishek Kadian, Ahmad Al-Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Amy Yang, Angela Fan, et al. The llama 3 herd of models. arXiv:2407.21783 , 2024. 3 [21] Patrick Esser, Sumith Kulal, Andreas Blattmann, Rahim Entezari, Jonas M¨ uller, Harry Saini, Yam Levi, Dominik Lorenz, Axel Sauer, Frederic Boesel, et al. Scaling recti-fied flow transformers for high-resolution image synthesis. In ICML , 2024. 5 [22] Alex Fang, Albin Madappally Jose, Amit Jain, Ludwig Schmidt, Alexander Toshev, and Vaishaal Shankar. Data fil-tering networks. arXiv:2309.17425 , 2023. 1, 2 [23] Chaoyou Fu, Yuhan Dai, Yondong Luo, Lei Li, Shuhuai Ren, Renrui Zhang, Zihan Wang, Chenyu Zhou, Yunhang Shen, Mengdan Zhang, et al. Video-mme: The first-ever compre-hensive evaluation benchmark of multi-modal llms in video analysis. arXiv:2405.21075 , 2024. 3 [24] Xingyu Fu, Yushi Hu, Bangzheng Li, Yu Feng, Haoyu Wang, Xudong Lin, Dan Roth, Noah A Smith, Wei-Chiu Ma, and Ranjay Krishna. Blink: Multimodal large language models can see but not perceive. arXiv:2404.12390 , 2024. 2 [25] Jensen Gao, Bidipta Sarkar, Fei Xia, Ted Xiao, Jiajun Wu, Brian Ichter, Anirudha Majumdar, and Dorsa Sadigh. Phys-ically grounded vision-language models for robotic manipu-lation. In ICRA , 2024. 3 [26] Rohit Girdhar, Alaaeldin El-Nouby, Zhuang Liu, Mannat Singh, Kalyan Vasudev Alwala, Armand Joulin, and Ishan 29664 Misra. Imagebind: One embedding space to bind them all. In CVPR , 2023. 1 [27] Yash Goyal, Tejas Khot, Douglas Summers-Stay, Dhruv Ba-tra, and Devi Parikh. Making the v in vqa matter: Elevating the role of image understanding in visual question answer-ing. In CVPR , 2017. 6 [28] Benjamin Graham, Martin Engelcke, and Laurens Van Der Maaten. 3d semantic segmentation with submanifold sparse convolutional networks. In CVPR , 2018. 1 [29] Drew A Hudson and Christopher D Manning. Gqa: A new dataset for real-world visual reasoning and compositional question answering. In CVPR , 2019. 6 [30] Sahar Kazemzadeh, Vicente Ordonez, Mark Matten, and Tamara Berg. Referitgame: Referring to objects in pho-tographs of natural scenes. In EMNLP , 2014. 3 [31] Bingxin Ke, Anton Obukhov, Shengyu Huang, Nando Met-zger, Rodrigo Caye Daudt, and Konrad Schindler. Repurpos-ing diffusion-based image generators for monocular depth estimation. In CVPR , 2024. 4 [32] Alexander Kirillov, Eric Mintun, Nikhila Ravi, Hanzi Mao, Chloe Rolland, Laura Gustafson, Tete Xiao, Spencer White-head, Alexander C Berg, Wan-Yen Lo, et al. Segment any-thing. In ICCV , 2023. 6 [33] Mikhail Konenkov, Artem Lykov, Daria Trinitatova, and Dzmitry Tsetserukou. Vr-gpt: Visual language model for intelligent virtual reality applications. arXiv:2405.11537 ,2024. 3 [34] Xin Lai, Jianhui Liu, Li Jiang, Liwei Wang, Hengshuang Zhao, Shu Liu, Xiaojuan Qi, and Jiaya Jia. Stratified trans-former for 3d point cloud segmentation. In CVPR , 2022. 1 [35] Bo Li, Yuanhan Zhang, Dong Guo, Renrui Zhang, Feng Li, Hao Zhang, Kaichen Zhang, Yanwei Li, Ziwei Liu, and Chunyuan Li. Llava-onevision: Easy visual task transfer. 
+
+arXiv:2408.03326 , 2024. 2 [36] Liunian Harold Li, Pengchuan Zhang, Haotian Zhang, Jian-wei Yang, Chunyuan Li, Yiwu Zhong, Lijuan Wang, Lu Yuan, Lei Zhang, Jenq-Neng Hwang, et al. Grounded language-image pre-training. In CVPR , 2022. 1 [37] Xianhang Li, Haoqin Tu, Mude Hui, Zeyu Wang, Bingchen Zhao, Junfei Xiao, Sucheng Ren, Jieru Mei, Qing Liu, Huangjie Zheng, et al. What if we recaption billions of web images with llama-3? arXiv:2406.08478 , 2024. 5 [38] Yifan Li, Yifan Du, Kun Zhou, Jinpeng Wang, Wayne Xin Zhao, and Ji-Rong Wen. Evaluating object hallucination in large vision-language models. arXiv:2305.10355 , 2023. 6 [39] Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays, Pietro Perona, Deva Ramanan, Piotr Doll´ ar, and C Lawrence Zitnick. Microsoft coco: Common objects in context. In 
+
+ECCV , 2014. 2, 3, 5 [40] Ziyi Lin, Shijie Geng, Renrui Zhang, Peng Gao, Gerard De Melo, Xiaogang Wang, Jifeng Dai, Yu Qiao, and Hong-sheng Li. Frozen clip models are efficient video learners. In 
+
+ECCV , 2022. 1, 2 [41] Haotian Liu, Chunyuan Li, Yuheng Li, and Yong Jae Lee. Improved baselines with visual instruction tuning. In CVPR ,2024. 1, 2, 3, 5, 6 [42] Haotian Liu, Chunyuan Li, Qingyang Wu, and Yong Jae Lee. Visual instruction tuning. In NeurIPS , 2024. 1, 2, 3 [43] I Loshchilov. Decoupled weight decay regularization. 
+
+arXiv:1711.05101 , 2017. 6 [44] Soroush Nasiriany, Fei Xia, Wenhao Yu, Ted Xiao, Jacky Liang, Ishita Dasgupta, Annie Xie, Danny Driess, Ayzaan Wahid, Zhuo Xu, et al. Pivot: Iterative visual prompting elicits actionable knowledge for vlms. arXiv:2402.07872 ,2024. 3 [45] Bryan A Plummer, Liwei Wang, Chris M Cervantes, Juan C Caicedo, Julia Hockenmaier, and Svetlana Lazeb-nik. Flickr30k entities: Collecting region-to-phrase corre-spondences for richer image-to-sentence models. In ICCV ,2015. 3 [46] Dustin Podell, Zion English, Kyle Lacey, Andreas Blattmann, Tim Dockhorn, Jonas M¨ uller, Joe Penna, and Robin Rombach. Sdxl: Improving latent diffusion mod-els for high-resolution image synthesis. arXiv:2307.01952 ,2023. 1 [47] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learn-ing transferable visual models from natural language super-vision. In ICML , 2021. 1, 2 [48] Yongming Rao, Wenliang Zhao, Guangyi Chen, Yansong Tang, Zheng Zhu, Guan Huang, Jie Zhou, and Jiwen Lu. Denseclip: Language-guided dense prediction with context-aware prompting. In CVPR , 2022. 2 [49] Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Bj¨ orn Ommer. High-resolution image syn-thesis with latent diffusion models. In CVPR , 2022. 1 [50] Christoph Schuhmann, Richard Vencu, Romain Beaumont, Robert Kaczmarczyk, Clayton Mullis, Aarush Katta, Theo Coombes, Jenia Jitsev, and Aran Komatsuzaki. Laion-400m: Open dataset of clip-filtered 400 million image-text pairs. 
+
+arXiv:2111.02114 , 2021. 2, 5 [51] Christoph Schuhmann, Romain Beaumont, Richard Vencu, Cade Gordon, Ross Wightman, Mehdi Cherti, Theo Coombes, Aarush Katta, Clayton Mullis, Mitchell Worts-man, et al. Laion-5b: An open large-scale dataset for training next generation image-text models. In NeurIPS , 2022. 2, 5 [52] Sanjay Subramanian, William Merrill, Trevor Darrell, Matt Gardner, Sameer Singh, and Anna Rohrbach. Reclip: Astrong zero-shot baseline for referring expression compre-hension. arXiv:2204.05991 , 2022. 1, 2, 3 [53] Quan Sun, Yuxin Fang, Ledell Wu, Xinlong Wang, and Yue Cao. Eva-clip: Improved training techniques for clip at scale. 
+
+arXiv:2303.15389 , 2023. 1, 2 [54] Quan Sun, Yufeng Cui, Xiaosong Zhang, Fan Zhang, Qiy-ing Yu, Yueze Wang, Yongming Rao, Jingjing Liu, Tiejun Huang, and Xinlong Wang. Generative multimodal models are in-context learners. In CVPR , 2024. 2 [55] Zeyi Sun, Ye Fang, Tong Wu, Pan Zhang, Yuhang Zang, Shu Kong, Yuanjun Xiong, Dahua Lin, and Jiaqi Wang. Alpha-clip: A clip model focusing on wherever you want. In CVPR ,2024. 4, 8 [56] Kaihua Tang, Hanwang Zhang, Baoyuan Wu, Wenhan Luo, and Wei Liu. Learning to compose dynamic tree structures for visual contexts. In CVPR , 2019. 3 29665 [57] Shengbang Tong, Ellis Brown, Penghao Wu, Sanghyun Woo, Manoj Middepogu, Sai Charitha Akula, Jihan Yang, Shusheng Yang, Adithya Iyer, Xichen Pan, et al. Cambrian-1: A fully open, vision-centric exploration of multimodal llms. arXiv:2406.16860 , 2024. 1, 5, 7 [58] Shengbang Tong, Zhuang Liu, Yuexiang Zhai, Yi Ma, Yann LeCun, and Saining Xie. Eyes wide shut? exploring the visual shortcomings of multimodal llms. In CVPR , 2024. 2, 3, 5 [59] Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, et al. Llama 2: Open foundation and fine-tuned chat models. 
+
+arXiv:2307.09288 , 2023. 3 [60] Haoxiang Wang, Pavan Kumar Anasosalu Vasu, Fartash Faghri, Raviteja Vemulapalli, Mehrdad Farajtabar, Sachin Mehta, Mohammad Rastegari, Oncel Tuzel, and Hadi Pouransari. Sam-clip: Merging vision foundation models towards semantic and spatial understanding. In CVPR , 2024. 2[61] Peng-Shuai Wang. Octformer: Octree-based transformers for 3d point clouds. TOG , 2023. 1, 4 [62] Xiaoyang Wu, Li Jiang, Peng-Shuai Wang, Zhijian Liu, Xi-hui Liu, Yu Qiao, Wanli Ouyang, Tong He, and Hengshuang Zhao. Point transformer v3: Simpler faster stronger. In 
+
+CVPR , 2024. 1, 4 [63] xAI. grok, 2024. 6 [64] Lin Xu, Yilin Zhao, Daquan Zhou, Zhijie Lin, See Kiong Ng, and Jiashi Feng. Pllava: Parameter-free llava exten-sion from images to videos for video dense captioning. 
+
+arXiv:2404.16994 , 2024. 2 [65] Lihe Yang, Bingyi Kang, Zilong Huang, Xiaogang Xu, Jiashi Feng, and Hengshuang Zhao. Depth anything: Unleashing the power of large-scale unlabeled data. In CVPR , 2024. 4 [66] Lihe Yang, Bingyi Kang, Zilong Huang, Zhen Zhao, Xiao-gang Xu, Jiashi Feng, and Hengshuang Zhao. Depth any-thing v2. arXiv:2406.09414 , 2024. 4 [67] Yu-Qi Yang, Yu-Xiao Guo, Jian-Yu Xiong, Yang Liu, Hao Pan, Peng-Shuai Wang, Xin Tong, and Baining Guo. Swin3d: A pretrained transformer backbone for 3d indoor scene understanding. arXiv:2304.06906 , 2023. 1, 4 [68] Yuan Yao, Tianyu Yu, Ao Zhang, Chongyi Wang, Junbo Cui, Hongji Zhu, Tianchi Cai, Haoyu Li, Weilin Zhao, Zhihui He, et al. Minicpm-v: A gpt-4v level mllm on your phone. 
+
+arXiv:2408.01800 , 2024. 2 [69] Peter Young, Alice Lai, Micah Hodosh, and Julia Hocken-maier. From image descriptions to visual denotations: New similarity metrics for semantic inference over event descrip-tions. TACL , 2014. 2 [70] Bangguo Yu, Hamidreza Kasaei, and Ming Cao. L3mvn: Leveraging large language models for visual target naviga-tion. In IROS , 2023. 3 [71] Jiahui Yu, Zirui Wang, Vijay Vasudevan, Legg Ye-ung, Mojtaba Seyedhosseini, and Yonghui Wu. Coca: Contrastive captioners are image-text foundation models. 
+
+arXiv:2205.01917 , 2022. 6 [72] Weihao Yu, Zhengyuan Yang, Linjie Li, Jianfeng Wang, Kevin Lin, Zicheng Liu, Xinchao Wang, and Lijuan Wang. Mm-vet: Evaluating large multimodal models for integrated capabilities. arXiv:2308.02490 , 2023. 6 [73] Xiaohua Zhai, Basil Mustafa, Alexander Kolesnikov, and Lucas Beyer. Sigmoid loss for language image pre-training. In ICCV , 2023. 1, 3 [74] Lvmin Zhang, Anyi Rao, and Maneesh Agrawala. Adding conditional control to text-to-image diffusion models. In 
+
+CVPR , 2023. 4 [75] Gengze Zhou, Yicong Hong, and Qi Wu. Navgpt: Explicit reasoning in vision-and-language navigation with large lan-guage models. In AAAI , 2024. 3 29666

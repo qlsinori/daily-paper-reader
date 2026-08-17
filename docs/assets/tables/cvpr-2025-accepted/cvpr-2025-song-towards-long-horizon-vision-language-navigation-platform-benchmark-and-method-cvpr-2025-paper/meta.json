@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "tables": [
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-song-towards-long-horizon-vision-language-navigation-platform-benchmark-and-method-cvpr-2025-paper/table-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1309,
+      "height": 317,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-song-towards-long-horizon-vision-language-navigation-platform-benchmark-and-method-cvpr-2025-paper/table-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 1756,
+      "height": 287,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-song-towards-long-horizon-vision-language-navigation-platform-benchmark-and-method-cvpr-2025-paper/table-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 821,
+      "height": 201,
+      "label": "Table"
+    },
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-song-towards-long-horizon-vision-language-navigation-platform-benchmark-and-method-cvpr-2025-paper/table-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 865,
+      "height": 202,
+      "label": "Table"
+    }
+  ]
+}

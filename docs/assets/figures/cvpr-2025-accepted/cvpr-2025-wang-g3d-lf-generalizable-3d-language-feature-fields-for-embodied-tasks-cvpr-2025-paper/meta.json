@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "figures": [
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-wang-g3d-lf-generalizable-3d-language-feature-fields-for-embodied-tasks-cvpr-2025-paper/fig-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 929,
+      "height": 739,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-wang-g3d-lf-generalizable-3d-language-feature-fields-for-embodied-tasks-cvpr-2025-paper/fig-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 1754,
+      "height": 953,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-wang-g3d-lf-generalizable-3d-language-feature-fields-for-embodied-tasks-cvpr-2025-paper/fig-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 864,
+      "height": 491,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-wang-g3d-lf-generalizable-3d-language-feature-fields-for-embodied-tasks-cvpr-2025-paper/fig-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 866,
+      "height": 502,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-wang-g3d-lf-generalizable-3d-language-feature-fields-for-embodied-tasks-cvpr-2025-paper/fig-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 864,
+      "height": 439,
+      "label": "Figure"
+    }
+  ]
+}

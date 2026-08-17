@@ -1,0 +1,414 @@
+Title: g3D-LF: Generalizable 3D-Language Feature Fields for Embodied Tasks
+
+URL Source: https://openaccess.thecvf.com/content/CVPR2025/papers/Wang_g3D-LF_Generalizable_3D-Language_Feature_Fields_for_Embodied_Tasks_CVPR_2025_paper.pdf
+
+Published Time: Mon, 19 May 2025 12:43:07 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+# g3D-LF: Generalizable 3D-Language Feature Fields for Embodied Tasks 
+
+## Zihan Wang Gim Hee Lee School of Computing, National University of Singapore 
+
+## zihan.wang@u.nus.edu 
+
+## Abstract 
+
+We introduce Generalizable 3D-Language Feature Fields (g3D-LF), a 3D representation model pre-trained on large-scale 3D-language dataset for embodied tasks. Our g3D-LF processes posed RGB-D images from agents to encode feature fields for: 1) Novel view representation predictions from any position in the 3D scene; 2) Generations of BEV maps centered on the agent; 3) Querying targets using multi-granularity language within the above-mentioned represen-tations. Our representation can be generalized to unseen environments, enabling real-time construction and online updates. By volume rendering latent features along sam-pled rays and integrating semantic and spatial relationships through multiscale encoders, our g3D-LF produces repre-sentations at different scales and perspectives, aligned with multi-granularity language, via multi-level contrastive learn-ing. Furthermore, we prepare a large-scale 3D-language dataset to align the representations of the feature fields with language. Extensive experiments on Vision-and-Language Navigation under both Panorama and Monocular settings, Zero-shot Object Navigation, and Situated Question Answer-ing tasks highlight the significant advantages and effective-ness of our g3D-LF for embodied tasks. The code is available at https://github.com/MrZihan/g3D-LF. 
+
+## 1. Introduction 
+
+Embodied agents seek to understand 3D environments, en-abling interaction with environments and human by per-forming tasks such as Question Answering [4, 37, 39], Navigation [3, 6, 27, 28, 38, 61], etc . To this end, vari-ous 3D scene representation models tailored for embodied tasks have been proposed, including point cloud-based mod-els [11, 22, 72], 3D occupancy [34], hybrid voxel [14], and feature fields [43, 48, 56, 63]. For multimodal embodied tasks in large-scale scenes, 3D representation models typically need: 1) generalization to unseen scenes, 2) construct and update representations in real time, and 3) open-vocabulary semantic space. The gen-eralizable 3D feature fields provides the above advantages and has been widely explored across various embodied tasks. RGB images Depth images             
+
+> 1234
+> Instruction: Exit the living room and go straight into the bedroom ,pass the bed into the bathroom , and turn on the bathtub faucet .
+> Situation: Just looking for some food facing the TV in the living room.
+> Question: Where nearby can I sit while watching TV?
+> Answer: Couch
+> Object Goal: Bed
+> Zero-shot Object Navigation Vision-and-Language Navigation 1234
+> Situated Question Answering
+> Image Encoding
+> Feature Fields
+> Ray-View-Panorama Prediction Spatial Encoding Ray-BEV Prediction
+> Volume Rendering 1
+> Novel View Representation Panorama Representation BEV Map Representation
+
+Figure 1. Our g3D-LF uses posed RGB-D images from the agent to predict novel view and BEV map representations at various scales within the 3D scene, aligned with multi-granularity language through 3D-language pre-training. The representation is applica-ble to embodied tasks like visual navigation and embodied ques-tion answering, facilitating scene representation, language-guided querying, and navigation planning. 
+
+Unlike point cloud-based models that depend on complete and low-noise point clouds which are less robust, the implicit representations of the feature fields are derived from the 2D foundation model, preserving semantic expressiveness even with few-shot observations from 3D scenes. As shown in Fig-ure 1, the feature fields model uses RGB-D images as input to encode and update implicit scene representations, which are then used to predict novel view, panorama and BEV map rep-resentations associated with language through volume ren-dering. These predicted representations can assist embodied tasks such as navigation planning [43, 56, 57], etc . However, several significant drawbacks remain in these feature fields models: 1) The supervision for the predicted representations comes from 2D foundation models, e.g. , CLIP [44] and DI-NOv2 [41] greatly limits the understanding for 3D spatial relationships; 2) These models are trained without language supervision, resulting in a substantial gap with language se-mantics; 3) The large-scale representations, e.g. , panorama This CVPR paper is the Open Access version, provided by the Computer Vision Foundation. Except for this watermark, it is identical to the accepted version; the final published version of the proceedings is available on IEEE Xplore. 14191 and BEV map from feature fields is particularly challeng-ing for long text understanding. These issues severely limit the potential of the feature fields model on language-guided embodied tasks. To circumvent the above-mentioned issues, we intro-duce Generalizable 3D-Language Feature Fields (g3D-LF), a 3D representation model pre-trained on large-scale 3D-language dataset for embodied tasks. We first curate and consolidate a large amount of 3D-language data from pre-vious works [7, 23, 65] to train our g3D-LF model. These data include 5K indoor scenes and almost 1M language descriptions of multiple granularities. The text annotations include object categories, object characteristics, object rela-tionships, and the spatial layout of the entire scene, which are employed to supervise multiscale encoders of the g3D-LF model. We then design our g3D-LF model to learn general-izable 3D-language feature fields. To this end, we employ multi-level contrastive learning for multi-scale encoders to align predicted representations and language across differ-ent scales. For the regional representation within the novel view, a contrastive loss is calculated across 1,883 indoor object categories. For the predicted novel view representa-tion, both the CLIP visual representations and language are employed for contrastive training to balance generalization ability and language alignment. For large-scale panorama and BEV representations, we propose the fine-grained con-trastive learning based on the affinity matrix to achieve long text understanding. The pre-trained g3D-LF model is subsequently eval-uated on various embodied tasks, including vision-and-language navigation (monocular setting [57] and panorama setting [56]), zero-shot object navigation [61], and situated question answering [37], gains significant performance im-provements. In this work, our main contributions include: • This work proposes the Generalizable 3D-Language Fea-ture Fields (g3D-LF) with a multi-level contrastive learn-ing framework to align the multi-scale representations of feature fields with multi-granularity language. • Our proposed g3D-LF model improves multiple baseline methods to state-of-the-art performance across various embodied tasks, thus validating the potential of our gener-alizable feature fields for Embodied AI. 
+
+## 2. Related Work 
+
+Generalizable 3D Feature Fields. The neural radiance field (NeRF) [40] has gained significant popularity in various AI tasks, which predicts the RGB image from an arbitrary viewpoint in a 3D scene. Furthermore, some works leverage NeRF-based methods to predict novel view representations instead of RGB values, enabling 3D semantic segmenta-tion [50] and 3D language grounding [24]. However, these methods with implicit MLP networks can only synthesize novel view representations in seen scenes, which makes it difficult to generalize to unseen large-scale scenes and adapt to many embodied AI tasks ( e.g. , navigation). To this end, some works [43, 49, 56] attempt to encode 2D visual ob-servations into 3D representations (called Generalizable 3D Feature Fields) via the depth map. Through volume render-ing [40], these models decode novel view representations from the feature fields and align them with open-world fea-tures ( e.g. , CLIP embeddings [44]). The 3D feature fields can generalize to unseen scenes, enabling real-time construc-tion and online updates. However, the drawback of these models lies in the fact that the supervision of their predicted representations comes from 2D visual models, which limits their performance in language-guided embodied tasks. Our work offers a feasible approach to training the 3D feature fields model with large-scale 3D-language data. 
+
+Vision-and-Language Navigation. Vision-and-Language Navigation (VLN) [3, 9, 19, 27, 42, 53, 68] requires the agent understand complex natural language instructions and navigate to the described destination using low-level actions, 
+
+e.g. , turn left 15 degrees, turn right 15 degrees, or move for-ward 0.25 meters. To address inefficiencies and poor perfor-mance in atomic action prediction, some works [20, 26, 57] develop waypoint predictors to generate several candidate waypoints around the agent. The navigation policy model can then select the optimal waypoint as the next sub-goal and execute atomic actions to move, greatly enhancing plan-ning efficiency. In this context, how to represent waypoints and carry out planning have become critical. Some works use a topological map [2, 10] or BEV map [1, 32, 55] to represent semantic relationships between waypoints, while some [56, 57] explore feature fields to predict waypoint rep-resentations of novel views and improve navigation planning. Our g3D-LF model further improves the performance of methods using feature fields. 
+
+Zero-shot Object Navigation. In object-goal navigation [6, 46, 67], an agent is tasked with locating a specified ob-ject within indoor environments. Typically, reinforcement learning [71] is used to train a policy network that pre-dicts actions, while object detection [35, 51] or segmen-tation models [18, 25, 64] help identify the object. How-ever, these navigation models are often limited to specific objects, making open-vocabulary navigation challenging and hindering generalization in real-world applications [17]. To address this issue, zero-shot navigation methods have emerged [15, 38, 61, 70], leveraging Vision-and-Language Models (VLMs) [30, 31, 44] to identify potential directions or areas containing the target, followed by using the pre-trained pointgoal navigation models [58] to search the poten-tial areas. Considering that general 2D VLMs are not fully suited for indoor 3D environments and to the best of our knowledge, we are the first to attempt using the indoor 3D feature fields model for zero-shot object navigation. 14192 Situated Question Answering. The Embodied Question Answering tasks [4, 13, 39] require the agent to observe the 3D environment and answer questions from humans. Furthermore, Situated Question Answering [37] requires advanced 3D spatial understanding of the agent to answer the question and to interpret and locate the position and orientation of the textual description. Compared to previous works [14, 22, 23] using point clouds, we only use RGB-D images to encode feature fields and leverage their multi-scale representations for localization and question answering. 
+
+## 3. Our Method 
+
+3.1. 3D-Language Data 
+
+We prepare a large-scale 3D-language dataset to align the rep-resentations of the feature fields with language. Our dataset includes about 5K 3D indoor scenes, mainly sourced from the single-room scans ScanNet [12], multi-room house scans of the Habitat-Matterport 3D dataset (HM3D) [45, 59], and the photo-realistic multi-room scenes of Structured3D [69]. The total number of language annotations is close to one million, which are mainly sourced from the SceneVerse dataset [23]. SceneVerse uses 3D scene graphs and large lan-guage models (LLMs) to automate high-quality object-level and scene-level descriptions. The annotations also includes the large set of human-annotated object referrals [7]. We organize the dataset as follows to streamline feature fields training: 1) For each 3D scene, the agent can observe numerous RGB-D images and its corresponding poses as inputs. 2) An instance-level point clouds mark each instance in the scene with an instance ID which can be used to retrieve associated language descriptions from the database. It is thus easy to get instances that are near any given point in the 3D scene and obtain their language descriptions. This enables the training code to efficiently obtain language annotations for specific regions within a novel view or a BEV map. 
+
+3.2. 3D-Language Feature Fields 
+
+Feature Fields Encoding. As shown in Figure 2, our g3D-LF model follows HNR [56] to take a posed RGB image as input and uses the CLIP image encoder to extract fine-grained visual features {gt,i ∈ R768 }Ii=1 . gt,i denotes the 
+
+i-th feature patch of the CLIP feature map extracted from 
+
+t-th frame observed by the agent. We then map gt,i to the corresponding 3D world coordinates {Pt,i }Ii=1 using the depth map and camera parameters. For each feature gt,i , the observed horizontal orientation 
+
+θt,i and the regional size st,j are also calculated and stored to enhance the spatial representation. The set of feature points 
+
+M can therefore be updated online as: 
+
+Mt = Mt−1 ∪ { [gt,i , P t,i , θ t,i , s t,i ]}Ii=1 . (1) 
+
+Ray-View-Panorama Encoding. The MLP view network aggregates nearby features within feature fields M and en-code their spatial information [56] ( i.e ., relative positions and relative directions) to predict semantic representations 
+
+r ∈ R768 and volume density σ ∈ R1 at any point from any direction in the continuous fields. For each novel view, our g3D-LF model generates a fea-ture map R ∈ R12 ×12 ×768 by predicting subregion features through volume rendering within feature fields. The model samples N points along the ray from the camera position to each subregion center to search for the k-nearest features and predicting volume density σn and latent representation 
+
+rn, which then are composited into a subregion feature: 
+
+R(u,v ) =
+
+> N
+
+X
+
+> n=1
+
+τn(1 − exp( −σn∆n)) rn,
+
+where τn = exp( −
+
+> n−1
+
+X
+
+> i=1
+
+σi∆i).
+
+(2) Here, τn represents volume transmittance and ∆n is the distance between sampled points. R(u,v ) denotes the regional feature at the u-th row and v-th column of the novel view feature map R. We integrate context of the surrounding by feeding the feature map R together with a learnable view token V ∈ R768 into the transformer-based view encoder to obtain the encoded R′ and novel view representation V′
+
+that represent the entire novel view. Furthermore, to reason relationships across multiple views within a panorama, our g3D-LF model predicts 12 novel views {V′
+
+> i
+
+}12  
+
+> i=1
+
+around the viewpoint at 30-degree intervals and combines them into a transformer-based panorama encoder to obtain {V′′  
+
+> i
+
+}12 
+
+> i=1
+
+.
+
+Ray-BEV Encoding. The novel view and panorama repre-sentations are insufficient for larger-scale scene understand-ing. To circumvent this problem, we propose to construct BEV map representation via our g3D-LF as shown in Fig-ure 2. Unlike novel view prediction where rays are emitted from the viewpoint along the viewing cone, the rendering rays for the BEV map are rendered vertically from top to bottom. The starting point of the rendered ray is set slightly below the ceiling to avoid being blocked. Specifically, the MLP BEV network is used to aggregate the nearest feature points to the sampled point and predict its semantic representation ˆrn and volume density ˆσn in the continuous field. Subsequently, the ray representation 
+
+ˆR(h,w ) ∈ R768 can be obtained using the similar volume ren-dering method of Equation 2, where (h, w ) denotes the h-th row and w-th column of the BEV map ˆR ∈ R168 ×168 ×768 .To cover the large scene, the BEV map ˆR encompasses a 
+
+16 .8 m × 16 .8 m area centered on the agent. After down-sampling the BEV map to ˆRconv ∈ R24 ×24 ×768 through a non-overlapping 7 × 7 convolution layer, the transformer-based BEV map encoder captures semantic relationships between different regions to get the encoded BEV map rep-resentations ˆR′ ∈ R24 ×24 ×768 .14193 RGB images Depth images  
+
+> K-nearest features aggregation
+> CLIP Image Encoding Spatial Encoding
+
+Feature Fields View Encoder Panorama Encoder 
+
+> …
+> Volume Rendering
+> 𝐌𝐋𝐏 ௩௜௘௪
+> BEV Map Encoder
+> K-nearest features aggregation
+> 𝐌𝐋𝐏 ஻ா௏
+> …
+> Entering from the bedroom, the toilet is just below the window, near the sink, and facing the shower. The shower
+> Volume Rendering
+> The toilet The window
+
+…CLIP Text Encoder CLIP Text Encoder  
+
+> CLIP Image Encoder
+> ……
+> Top-k Similarity values
+> The sink
+> Avg Pool
+> Top-k Similarity values
+> Avg Pool
+> Fine-grained Contrastive Learning Fine-grained Contrastive Learning
+> Ground Truth Novel view & Panorama Input & Output Supervision
+> …
+> Object Vocabulary Long Text Annotation
+> CLIP Knowledge Distillation CLIP Knowledge Distillation Object-level Alignment
+
+Figure 2. Overview of our g3D-LF model. Our model encodes the observed RGB-D images into the feature fields (consists of many feature points). Through aggregating k-nearest features, the MLP networks predict the latent feature and volume density of sampled points along the rendered ray. The hierarchical encoders further generate representations of novel view, panorama, and BEV map, then conduct multi-level contrastive learning with multi-granularity language. 
+
+3.3. Multi-level Contrastive Learning 
+
+Balanced Object-level Alignment. We apply contrastive supervision using an object vocabulary O ∈ R1883 ×768 that spans 1,883 indoor object categories for supervision of the 
+
+MLP view and MLP BEV networks to predict latent features in feature fields. For ray representations R obtained via vol-ume rendering, the cosine similarities {CosSim (R, Oi)}1883 
+
+> i=1
+
+are computed with each vocabulary embedding. The training objective is to maximize and minimize similarity for the correct and other object category, respectively, i.e .: 
+
+Lobject = CrossEntropy( {CosSim( R, Oi)/τ }1883  
+
+> i=1
+
+, Ogt ),
+
+(3) where Ogt denotes the ground-truth category and τ is the temperature coefficient for contrastive learning. Similarly, the object alignment loss for the ray representations ˆR of the BEV map denoted as ˆLobject can also be calculated. We notice the network struggles to recognize smaller ob-jects such as the lamp due to the dominance of some objects (e.g. , floor and walls ) leading to long-tailed distribution in the indoor scenes. To address this issue, we implement a balanced loss that emphasizes harder-to-recognize objects. Specifically, the weight of loss for the rays of top 10% cross entropy are significantly increased using a scaling factor α
+
+for ray representations within the novel view or BEV map. In short, rays with higher cross entropy indicate harder-to-recognize objects and therefore have a higher loss weight. 
+
+Fine-grained Contrastive for Long Text. To enable our g3D-LF model to understand object relationships and spa-tial layouts, we propose a fine-grained contrastive learning method for long text alignment. As shown in Figure 2, our g3D-LF aligns the BEV features in a window ( e.g. , 5 × 5)with the long text features to enhance the representation of the BEV map for spatial semantics. Specifically, centered on an instance, the BEV features B = { ˆR′
+
+> m
+
+}25  
+
+> m=1
+
+within the window are associated with L word features T = {Wl}Ll=1 
+
+from the CLIP text encoder through an affinity matrix A:
+
+A(m,l ) = CosSim ( ˆ R′
+
+> m
+
+, Wl)/τ. (4) The highest L similarity scores (equal to the number of words) are extracted from the affinity matrix A, and their average is used as the fine-grained similarity score between the BEV window and the long text features: 
+
+FineSim( B, T) = Avg(Topk( A, L )) . (5) Denoting the BEV features within the i-th window as Bi
+
+and the j-th text features as Tj , the fine-grained contrastive 14194 learning loss can be calculated as: 
+
+ˆLlong text = 1
+
+J
+
+> J
+
+X
+
+> j=1
+
+CrossEntropy( {FineSim( Bi, Tj )}Ii=1 , j )+ 1
+
+I
+
+> I
+
+X
+
+> i=1
+
+CrossEntropy( {FineSim( Tj , Bi)}Jj=1 , i ).
+
+(6) 
+
+Here, I denotes the number of BEV windows, and J is the number of long texts per contrastive learning batch, I is equal to J. Similarly, our g3D-LF model performs fine-grained contrastive learning between encoded panoramic represen-tations {V′′  
+
+> i
+
+}12  
+
+> i=1
+
+and long-text features T = {Wn}Nn=1 to compute the fine-grained contrastive loss Llong text .
+
+CLIP Knowledge Distillation. Since the 3D-language data is orders of magnitude smaller than image-language data (millions vs. billions [44]), our g3D-LF model still distills visual features from CLIP model [44] to ensure robust gen-eralization. Specifically, our g3D-LF uses CLIP features extracted from the ground-truth novel view or corresponding region image for contrastive supervision on the predicted new view representation V′
+
+, the panorama representation 
+
+V′′  
+
+> i
+
+, and the BEV map representation ˆRi
+
+> ′
+
+, i.e .: 
+
+Lview clip = 1
+
+I
+
+> I
+
+X
+
+> i=1
+
+CrossEntropy( {CosSim( V′
+
+> i
+
+, Vgt j )/τ }Jj=1 , i ),
+
+(7) 
+
+where Vgt j denotes the ground truth CLIP feature for j-th novel view representation V′ 
+
+> j
+
+. Similarly, the contrastive loss 
+
+Lpano clip for the panoramic representation and Lbev clip for the BEV map can also be computed. 
+
+3.4. Embodied Tasks 
+
+To verify the effectiveness of our g3D-LF model for embod-ied tasks, we integrate the predicted representations from our model into existing baseline methods and evaluates per-formance on Vision-and-Language Navigation, Zero-shot Object Navigation, and Situated Question Answering tasks. 
+
+Vision-and-Language Navigation. We evaluate the g3D-LF model on VLN tasks with two settings. The first setting is with the monocular camera, which only allows the agent to observe the forward-facing view. As shown in Figure 3, the VLN-3DFF [57] is a monocular VLN model that predicts candidate waypoints around the agent using a semantic map, and predicts each candidate’s representation with generaliz-able feature fields [56] and then selects the optimal waypoint to move through a cross-modal graph encoder [2, 10]. Based on this baseline method, we incorporate novel view repre-sentations from our g3D-LF model and input the BEV map into the cross-modal graph encoder following GridMM [55] to enhance spatial layout understanding. The second setting is with the panorama camera, in which the agent can observe 3D Feature Fields    
+
+> Semantic Map Traversable Map
+> CLIP Image Encoder View Encoder Topological Map Waypoint Location Waypoint Representation
+> RGB images Depth images
+> Instruction :Walk past the bed and exit the bedroom through the door. Find the toilet under the window.
+> Cross-Modal Graph Transformer
+> 0.21 0.34 0.29 0.57
+> Sub-goal Prediction Text Encoder
+> BEV Map Encoder
+> K,V Q
+
+Figure 3. Monocular VLN framework based on VLN-3DFF [57]. + 
+
+> The toilet
+> CLIP Text Encoder
+> XCosine similarity
+> The toilet XCosine similarity
+> Local value map Global value map
+> Point-goal Navigation Detection Model Controller Action
+> CLIP Text Encoder
+
+Figure 4. Zero-shot object navigation framework based on VLFM [61]. 
+
+12 RGB-D view images within the panorama. Following HNR [56], a waypoint predictor [20] is used to predict candi-date waypoints, and our g3D-LF model generates panorama representations of these waypoints for navigation planning. 
+
+Zero-shot Object Navigation. As shown in Figure 4, unlike the baseline method VLFM [61] that uses the 2D foundation model BLIP-2 [30] to calculate the similarity between the target object and visual observations to construct the value map, we use our g3D-LF to predict the value of potential regions. Although the monocular agent can only observe the forward view, our g3D-LF predicts 12 novel view feature maps surrounding the agent within panorama based on his-torical observations, and calculates max similarity in feature map with the target object. The text features of the target object are also used to calculate the similarity with each re-gion representation on the BEV map to obtain a larger-scale value map. Combining these two value maps, the navigation agent prioritizes traveling to the candidate waypoint with the highest similarity score. 
+
+Situated Question Answering. A three-stage framework is shown in Figure 5, where we use our g3D-LF to train three transformer-based decoders for position, orientation and an-swer predictions. First, the Localization Decoder predicts the heatmap for location of the textual description based on the BEV map. Our g3D-LF model generates the panorama 14195 Panorama Representation 
+
+> Position
+> BEV Map Description + Question
+> Localization Decoder Orientation Decoder Orientation Answer Decoder
+> Description + Question
+> Answer
+> QK,V QK,V QK,V K,V Figure 5. The framework of situated question answering [37].
+
+representations around the predicted location, which are then processed by the Orientation Decoder to predict the orienta-tion. Finally, the textual description, question, BEV map, and panorama representations are fed into the Answer Decoder to generate the final answer. 
+
+## 4. Experiments 
+
+4.1. Experiment Setup and Metrics 
+
+g3D-LF Pre-training. We pre-train our g3D-LF model shown in Figure 2 on 5K 3D scenes. During training, 30 frames are uniformly sampled from the RGB-D video of each scene in the ScanNet [12] dataset to construct the fea-ture fields, with an additional frame randomly selected as the novel view for prediction. The g3D-LF then predicts the panorama representation and BEV map centered on the camera of this novel view. For each ray in the novel view or BEV map, the corresponding instance ID can be searched by calculating the nearest instance point to the rendered surface within the annotated instance point cloud. The language an-notations of the novel view, panorama, and BEV map can thus be obtained by retrieving language annotations with their instance IDs from the database for training. Due to the limited number of images per scene (fewer than 20), we use all available images from the Structured3D [69] dataset for training. We follow HNR [56] for the HM3D [45, 59] dataset using the Habitat simulator [47] to randomly sam-ple navigation trajectories and the observed RGB-D images to predict the novel views and panoramas around candidate waypoints, and construct the BEV map centered on the agent. The multi-level contrastive losses described in Section 3.3 are utilized to optimize the g3D-LF model. Finally, we combine scenes from all datasets and pretrain our g3D-LF model for 50K episodes (about 10 days) on two RTX 6000 Ada GPUs. To ensure fair comparisons on downstream tasks, all training data only includes the train split, the val and test splits are removed .
+
+Vision-and-Language Navigation. We evaluate the VLN model on the VLN-CE dataset [27] in both monocular [57] and panorama [56] settings. R2R-CE is collected based on the Matterport3D [5] scenes with the Habitat simulator [47]. The R2R-CE dataset includes 5,611 trajectories divided into train, validation seen, validation unseen, and test unseen splits. Each trajectory has three English instructions with an average path length of 9.89 meters and an average instruction length of 32 words. Several standard metrics [3] are used to evaluate VLN performance: Navigation Error ( NE ), Success Rate ( SR ), SR given the Oracle stop policy ( OSR ), Success Rate weighted by normalized inverse Path Length ( SPL ). 
+
+Zero-shot Object Navigation. For object navigation, we evaluate our approach using the Habitat simulator [47] on the validation splits of two different datasets HM3D [45] and MP3D [5]. The HM3D validation split contains 2,000 episodes across 20 scenes and 6 object categories. The 
+
+MP3D validation split contains 2,195 episodes across 11 scenes and 21 object categories. The main metrics [3] in-clude Success Rate ( SR ) and Success Rate weighted by normalized inverse Path Length ( SPL ). 
+
+Situated Question Answering. Following ScanNet [12], the SQA3D dataset comprises 20.4k descriptions and 33.4k diverse questions, which is splited into train, val, and test sets. The main metric is the Exact Match (EM@1 ) of the answer. Additionally, for localization evaluation, Acc@0.5m 
+
+and Acc@1.0m metric means the prediction is counted as correct when the predicted position is within 0.5 meter and 1.0 meter range to the ground truth position. The Acc@15° 
+
+and Acc@30° metric means the prediction is counted as correct when the prediction orientation is within 15° and 30° range to the ground truth orientation. 
+
+4.2. Comparison with SOTA Methods 
+
+As shown in Table 1 and Table 2, we evaluate the VLN performance of our g3D-LF model on the R2R-CE dataset in both monocular and panorama settings, respectively. Table 1 shows that our g3D-LF significantly outperforms previous monocular VLN methods on the Success Rate (SR) metric, even compared to LLM-based methods such as NaVid [66] and InstructNav [36]. Compared to the panorama setting, monocular VLN has the advantage of being compatible with a broader range of real-world monocular robots. Our g3D-LF model overcomes the limitations of monocular cameras, enhancing the multi-view and BEV perception capabilities of the agent for monocular VLN.                                                   
+
+> Methods LLM Val Unseen Test Unseen NE ↓OSR ↑SR ↑SPL ↑NE ↓OSR ↑SR ↑SPL ↑
+> CM 2[16] ×7.02 41.5 34.3 27.6 7.7 39 31 24 WS-MGMap [8] ×6.28 47.6 38.9 34.3 7.11 45 35 28 NaVid [66] ✓5.47 49.1 37.4 35.9 ----InstructNav ∗[36] ✓6.89 -31 24 ----VLN-3DFF [57] ×5.95 55.8 44.9 30.4 6.24 54.4 43.7 28.9 g3D-LF (Ours) ×5.70 59.5 47.2 34.6 6.00 57.5 46.3 32.2
+> Table 1. Evaluation of VLN on R2R-CE with monocular setting. ∗
+> denotes zero-shot method. 14196
+
+We follow HNR [56] to perform lookahead exploration through predicted candidate waypoint representations for the panorama setting in Table 2. Although the results show minor performance gains and the advanatges are not as pronounced as its monocular counterpart in Table 1, our g3D-LF model still achieves SOTA performance on the SPL metric and demonstrated competitive results on the SR metric.                                                                                                                
+
+> Methods LLM Val Unseen Test Unseen NE ↓OSR ↑SR ↑SPL ↑NE ↓OSR ↑SR ↑SPL ↑
+> Sim2Sim [26] ×6.07 52 43 36 6.17 52 44 37 VLN-BERT [20] ×5.74 53 44 39 5.89 51 42 36 GridMM [55] ×5.11 61 49 41 5.64 56 46 39 Ego 2-Map [21] ×4.94 -52 46 5.54 56 47 41 DREAM [52] ×5.53 59 49 44 5.48 57 49 44 ScaleVLN [54] ×4.80 -55 51 5.11 -55 50 ETPNav [2] ×4.71 65 57 49 5.12 63 55 48 BEVBert [1] ×4.57 67 59 50 4.70 67 59 50 HNR [56] ×4.42 67 61 51 4.81 67 58 50 Energy [33] ×4.69 65 58 50 5.08 64 56 48 g3D-LF (Ours) ×4.53 68 61 52 4.78 68 58 51
+> Table 2. Evaluation of VLN on R2R-CE with panorama setting.
+
+In Table 3 for the Zero-shot Object Navigation, our g3D-LF achieves SOTA performance in the SPL metric and achieves competitive results in the SR metric. Notably, our g3D-LF is the only method that queries targets using fea-ture fields instead of VLM. Replacement of BLIP-2 [30] in VLFM [61] with g3D-LF improves the navigation success rate (SR) by nearly 3%. Although the HM3D experiments are not strictly zero-shot due to g3D-LF being pre-trained on its training scenes, our model still performs well on the MP3D benchmark without using its training scenes and object vo-cabulary, demonstrating strong generalization. Compared to methods using LLM: InstructNav [36] and SG-Nav [60], our g3D-LF also offers advantages in response time and computational cost.                                              
+
+> Methods LLM VLM Feature Fields HM3D MP3D SR ↑SPL ↑SR ↑SPL ↑
+> ZSON [38] ×✓×25.5 12.6 15.3 4.8 ESC [70] ✓✓×39.2 22.3 28.7 14.2 VLFM [61] ×✓×52.5 30.4 36.4 17.5 InstructNav [36] ✓✓×58.0 20.9 --GAMap [62] ✓✓×53.1 26.0 --SG-Nav [60] ✓✓×54.0 24.9 40.2 16.0 g3D-LF (Ours) ××✓55.6 31.8 39.0 18.8
+> Table 3. Evaluation of Zero-shot Object Navigation on the HM3D and MP3D benchmarks.
+
+In Table 4 for the Situated Question Answering task, our g3D-LF achieves good localization performance in met-rics of Acc@0.5m, Acc@1m, Acc@15° and Acc@30°. Al-though our performance on the answering accuracy (EM@1) is significantly lower than that of LLM-based methods: LEO [22] and Scene-LLM [14], it is worth noting that our g3D-LF only uses images as input without low-noise 3D point clouds. This actually offers a significant advantage in agent-centered embodied tasks since it is more adaptable to unseen real-world environments, where the low-noise point clouds are difficult to collect.                                                                    
+
+> Methods LLM PCD Image Position Orientation Answer 0.5m 1.0m 15° 30° EM@1 ClipBERT [29] ××✓----43.3 ScanQA [4] ×✓×----46.6 SQA3D [37] ×✓×14.6 34.2 22.4 42.3 47.2 3D-VisTA [72] ×✓×----48.5 SceneVerse [23] ×✓×----49.9 LEO [22] ✓✓×----52.4 Scene-LLM [14] ✓×✓----54.2
+> g3D-LF (Ours) ××✓23.4 45.7 29.8 54.7 47.7 Table 4. Evaluation of Situated Question Answering (SQA3D) task.
+> PCD denotes methods that use point clouds as input, while Image
+> represents methods that use images as input.
+
+4.3. Ablation Study 
+
+Perfromance impact of g3D-LF on embodied tasks. In row 1 of Table 5, the performance of monocular VLN and object navigation drops significantly without representations from g3D-LF. In this setting, the VLN model only uses the CLIP features from the forward-facing view with features of all other directions set to zero. The object navigation model uses BLIP-2 [30] instead of g3D-LF to construct the value map. Examining rows 2 and 3 shows that removing either the novel view or the BEV map reduces the performance of both two tasks, highlighting the role of each g3D-LF module. 
+
+Novel views are crucial for monocular VLN. As shown in row 1 and row 2 of Table 5, the novel view representations significantly boost VLN performance by overcoming the narrow perception of the monocular camera [57], enabling the monocular agent to have panoramic perception capabili-ties. To some extent, this confirms that novel view prediction is a very important and valuable capability for monocular agents. Based on this capability, the g3D-LF model pre-dicts the novel view representations of candidate waypoints around the agent to construct the topological map for better navigation planning. 
+
+Object navigation requires balancing local and global tar-gets. As shown in row 3 of Table 5, we observe that relying solely on BEV representation significantly reduces object navigation performance. This decline occurs because the global value map from the BEV map fails to select optimal nearby waypoints if the target is far from these waypoints. In this case, a local value map constructed from novel views is also essential to identify the optimal short-term goal, i.e. ,nearby waypoints around the agent. 14197 View & Pano BEV Monocular VLN Object Nav. NE ↓ OSR ↑ SR ↑ SPL ↑ SR ↑ SPL ↑                                                                   
+
+> ××6.54 44.6 33.1 23.4 52.5 30.4
+> ✓×5.78 58.3 46.9 32.7 53.9 30.8
+> ×✓6.02 53.1 42.8 26.5 50.2 27.1
+> ✓✓5.70 59.5 47.2 34.6 55.6 31.8
+> Table 5. Ablation study for the modules of g3D-LF. OBJ-CL CLIP-CL FG-CL Monocular VLN Object Nav. NE ↓OSR ↑SR ↑SPL ↑SR ↑SPL ↑
+> ×××6.21 50.2 40.7 24.9 34.2 13.9
+> ×✓×5.84 56.1 44.6 31.1 47.6 27.8
+> ✓×✓6.01 53.5 42.4 26.7 55.8 31.6 unbalanced ✓✓5.73 58.3 46.6 33.0 51.7 28.8
+> ✓✓coarse 5.81 57.1 45.7 33.2 55.5 31.2
+> ✓✓✓5.70 59.5 47.2 34.6 55.6 31.8
+> Table 6. Ablation study for the multi-level contrastive pre-training.
+> OBJ-CL : object-level contrastive learning. CLIP-CL : knowledge distillation using CLIP visual features from ground-truth view. FG-CL : fine-grained contrastive learning for long text understanding.
+
+Pre-training is essential for generalizable feature fields model. Table 6 analyzes the impact of multi-level contrastive pre-training on downstream embodied tasks. As shown in row 1 of Table 6, the performance on VLN and object naviga-tion drops significantly when the model is optimized solely by the navigation loss [2] without pre-training. 
+
+Both CLIP distillation and language supervision are in-dispensable. For row 3 of Table 6 without supervision from the CLIP visual features, the VLN performance lags behind the model distilled by CLIP. This suggests that millions of language annotations are still far from sufficient for g3D-LF pre-training, and distilling representations from 2D foun-dation models to enhance semantic generalization remains necessary. However, in Table 6, we can also see that language supervision significantly improves g3D-LF performance on embodied tasks , the model performs poorly in row 2 when using only CLIP distillation. 
+
+Long-tail distribution limits object-level semantic learn-ing. As shown in row 4 of Table 6, the performance of object navigation decreases drastically without the balanced loss mentioned in Section 3.3. The long-tail distribution of object categories in indoor environments leads models to overlook of rare or small objects such as towels and cups , significantly limiting the ability of our g3D-LF model to query target ob-jects. Fortunately, row 6 of Table 6 shows that the balanced object alignment works well by balancing the weight for loss of hard-to-recognize objects. 
+
+Fine-grained contrastive benefits long text understand-ing. In the row 5 of Table 6, we use the [SEP] feature (single vector) from the CLIP text encoder to supervise panorama and BEV representations. However, compared to the fine-grained contrastive learning in row 6, compressing long text into a coarse vector significantly limits g3D-LF’s perfor-mance on long-text understanding tasks such as VLN. As shown in Figure 2, fine-grained contrastive learning between long texts and windows within the BEV map helps g3D-LF understand spatial layouts, overcoming the limitations of semantic representation in large-scale scenes.         
+
+> Rays for View View Panorama Rays for BEV BEV 73.6 FPS 71.1 FPS 5.9 FPS 6.3 FPS 6.1 FPS Table 7. Runtime analysis measured on one RTX 4090 GPU. FPS
+> denotes Frames Per Second.
+
+g3D-LF enables real-time inference. As shown in Table 7, we calculate the inference time of our g3D-LF model on the val unseen split of the R2R-CE dataset in the VLN task. Our g3D-LF achieves novel view volume rendering at 73.6 FPS, which slightly drops to 71.1 FPS when rays are further encoded by the View Encoder. For a panorama containing 12 views, the inference speed is 5.9 FPS. Due to the large rendered range, our g3D-LF renders BEV maps at 6.3 FPS, which drops slightly to 6.1 FPS with the BEV Map Encoder. Our g3D-LF model adopts the same sparse sampling strategy as in HNR [56], where the MLP network is only used to render sampled regions containing feature points nearby, while skipping empty regions. This reduces rendering time by over 10 times, enabling real-time embodied tasks. 
+
+## 5. Conclusion 
+
+In this work, we propose Generalizable 3D-Language Fea-ture Fields (g3D-LF), a 3D representation model pre-trained on large-scale 3D-language data for embodied tasks. We organize the first large-scale 3D-language dataset for feature fields training, demonstrating the feasibility of using gener-alizable feature fields for large-scale scene understanding, 
+
+i.e ., panorama and BEV. Our proposed g3D-LF leverages multi-level contrastive learning strategies such as balanced object semantic alignment, fine-grained text alignment, and CLIP knowledge distillation to optimize generalized fea-ture fields. More importantly, the value of g3D-LF has been widely evaluated in multiple embodied tasks. We believe that our g3D-LF can provide sufficient inspiration for subsequent research on feature fields and embodied AI. 
+
+Limitations and future works. Our g3D-LF still has some limitations with significant potential for future research: 1) g3D-LF cannot be adapted to dynamic environments, where objects or people are moving in real time. 2) g3D-LF has not been evaluated on dynamic tasks such as object manipula-tion. 3) The scale and quality of 3D-language data used for training g3D-LF remain limited, which essentially restricts the ability of generalizable feature field models. 4) The 3D feature fields combined with LLM can enable better text generation. These may become the guiding directions for the next phase of generalizable feature fields. 14198 Acknowledgement. This research work is supported by the Tier 2 grant MOE-T2EP20124-0015 from the Singapore Ministry of Education. 
+
+## References 
+
+[1] Dong An, Yuankai Qi, Yangguang Li, Yan Huang, Liang Wang, Tieniu Tan, and Jing Shao. Bevbert: Multimodal map pre-training for language-guided navigation. In Proceedings of the IEEE/CVF International Conference on Computer Vi-sion , pages 2737–2748, 2023. 2, 7 [2] Dong An, Hanqing Wang, Wenguan Wang, Zun Wang, Yan Huang, Keji He, and Liang Wang. Etpnav: Evolving topo-logical planning for vision-language navigation in continuous environments. IEEE Transactions on Pattern Analysis and Machine Intelligence , 2024. 2, 5, 7, 8 [3] Peter Anderson, Qi Wu, Damien Teney, Jake Bruce, Mark Johnson, Niko S¨ underhauf, Ian Reid, Stephen Gould, and Anton Van Den Hengel. Vision-and-language navigation: Interpreting visually-grounded navigation instructions in real environments. In Proceedings of the IEEE conference on computer vision and pattern recognition , pages 3674–3683, 2018. 1, 2, 6 [4] Daichi Azuma, Taiki Miyanishi, Shuhei Kurita, and Motoaki Kawanabe. Scanqa: 3d question answering for spatial scene understanding. In proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 19129– 19139, 2022. 1, 3, 7 [5] Angel Chang, Angela Dai, Thomas Funkhouser, Maciej Hal-ber, Matthias Niebner, Manolis Savva, Shuran Song, Andy Zeng, and Yinda Zhang. Matterport3d: Learning from rgb-d data in indoor environments. In International Conference on 3D Vision (3DV) , 2017. 6 [6] Devendra Singh Chaplot, Dhiraj Prakashchand Gandhi, Abhi-nav Gupta, and Russ R Salakhutdinov. Object goal navigation using goal-oriented semantic exploration. Advances in Neural Information Processing Systems , 33:4247–4258, 2020. 1, 2 [7] Dave Zhenyu Chen, Angel X Chang, and Matthias Nießner. Scanrefer: 3d object localization in rgb-d scans using natural language. In European conference on computer vision , pages 202–221. Springer, 2020. 2, 3 [8] Peihao Chen, Dongyu Ji, Kunyang Lin, Runhao Zeng, Thomas Li, Mingkui Tan, and Chuang Gan. Weakly-supervised multi-granularity map learning for vision-and-language navigation. Advances in Neural Information Pro-cessing Systems , 35:38149–38161, 2022. 6 [9] Shizhe Chen, Pierre-Louis Guhur, Cordelia Schmid, and Ivan Laptev. History aware multimodal transformer for vision-and-language navigation. Advances in neural information processing systems , 34:5834–5847, 2021. 2 [10] Shizhe Chen, Pierre-Louis Guhur, Makarand Tapaswi, Cordelia Schmid, and Ivan Laptev. Think global, act lo-cal: Dual-scale graph transformer for vision-and-language navigation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 16537– 16547, 2022. 2, 5 [11] Yilun Chen, Shuai Yang, Haifeng Huang, Tai Wang, Ruiyuan Lyu, Runsen Xu, Dahua Lin, and Jiangmiao Pang. Grounded 3d-llm with referent tokens. arXiv preprint arXiv:2405.10370 ,2024. 1 [12] Angela Dai, Angel X Chang, Manolis Savva, Maciej Hal-ber, Thomas Funkhouser, and Matthias Nießner. Scannet: Richly-annotated 3d reconstructions of indoor scenes. In 
+
+Proceedings of the IEEE conference on computer vision and pattern recognition , pages 5828–5839, 2017. 3, 6 [13] Abhishek Das, Samyak Datta, Georgia Gkioxari, Stefan Lee, Devi Parikh, and Dhruv Batra. Embodied question answering. In Proceedings of the IEEE conference on computer vision and pattern recognition , pages 1–10, 2018. 3 [14] Rao Fu, Jingyu Liu, Xilun Chen, Yixin Nie, and Wenhan Xiong. Scene-llm: Extending language model for 3d visual un-derstanding and reasoning. arXiv preprint arXiv:2403.11401 ,2024. 1, 3, 7 [15] Samir Yitzhak Gadre, Mitchell Wortsman, Gabriel Ilharco, Ludwig Schmidt, and Shuran Song. Cows on pasture: Base-lines and benchmarks for language-driven zero-shot object navigation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 23171– 23181, 2023. 2 [16] Georgios Georgakis, Karl Schmeckpeper, Karan Wanchoo, Soham Dan, Eleni Miltsakaki, Dan Roth, and Kostas Dani-ilidis. Cross-modal map learning for vision and language navigation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 15460– 15470, 2022. 6 [17] Theophile Gervet, Soumith Chintala, Dhruv Batra, Jitendra Malik, and Devendra Singh Chaplot. Navigating to objects in the real world. Science Robotics , 8(79):eadf6991, 2023. 2 [18] Kaiming He, Georgia Gkioxari, Piotr Doll´ ar, and Ross Gir-shick. Mask r-cnn. In Proceedings of the IEEE international conference on computer vision , pages 2961–2969, 2017. 2 [19] Yicong Hong, Qi Wu, Yuankai Qi, Cristian Rodriguez-Opazo, and Stephen Gould. Vln bert: A recurrent vision-and-language bert for navigation. In Proceedings of the IEEE/CVF conference on Computer Vision and Pattern Recognition ,pages 1643–1653, 2021. 2 [20] Yicong Hong, Zun Wang, Qi Wu, and Stephen Gould. Bridg-ing the gap between learning in discrete and continuous envi-ronments for vision-and-language navigation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2022. 2, 5, 7 [21] Yicong Hong, Yang Zhou, Ruiyi Zhang, Franck Dernoncourt, Trung Bui, Stephen Gould, and Hao Tan. Learning naviga-tional visual representations with semantic map supervision. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 3055–3067, 2023. 7 [22] Jiangyong Huang, Silong Yong, Xiaojian Ma, Xiongkun Linghu, Puhao Li, Yan Wang, Qing Li, Song-Chun Zhu, Baox-iong Jia, and Siyuan Huang. An embodied generalist agent in 3d world. In Proceedings of the International Conference on Machine Learning (ICML) , 2024. 1, 3, 7 [23] Baoxiong Jia, Yixin Chen, Huangyue Yu, Yan Wang, Xuesong Niu, Tengyu Liu, Qing Li, and Siyuan Huang. Sceneverse: Scaling 3d vision-language learning for grounded scene un-derstanding. In European Conference on Computer Vision (ECCV) , 2024. 2, 3, 7 14199 [24] Justin Kerr, Chung Min Kim, Ken Goldberg, Angjoo Kanazawa, and Matthew Tancik. Lerf: Language embedded radiance fields. In Proceedings of the IEEE/CVF Interna-tional Conference on Computer Vision , pages 19729–19739, 2023. 2 [25] Alexander Kirillov, Eric Mintun, Nikhila Ravi, Hanzi Mao, Chloe Rolland, Laura Gustafson, Tete Xiao, Spencer White-head, Alexander C Berg, Wan-Yen Lo, et al. Segment any-thing. In Proceedings of the IEEE/CVF International Confer-ence on Computer Vision , pages 4015–4026, 2023. 2 [26] Jacob Krantz and Stefan Lee. Sim-2-sim transfer for vision-and-language navigation in continuous environments. In Eu-ropean Conference on Computer Vision (ECCV) , 2022. 2, 7[27] Jacob Krantz, Erik Wijmans, Arjun Majumdar, Dhruv Batra, and Stefan Lee. Beyond the nav-graph: Vision-and-language navigation in continuous environments. In Computer Vision– ECCV 2020: 16th European Conference, Glasgow, UK, Au-gust 23–28, 2020, Proceedings, Part XXVIII 16 , pages 104– 120. Springer, 2020. 1, 2, 6 [28] Obin Kwon, Jeongho Park, and Songhwai Oh. Renderable neural radiance map for visual navigation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 9099–9108, 2023. 1 [29] Jie Lei, Linjie Li, Luowei Zhou, Zhe Gan, Tamara L Berg, Mohit Bansal, and Jingjing Liu. Less is more: Clipbert for video-and-language learning via sparse sampling. In Proceed-ings of the IEEE/CVF conference on computer vision and pattern recognition , pages 7331–7341, 2021. 7 [30] Junnan Li, Dongxu Li, Silvio Savarese, and Steven Hoi. Blip-2: Bootstrapping language-image pre-training with frozen image encoders and large language models. In International conference on machine learning , pages 19730–19742. PMLR, 2023. 2, 5, 7 [31] Liunian Harold Li, Pengchuan Zhang, Haotian Zhang, Jianwei Yang, Chunyuan Li, Yiwu Zhong, Lijuan Wang, Lu Yuan, Lei Zhang, Jenq-Neng Hwang, et al. Grounded language-image pre-training. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 10965– 10975, 2022. 2 [32] Rui Liu, Xiaohan Wang, Wenguan Wang, and Yi Yang. Bird’s-eye-view scene graph for vision-language navigation. In 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 10968–10980, 2023. 2 [33] Rui Liu, Wenguan Wang, and Yi Yang. Vision-language navigation with energy-based policy. In Advances in Neural Information Processing Systems , 2024. 7 [34] Rui Liu, Wenguan Wang, and Yi Yang. Volumetric envi-ronment representation for vision-language navigation. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vi-sion and Pattern Recognition , pages 16317–16328, 2024. 1 [35] Shilong Liu, Zhaoyang Zeng, Tianhe Ren, Feng Li, Hao Zhang, Jie Yang, Qing Jiang, Chunyuan Li, Jianwei Yang, Hang Su, et al. Grounding dino: Marrying dino with grounded pre-training for open-set object detection. arXiv preprint arXiv:2303.05499 , 2023. 2 [36] Yuxing Long, Wenzhe Cai, Hongcheng Wang, Guanqi Zhan, and Hao Dong. Instructnav: Zero-shot system for generic instruction navigation in unexplored environment. In 8th Annual Conference on Robot Learning , 2024. 6, 7 [37] Xiaojian Ma, Silong Yong, Zilong Zheng, Qing Li, Yitao Liang, Song-Chun Zhu, and Siyuan Huang. Sqa3d: Situated question answering in 3d scenes. In The Eleventh Interna-tional Conference on Learning Representations , 2023. 1, 2, 3, 6, 7 [38] Arjun Majumdar, Gunjan Aggarwal, Bhavika Devnani, Judy Hoffman, and Dhruv Batra. Zson: Zero-shot object-goal navigation using multimodal goal embeddings. Advances in Neural Information Processing Systems , 35:32340–32352, 2022. 1, 2, 7 [39] Arjun Majumdar, Anurag Ajay, Xiaohan Zhang, Pranav Putta, Sriram Yenamandra, Mikael Henaff, Sneha Silwal, Paul Mc-vay, Oleksandr Maksymets, Sergio Arnaud, et al. Openeqa: Embodied question answering in the era of foundation models. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 16488–16498, 2024. 1, 3[40] Ben Mildenhall, Pratul P Srinivasan, Matthew Tancik, Jonathan T Barron, Ravi Ramamoorthi, and Ren Ng. Nerf: Representing scenes as neural radiance fields for view syn-thesis. Communications of the ACM , 65(1):99–106, 2021. 2[41] Maxime Oquab, Timoth´ ee Darcet, Th´ eo Moutakanni, Huy Vo, Marc Szafraniec, Vasil Khalidov, Pierre Fernandez, Daniel Haziza, Francisco Massa, Alaaeldin El-Nouby, et al. Dinov2: Learning robust visual features without supervision. Trans-actions on Machine Learning Research Journal , pages 1–31, 2024. 1 [42] Yanyuan Qiao, Yuankai Qi, Yicong Hong, Zheng Yu, Peng Wang, and Qi Wu. Hop+: History-enhanced and order-aware pre-training for vision-and-language navigation. IEEE Trans-actions on Pattern Analysis and Machine Intelligence , 45(7): 8524–8537, 2023. 2 [43] Ri-Zhao Qiu, Yafei Hu, Ge Yang, Yuchen Song, Yang Fu, Jianglong Ye, Jiteng Mu, Ruihan Yang, Nikolay Atanasov, Sebastian Scherer, et al. Learning generalizable feature fields for mobile manipulation. arXiv preprint arXiv:2403.07563 ,2024. 1, 2 [44] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning transferable visual models from natural language supervi-sion. In International conference on machine learning , pages 8748–8763. PMLR, 2021. 1, 2, 5 [45] Santhosh Kumar Ramakrishnan, Aaron Gokaslan, Erik Wi-jmans, Oleksandr Maksymets, Alexander Clegg, John M Turner, Eric Undersander, Wojciech Galuba, Andrew West-bury, Angel X Chang, et al. Habitat-matterport 3d dataset (hm3d): 1000 large-scale 3d environments for embodied ai. In Thirty-fifth Conference on Neural Information Processing Systems Datasets and Benchmarks Track (Round 2) . 3, 6 [46] Santhosh Kumar Ramakrishnan, Devendra Singh Chaplot, Ziad Al-Halah, Jitendra Malik, and Kristen Grauman. Poni: Potential functions for objectgoal navigation with interaction-free learning. In Proceedings of the IEEE/CVF Conference 14200 on Computer Vision and Pattern Recognition , pages 18890– 18900, 2022. 2 [47] Manolis Savva, Abhishek Kadian, Oleksandr Maksymets, Yili Zhao, Erik Wijmans, Bhavana Jain, Julian Straub, Jia Liu, Vladlen Koltun, Jitendra Malik, et al. Habitat: A platform for embodied ai research. In Proceedings of the IEEE/CVF international conference on computer vision , pages 9339– 9347, 2019. 6 [48] William Shen, Ge Yang, Alan Yu, Jansen Wong, Leslie Pack Kaelbling, and Phillip Isola. Distilled feature fields enable few-shot language-guided manipulation. In Proceedings of The 7th Conference on Robot Learning , pages 405–424. PMLR, 2023. 1 [49] Francesco Taioli, Federico Cunico, Federico Girella, Riccardo Bologna, Alessandro Farinelli, and Marco Cristani. Language-enhanced rnr-map: Querying renderable neural radiance field maps with natural language. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 4669– 4674, 2023. 2 [50] Suhani Vora, Noha Radwan, Klaus Greff, Henning Meyer, Kyle Genova, Mehdi SM Sajjadi, Etienne Pot, Andrea Tagliasacchi, and Daniel Duckworth. Nesf: Neural semantic fields for generalizable semantic segmentation of 3d scenes. 
+
+Transactions on Machine Learning Research . 2 [51] Chien-Yao Wang, Alexey Bochkovskiy, and Hong-Yuan Mark Liao. Yolov7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors. In Proceedings of the IEEE/CVF conference on computer vision and pattern recog-nition , pages 7464–7475, 2023. 2 [52] Hanqing Wang, Wei Liang, Luc Van Gool, and Wenguan Wang. Dreamwalker: Mental planning for continuous vision-language navigation. In Proceedings of the IEEE/CVF In-ternational Conference on Computer Vision , pages 10873– 10883, 2023. 7 [53] Liuyi Wang, Zongtao He, Ronghao Dang, Mengjiao Shen, Chengju Liu, and Qijun Chen. Vision-and-language naviga-tion via causal learning. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,pages 13139–13150, 2024. 2 [54] Zun Wang, Jialu Li, Yicong Hong, Yi Wang, Qi Wu, Mohit Bansal, Stephen Gould, Hao Tan, and Yu Qiao. Scaling data generation in vision-and-language navigation. In Proceed-ings of the IEEE/CVF International Conference on Computer Vision , pages 12009–12020, 2023. 7 [55] Zihan Wang, Xiangyang Li, Jiahao Yang, Yeqi Liu, and Shuqiang Jiang. Gridmm: Grid memory map for vision-and-language navigation. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 15625– 15636, 2023. 2, 5, 7 [56] Zihan Wang, Xiangyang Li, Jiahao Yang, Yeqi Liu, Junjie Hu, Ming Jiang, and Shuqiang Jiang. Lookahead exploration with neural radiance representation for continuous vision-language navigation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 13753– 13762, 2024. 1, 2, 3, 5, 6, 7, 8 [57] Zihan Wang, Xiangyang Li, Jiahao Yang, Yeqi Liu, and Shuqiang Jiang. Sim-to-real transfer via 3d feature fields for vision-and-language navigation. In 8th Annual Confer-ence on Robot Learning , 2024. 1, 2, 5, 6, 7 [58] Erik Wijmans, Abhishek Kadian, Ari Morcos, Stefan Lee, Irfan Essa, Devi Parikh, Manolis Savva, and Dhruv Batra. Dd-ppo: Learning near-perfect pointgoal navigators from 2.5 billion frames. arXiv preprint arXiv:1911.00357 , 2019. 2 [59] Karmesh Yadav, Ram Ramrakhya, Santhosh Kumar Ramakr-ishnan, Theo Gervet, John Turner, Aaron Gokaslan, Noah Maestre, Angel Xuan Chang, Dhruv Batra, Manolis Savva, et al. Habitat-matterport 3d semantics dataset. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 4927–4936, 2023. 3, 6 [60] Hang Yin, Xiuwei Xu, Zhenyu Wu, Jie Zhou, and Jiwen Lu. Sg-nav: Online 3d scene graph prompting for llm-based zero-shot object navigation. In Advances in Neural Information Processing Systems , 2024. 7 [61] Naoki Yokoyama, Sehoon Ha, Dhruv Batra, Jiuguang Wang, and Bernadette Bucher. Vlfm: Vision-language frontier maps for zero-shot semantic navigation. In 2024 IEEE International Conference on Robotics and Automation (ICRA) , pages 42–48. IEEE, 2024. 1, 2, 5, 7 [62] Shuaihang Yuan, Hao Huang, Yu Hao, Congcong Wen, An-thony Tzes, and Yi Fang. Gamap: Zero-shot object goal navigation with multi-scale geometric-affordance guidance. In Advances in Neural Information Processing Systems , 2024. 7[63] Yanjie Ze, Ge Yan, Yueh-Hua Wu, Annabella Macaluso, Yuy-ing Ge, Jianglong Ye, Nicklas Hansen, Li Erran Li, and Xi-aolong Wang. Gnfactor: Multi-task real robot learning with generalizable neural feature fields. In Conference on Robot Learning , pages 284–301. PMLR, 2023. 1 [64] Chaoning Zhang, Dongshen Han, Yu Qiao, Jung Uk Kim, Sung-Ho Bae, Seungkyu Lee, and Choong Seon Hong. Faster segment anything: Towards lightweight sam for mobile appli-cations. arXiv preprint arXiv:2306.14289 , 2023. 2 [65] Haochen Zhang, Nader Zantout, Pujith Kachana, Zongyuan Wu, Ji Zhang, and Wenshan Wang. Vla-3d: A dataset for 3d semantic scene understanding and navigation. arXiv preprint arXiv:2411.03540 , 2024. 2 [66] Jiazhao Zhang, Kunyu Wang, Rongtao Xu, Gengze Zhou, Yicong Hong, Xiaomeng Fang, Qi Wu, Zhizheng Zhang, and He Wang. Navid: Video-based vlm plans the next step for vision-and-language navigation. In Proceedings of Robotics: Science and Systems (RSS) , 2024. 6 [67] Sixian Zhang, Xinhang Song, Yubing Bai, Weijie Li, Yakui Chu, and Shuqiang Jiang. Hierarchical object-to-zone graph for object navigation. In Proceedings of the IEEE/CVF inter-national conference on computer vision , pages 15130–15140, 2021. 2 [68] Yue Zhang, Ziqiao Ma, Jialu Li, Yanyuan Qiao, Zun Wang, Joyce Chai, Qi Wu, Mohit Bansal, and Parisa Kordjamshidi. Vision-and-language navigation today and tomorrow: A survey in the era of foundation models. arXiv preprint arXiv:2407.07035 , 2024. 2 [69] Jia Zheng, Junfei Zhang, Jing Li, Rui Tang, Shenghua Gao, and Zihan Zhou. Structured3d: A large photo-realistic dataset for structured 3d modeling. In Proceedings of The European Conference on Computer Vision (ECCV) , 2020. 3, 6 14201 [70] Kaiwen Zhou, Kaizhi Zheng, Connor Pryor, Yilin Shen, Hongxia Jin, Lise Getoor, and Xin Eric Wang. Esc: Ex-ploration with soft commonsense constraints for zero-shot object navigation. In International Conference on Machine Learning , pages 42829–42842. PMLR, 2023. 2, 7 [71] Yuke Zhu, Roozbeh Mottaghi, Eric Kolve, Joseph J Lim, Abhinav Gupta, Li Fei-Fei, and Ali Farhadi. Target-driven visual navigation in indoor scenes using deep reinforcement learning. In 2017 IEEE international conference on robotics and automation (ICRA) , pages 3357–3364. IEEE, 2017. 2 [72] Ziyu Zhu, Xiaojian Ma, Yixin Chen, Zhidong Deng, Siyuan Huang, and Qing Li. 3d-vista: Pre-trained transformer for 3d vision and text alignment. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pages 2911– 2921, 2023. 1, 7 14202
