@@ -1,0 +1,441 @@
+{
+  "date": "20260808-20260817",
+  "date_label": "2026-08-08 ~ 2026-08-17",
+  "generated_at": "2026-08-17 11:44:42 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.10817v1",
+      "route": "20260808-20260817/2608.10817v1-aecnav-active-evidence-consolidation-for-efficient-zero-shot-open-vocabulary-object-navigation",
+      "title": "AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "零样本开放词汇物体目标导航",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.12308v1",
+      "route": "20260808-20260817/2608.12308v1-dreamfly-causal-memory-and-receding-horizon-diffusion-planning-for-aerial-vision-language-navigation",
+      "title": "DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "空中视觉语言导航，因果历史记忆，扩散规划",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.12707v1",
+      "route": "20260808-20260817/2608.12707v1-sap-nav-spatial-semantic-representation-meets-active-perception-for-hierarchical-open-vocabulary-object-navigation",
+      "title": "SAP-Nav: Spatial Semantic Representation Meets Active Perception for Hierarchical Open-Vocabulary Object Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "开放词汇物体目标导航与空间语义表示",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.13723v1",
+      "route": "20260808-20260817/2608.13723v1-graph-mambanav-spatial-temporal-graph-mamba-leveraging-object-relation-knowledge-for-object-goal-navigation",
+      "title": "Graph-MambaNav: Spatial-Temporal Graph Mamba Leveraging Object-Relation Knowledge for Object-Goal Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "直接研究物体目标导航",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.13923v1",
+      "route": "20260808-20260817/2608.13923v1-openbelief-nav-evidence-preserving-object-memory-for-open-vocabulary-language-guided-navigation",
+      "title": "OpenBelief-Nav: Evidence-Preserving Object Memory for Open-Vocabulary Language-Guided Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "开放词汇语言引导导航与证据保持的对象记忆",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.08814v1",
+      "route": "20260808-20260817/2608.08814v1-360cityarena-a-realistic-virtual-urban-navigation-benchmark-for-embodied-agents",
+      "title": "360CityArena: A Realistic Virtual Urban Navigation Benchmark for Embodied Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向具身智能体的城市导航基准，基于真实感360度视频重建环境",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.09196v1",
+      "route": "20260808-20260817/2608.09196v1-sain-structure-aware-interactive-navigation-with-active-dialogue-grounding-for-mobile-robot",
+      "title": "SAIN: Structure-Aware Interactive Navigation with Active Dialogue Grounding for Mobile Robot",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向模糊指令的主动对话交互式视觉语言导航",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.09467v1",
+      "route": "20260808-20260817/2608.09467v1-recoverfly-a-failure-aware-reinforcement-learning-post-training-framework-for-aerial-vision-language-navigation",
+      "title": "RecoverFly: A Failure-Aware Reinforcement Learning Post-Training Framework for Aerial Vision-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "空中视觉语言导航，失败感知强化学习后训练",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.09564v1",
+      "route": "20260808-20260817/2608.09564v1-from-semantic-grounding-to-decision-optimization-a-unified-framework-for-long-horizon-uav-vision-language-navigation",
+      "title": "From Semantic Grounding to Decision Optimization: A Unified Framework for Long-Horizon UAV Vision-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向长程无人机视觉语言导航的统一语义到决策框架",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.09816v2",
+      "route": "20260808-20260817/2608.09816v2-hierarchical-fast-slow-react-agent-for-zero-shot-object-goal-navigation",
+      "title": "Hierarchical Fast-Slow ReAct Agent for Zero-Shot Object-Goal Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于层级快慢ReAct智能体的零样本物体目标导航",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.10449v2",
+      "route": "20260808-20260817/2608.10449v2-pbd-ag-persistent-baseline-delta-active-graphs-with-uncertainty-aware-inspection-for-long-horizon-service-robots",
+      "title": "PBD-AG: Persistent Baseline-Delta Active Graphs with Uncertainty-Aware Inspection for Long-Horizon Service Robots",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "持久基线和增量活动图用于长时程机器人导航中的语义世界建模",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.11901v1",
+      "route": "20260808-20260817/2608.11901v1-davinci-a-dataset-towards-outdoor-vision-and-language-navigation-with-continuous-actions-and-dynamic-elements",
+      "title": "DaViNCi: A Dataset Towards Outdoor Vision-and-Language Navigation with Continuous Actions and Dynamic Elements",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "包含连续动作与动态元素的户外视觉-语言导航数据集",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.12835v1",
+      "route": "20260808-20260817/2608.12835v1-airforesight-current-to-future-spatial-map-imagination-with-cross-space-planning-consistency-for-uav-vln",
+      "title": "AirForesight: Current-to-Future Spatial Map Imagination with Cross-Space Planning Consistency for UAV-VLN",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "无人机视觉语言导航，按语言指令推断空间结构并构建当前到未来的空间地图",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.12860v1",
+      "route": "20260808-20260817/2608.12860v1-humanoidvln-a-physics-grounded-simulator-and-benchmark-for-vision-language-navigation-across-diverse-humanoid-embodiments",
+      "title": "HumanoidVLN: A Physics-Grounded Simulator and Benchmark for Vision-Language Navigation Across Diverse Humanoid Embodiments",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向人形机器人的物理仿真VLN模拟器与基准",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.08077v1",
+      "route": "20260808-20260817/2608.08077v1-explore-map-remember-decide-are-embodied-vlms-ready-for-safety-critical-scenarios",
+      "title": "Explore, Map, Remember, Decide: Are Embodied VLMs Ready for Safety-Critical Scenarios?",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "具身视觉语言模型在部分可观测环境下的空间记忆与探索评估",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.08545v1",
+      "route": "20260808-20260817/2608.08545v1-curriculum-generation-under-structured-parametric-environments-for-robust-navigation-policies",
+      "title": "Curriculum Generation under Structured Parametric Environments for Robust Navigation Policies",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "参数化环境下为自主智能体生成课程以训练鲁棒导航策略",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.09073v1",
+      "route": "20260808-20260817/2608.09073v1-latent-world-models-with-monotone-planning-costs-for-image-goal-navigation",
+      "title": "Latent World Models with Monotone Planning Costs for Image-Goal Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "基于隐式世界模型和规划代价的图像目标导航",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.10057v1",
+      "route": "20260808-20260817/2608.10057v1-lego-leveled-language-gaussian-splatting",
+      "title": "LEGO: Leveled Language Gaussian Splatting",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "开放词汇3D场景语义层级与空间关系理解",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.10278v1",
+      "route": "20260808-20260817/2608.10278v1-chain-of-spatial-thoughts-modality-agnostic-spatial-grounding-for-vision-language-models",
+      "title": "Chain of Spatial Thoughts: Modality-Agnostic Spatial Grounding for Vision Language Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "为视觉语言模型提供空间基础，服务具身导航等应用",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.07905v1",
+      "route": "20260808-20260817/2608.07905v1-graphthink-graph-enhanced-llm-thinking-for-long-horizon-embodied-task-planning",
+      "title": "GraphThink: Graph-Enhanced LLM Thinking for Long-Horizon Embodied Task Planning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "场景图用于具身任务规划中的环境记忆",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.08045v1",
+      "route": "20260808-20260817/2608.08045v1-lingjing-a-simulation-testbed-for-multi-agent-embodied-tasks-in-open-ended-cities",
+      "title": "Lingjing: A Simulation Testbed for Multi-Agent Embodied Tasks in Open-Ended Cities",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向城市多智能体具身智能的仿真平台，支持具身智能体模拟环境",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.08323v1",
+      "route": "20260808-20260817/2608.08323v1-mppi-planning-with-gaussian-based-human-cost-function-for-social-navigation",
+      "title": "MPPI Planning with Gaussian Based Human Cost Function for Social Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "在拥挤空间中使用行人预测代价函数进行机器人导航",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.08523v1",
+      "route": "20260808-20260817/2608.08523v1-discovering-diverse-planning-policies-for-multimodal-embodied-agents-with-quality-diversity-optimization",
+      "title": "Discovering Diverse Planning Policies for Multimodal Embodied Agents with Quality-Diversity Optimization",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向多模态具身智能体规划策略的多样性优化",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.07886v1",
+      "route": "20260808-20260817/2608.07886v1-vision-language-grounding-as-bidirectional-concept-correspondence",
+      "title": "Vision-Language Grounding as Bidirectional Concept Correspondence",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "文本片段与图像区域的双向对应支持视觉语言导航中的指令理解",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.08016v1",
+      "route": "20260808-20260817/2608.08016v1-egotrack3d-a-modular-framework-for-egocentric-3d-object-tracking",
+      "title": "EgoTrack3D: A Modular Framework for Egocentric 3D Object Tracking",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "从第一视角视频重建动态三维场景并跟踪物体，可支撑导航的场景图构建",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.08749v1",
+      "route": "20260808-20260817/2608.08749v1-onevomemory-evolving-memory-through-online-robot-rollouts-for-pretrained-robot-policies",
+      "title": "OnEvoMemory: Evolving Memory through Online Robot Rollouts for Pretrained Robot Policies",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向预训练机器人策略的值引导演化记忆，可迁移到具身导航智能体的记忆",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    },
+    {
+      "paper_id": "2608.10525v1",
+      "route": "20260808-20260817/2608.10525v1-dynamic-context-adapters-efficiently-infusing-history-into-vision-and-language-models",
+      "title": "Dynamic Context Adapters: Efficiently Infusing History into Vision-and-Language Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向时序决策任务中视觉-语言模型的历史上下文注入",
+      "first_seen_at": "2026-08-17 11:44:42 UTC",
+      "updated_at": "2026-08-17 11:44:42 UTC"
+    }
+  ]
+}

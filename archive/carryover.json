@@ -1,29 +1,34 @@
 {
-  "generated_at": "2026-08-07T03:09:04.256065+00:00",
-  "updated_date": "20260729-20260807",
+  "generated_at": "2026-08-17T11:29:00.884056+00:00",
+  "updated_date": "20260808-20260817",
   "carryover_days": 9,
   "tag_states": {
     "embodied-nav": {
-      "updated_date": "20260729-20260807",
+      "updated_date": "20260808-20260817",
       "carryover_days": 9,
       "items": [
         {
-          "id": "2608.03244v1",
+          "id": "2608.11876v1",
           "source": "arxiv",
-          "title": "UniNav: A Unified World-Action Diffusion Model for Visual Navigation",
-          "abstract": "Image-goal visual navigation is a fundamental capability for embodied agents. Existing navigation policies efficiently predict waypoint trajectories but lack visual foresight, while navigation world models can anticipate future observations but often require costly planning rollouts. We present UniNav, a unified world-action model that generates future visual observations and continuous waypoint trajectories through a single diffusion process. Given history frames and a goal image, UniNav jointly denoises visual and waypoint tokens within a single transformer, unifying future prediction and action generation in a shared framework. To improve spatial grounding, we incorporate geometry-aware camera tokens. We also train on both trajectory-labeled navigation data and video-only data, enabling the model to benefit from diverse videos without waypoint annotations. Based on this unified framework, we introduce two variants: UniNav-Full jointly predicts interpretable future observations and their corresponding trajectories, while UniNav-Fast removes future-image tokens at inference for efficient trajectory prediction. Experiments on navigation benchmarks show that UniNav outperforms the strongest baseline in ATE across all datasets. With one-step inference, UniNav-Fast achieves a latency of 0.1s without a substantial accuracy drop. Code will be released.",
+          "title": "D3D-GEN: Robot-Aware Domain-Grounded Interactive 3D World Generation for Social Robotics",
+          "abstract": "Training and validation of Embodied AI for social navigation critically depends on realistic simulation environments, yet many current approaches fail to find a balance between realism and simulability. We propose D3D-GEN, a novel world generation system that combines a domain agent with a retrieval-augmented generation (RAG) pipeline grounded in that domain. Our system enables users to rapidly generate domain-grounded, fully interactive 3D worlds by automating both the collection of domain knowledge and the synthesis of realistic floorplans and object placements, without dependence on any fixed 3D model database. Given a domain description prompt, the research agent collects publicly accessible domain-specific data and constructs a persistent domain database. Using this database, our RAG pipeline generates plausible floorplans and object placements by dynamically querying a user-provided semantic database, which can be easily extended or modified. The output is a fully interactive 3D world loadable by the popular simulators Isaac Sim and Gazebo. With our approach, we have built databases for several common domains (indoor residential, hospital, office) and generated dozens of distinct, plausible simulation environments for each domain. We present D3D-GEN with a local web frontend that facilitates rapid, interactive world generation for robot simulation.",
           "authors": [
-            "Changqing Zhou",
-            "Yueru Luo",
-            "Zeyu Jiang",
-            "Changhao Chen"
+            "Anh Duc Do",
+            "Volodymyr Scherbyna",
+            "Tai Duc Nguyen",
+            "Spaarsh Thakkar",
+            "Zhengcheng Shen",
+            "Teham Buiyan",
+            "Archan Misra",
+            "Linh Kästner"
           ],
-          "primary_category": "cs.AI",
+          "primary_category": "cs.RO",
           "categories": [
-            "cs.AI"
+            "cs.RO",
+            "cs.HC"
           ],
-          "published": "2026-08-04T07:15:45+00:00",
-          "link": "https://arxiv.org/pdf/2608.03244v1",
+          "published": "2026-08-12T10:03:01+00:00",
+          "link": "https://arxiv.org/pdf/2608.11876v1",
           "tags": [
             "keyword:embodied-nav",
             "keyword:semantic-map",
@@ -33,13 +38,13 @@
             "query:vln-memory"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "unified world-action diffusion for image-goal visual navigation",
-          "llm_evidence_cn": "用于图像目标视觉导航的统一世界-动作扩散模型",
-          "llm_evidence": "用于图像目标视觉导航的统一世界-动作扩散模型",
-          "canonical_evidence": "用于图像目标视觉导航的统一世界-动作扩散模型",
-          "llm_tldr_en": "UniNav presents a diffusion-based world-action model that jointly generates future observations and waypoint trajectories for image-goal navigation, unifying prediction and control in a shared transformer.",
-          "llm_tldr_cn": "UniNav针对图像目标视觉导航中策略缺乏视觉预见、世界模型规划开销大的问题，提出统一的世界-动作扩散模型。该模型在单一Transformer中联合去噪视觉与航点令牌，同时生成未来观测和连续轨迹，并加入几何感知相机令牌增强空间接地。在轨迹标注导航数据上的训练使模型兼具预测与规划能力。这一统一框架为具身智能体的视觉导航提供了高效的新范式。",
-          "llm_tldr": "UniNav针对图像目标视觉导航中策略缺乏视觉预见、世界模型规划开销大的问题，提出统一的世界-动作扩散模型。该模型在单一Transformer中联合去噪视觉与航点令牌，同时生成未来观测和连续轨迹，并加入几何感知相机令牌增强空间接地。在轨迹标注导航数据上的训练使模型兼具预测与规划能力。这一统一框架为具身智能体的视觉导航提供了高效的新范式。",
+          "llm_evidence_en": "interactive 3D world generation for embodied AI social navigation simulation",
+          "llm_evidence_cn": "为具身AI社交导航生成可交互3D世界",
+          "llm_evidence": "为具身AI社交导航生成可交互3D世界",
+          "canonical_evidence": "为具身AI社交导航生成可交互3D世界",
+          "llm_tldr_en": "Presents D3D-GEN, a domain-grounded RAG-based system that quickly generates realistic interactive 3D worlds, floorplans, and object placements for embodied social navigation simulation without a fixed 3D model database.",
+          "llm_tldr_cn": "针对具身AI社会导航训练和验证依赖真实感与可模拟性兼具的仿真环境的问题，提出D3D-GEN世界生成系统，将领域智能体与检索增强生成流水线结合，自动化收集领域知识并合成逼真楼层平面与物体布局，无需固定3D模型数据库。用户仅需领域描述提示即可快速生成域相关、可交互的3D世界，为社交导航等具身导航任务提供高效的仿真环境生成工具。",
+          "llm_tldr": "针对具身AI社会导航训练和验证依赖真实感与可模拟性兼具的仿真环境的问题，提出D3D-GEN世界生成系统，将领域智能体与检索增强生成流水线结合，自动化收集领域知识并合成逼真楼层平面与物体布局，无需固定3D模型数据库。用户仅需领域描述提示即可快速生成域相关、可交互的3D世界，为社交导航等具身导航任务提供高效的仿真环境生成工具。",
           "llm_tags": [
             "query:embodied-nav"
           ],
@@ -47,29 +52,31 @@
           "matched_query_text": "embodied navigation agent in simulated environments",
           "matched_requirement_id": "req-4",
           "selection_source": "carryover_cache",
-          "paper_id": "2608.03244v1",
+          "paper_id": "2608.11876v1",
           "carry_days": 1
         },
         {
-          "id": "2608.04825v1",
+          "id": "2608.14160v1",
           "source": "arxiv",
-          "title": "Deliberate Before You Fly: Vision-Guided Spatial Deliberation for UAV See-and-Reach Navigation",
-          "abstract": "UAV see-and-reach navigation requires an aerial agent to approach a language-specified target visible in its initial view and stop reliably near it. Existing methods typically map vision-language representations directly to action outputs without explicitly modeling intermediate fine-grained spatial decisions. This direct mapping causes semantic-control misalignment, leading to inconsistent maneuvers and unreliable termination. To address this issue, we propose DBFly, a vision-language waypoint prediction framework that introduces explicit vision-guided spatial deliberation before waypoint generation. Specifically, DBFly introduces a spatial maneuver decision chain that progressively performs target-direction anchoring, spatial diagnosis, and maneuver decision, enabling high-level maneuver intent to explicitly guide continuous waypoint generation. DBFly further constructs an implicit flight corridor by transforming the initial target-direction prior into a persistent geometric reference and deriving an online corridor state from the UAV's current position, thereby providing soft geometric guidance for spatial diagnosis and maneuver correction. In addition, DBFly develops a terminal-convergence-aware stopping strategy that characterizes terminal states through both target proximity and short-horizon motion convergence, enabling more reliable stopping near the target. Extensive experiments across seen, unseen-object, and unseen-scene test sets demonstrate that DBFly improves the success rate over the SOTA baseline by an average of 25.07 percentage points. The project homepage is available at https://xuefanfu.github.io/DBFly-Page.",
+          "title": "OccPlanner: Goal-Aware Occupancy-Conditioned Diffusion Planner for Pixel-Goal Navigation",
+          "abstract": "Pixel-goal navigation specifies targets directly in the agent's camera view, but a target pixel provides neither metric depth nor traversability, making 3D goal grounding and collision-free continuous planning challenging. We present OccPlanner, a goal-aware occupancy-conditioned diffusion planner that grounds pixel goals in egocentric metric space and sequentially conditions the goal representation on temporal visual context and learned local 3D occupancy features. To provide occupancy supervision at scale, we introduce L3ROcc, which converts monocular RGB navigation videos into robot-centric local 3D occupancy annotations through geometric reconstruction and ray-based visibility reasoning. We train OccPlanner on InternData-N1 and evaluate it in closed-loop simulation across four unseen scene categories from InternScenes and two goal-distance ranges. In the 5-8 m setting, OccPlanner increases the average success rate (SR) over NavDP from 20.81% to 71.55% across the four categories, reaching 86.20% and 84.92% in cluttered-easy and cluttered-hard scenes, respectively. Real-world open-loop experiments on a Unitree Go2 further provide initial evidence of sim-to-real transfer and adaptation with L3ROcc-generated supervision.",
           "authors": [
-            "Fanfu Xue",
-            "En Yu",
-            "Bohang Liu",
-            "Hongjun Wang",
-            "Yang Yang",
-            "Xindi Wang",
-            "Jiande Sun"
+            "Binling Huang",
+            "Nianjin Ye",
+            "Xi Yang",
+            "Liang Hu",
+            "Zhou Huang",
+            "Shuang Wei",
+            "Longrui Yang",
+            "Yanchi Chen",
+            "Lanpeng Jia"
           ],
           "primary_category": "cs.RO",
           "categories": [
             "cs.RO"
           ],
-          "published": "2026-08-05T13:27:07+00:00",
-          "link": "https://arxiv.org/pdf/2608.04825v1",
+          "published": "2026-08-14T10:15:07+00:00",
+          "link": "https://arxiv.org/pdf/2608.14160v1",
           "tags": [
             "keyword:embodied-nav",
             "keyword:semantic-map",
@@ -79,252 +86,34 @@
             "query:vln-memory"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "vision-language waypoint prediction for UAV see-and-reach navigation with language-specified target",
-          "llm_evidence_cn": "面向语言指定目标看即达导航的视觉语言航点预测框架",
-          "llm_evidence": "面向语言指定目标看即达导航的视觉语言航点预测框架",
-          "canonical_evidence": "面向语言指定目标看即达导航的视觉语言航点预测框架",
-          "llm_tldr_en": "DBFly proposes a vision-language waypoint prediction framework with an explicit spatial maneuver decision chain for UAV see-and-reach navigation. It performs target-direction anchoring and spatial deliberation before generating waypoints, addressing semantic-control misalignment in direct vision-language-to-action mapping and improving maneuver consistency and termination reliability.",
-          "llm_tldr_cn": "无人机看即达导航需要根据语言指出的目标安全到达并停止，现有方法将视觉语言特征直接映射为动作，缺少中间空间决策，导致操控不一致和终止不可靠。本文提出DBFly航点预测框架，引入空间机动决策链，在执行前先进行目标方向锚定与空间避险等显式视觉引导的空间深思，从而改善语义-控制对齐，并在导航实验中提升操控一致性与终止可靠性。",
-          "llm_tldr": "无人机看即达导航需要根据语言指出的目标安全到达并停止，现有方法将视觉语言特征直接映射为动作，缺少中间空间决策，导致操控不一致和终止不可靠。本文提出DBFly航点预测框架，引入空间机动决策链，在执行前先进行目标方向锚定与空间避险等显式视觉引导的空间深思，从而改善语义-控制对齐，并在导航实验中提升操控一致性与终止可靠性。",
+          "llm_evidence_en": "Diffusion-based planner for pixel-goal navigation with occupancy conditioning",
+          "llm_evidence_cn": "基于占用条件扩散的像素目标导航规划器",
+          "llm_evidence": "基于占用条件扩散的像素目标导航规划器",
+          "canonical_evidence": "基于占用条件扩散的像素目标导航规划器",
+          "llm_tldr_en": "OccPlanner grounds pixel goals in egocentric metric space and conditions a diffusion planner on temporal visual context and 3D occupancy, introducing L3ROcc to generate occupancy annotations from monocular RGB videos for collision-free continuous navigation.",
+          "llm_tldr_cn": "针对像素目标导航中缺乏深度与可通行性信息的问题，提出OccPlanner，一种目标感知的占用条件扩散规划器。它首先将像素目标锚定到自我中心的度量空间，再结合时序视觉上下文与局部三维占用特征进行连续规划；并提出L3ROcc从单目RGB视频自动生成占用标注。实验验证了该方法在连续动作环境下的导航安全性与到达成功率，为具身导航规划提供了高效的占用表示。",
+          "llm_tldr": "针对像素目标导航中缺乏深度与可通行性信息的问题，提出OccPlanner，一种目标感知的占用条件扩散规划器。它首先将像素目标锚定到自我中心的度量空间，再结合时序视觉上下文与局部三维占用特征进行连续规划；并提出L3ROcc从单目RGB视频自动生成占用标注。实验验证了该方法在连续动作环境下的导航安全性与到达成功率，为具身导航规划提供了高效的占用表示。",
           "llm_tags": [
             "query:embodied-nav"
           ],
           "matched_query_tag": "query:embodied-nav",
-          "matched_query_text": "vision language navigation following natural language instructions",
-          "matched_requirement_id": "req-1",
+          "matched_query_text": "embodied navigation agent in simulated environments",
+          "matched_requirement_id": "req-4",
           "selection_source": "carryover_cache",
-          "paper_id": "2608.04825v1",
+          "paper_id": "2608.14160v1",
           "carry_days": 1
         }
       ]
     },
     "semantic-map": {
-      "updated_date": "20260729-20260807",
+      "updated_date": "20260808-20260817",
       "carryover_days": 9,
-      "items": [
-        {
-          "id": "biorxiv-10-64898-2026-07-20-739519-v1",
-          "source": "biorxiv",
-          "title": "Coexisting but dissociable place and spatial view codes in the primate hippocampus",
-          "abstract": "In rodents, hippocampal activity is classically described in terms of position-anchored place cells, whereas nonhuman primate work has emphasized spatial view cells, in which activity depends on the region of space being viewed. This contrast has fueled a longstanding debate over whether primate and rodent spatial codes are biologically distinct. We recorded single units in the hippocampus of macaques as they navigated linear tracks in two visually distinct contexts, intermittently making context-dependent object choices. Using a generalized linear model to dissociate position coding from spatial view coding, we identified three coexisting populations in the macaque hippocampus: Position cells, View cells, and Conjunctive cells encoding both variables. Position cells were prevalent and showed rodent-like properties-localized firing, directional tuning, and contextual remapping-even after accounting for visual sampling, whereas View cells stably encoded allocentric visual space. Population decoding confirmed this dissociation at the ensemble level. Robust position codes thus coexist with, yet remain dissociable from, view codes in the primate hippocampus, suggesting that the apparent scarcity of place-like responses in earlier primate work reflects methodological and task-related differences rather than a fundamental species-level divergence.",
-          "authors": [
-            "Shin, S.-H.",
-            "Lim, H.-Y.",
-            "Lee, S.-M.",
-            "Seol, J.-M.",
-            "Lee, B.",
-            "Lee, C.-H.",
-            "Naya, Y.",
-            "Lee, J.",
-            "Lee, I."
-          ],
-          "primary_category": "neuroscience",
-          "categories": [
-            "neuroscience"
-          ],
-          "published": "2026-07-21T00:00:00+00:00",
-          "link": "https://www.biorxiv.org/content/10.64898/2026.07.20.739519v1.full.pdf",
-          "tags": [
-            "keyword:embodied-nav",
-            "keyword:semantic-map",
-            "query:embodied-nav",
-            "query:semantic-map"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "place and spatial view codes in primate hippocampus; spatial cognition memory",
-          "llm_evidence_cn": "灵长类海马中的位置与空间视角编码，空间认知记忆",
-          "llm_evidence": "灵长类海马中的位置与空间视角编码，空间认知记忆",
-          "canonical_evidence": "灵长类海马中的位置与空间视角编码，空间认知记忆",
-          "llm_tldr_en": "Records single units in macaque hippocampus during navigation, dissociating position cells, view cells, and conjunctive cells with a generalized linear model, revealing coexisting place and spatial view codes in primate spatial cognition.",
-          "llm_tldr_cn": "该研究在猕猴海马中记录单神经元活动，使用广义线性模型分离位置编码与空间视角编码，发现位置细胞、视角细胞和联合细胞三类共存群体，表明灵长类海马同时存在基于位置的记忆与基于空间视角的记忆。这为空间长期记忆的编码与提取机制提供了新的证据，也调和了啮齿类与灵长类空间编码差异的争论。",
-          "llm_tldr": "该研究在猕猴海马中记录单神经元活动，使用广义线性模型分离位置编码与空间视角编码，发现位置细胞、视角细胞和联合细胞三类共存群体，表明灵长类海马同时存在基于位置的记忆与基于空间视角的记忆。这为空间长期记忆的编码与提取机制提供了新的证据，也调和了啮齿类与灵长类空间编码差异的争论。",
-          "llm_tags": [
-            "query:semantic-map"
-          ],
-          "matched_query_tag": "query:semantic-map",
-          "matched_query_text": "place memory and scene recognition in spatial cognition",
-          "matched_requirement_id": "req-13",
-          "selection_source": "carryover_cache",
-          "paper_id": "biorxiv-10-64898-2026-07-20-739519-v1",
-          "carry_days": 2
-        },
-        {
-          "id": "biorxiv-10-64898-2026-07-16-738868-v1",
-          "source": "biorxiv",
-          "title": "Hippocampal-midcingulate connectivity is associated with representational integration during cognitive map updating",
-          "abstract": "Cognitive maps organize experience into structured internal models that support goal-directed behavior. Although map formation has been extensively studied in the human hippocampus, the neural mechanisms supporting flexible updating of established maps remain unclear. We used fMRI to track the formation and updating of a spatial cognitive map across three days. Participants learned object-location associations and later updated them by remapping objects among fixed locations. Representational similarity analysis revealed two concurrent signatures in the right hippocampus: prior relational structure remained differentiated, whereas updated associations became integrated. Map updating engaged a frontoparietal network and modulated hippocampal-cortical connectivity. Critically, hippocampal-midcingulate connectivity was associated with the integration of updated associations, but not with the differentiation of prior relational structure. These results suggest that cognitive map updating involves coordinated hippocampal-cortical interactions that incorporate new information while preserving prior relational structure, reflecting a balance of stability and plasticity in internal models.",
-          "authors": [
-            "Fu, J.",
-            "Huang, C.",
-            "Wang, R.",
-            "Hasegawa, I.",
-            "Jimura, K.",
-            "Nakahara, K."
-          ],
-          "primary_category": "neuroscience",
-          "categories": [
-            "neuroscience"
-          ],
-          "published": "2026-07-17T00:00:00+00:00",
-          "link": "https://www.biorxiv.org/content/10.64898/2026.07.16.738868v1.full.pdf",
-          "tags": [
-            "keyword:embodied-nav",
-            "keyword:semantic-map",
-            "query:embodied-nav",
-            "query:semantic-map"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "fMRI study of representational integration during spatial cognitive map updating, directly addressing spatial long-term memory mechanisms in cognitive systems",
-          "llm_evidence_cn": "利用fMRI研究空间认知地图更新中的表征整合，直接涉及认知系统中的空间长期记忆机制",
-          "llm_evidence": "利用fMRI研究空间认知地图更新中的表征整合，直接涉及认知系统中的空间长期记忆机制",
-          "canonical_evidence": "利用fMRI研究空间认知地图更新中的表征整合，直接涉及认知系统中的空间长期记忆机制",
-          "llm_tldr_en": "This fMRI study tracks cognitive map formation and updating across three days, showing hippocampal representational integration and frontoparietal engagement during flexible map updating.",
-          "llm_tldr_cn": "该研究采用fMRI在三天的学习过程中追踪空间认知地图的形成与更新，参与者学习物体-位置关联后通过重映射更新地图。表征相似性分析发现右侧海马同时保留先前关系结构与整合新关联两种信号，更新过程还涉及额顶叶及扣带回区域。结果表明海马-中扣带回连接与表征整合相关，揭示了认知地图灵活更新的神经机制，为理解空间长期记忆的动态更新提供了重要证据。",
-          "llm_tldr": "该研究采用fMRI在三天的学习过程中追踪空间认知地图的形成与更新，参与者学习物体-位置关联后通过重映射更新地图。表征相似性分析发现右侧海马同时保留先前关系结构与整合新关联两种信号，更新过程还涉及额顶叶及扣带回区域。结果表明海马-中扣带回连接与表征整合相关，揭示了认知地图灵活更新的神经机制，为理解空间长期记忆的动态更新提供了重要证据。",
-          "llm_tags": [
-            "query:semantic-map"
-          ],
-          "matched_query_tag": "query:semantic-map",
-          "matched_query_text": "spatial long-term memory mechanisms and models in cognitive systems",
-          "matched_requirement_id": "req-10",
-          "selection_source": "carryover_cache",
-          "paper_id": "biorxiv-10-64898-2026-07-16-738868-v1",
-          "carry_days": 2
-        },
-        {
-          "id": "biorxiv-10-64898-2026-07-09-737618-v1",
-          "source": "biorxiv",
-          "title": "Spatial and temporal representations are organized along a stable coding gradient in the medial entorhinal cortex",
-          "abstract": "The medial entorhinal cortex (MEC) has classically been viewed as a spatial coding region, but growing evidence indicates that it also contains temporal representations. However, how spatial and temporal codes are organized within the MEC remains unclear. Here we recorded MEC neurons with high-density silicon probes while mice performed a MEC-dependent timing task and a virtual reality spatial navigation task in a similar head-fixed setup. We found that spatial and temporal representations were partially overlapping but systematically biased across the MEC population. Grid cells and non-grid cells with strong spatial tuning were less likely to show reliable time-locked activity during the timing task. In contrast, neurons with weaker spatial tuning more flexibly shifted their coding scheme to temporal coding during timing task. Moreover, spatial tuning strength and its negative relationship with temporal tuning were preserved in a distinct open field environment, indicating that the coding preferences of individual neurons are constrained by a stable network-level organization. Together, these findings suggest MEC is organized along a coding gradient, ranging from dedicated stable spatial coding neurons to more flexible spatial or temporal coding neurons which represent information according to cognitive demands.",
-          "authors": [
-            "Lee, H.-W.",
-            "Bowler, J. C.",
-            "Heys, J. G."
-          ],
-          "primary_category": "neuroscience",
-          "categories": [
-            "neuroscience"
-          ],
-          "published": "2026-07-10T00:00:00+00:00",
-          "link": "https://www.biorxiv.org/content/10.64898/2026.07.09.737618v1.full.pdf",
-          "tags": [
-            "keyword:embodied-nav",
-            "keyword:semantic-map",
-            "query:embodied-nav",
-            "query:semantic-map"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "grid cell and temporal representations in medial entorhinal cortex, spatial memory mechanisms",
-          "llm_evidence_cn": "内嗅皮层网格细胞与时空表征，揭示空间记忆的神经机制",
-          "llm_evidence": "内嗅皮层网格细胞与时空表征，揭示空间记忆的神经机制",
-          "canonical_evidence": "内嗅皮层网格细胞与时空表征，揭示空间记忆的神经机制",
-          "llm_tldr_en": "Recording MEC neurons during timing and spatial navigation tasks reveals spatial and temporal representations are partially overlapping but systematically biased, clarifying neural organization of spatial-temporal coding.",
-          "llm_tldr_cn": "内侧内嗅皮层被经典视为空间编码区域，但其时间表征与空间编码的组织关系尚不清楚。该研究用高密度硅探针记录小鼠在计时任务与虚拟现实空间导航任务中的神经元活动，发现时空表征部分重叠但存在系统性偏向。空间调谐强的网格或非网格细胞不易在计时任务中产生可靠时间锁定活动。研究为理解空间-时间记忆在大脑中的组织提供了新的证据。",
-          "llm_tldr": "内侧内嗅皮层被经典视为空间编码区域，但其时间表征与空间编码的组织关系尚不清楚。该研究用高密度硅探针记录小鼠在计时任务与虚拟现实空间导航任务中的神经元活动，发现时空表征部分重叠但存在系统性偏向。空间调谐强的网格或非网格细胞不易在计时任务中产生可靠时间锁定活动。研究为理解空间-时间记忆在大脑中的组织提供了新的证据。",
-          "llm_tags": [
-            "query:semantic-map"
-          ],
-          "matched_query_tag": "query:semantic-map",
-          "matched_query_text": "spatial long-term memory mechanisms and models in cognitive systems",
-          "matched_requirement_id": "req-10",
-          "selection_source": "carryover_cache",
-          "paper_id": "biorxiv-10-64898-2026-07-09-737618-v1",
-          "carry_days": 2
-        },
-        {
-          "id": "2608.03323v1",
-          "source": "arxiv",
-          "title": "PolyLayout: Multi-room Manhattan Layout Estimation",
-          "abstract": "Estimating room layouts from multi-view imagery is a core task for indoor scene understanding. Existing methods are typically limited either by poor generalization to new datasets or restrictive geometric assumptions of the room shape or camera configuration. Most also estimate rooms independently, failing to exploit shared building structure such as dominant directions, ground plane or ceiling height.   We propose PolyLayout, a multi-room layout estimation method that parameterizes room layouts as Manhattan 3D polygons and optimizes them jointly across multiple rooms. The optimization objective is predicted by a neural network on top of robust pre-trained visual features and trained end-to-end with supervision only on output room layouts. At the same time, camera projection and polygon updates remain explicit and model-based. This separation between learned scoring and geometry improves generalization to new datasets and camera parameters. During optimization, PolyLayout adaptively refines the polygon topology through iterative wall split and merge operations while jointly utilizing structural cues across rooms. We introduce two new multi-view multi-room layout benchmarks by providing layout annotations to existing datasets, and experiments show that PolyLayout outperforms prior approaches, both in terms of accuracy and robustness.   Project page: https://ghanning.github.io/PolyLayout",
-          "authors": [
-            "Gustav Hanning",
-            "Shaohui Liu",
-            "Rémi Pautrat",
-            "Marc Pollefeys",
-            "Kalle Åström",
-            "Viktor Larsson"
-          ],
-          "primary_category": "cs.CV",
-          "categories": [
-            "cs.CV"
-          ],
-          "published": "2026-08-04T08:30:36+00:00",
-          "link": "https://arxiv.org/pdf/2608.03323v1",
-          "tags": [
-            "keyword:embodied-nav",
-            "keyword:semantic-map",
-            "keyword:vln-memory",
-            "query:semantic-map"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "Multi-room layout estimation from multi-view imagery for indoor scene understanding, directly supports building semantic room maps",
-          "llm_evidence_cn": "从多视图图像估计多房间布局，直接支持构建房间语义地图",
-          "llm_evidence": "从多视图图像估计多房间布局，直接支持构建房间语义地图",
-          "canonical_evidence": "从多视图图像估计多房间布局，直接支持构建房间语义地图",
-          "llm_tldr_en": "PolyLayout jointly optimizes multi-room Manhattan 3D polygon layouts from multi-view imagery, exploiting shared building structure, enabling semantic room map construction for navigation.",
-          "llm_tldr_cn": "现有房间布局估计方法独立处理各房间，未利用共享建筑结构，且泛化能力受限。PolyLayout将多房间布局参数化为曼哈顿三维多边形，并利用共享主导方向、地面和天花板高度进行联合优化。网络基于预训练视觉特征预测优化目标，端到端训练仅需布局标注。该方法可从多视图图像重建房间级语义地图，为机器人长期导航提供建图基础。",
-          "llm_tldr": "现有房间布局估计方法独立处理各房间，未利用共享建筑结构，且泛化能力受限。PolyLayout将多房间布局参数化为曼哈顿三维多边形，并利用共享主导方向、地面和天花板高度进行联合优化。网络基于预训练视觉特征预测优化目标，端到端训练仅需布局标注。该方法可从多视图图像重建房间级语义地图，为机器人长期导航提供建图基础。",
-          "llm_tags": [
-            "query:semantic-map"
-          ],
-          "matched_query_tag": "query:semantic-map",
-          "matched_query_text": "How to build a semantic map of rooms for long term robot navigation?",
-          "matched_requirement_id": "req-14",
-          "selection_source": "carryover_cache",
-          "paper_id": "2608.03323v1",
-          "carry_days": 1
-        }
-      ]
+      "items": []
     },
     "vln-memory": {
-      "updated_date": "20260729-20260807",
+      "updated_date": "20260808-20260817",
       "carryover_days": 9,
-      "items": [
-        {
-          "id": "2608.04933v1",
-          "source": "arxiv",
-          "title": "Mimir: A Neuro-Symbolic Memory System with Dynamic Grounding for Embodied Agents in Interactive Environments",
-          "abstract": "Long-horizon embodied task requires agents to act under partial observability while preserving both scene belief and execution progress. Flat histories or implicit policy states may contain past observations, but they do not provide an explicit interface for deciding which world facts support the currently active goal. We introduce Mimir, a neuro-symbolic memory that separates world memory from task memory and dynamically grounds them before each action. World memory maintains object locations, object states, and perceptual evidence, while task memory maintains an ordered goal agenda, progress state, hand state, failures, and execution constraints. A grounding module binds the active goal to recalled world candidates, fills missing source locations, and attaches evidence before planning and embodiment-specific execution. Across tested backbones, Mimir consistently improves on different EB-ALFRED and EB-Habitat tasks, with maximum gains of 42.5% and average gains of 23.0%, respectively. Compared with the best results among prior agent and memory systems evaluated under the same backbone, Mimir improves the overall average success rate by 8.5%. Finally, on the EB-Habitat Long-horizon subset, Mimir achieves 86.0% success rate, substantially outperforming current closed-source models. Our code will be released soon.",
-          "authors": [
-            "Haoming Xu",
-            "Zhenlin He",
-            "Hengyi Wang",
-            "Jiafeng Xu",
-            "Hao Dong"
-          ],
-          "primary_category": "cs.RO",
-          "categories": [
-            "cs.RO"
-          ],
-          "published": "2026-08-05T14:57:24+00:00",
-          "link": "https://arxiv.org/pdf/2608.04933v1",
-          "tags": [
-            "keyword:embodied-nav",
-            "keyword:semantic-map",
-            "keyword:vln-memory",
-            "query:embodied-nav",
-            "query:semantic-map",
-            "query:vln-memory"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "neuro-symbolic memory for embodied agents with world/task memory and dynamic grounding",
-          "llm_evidence_cn": "面向具身智能体的神经符号记忆，区分世界记忆与任务记忆",
-          "llm_evidence": "面向具身智能体的神经符号记忆，区分世界记忆与任务记忆",
-          "canonical_evidence": "面向具身智能体的神经符号记忆，区分世界记忆与任务记忆",
-          "llm_tldr_en": "Introduces Mimir, a neuro-symbolic memory separating world and task memory with dynamic grounding, enabling embodied agents to preserve scene belief and execution progress in long-horizon tasks.",
-          "llm_tldr_cn": "长时程具身任务要求智能体在部分可观测环境中同时维护场景信念与进度，而扁平历史难以显式支撑当前目标。该文提出Mimir，将世界记忆（物体位置、状态与感知证据）与任务记忆（目标议程、进度、约束）分离，并在每次动作前动态接地。该方法能更清晰地为具身决策提供支撑，对导航类记忆系统有直接参考价值。",
-          "llm_tldr": "长时程具身任务要求智能体在部分可观测环境中同时维护场景信念与进度，而扁平历史难以显式支撑当前目标。该文提出Mimir，将世界记忆（物体位置、状态与感知证据）与任务记忆（目标议程、进度、约束）分离，并在每次动作前动态接地。该方法能更清晰地为具身决策提供支撑，对导航类记忆系统有直接参考价值。",
-          "llm_tags": [
-            "query:vln-memory"
-          ],
-          "matched_query_tag": "query:vln-memory",
-          "matched_query_text": "memory for navigation agents in embodied environments",
-          "matched_requirement_id": "req-19",
-          "selection_source": "carryover_cache",
-          "paper_id": "2608.04933v1",
-          "carry_days": 1
-        }
-      ]
+      "items": []
     }
   }
 }

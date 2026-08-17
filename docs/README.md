@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-07-29 ~ 2026-08-07</span>
+      <span class="dpr-home-dashboard-kicker">2026-08-08 ~ 2026-08-17</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 21 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 27 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>8</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>14</dd></div>
     <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>13</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-08-07 03:17:30 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-08-17 11:44:42 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,9 +62,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日日报聚焦视觉语言导航（VLN）与具身智能记忆机制，共精读8篇、速读13篇。</p>
-<p>最值得关注的是两个满分9.0的VLN仿真平台：《BioVLN》面向生物医学实验室，《TEA-AgriVLN》面向农业场景，均强调环境适应与安全导航。</p>
-<p>下一步建议延伸阅读速读中的记忆架构瓶颈、语言条件重感知及开放词汇3D高斯相关工作，以拓展序列决策与场景理解视野。</p>
+<p>本期精读14篇、速读13篇，其中两篇满分论文聚焦零样本开放词汇物体导航与航拍视觉语言导航。最值得关注的是AECNav与DreamFly在高效物体定位和因果记忆规划上的突破，速读中安全关键场景与课程生成也值得一瞥。建议优先精读两篇满分工作，再沿其方法扩展至鲁棒导航策略。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -73,12 +71,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">8 篇</strong>
+    <strong class="dpr-home-dashboard-count">14 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="BioVLN: A Simulation Platform for Visual Language Navigation in Biomedical Laboratories">BioVLN: A Simulation Platform for Visual Language Navigation in Biomedical Laboratories</span></li><li><span class="dpr-home-dashboard-paper-title" title="TEA-AgriVLN: Traversability Estimation Alarm for Agricultural Vision-and-Language Navigation">TEA-AgriVLN: Traversability Estimation Alarm for Agricultural Vision-and-Language Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="FreqNav: Stage-Wise Frequency Routing for Object-Oriented Aerial Vision-Language Navigation">FreqNav: Stage-Wise Frequency Routing for Object-Oriented Aerial Vision-Language Navigation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation">AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation">DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="SAP-Nav: Spatial Semantic Representation Meets Active Perception for Hierarchical Open-Vocabulary Object Navigation">SAP-Nav: Spatial Semantic Representation Meets Active Perception for Hierarchical Open-Vocabulary Object Navigation</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>7</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>1</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>13</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>1</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -89,9 +87,9 @@
     <strong class="dpr-home-dashboard-count">13 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Beyond Episodic Evaluation: Memory Architectural Bottlenecks in Sequential Embodied Question Answering">Beyond Episodic Evaluation: Memory Architectural Bottlenecks in Sequential Embodied Question Answering</span></li><li><span class="dpr-home-dashboard-paper-title" title="Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map">Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map</span></li><li><span class="dpr-home-dashboard-paper-title" title="MonoVoc: Decoupling Geometry and Semantics for Lightweight Monocular Open-Vocabulary 3D Gaussians">MonoVoc: Decoupling Geometry and Semantics for Lightweight Monocular Open-Vocabulary 3D Gaussians</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Explore, Map, Remember, Decide: Are Embodied VLMs Ready for Safety-Critical Scenarios?">Explore, Map, Remember, Decide: Are Embodied VLMs Ready for Safety-Critical Scenarios?</span></li><li><span class="dpr-home-dashboard-paper-title" title="Curriculum Generation under Structured Parametric Environments for Robust Navigation Policies">Curriculum Generation under Structured Parametric Environments for Robust Navigation Policies</span></li><li><span class="dpr-home-dashboard-paper-title" title="Latent World Models with Monotone Planning Costs for Image-Goal Navigation">Latent World Models with Monotone Planning Costs for Image-Goal Navigation</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>8</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>5</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>7</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>3</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>3</strong></span></div>
 </section>
 </div>
 
