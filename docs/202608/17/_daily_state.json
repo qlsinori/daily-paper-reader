@@ -1,0 +1,249 @@
+{
+  "date": "20260817",
+  "date_label": "",
+  "generated_at": "2026-08-17 21:02:22 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.10817v1",
+      "route": "202608/17/2608.10817v1-aecnav-active-evidence-consolidation-for-efficient-zero-shot-open-vocabulary-object-navigation",
+      "title": "AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "零样本物体目标导航，开放词汇，证据整合",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.14160v1",
+      "route": "202608/17/2608.14160v1-occplanner-goal-aware-occupancy-conditioned-diffusion-planner-for-pixel-goal-navigation",
+      "title": "OccPlanner: Goal-Aware Occupancy-Conditioned Diffusion Planner for Pixel-Goal Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "像素目标导航，采用占用条件扩散规划",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.08596v1",
+      "route": "202608/17/2608.08596v1-goal-oriented-navigation-instruction-generation-with-tour-video-priors",
+      "title": "Goal-oriented Navigation Instruction Generation with Tour Video Priors",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "从导览视频生成目标导向的自然语言导航指令，作为视觉语言导航的辅助任务",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.08696v1",
+      "route": "202608/17/2608.08696v1-occanyscene-towards-unified-indoor-outdoor-3d-occupancy-predictio",
+      "title": "OccAnyScene: Towards Unified Indoor-Outdoor 3D Occupancy Predictio",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "统一室内外3D语义占用预测用于场景理解",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.09876v1",
+      "route": "202608/17/2608.09876v1-energy-structured-latent-world-models-with-neural-time-fields-for-physically-constistent-open-world-motion-planning",
+      "title": "Energy-Structured Latent World Models with Neural Time Fields for Physically Constistent Open-World Motion Planning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向具身开放世界导航的物理一致运动规划",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.10278v1",
+      "route": "202608/17/2608.10278v1-chain-of-spatial-thoughts-modality-agnostic-spatial-grounding-for-vision-language-models",
+      "title": "Chain of Spatial Thoughts: Modality-Agnostic Spatial Grounding for Vision Language Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "为视觉语言模型提供显式空间表示以支持具身导航",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.10449v2",
+      "route": "202608/17/2608.10449v2-pbd-ag-persistent-baseline-delta-active-graphs-with-uncertainty-aware-inspection-for-long-horizon-service-robots",
+      "title": "PBD-AG: Persistent Baseline-Delta Active Graphs with Uncertainty-Aware Inspection for Long-Horizon Service Robots",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "长期服务机器人的持久活动图，将固定设施与动态物体分离",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.10886v1",
+      "route": "202608/17/2608.10886v1-gesto-human-centric-spatio-temporal-memory-for-reasoning-in-dynamic-scenes",
+      "title": "GESTO: Human-Centric Spatio-Temporal Memory for Reasoning in Dynamic Scenes",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向机器人环境的4D场景图与时空记忆，可记忆物体、地点和活动结构",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.11876v1",
+      "route": "202608/17/2608.11876v1-d3d-gen-robot-aware-domain-grounded-interactive-3d-world-generation-for-social-robotics",
+      "title": "D3D-GEN: Robot-Aware Domain-Grounded Interactive 3D World Generation for Social Robotics",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "生成含平面图与物体布局的交互式3D世界用于社交导航仿真",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.12683v1",
+      "route": "202608/17/2608.12683v1-fuse-active-functional-affordance-grounding-through-adaptive-semantic-geometric-evidence-acquisition",
+      "title": "FUSE: Active Functional Affordance Grounding through Adaptive Semantic-Geometric Evidence Acquisition",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "主动探索定位功能性目标物体，类似物体目标导航",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.12917v1",
+      "route": "202608/17/2608.12917v1-towards-socially-compliant-navigation-in-deep-reinforcement-learning-via-proxemics-based-reward-modeling",
+      "title": "Towards Socially Compliant Navigation in Deep Reinforcement Learning via Proxemics-Based Reward Modeling",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "基于深度强化学习的机器人社交合规导航",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.08523v1",
+      "route": "202608/17/2608.08523v1-discovering-diverse-planning-policies-for-multimodal-embodied-agents-with-quality-diversity-optimization",
+      "title": "Discovering Diverse Planning Policies for Multimodal Embodied Agents with Quality-Diversity Optimization",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向多模态具身智能体的质量-多样性策略发现",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.09146v1",
+      "route": "202608/17/2608.09146v1-multi-submap-implicit-neural-slam-with-local-to-global-loop-closure-for-large-scale-scene-reconstruction",
+      "title": "Multi-Submap Implicit Neural SLAM with Local-to-Global Loop Closure for Large-Scale Scene Reconstruction",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "大规模神经SLAM，多子地图和回环闭合",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.10525v1",
+      "route": "202608/17/2608.10525v1-dynamic-context-adapters-efficiently-infusing-history-into-vision-and-language-models",
+      "title": "Dynamic Context Adapters: Efficiently Infusing History into Vision-and-Language Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "高效地为视觉-语言模型注入历史信息，可用于视觉导航记忆增强",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    },
+    {
+      "paper_id": "2608.13605v1",
+      "route": "202608/17/2608.13605v1-active-perception-for-embodied-disambiguation",
+      "title": "Active Perception for Embodied Disambiguation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向具身语言消歧的主动感知",
+      "first_seen_at": "2026-08-17 21:02:22 UTC",
+      "updated_at": "2026-08-17 21:02:22 UTC"
+    }
+  ]
+}

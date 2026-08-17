@@ -1,0 +1,368 @@
+Title: AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation
+
+URL Source: https://arxiv.org/pdf/2608.10817v1
+
+Published Time: Wed, 12 Aug 2026 01:14:29 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation 
+
+Guanlin Liu 1, Shaobin Ling 1, Renyuan Liu 1, Zeying Gong 2, Junjie Hu 1,†
+
+1The Chinese University of Hong Kong, Shenzhen 
+
+2The Hong Kong University of Science and Technology (Guangzhou) No strong target evidence yet, so I’ll skip costly segmentation and explore efficiently.  
+
+> Confuser score exceeds goal score, so I treat this as a distractor, lower the belief, and explore further.
+> Goal Distractor
+> Goal Score: 0.67 Confuser Score: 0.83 Goal Score: 0.71 Confuser Score: 0.47
+> The goal score now dominates. The belief remains above the stop threshold, and I’m close enough to stop.
+
+How can the robot perceive efficiently without sacrificing quality? How can the robot accurately identify the target under distractors? How can the robot keep exploration productive when semantic cues are weak? 
+
+Success Rate vs. Episode Runtime on HM3D-v2   
+
+> Average Runtime per Episode (s) ↓
+> Success Rate (%)  ↑
+> SPL (%) ↑
+> 40 30 20
+> AECNav
+> ApexNav VLFM L3MVN InstructNav SG-Nav
+
+Better Removing Any Proposed Component Hurts           
+
+> Success Rate (%)  ↑
+> Full Method w/o Evidence-Gated Perception
+> w/o Evidence Consolidation
+> w/o Active Evidence Acquisition
+> VLFM
+> Observation Similarity Heatmap Value Map Obstacle Map Observation Similarity Heatmap Value Map Obstacle Map Observation Similarity Heatmap Value Map Obstacle Map
+> 84.7
+> 75.9( ↓8.8% )
+> 81.8( ↓2.9% )
+> 71.9( ↓12.8% )
+
+Fig. 1. Overview of AECNav. Left: the three questions an evidence-driven navigator must answer, and how AECNav answers them by integrating efficient perception, productive exploration, and reliable target confirmation into a navigation loop. Top right: AECNav attains a strong success–runtime trade-off. Bottom right: each of the three components answers one of these questions; removing any of them costs 2.9 to 12 .8 points of success rate. 
+
+Abstract — Zero-shot object-goal navigation (ZSON) in open-vocabulary scenarios is challenging, as it requires a robot to locate an arbitrarily specified object in an unseen environment without task-specific training. Currently, the task still suffers from high latency and limited accuracy due to redundant perception pipelines and insufficient evidence for reliable target confirmation. In this letter, we reframe ZSON as an evidence-driven perception-to-decision problem and present AECNav, a training-free pipeline built on three components: i) Evidence-gated perception, which utilizes a shared encoding across all reasoning stages to establish a unified semantic basis and eliminate redundant computations; ii) Evidence consolidation, which aggregates detections into cluster-level log-odds beliefs. This explicitly separates genuine target support from the false confidence of visually similar distractors, while treating the absence of expected detections as negative evidence; and iii) Ac-tive evidence acquisition, which sustains productive exploration under weak semantic cues by selecting frontiers that maximize information gain at minimal traversal cost. As a result, AECNav significantly outperforms previous methods and achieves state-of-the-art success rates of 84.7%, 57.3%, and 51.3% on HM3D-v2, HM3D-OVON, and MP3D, respectively, with substantially lower inference overhead, and attains 95% success across 40 trials on a physical quadruped robot at roughly 5 Hz. Code will be made publicly available upon acceptance. 
+
+†Corresponding author. 
+
+E-mails: guanlinliu@link.cuhk.edu.cn, †hujunjie@cuhk.edu.cn 
+
+I. I NTRODUCTION 
+
+Zero-shot object-goal navigation (ZSON) requires a mo-bile robot to locate a specified object in a previously unseen environment, without task-specific training on either the tar-get object categories or the scene layouts [1]. This challenge becomes even more pronounced in practical open-vocabulary settings, where the robot must ground arbitrary language goals without relying on category-specific detectors, while also rejecting visually similar distractors [2]. Effective and practical ZSON requires a robot to accu-rately and efficiently localize the target object while se-lecting informative exploration actions at each time step. However, prior methods commonly face several key bot-tlenecks. First, existing approaches often employ separate encoding pipelines for frontier selection and target-object confirmation [3], [4]. This design prevents different stages of visual reasoning from sharing a unified semantic foundation and forces each observation to be redundantly processed by multiple models at every navigation step, resulting in substantial inference latency. Second, in open-vocabulary target confirmation, a high confidence score is not inherently self-explanatory: it may indicate genuine target evidence, semantic ambiguity from a visually similar object, or a arXiv:2608.10817v1 [cs.RO] 11 Aug 2026 transient false detection. However, reliably distinguishing the true target from similar distractors remains challenging. Moreover, exploration is often guided by semantic relevance or geometric frontier utility, with limited explicit modeling of how much new evidence a reachable frontier is expected to provide relative to its traversal cost [1], [3], [4]. Together, these limitations hinder reliable target confirmation and effi-cient navigation under open-vocabulary uncertainty. Motivated by these insights, we introduce the Active 
+
+Evidence Consolidation Nav igation ( AECNav ), a structured pipeline that integrates unified and efficient semantic percep-tion, explicit spatial evidence accumulation, and active ex-ploration for evidence-driven zero-shot ObjectNav. AECNav consists of three core components: i) Evidence-Gated Perception: To overcome the redundant semantic detections in prior works, we replace per-frame detection pipelines with a unified, on-demand perception architecture. Crucially, we introduce an evidence-gated trig-gering mechanism: the computationally expensive instance segmentation branch is kept dormant and dynamically in-voked only when patch-level evidence identifies a highly probable target region. Overall, this module improves target confirmation accuracy while drastically reducing redundant visual processing overhead. ii) Evidence Consolidation: To robustly confirm open-vocabulary targets, instance detections are seamlessly con-solidated into 3D spatial clusters using an additive log-odds formulation. Unlike naive score-averaging, this update mechanism naturally separates genuine target support from the false confidence induced by visually similar distractors. Crucially, it also treats missing expected detections as nega-tive evidence to suppress unsupported target hypotheses. iii) Active Evidence Acquisition: When the accumulated evidence remains insufficient for a reliable decision, AEC-Nav treats exploration as active evidence gathering. It selects reachable frontiers by jointly considering semantic relevance, expected spatial information gain along traversable paths, and traversal cost, keeping exploration productive even when semantic cues are weak. This strategy directs the robot toward viewpoints most likely to reduce uncertainty and expose decisive target evidence. To fairly evaluate our method, we provide experimental results on benchmark datasets and real-world scenarios. As shown in Fig. 1, AECNav significantly outperforms the pre-vious state-of-the-art while incurring lower inference over-head. Real-world robot experiments further demonstrate the practical effectiveness of AECNav in physical environments. II. R ELATED WORK 
+
+Early methods such as [5] still require pretraining on the image navigation task, whereas CoW [1] removes this requirement by combining CLIP-based [6] open-vocabulary localization with classical frontier exploration [7]. This for-mulation has since become a common backbone for ZSON. VLFM [3], as a representative example, ranks frontiers using a semantic value map derived from image-text similarity to the target category. Our method also follows this paradigm; below, we present the key differences between our method and previous methods regarding perception pipeline design, target confirmation strategy, and frontier selection. 
+
+A. Perception Pipelines for Navigation 
+
+Existing value-map-based open-vocabulary ZSON ap-proaches [3], [4], [8] typically employ disjoint visual models for exploration (e.g., CLIP [6], BLIP-2 [9]) and target confirmation (e.g., GroundingDINO [10], MobileSAM [11]), resulting in redundant encoding and fragmented semantics. To eliminate this, we use a single C-RADIOv4 encoder [12] to jointly extract scene-level context for frontier mapping and patch-level features for target confirmation. While recent methods [13], [14] also use RADIO [15] as a perception backbone, they rely solely on patch-level features for frontier scoring, offering limited guidance for out-of-view targets. To further reduce latency, we introduce an evidence-gated perception strategy that dynamically invokes the perception decoder only for highly probable targets. 
+
+B. Target Confirmation 
+
+Target confirmation in ZSON has advanced from single-frame thresholds to temporal reasoning. Early systems stop when a detection score exceeds a fixed threshold [3]. Later methods strengthen confirmation with scene-graph credibility and re-perception in SG-Nav [16], VLM-based rejection in TriHelper [17], and occlusion-free viewpoint selection in MSGNav [18]. However, they still make one-shot candidate decisions, without accumulating evidence over time or ex-plicitly handling visually similar distractors. ApexNav [4] addresses this by fusing target-centric observations over time and storing visually similar objects. Its fusion, however, aver-ages evidence rather than accumulating it: confidence cannot grow beyond the strongest single-frame score even when multiple observations agree, and observations are weighted by visible extent rather than informativeness, so ambiguous views can contribute as much as decisive ones. In this letter, we introduce a log-odds belief model in-spired by occupancy-grid mapping [19], [20], but shift the latent variable from cell occupancy to cluster identity. The model maintains, for each 3D candidate, a cumulative belief that it is the queried target. Each observation contributes an additive, decisiveness-weighted update, decomposed into target support, distractor-induced negative evidence, or cor-rective miss evidence. This converts target confirmation from thresholded recognition into evidence accumulation over object hypotheses, enabling confidence to grow with repeated consistent observations while explicitly suppressing visually similar distractors. 
+
+C. Frontier Selection 
+
+Frontier selection in ZSON has evolved from geometric heuristics to semantic guidance. Classical frontier exploration targets the nearest boundary of explored space, an approach retained by CoW [1]. VLFM [3] instead ranks frontiers using a vision-language value map. However, semantic ranking primarily indicates which direction is likely to contain the Summary Feature  
+
+> ...
+> Patch Tokens Summary Token
+> C-RADIOv4 Encoder
+> SigLIP2 Adaptor SAM3 Adaptor
+> LLM Reasoning
+> SAM3 Mask Decoder SAM3  Features
+> SigLIP2-G Text Tower
+> Text Embedding
+> cos
+> Prompt Segmentation
+> Obstacle Map Value Map
+> RGB Text Text
+> “ a couch “
+> Online RGB-D Target Text
+> Navigate to the confirmed cluster
+
+Point-Goal Navigation Policy Environment Action       
+
+> Yes No
+> Skip > � gate
+> Argmax Patch Similarity
+> Goal:
+> Confuser:
+> Couch Chair Daybed
+> Chaise Lounge
+> Observation Target Confirmed?
+> Yes No
+> How likely is each frontier to lead to the target?
+> Semantic Relevance
+> 3D Point Cloud Clusters
+> Cluster 1 Cluster 2 Cluster 3
+> Couch Chair Daybed Chaise Lounge Timestep tUpdate Accumulated Target Belief
+> Goal Score: Confuser Score:
+> Timestep t +1
+> 88.2 45.9 60.9 67.1 69.7 87.9 39.1 76.6 69.1 87.8 40.2 68.4 3.57 0.78 0.48 0.08 -1.03 -1.41
+
+Evidence Consolidation 
+
+> cos
+> Navigate to the best frontier
+> Depth
+
+Evidence-Gated Perception Active Evidence Acquisition   
+
+> Target Belief
+> Cluster 1 Cluster 2 Cluster 3
+> Timestep t
+> Perceptual Evidence
+> High Relevance
+> Low Relevance
+> Mid Relevance
+> How much new information can the agent acquire along the path?
+> Information Gain
+> Low Information High Information
+> Traversable Path Cost
+> How costly is it to reach the frontier along a traversable path?
+> High Cost Low Cost Mid Cost Low High Patch Features Patch Similarity Scene Similarity
+> Known Area New Information Obstacles Sampled FoV
+
+Fig. 2. Framework of AECNav. AECNav comprises three modules: evidence-gated perception, which uses a shared C-RADIOv4 encoder to score scene relevance and trigger SAM3 only when a probable target is observed; evidence consolidation, which back-projects detections into 3D clusters and updates their log-odds beliefs using goal, confuser, and miss evidence; and active evidence acquisition, which selects frontiers by jointly considering semantic relevance, information gain, and traversal cost until a target cluster is confirmed. Confuser categories are generated offline by an LLM. 
+
+goal; it does not account for the amount of unknown space a frontier may reveal or the cost of reaching it. As a result, un-der weak or ambiguous semantic cues, agents may oscillate among distant, low-yield frontiers. ApexNav [4] addresses this issue by reverting to geometry-based exploration when semantic cues are unreliable. ASCENT [8] integrates both signals, ranking frontiers by semantic value and traversal cost, and invoking an LLM when fine-grained selection is needed. A related probabilistic line, including IPPON [21] and BeliefMapNav [22], selects paths or frontier sequences that maximize the expected probability of observing the target. Our method instead scores each frontier by jointly considering semantic value, traversal cost, and en-route in-formation gain, enabling efficient exploration and reducing oscillation under weak semantic cues. III. M ETHODOLOGY 
+
+We address the open-vocabulary ZSON task, where a robot must navigate to a target object specified by an arbitrary category name g in previously unseen environments. At each time step t, the robot receives an egocentric RGB-D observation (It, D t) and its pose Tt relative to the starting position. The episode is considered successful if the robot issues a stop action within a predefined distance of the target object before exceeding a fixed step budget. Fig. 2 illustrates the overall pipeline of AECNav. 
+
+A. Evidence-Gated Perception 
+
+AECNav extracts all visual cues from a single C-RADIOv4 encoder E in one forward pass, producing a summary token and patch tokens: 
+
+ zsum 
+
+t , z patch 
+
+t
+
+ = E(It), (1) where zsum 
+
+t ∈ RD captures scene-level semantics and 
+
+zpatch 
+
+t ∈ RN ×D encodes local visual content across N
+
+spatial positions. The goal category g is encoded once into a text embedding eg by the SigLIP2 text encoder [23] and cached for the entire episode. The summary token provides a global assessment of how relevant the current view is to the target. After the SigLIP2 adaptor f aligns it with the text embedding space, its similarity to the goal embedding, 
+
+σscene 
+
+t = cos  f (zsum 
+
+t ), e g
+
+, (2) is projected via depth and pose onto a top-down value map 
+
+Vt ∈ RH×W that accumulates scene-level relevance over the trajectory. This map serves as a persistent spatial prior for frontier-based exploration (Sec. III-C). The summary token indicates whether the current scene is relevant but cannot localize where the target signal originates. The patch tokens resolve this. Applying the same adaptor f
+
+to each patch feature yields per-patch similarities with the goal embedding, whose maximum serves as a localized target indicator: 
+
+σpatch 
+
+t = max 
+
+1≤i≤N cos  f (zpatch 
+
+t,i ), e g
+
+. (3) Since the patch-level similarity σpatch 
+
+t already provides a strong preliminary signal for target presence, we introduce an evidence-gated mechanism to further optimize perceptual efficiency. Specifically, when σpatch  
+
+> t
+
+exceeds a similarity threshold τgate , AECNav routes the shared visual features into the SAM3 decoder without re-encoding the image, producing instance-level detections for spatial evidence con-solidation (Sec. III-B); otherwise, the segmentation step is skipped entirely. Since the patch similarities are already computed, this gating decision is nearly free, and in practice it skips over 60% of SAM3 calls, reducing per-step latency by roughly 30% (see Sec. IV-B for detailed profiling). 
+
+B. Evidence Consolidation 
+
+When the segmentation gate triggers SAM3, each detected instance is back-projected via depth into a 3D point cloud and matched to the nearest recently observed cluster based on geometric proximity. If the geometric distance to this cluster falls within a fixed association radius, the instance’s point cloud is fused into it; otherwise, the instance initializes a new cluster. Each cluster Ck maintains a scalar log-odds belief over the target hypothesis: 
+
+l(Ck) = log P (Ck = g)1 − P (Ck = g) , (4) where k indexes the clusters and P (Ck = g) denotes the estimated posterior probability that cluster Ck is an instance of the goal category g; positive values favor the target and negative values favor rejection. New clusters start at the neutral value l(Ck) = 0 and are immediately refined by the semantic update from the same observation. Following the additive update structure of classical log-odds filtering [19], [20], the belief of each observed cluster is updated upon SAM3 invocation by accumulating semantic and miss evi-dence: 
+
+l(Ck) ← l(Ck) + ∆ lsem (Ck) + ∆ lmiss (Ck), (5) with the accumulated value clamped to [lmin , l max ] to pre-vent saturation. The semantic term ∆lsem encodes evidence from detected instances, while the miss term ∆lmiss encodes evidence from the absence of expected detections. To distinguish the target from visually similar distractors, an LLM generates a small set of confuser categories (up to three) for each target, and SAM3 is prompted with the goal and confuser categories simultaneously, so that each detection carries a goal score sg and the highest confuser score sconf . Detections scoring below a fixed threshold τdet 
+
+are discarded and never recorded as instances. For the cluster matched by a detection, the semantic term in Eq. (5) follows from comparing the two scores: 
+
+∆lsem (Ck) = 
+
+
+
++αsem ρk logit(˜ sg ), sg ≥ sconf + δ, 
+
+−αsem ρk logit(˜ sconf ), sconf ≥ sg + δ, 
+
+0, otherwise ,
+
+(6) where logit( x) = log x 
+
+> 1−x
+
+, ˜sg and ˜sconf are rescaled versions of sg , sconf , ensuring that valuable detections (i.e., sg , sconf 
+
+≥ τdet ) yield non-negative logits. ρk ∈ [0 ,1] is a spatial weight given by the overlap between the new instance’s point cloud and cluster Ck, δ > 0 defines a neutral margin, and αsem scales the strength of semantic evidence. When the goal score clearly dominates (first term in Eq. (6)), the observation reinforces the target hypothesis; when the con-fuser score dominates (middle term), the same observation actively suppresses the cluster’s belief. Ambiguous cases are left unchanged, preventing detection noise from corrupting the long-term estimate. Not all informative signals come from detections. If a cluster with positive belief falls within the camera’s field of view but is not detected in the current frame, this absence itself constitutes negative evidence. We define the visibility fraction vk as the proportion of the cluster’s 3D points that project into the current view frustum, yielding the miss term update for such clusters: 
+
+∆lmiss (Ck) = −αmiss vk logit(1 − smiss ), (7) where αmiss is a weighting coefficient and smiss is an em-pirical prior for the per-frame miss rate. Clusters that should have been observed but were not are gradually corrected, while those outside the field of view remain unaffected. The accumulated belief drives the stopping decision. Once a cluster’s belief exceeds τstop , AECNav navigates toward the cluster while continuously updating its belief from sub-sequent observations. The robot stops only when the belief exceeds τstop consistently over a temporal window and it is sufficiently close to the cluster. This requires both evi-dential stability and spatial proximity, preventing premature commitment from transient high-confidence detections. 
+
+C. Active Evidence Acquisition 
+
+When no cluster’s belief is sufficient for commitment, the robot must decide where to gather new evidence. Semantic relevance indicates which direction may contain the target; especially when such cues are weak, exploration must gain the most new information at the least traversal cost, so that fresh semantic evidence can emerge to support the decision. AECNav therefore selects the frontier that maximizes a composite utility: 
+
+Ut(f ; g) = eSt(f ; g) + λinfo eGt(f ) − λdist eCt(f ), (8) where λinfo and λdist are weighting coefficients, and the tilde 
+
+f(·) denotes min-max normalization across the current frontier set, making terms of different scales directly comparable. The semantic term St aggregates goal-relevant value from the map around each frontier, as in VLFM [3], pulling the robot toward regions likely to contain the target. The information gain term Gt estimates how much unobserved space the robot would reveal by traveling to the frontier along a feasible path. The cost term Ct penalizes long traversals, discouraging expensive detours for marginal return. For each candidate frontier f , AECNav computes the shortest traversable path πt(f ) from the robot via BFS on the occupancy grid. Viewpoints are sampled at regular intervals along this path, with headings determined by the local path tangent; the endpoint heading is oriented toward nearby unknown cells. At each sampled viewpoint, rays are cast TABLE I COMPARISON WITH PREVIOUS METHODS ON HM3D-V2, MP3D, AND HM3D-OVON.                                                                                                                                           
+
+> Method Training-free Venue HM3D-v2 MP3D HM3D-OVON SR ↑SPL ↑SR ↑SPL ↑SR ↑SPL ↑
+> Uni-NaVid [24] ✗RSS 2025 73.7 37.1 ––39.5 19.8 MTU3D [25] ✗ICCV 2025 ––––40.8 12.1 CompassNav [26] ✗ICLR 2026 61.6 27.8 42.0 17.5 43.5 21.6 OVSegDT [27] ✗CVPR 2026 ––––44.7 20.6 TrajRAG [28] ✗CVPR 2026 78.1 40.2 42.6 18.0 ––CoW [1] ✓CVPR 2023 ––9.2 4.9 ––BeliefMapNav [22] ✓NeurIPS 2025 ––37.3 17.6 ––ASCENT [8] ✓IEEE RA-L 2026 ––44.5 15.5 ––L3MVN [29] ✓IROS 2023 36.3 15.7 34.9 14.5 ––SG-Nav [16] ✓NeurIPS 2024 49.6 25.5 40.2 16.0 ––InstructNav [30] ✓CoRL 2024 58.0 20.9 ––––VLFM [3] ✓ICRA 2024 63.6 32.5 36.4 17.5 35.2 19.6 WMNav [31] ✓IROS 2025 72.2 33.3 45.4 17.2 ––MSGNav [18] ✓CVPR 2026 74.1 33.4 ––48.3 27.0 ApexNav [4] ✓IEEE RA-L 2025 76.2 38.0 39.2 17.8 ––AECNav (ours) ✓Ours 84.7 45.3 51.3 25.9 57.3 30.5
+
+within the camera’s horizontal field of view, traversing free and unknown cells and terminating upon hitting a known obstacle or reaching the sensing range; only unknown cells encountered along each ray contribute to the information gain. The information gain and traversal cost are then com-puted over the same path: 
+
+Gt(f ) = Ut ∩ Vis  πt(f ) , Ct(f ) = πt(f ) . (9) where Ut is the set of currently unknown cells, Vis( πt(f )) 
+
+is the union of cells visible from all sampled viewpoints via ray casting, and |πt(f )| is the path length. This formulation estimates not only what the robot would observe at the destination, but also what it would see along the way. The resulting observations re-enter the perception and belief stages, closing the loop: the robot explores when target belief is insufficient, and stops once accumulated evidence meets the stability criterion defined in Sec. III-B. IV. E XPERIMENTS 
+
+A. Experimental Settings 
+
+Datasets. For a fair comparison, we evaluate our approach against prior methods on three benchmarks in the Habi-tat simulator [32]: HM3D-v2 [33], comprising 1,000 test episodes, 36 scenes, and 6 goal categories; MP3D [34], com-prising 2,195 test episodes, 11 scenes, and 21 goal categories; and HM3D-OVON [2], comprising 3,000 test episodes, 36 scenes, and 49 goal categories. Notably, HM3D-OVON is specifically designed for the open-vocabulary setting. 
+
+Evaluation Metrics. We report two standard ObjectNav metrics: Success Rate (SR) and Success weighted by Path Length (SPL). All results follow the same settings as prior work [31], [26], [18], with episodes capped at 500 steps. For efficiency analysis, we additionally report per-episode steps and runtime, along with per-step latency in ablations. 
+
+Implementation Details. The Habitat simulator provides 
+
+640 ×480 RGB-D observations with a 79 ◦ horizontal FoV and a depth range of [0 .5, 5.0] m. The camera is mounted at 0.88 m, and the robot selects from MOVE FORWARD 
+
+(0.25 m), TURN LEFT /RIGHT (30 ◦), and STOP . Following VLFM [3], we use a pretrained PointNav policy for low-level waypoint navigation. The top-down occupancy and value maps share an H×W =1000 ×1000 grid at 0.05 m/cell. The shared backbone is C-RADIOv4 (SO400M) at 672 ×672 
+
+input resolution, with SigLIP2-G and SAM3 adaptor heads. The segmentation gate fires when the maximum patch sim-ilarity exceeds τgate =0 .08 , and SAM3 detections scoring below τdet =0 .4 are discarded. An instance is fused into an existing cluster when their geometric distance falls below 
+
+0.75 m. Confuser categories are generated by DeepSeek-V4-Flash and cached across episodes. Belief is bounded to [lmin , l max ]=[ −4, 4] with neutral margin δ=0 .10 , ev-idence weights (αsem , α miss )=(0 .7, 0.3) , and miss prior 
+
+smiss =0 .2083 , estimated from detection statistics as the per-frame miss rate. The robot stops when τstop =1 .0
+
+is exceeded in ≥2 of 5 consecutive frames and it is within 0.5 m of the target cluster. Exploration weights are 
+
+(λinfo , λ dist )=(1 .0, 1.0) , with rays cast at 5◦ steps over 5.0 mrange and viewpoints sampled at 0.75 m stride along the BFS path. All experiments run on a single NVIDIA RTX 4090 and Intel Core i9-14900K. 
+
+B. Quantitative Results 
+
+Comparison on Navigation Accuracy. Table I presents quantitative comparisons between our method and prior approaches. As shown, AECNav consistently outperforms all previous methods, achieving the highest SR and SPL across all three benchmarks without any task-specific training. Specifically, on HM3D-v2, our method achieves 84.7% SR and 45.3% SPL, outperforming the previous state-of-the-art method TrajRAG [28] by an absolute 6.6% in SR and 5.1% in SPL. On MP3D, AECNav reaches 51.3% SR and 25.9% SPL, exceeding WMNav [31] by 5.9% in SR and 8.7% in SPL. The large improvement in SPL suggests that our information-aware frontier selection effectively reduces un-TABLE II EFFICIENCY COMPARISON ON THE FIRST 100 EPISODES OF HM3D-V2                                                   
+
+> Method LLM Effort Steps ↓Runtime (s) ↓
+> SG-Nav[16] Per-step 278.60 1407.53 InstructNav[30] On-demand 212.20 626.96 L3MVN[29] On-demand 187.90 177.54 ASCENT[8] On-demand 162.09 200.31 VLFM[3] None 169.43 53.36 ApexNav[4] Offline cached 167.59 177.97 AECNav Offline cached 108.63 24.39
+> TABLE III PERCEPTION PIPELINE AND GATING ANALYSIS ON HM3D-V2.
+> Perception Setting SR ↑SPL ↑Latency (s/step) ↓Skip (%)
+> BLIP-2 + YOLOv7 + MobileSAM 75.9 36.6 0.402 –C-RADIO (no gate) 84.7 45.2 0.248 0C-RADIO + gate ( τgate =0 .12 )84.0 44.9 0.162 78.5 C-RADIO + gate ( τgate =0 .10 )84.5 45.2 0.173 72.3 C-RADIO + gate ( τgate =0 .08 )84.7 45.3 0.178 62.5
+
+necessary detours in the structurally complex MP3D scenes. On HM3D-OVON, the most challenging open-vocabulary benchmark, our method achieves 57.3% SR and 30.5% SPL, surpassing MSGNav [18] by 9.0% in SR. This substantial improvement is consistent with the design of our log-odds belief mechanism, which explicitly handles ambiguity from visually similar distractors, a challenge that becomes increas-ingly prevalent as the goal vocabulary grows. 
+
+Comparison on Efficiency. Table II compares the average number of steps and end-to-end runtime per episode, mea-sured on the first 100 episodes of HM3D-v2. Methods that invoke an LLM online spend most of their time on language model reasoning: SG-Nav takes over 1,400 s per episode and InstructNav over 600 s, despite step counts comparable to other baselines. Among baseline methods without online LLM calls, VLFM attains the lowest prior runtime (53.36 s), whereas ApexNav, executed through a ROS-based control loop, reaches 177.97 s. AECNav completes an episode in 24.39 s on average, 2.2× faster than VLFM, while also taking the fewest steps (108.63, 33% fewer than the second-best ASCENT). This gain draws on two independent sources: information-aware exploration shortens each episode, while the shared encoding and evidence-gated perception cut the cost of every step, as dissected below. Table III breaks down the contributions of shared encoding and the segmentation gate. For a controlled comparison, all latencies in this analysis measure method inference alone, excluding simulator stepping and benchmarking overhead. Replacing the multi-model pipeline with C-RADIO raises SR by 8.8% and SPL by 8.6% at 1.6× lower latency: a unified semantic basis lets all reasoning stages draw on the same visual representation, eliminating inconsistencies intro-duced by separate encoding paths. Adding a segmentation gate effectively skips unnecessary calls, presenting a clear accuracy–speed tradeoff: at τgate =0 .12 , 78.5% of calls are skipped yet SR drops by 0.7%; as the threshold relaxes to                                 
+
+> TABLE IV ABLATION STUDY OF THE THREE CORE COMPONENTS ON HM3D-V2.
+> Setting SR ↑SPL ↑
+> w/o Evidence-Gated Perception 75.9 36.6 w/o Evidence Consolidation 71.9 40.5 w/o Active Evidence Acquisition 81.8 41.8 AECNav (full) 84.7 45.3
+> TABLE V ABLATION OF NEGATIVE EVIDENCE TYPES IN EVIDENCE CONSOLIDATION ON HM3D-V2.
+> Goal Negative Evidence SR ↑SPL ↑
+> Confuser Miss
+> ✓✗✗81.9 43.9
+> ✓✓✗83.7 44.5
+> ✓✗✓83.2 45.1
+> ✓✓✓84.7 45.3
+
+τgate =0 .08 , skip rate settles at 62.5% and SR fully recovers to 84.7%. We therefore adopt τgate =0 .08 , which preserves full accuracy at 2.3× the speed of the multi-model baseline. 
+
+C. Ablation Studies 
+
+Ablation of Main Components. Table IV highlights ablation experiments on the main components. Here “w/o” means the corresponding module falls back to a conventional alternative or is removed altogether. 
+
+a) w/o Evidence-Gated Perception: scene scoring, de-tection, and segmentation are handled by separate BLIP-2 [9], YOLOv7 [35] and MobileSAM [11] encoders. This variant causes an 8.8% drop in SR and an 8.7% drop in SPL, showing that a shared semantic basis across reasoning stages is important for both accuracy and efficiency. 
+
+b) w/o Evidence Consolidation: the robot navigates to the nearest target point cloud as soon as one is detected, without evidence accumulation. It causes the largest drop (−12 .8% SR), confirming that structured evidence accumula-tion is critical for accurate target confirmation; without it, the robot cannot reliably model target confidence under similar-object interference and transient false detections. 
+
+c) w/o Active Evidence Acquisition: frontier selection uses semantic relevance only ( λinfo =λdist =0 ). It costs 2.9% 
+
+SR and 3.5% SPL, suggesting that reasoning about obser-vational value and reachability beyond semantic relevance improves both navigation success and efficiency. 
+
+Ablation of Evidence Consolidation. 
+
+Table V details the ablation results evaluating the con-fuser (middle term in Eq.(5)) and the missing detection (Eq.(7)) within evidence consolidation. Relying solely on the log-odds belief with goal score (first term in Eq.(5)) yields an 81.9% SR, a 10% improvement over the 71.9% SR observed without evidence consolidation. Accumulation itself thus carries most of the benefit: consistent observations compound into a running belief, so a candidate must earn confirmation across viewpoints rather than be accepted on first detection. The remaining two terms add 2.8% to the 80 81 82 83 84 85 86                            
+
+> SR (%)
+> 81.8 84.3 84.7 85.0 85.1
+> 81.9
+> (a) Vary λinfo (λdist =1.0)
+> 80 81 82 83 84 85 86
+> SR (%)
+> 81.8 81.9 84.3 84.7
+> 85.1
+> 84.0
+> (b) Vary λdist (λinfo =1.0)
+> 0.0/0.0 0.0/1.0 1.0/1.0 1.5/1.0 1.8/1.0 2.0/1.0
+> λinfo /λdist
+> 40 41 42 43 44 45 46 47
+> SPL (%)
+> 41.8 44.3
+> 45.3 45.1 44.3 42.4
+> 0.0/0.0 1.0/0.0 1.0/0.5 1.0/1.0 1.0/1.5 1.0/1.8
+> λinfo /λdist
+> 40 41 42 43 44 45 46 47
+> SPL (%)
+> 41.8 41.8 44.1 45.3
+> 45.9 45.7
+> Sweep configs. (darker = larger swept λ)w/o both terms (0/0) Top-midpoint trend
+
+Fig. 3. Results on varying the weights for information gain λinfo and traversal cost λdist in Eq. (8). 
+
+SR by repairing distinct failures. The confuser term gains 1.8% by actively suppressing distractors (e.g., preventing the robot from mistaking a sofa for a chair). The missing detection term gains 1.3% by undoing the belief raised by false positives, releasing the robot back to exploration when a cluster stops reappearing. Because these gains are nearly additive, they clearly correct disjoint errors, together raising AECNav to an 84.7% SR. 
+
+Ablation of Exploration Weights. We ablate the infor-mation gain λinfo and traversal cost λdist weights in Eq. (8). As shown in Fig. 3, enabling the traversal cost term alone already yields a marked improvement, lifting SR from 81.8% to 84.3% and SPL from 41.8% to 44.3%, and progressively adding information gain on top further raises SR to 85.1%. In contrast, information gain alone brings virtually no benefit (81.9% vs. 81.8% SR); it becomes effective only when paired with the cost term. We attribute this to the nature of the information objective: without a notion of cost, the utility consistently favors large open regions with wide visibility, sending the robot on long excursions that consume the step budget while drifting away from semantically promising areas. Over-weighting either term is harmful: λinfo =2 .0
+
+dilutes semantic guidance and collapses SR to 81.9%, while an overly large λdist discourages necessary long-range ex-ploration. Although λdist = 1 .5 performs slightly better on HM3D-v2, the gain is not consistent across benchmarks; we therefore adopt λinfo = 1 .0 and λdist = 1 .0 as the default setting across all datasets to avoid dataset-specific tuning. 
+
+D. Real-World Deployment 
+
+We deploy AECNav on a Unitree Go2 quadruped robot equipped with an Intel RealSense D455 RGB-D camera. All perception and planning run on the same workstation, connected to the robot via binary WebSocket. We evaluate eight open-vocabulary targets across four indoor scenes with five trials each, yielding 40 episodes in total; notably, several targets, such as water refill station and coffee machine, 
+
+TABLE VI REAL -WORLD NAVIGATION RESULTS .
+
+Scene Target SR TD (m) TT (s) 
+
+Office Sofa 5/5 8.33 26.92 Coffee machine 4/5 13.48 37.55 Pathway Water refill station 5/5 9.43 28.11 Printer 5/5 19.90 44.13 Restroom Chair 5/5 20.03 51.17 Potted plant 5/5 21.57 49.87 Classroom Elevator 4/5 23.31 53.44 Trash can 5/5 26.14 51.96 
+
+Overall 38/40 17.77 42.89 TABLE VII PER -DECISION LATENCY BREAKDOWN OF THE DEPLOYMENT PIPELINE ,
+
+> AVERAGED OVER ALL REAL
+
+-WORLD EPISODES .
+
+Sensing Mapping Percep. Planning Sched. Total Latency (ms) 33.9 19.2 56.3 72.2 15.8 197.4 
+
+fall outside standard benchmark vocabularies. Moreover, the chair trials are deliberately staged with nearby sofas and benches, stress-testing the method’s ability to distinguish the target from visually similar distractors. Table VI reports the per-target success rate (SR) together with the average traveled distance (TD) and traveled time (TT) over successful episodes. AECNav succeeds in 38 of 40 episodes (95%), achieving full success on six of the eight targets, with TD ranging from about 8 m in the compact office to over 26 m in the classroom scene. In the two failures, the coffee machine lay in a corner never observed by the forward-facing camera and the elevator trial exhausted the step budget in a large open area. As shown in Table VII, AECNav sustains a decision rate of roughly 5 Hz ( 197 ms per decision) in real-world deployment. Fig. 4 illustrates the behavior of our method in two rep-resentative cases. Full demonstrations for all targets across the four scenes are provided in the supplementary video. V. C ONCLUSION 
+
+We present AECNav, which formulates ZSON as an evidence-driven perception-to-decision problem and ad-dresses it through three tightly coupled components. First, evidence-gated perception derives all semantic cues from a shared encoding and invokes segmentation only when local evidence justifies it. Second, evidence consolidation accumu-lates detections into a running cluster-level belief, explicitly distinguishing positive, confuser, and miss evidence. Finally, when the accumulated evidence remains insufficient, active evidence acquisition guides exploration toward regions ex-pected to provide the greatest new information at the lowest traversal cost. AECNav achieves state-of-the-art performance on three benchmark datasets with substantially improved efficiency, while real-world deployment at approximately 5 Hz further demonstrates its practical effectiveness. Success 
+
+> Success
+
+Scene ：Restroom Goal ：Chair 
+
+Scene ：Classroom Goal ：Trash Can    
+
+> Weak evidence: segmentation skipped. Sofa scores higher as confuser than as goal. ( Goal: 0.47 /Confuser: 0.86 )A second sofa is detected as a chair. (Goal: 0.45 /Confuser: N/A )Confuser dominates again; belief stays negative.( Goal: 0.44 /Confuser: 0.62 )True chair confirmed; robot stops. (Goal: 0.83 /Confuser: N/A )Weak evidence: segmentation skipped. A distractor is detected as the goal. (Goal: 0.87 /Confuser: N/A )Closer views fail to re-detect it: miss evidence. Belief drops below threshold. Exploration resumes and finds a new candidate. ( Goal: 0.63 /Confuser: N/A )True trash can confirmed; robot stops.( Goal: 0.85 /Confuser: N/A )
+
+Fig. 4. Real-world trials on a Unitree Go2. Top: confuser evidence rejects two sofas while searching for a chair. Bottom: miss evidence withdraws a distractor that fails to reappear at close range, and the robot then reaches the true object. 
+
+REFERENCES [1] S. Y. Gadre, M. Wortsman, G. Ilharco, L. Schmidt, and S. Song, “CoWs on pasture: Baselines and benchmarks for language-driven zero-shot ObjectNav,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2023, pp. 23 171–23 181. [2] N. Yokoyama, R. Ramrakhya, A. Das, D. Batra, and S. Ha, “HM3D-OVON: A dataset and benchmark for open-vocabulary object goal navigation,” in Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst. (IROS) ,2024, pp. 5543–5550. [3] N. Yokoyama, S. Ha, D. Batra, J. Wang, and B. Bucher, “VLFM: Vision-language frontier maps for zero-shot semantic navigation,” in 
+
+Proc. IEEE Int. Conf. Robot. Autom. (ICRA) , 2024, pp. 42–48. [4] M. Zhang, et al. , “ApexNav: An adaptive exploration strategy for zero-shot ObjectNav with target-centric semantic fusion,” IEEE Robot. Autom. Lett. , 2025. [5] A. Majumdar, G. Aggarwal, B. Devnani, J. Hoffman, and D. Batra, “ZSON: Zero-shot object-goal navigation using multimodal goal em-beddings,” in Proc. Adv. Neural Inf. Process. Syst. (NeurIPS) , vol. 35, 2022, pp. 32 340–32 352. [6] A. Radford, et al. , “Learning transferable visual models from natural language supervision,” in Proc. Int. Conf. Mach. Learn. (ICML) , vol. 139, 2021, pp. 8748–8763. [7] B. Yamauchi, “A frontier-based approach for autonomous exploration,” in Proc. IEEE Int. Symp. Comput. Intell. Robot. Autom. (CIRA) , 1997, pp. 146–151. [8] Z. Gong, et al. , “Stairway to success: An online floor-aware zero-shot object-goal navigation framework via llm-driven coarse-to-fine exploration,” IEEE Robot. Autom. Lett. , 2026. [9] J. Li, D. Li, S. Savarese, and S. Hoi, “BLIP-2: Bootstrapping language-image pre-training with frozen image encoders and large language models,” in Proc. Int. Conf. Mach. Learn. (ICML) , vol. 202, 2023, pp. 19 730–19 742. [10] S. Liu, et al. , “Grounding DINO: Marrying DINO with grounded pre-training for open-set object detection,” in Proc. Eur. Conf. Comput. Vis. (ECCV) , 2024, pp. 38–55. [11] C. Zhang, et al. , “Faster segment anything: Towards lightweight SAM for mobile applications,” 2023. [12] M. Ranzinger, et al. , “C-RADIOv4 (tech report),” 2026. [13] O. Alama, et al. , “Rayfronts: Open-set semantic ray frontiers for online scene understanding and exploration,” in Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst. (IROS) , 2025, pp. 5930–5937. [14] F. Argenziano, et al. , “R2F: Repurposing ray frontiers for LLM-free object navigation,” 2026. [15] M. Ranzinger, G. Heinrich, J. Kautz, and P. Molchanov, “AM-RADIO: Agglomerative vision foundation model reduce all domains into one,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) ,2024, pp. 12 490–12 500. [16] H. Yin, X. Xu, Z. Wu, J. Zhou, and J. Lu, “SG-Nav: Online 3d scene graph prompting for LLM-based zero-shot ObjectNav,” in Proc. Adv. Neural Inf. Process. Syst. (NeurIPS) , vol. 37, 2024. [17] L. Zhang, et al. , “TriHelper: Zero-shot object navigation with dynamic assistance,” in Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst. (IROS) ,2024, pp. 10 035–10 042. [18] X. Huang, et al. , “MSGNav: Unleashing the power of multi-modal 3d scene graph for zero-shot embodied navigation,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2026, pp. 37 154– 37 163. [19] A. Elfes, “Using occupancy grids for mobile robot perception and navigation,” Computer , vol. 22, no. 6, pp. 46–57, 1989. [20] S. Thrun, W. Burgard, and D. Fox, Probabilistic Robotics . MIT Press, 2005. [21] K. Qu, J. Tan, T. Zhang, F. Xia, C. Cadena, and M. Hutter, “Ippon: Common sense guided informative path planning for object goal navigation,” 2024. [22] Z. Zhou, Y. Hu, L. Zhang, Z. Li, and S. Chen, “BeliefMapNav: 3D voxel-based belief map for zero-shot object navigation,” in Proc. Adv. Neural Inf. Process. Syst. (NeurIPS) , vol. 38, 2025, pp. 83 008–83 036. [23] M. Tschannen, et al. , “SigLIP 2: Multilingual vision-language en-coders with improved semantic understanding, localization, and dense features,” 2025. [24] J. Zhang, et al. , “Uni-NaVid: A Video-based Vision-Language-Action Model for Unifying Embodied Navigation Tasks,” in Proc. Robot.: Sci. Syst. (RSS) , Los Angeles, CA, USA, 2025. [25] Z. Zhu, et al. , “Move to understand a 3d scene: Bridging visual grounding and exploration for efficient and versatile embodied navi-gation,” in Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV) , 2025, pp. 8120–8132. [26] L. Li, J. Zhao, Y. Xie, X. Tan, and X. Li, “CompassNav: Steering from path imitation to decision understanding in navigation,” in Proc. Int. Conf. Learn. Represent. (ICLR) , 2026. [27] T. Zemskova, A. Staroverov, D. Yudin, and A. Panov, “OVSegDT: Segmenting transformer for open-vocabulary object goal navigation,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) ,2026, pp. 8120–8129. [28] Y. Wang, S. Zhang, K. Zhang, X. Song, S. Du, and S. Jiang, “TrajRAG: Retrieving geometric-semantic experience for zero-shot object navigation,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2026, pp. 15 166–15 176. [29] B. Yu, H. Kasaei, and M. Cao, “L3MVN: Leveraging large language models for visual target navigation,” in Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst. (IROS) , 2023, pp. 3554–3560. [30] Y. Long, W. Cai, H. Wang, G. Zhan, and H. Dong, “Instructnav: Zero-shot system for generic instruction navigation in unexplored environment,” in Proc. Conf. Robot Learn. (CoRL) , vol. 270, 2024, pp. 2049–2060. [31] D. Nie, X. Guo, Y. Duan, R. Zhang, and L. Chen, “WMNav: Integrating vision-language models into world models for object goal navigation,” in Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst. (IROS) ,2025, pp. 2392–2399. [32] M. Savva, et al. , “Habitat: A platform for embodied ai research,” in 
+
+Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV) , 2019. [33] K. Yadav, et al. , “Habitat-matterport 3d semantics dataset,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) , 2023, pp. 4927–4936. [34] A. Chang, et al. , “Matterport3D: Learning from RGB-D data in indoor environments,” in Proc. Int. Conf. 3D Vis. (3DV) , 2017, pp. 667–676. [35] C.-Y. Wang, A. Bochkovskiy, and H.-Y. M. Liao, “YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors,” in Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR) ,2023, pp. 7464–7475.
