@@ -1,21 +1,21 @@
 ---
 title: "ReasonGrounder: LVLM-Guided Hierarchical Feature Splatting for Open-Vocabulary 3D Visual Grounding and Reasoning"
-title_zh: ReasonGrounder：LVLM引导的分层特征拼接用于开放词汇3D视觉定位与推理
+title_zh: ReasonGrounder：LVLM引导的分层特征泼溅实现开放词汇3D视觉定位与推理
 authors: "Liu, Zhenyang, Wang, Yikai, Zheng, Sixiao, Pan, Tongying, Liang, Longfei, Fu, Yanwei, Xue, Xiangyang"
 date: 2025-06-01
 pdf: "https://openaccess.thecvf.com/content/CVPR2025/papers/Liu_ReasonGrounder_LVLM-Guided_Hierarchical_Feature_Splatting_for_Open-Vocabulary_3D_Visual_Grounding_CVPR_2025_paper.pdf"
 tags: ["query:embodied-nav"]
-score: 8.0
-evidence: ReasonGrounder根据语言描述实现开放词汇3D定位，是视觉语言导航的核心能力
-tldr: 开放词汇3D视觉定位与推理旨在根据自然语言描述在场景中定位物体，是视觉语言导航和自主机器人的关键能力。现有方法依赖3D标注和掩码微调，难以处理多样语义和常识推理。ReasonGrounder借助LVLM引导的分层3D特征高斯场，按物理尺度自适应分组，实现开放词汇的3D定位与推理，在定位被遮挡物体和复杂语言指令上取得显著效果，为具身导航提供可靠支持。
+score: 7.0
+evidence: 开放词汇3D视觉定位，支持语言引导的导航
+tldr: 开放词汇3D视觉定位与推理是视觉语言导航和机器人操作的关键能力，但现有方法依赖3D标注和掩膜提案，难以泛化。本文提出ReasonGrounder，利用LVLM引导的分层3D特征高斯场，按物理尺度自适应分组，实现开放词汇定位与推理。ReasonGrounder能定位被遮挡物体并依据隐式语言描述进行推理，无需密集3D微调。该工作为语言驱动的具身导航提供了高效的3D语义定位基础。
 source: CVPR-2025-Accepted
 selection_source: conference_retrieval
 figures_json: "[{\"url\": \"assets/figures/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/fig-001.webp\", \"caption\": \"\", \"page\": 0, \"index\": 1, \"width\": 851, \"height\": 542, \"label\": \"Figure\"}, {\"url\": \"assets/figures/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/fig-002.webp\", \"caption\": \"\", \"page\": 0, \"index\": 2, \"width\": 1758, \"height\": 923, \"label\": \"Figure\"}, {\"url\": \"assets/figures/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/fig-003.webp\", \"caption\": \"\", \"page\": 0, \"index\": 3, \"width\": 1809, \"height\": 414, \"label\": \"Figure\"}, {\"url\": \"assets/figures/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/fig-004.webp\", \"caption\": \"\", \"page\": 0, \"index\": 4, \"width\": 1603, \"height\": 480, \"label\": \"Figure\"}, {\"url\": \"assets/figures/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/fig-005.webp\", \"caption\": \"\", \"page\": 0, \"index\": 5, \"width\": 1610, \"height\": 1037, \"label\": \"Figure\"}, {\"url\": \"assets/figures/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/fig-006.webp\", \"caption\": \"\", \"page\": 0, \"index\": 6, \"width\": 1775, \"height\": 403, \"label\": \"Figure\"}]"
 tables_json: "[{\"url\": \"assets/tables/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/table-001.webp\", \"caption\": \"\", \"page\": 0, \"index\": 1, \"width\": 877, \"height\": 256, \"label\": \"Table\"}, {\"url\": \"assets/tables/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/table-002.webp\", \"caption\": \"\", \"page\": 0, \"index\": 2, \"width\": 876, \"height\": 256, \"label\": \"Table\"}, {\"url\": \"assets/tables/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/table-003.webp\", \"caption\": \"\", \"page\": 0, \"index\": 3, \"width\": 896, \"height\": 462, \"label\": \"Table\"}, {\"url\": \"assets/tables/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/table-004.webp\", \"caption\": \"\", \"page\": 0, \"index\": 4, \"width\": 813, \"height\": 374, \"label\": \"Table\"}, {\"url\": \"assets/tables/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/table-005.webp\", \"caption\": \"\", \"page\": 0, \"index\": 5, \"width\": 805, \"height\": 290, \"label\": \"Table\"}, {\"url\": \"assets/tables/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/table-006.webp\", \"caption\": \"\", \"page\": 0, \"index\": 6, \"width\": 841, \"height\": 141, \"label\": \"Table\"}, {\"url\": \"assets/tables/cvpr-2025-accepted/cvpr-2025-liu-reasongrounder-lvlm-guided-hierarchical-feature-splatting-for-open-vocabulary-3d-visual-grounding-cvpr-2025-paper/table-007.webp\", \"caption\": \"\", \"page\": 0, \"index\": 7, \"width\": 846, \"height\": 758, \"label\": \"Table\"}]"
-motivation: 开放词汇3D视觉定位依赖3D标注和掩码微调，难以处理多样语义和常识推理，限制导航应用。
-method: 提出ReasonGrounder，利用LVLM引导的分层3D特征高斯场，按物理尺度分组实现无需掩码的开放词汇定位。
-result: 在3D视觉定位基准上验证了ReasonGrounder对被遮挡物体和隐式描述的定位能力，性能优于现有方法。
-conclusion: 为视觉语言导航与自主机器人提供了可泛化的开放词汇3D定位框架。
+motivation: 现有开放词汇3D定位依赖3D标注和掩膜提案，语义多样性有限，难以支撑视觉语言导航等复杂任务。
+method: 利用LVLM指导，结合分层3D特征高斯场按物理尺度完成自适应分组，实现开放词汇的3D视觉定位与推理。
+result: 在开放词汇3D定位和推理任务上取得较好性能，能处理被遮挡物体，减少对3D微调的依赖。
+conclusion: 验证了LVLM与分层特征表征结合的有效性，为语言引导的导航和机器人应用提供支撑。
 ---
 
 ## Abstract
@@ -25,159 +25,109 @@ Open-vocabulary 3D visual grounding and reasoning aim to localize objects in a s
 
 ## 论文详细总结（自动生成）
 
-## 1. 核心问题与整体含义（研究动机与背景）
+# 论文详细中文总结
 
-- 论文聚焦于 **开放词汇 3D 视觉定位与推理（Open-vocabulary 3D Visual Grounding and Reasoning）**：给定自然语言描述，在 3D 场景中定位目标物体，且要理解**隐含、间接、复杂的语言指令**，并能在目标物体**被部分或完全遮挡**时实现定位。
-- 该能力是视觉语言导航、自主机器人、增强现实等应用的关键基础，因为这些场景中视觉数据往往不完整，语言指令也常是模糊或间接的。
-- 现有 3D 视觉定位方法存在明显局限：
-  - 大量依赖 3D 标注（如 bounding boxes、mask proposals）进行微调，泛化能力差；
-  - 对开放词汇、常识推理和隐含语义的理解不足；
-  - 难以处理遮挡场景下的目标定位，尤其是新视角下的“完整物体感知”；
-  - 基于 NeRF/LangSplat 等方法通常只支持显式提示，对自然语言中的歧义和推理能力有限。
-- 为此，论文提出 **ReasonGrounder**：一种 LVLM 引导的分层 3D 特征高斯场方法，实现无需 3D 标注、支持隐式指令理解、具备“amodal perception”的开放词汇 3D 定位与推理，并构建了新数据集 **ReasoningGD** 以支撑相关评测。
+## 一、核心问题与整体含义（研究动机与背景）
 
-## 2. 提出的方法论
+- **任务定义**：开放词汇 3D 视觉定位与推理（Open-Vocabulary 3D Visual Grounding and Reasoning）指根据自然语言描述（尤其是隐式、间接表达）在三维场景中准确定位目标物体，并且即使目标被遮挡或仅部分可见，也能完成定位。
+- **现有挑战**：
+  - 传统 3D 视觉定位方法（如 ScanRefer、ReferIt3D）严重依赖 3D 标注和 mask 提案，难以泛化到动态、非结构化环境。
+  - 已有开放词汇方法（如 LERF、LangSplat）虽然摆脱了 3D 标注，但只能处理显式指令，难以理解复杂隐式语言（如“可以装咖啡的物体”），也无法处理遮挡情形下的目标完整定位。
+- **应用价值**：视觉语言导航、自主机器人、增强现实等需要理解模糊语言并推断用户意图的真实场景。
+- **本文核心思路**：引入大型视觉语言模型（LVLM）理解隐式指令，再结合基于 3D 高斯泼溅（3DGS）的分层特征场，按物理尺度对高斯分组，从而实现开放词汇 3D 定位与遮挡下的 amodal 感知。
 
-### 2.1 核心思想
+## 二、论文提出的方法论
 
-- 使用 **3D Gaussian Splatting (3DGS)** 作为场景表示，并给每个 3D 高斯附加潜在特征向量。
-- 通过两套 MLP 映射得到**分层语言特征**和**分层实例特征**：
-  - 语言特征由 CLIP 嵌入监督，确保多视角一致性；
-  - 实例特征通过对比学习和 3D 物理尺度监督，支持不同粒度的高斯分组。
-- 引入 **LVLM（大型视觉语言模型）** 解析隐含指令，推理目标物体；再借助 CLIP 选择与推理结果最匹配的参考视角。
-- 根据目标物体的 3D 尺度对高斯进行分组，选择与目标最相关的高斯组，实现精确 3D 定位，并能在新视角中渲染完整物体（即便被遮挡）。
+- **总体框架**：ReasonGrounder = 3D Gaussian Splatting + 分层特征高斯场（语言特征 + 实例特征） + LVLM 引导的参考视图选择与高斯分组。
+- **关键技术细节**：
 
-### 2.2 关键技术细节
+1. **Scale-Hierarchical Feature Gaussian Field（尺度分层特征高斯场）**
+   - 先用标准 3DGS 重建场景，并利用 SAM 从训练视图中生成 2D 分割 mask。
+   - 借助 3DGS 渲染的深度，将 mask 像素反投影到 3D，计算每个 mask 的物理尺度 \(s_i\)。
+   - 对每个 mask 区域提取多视图 CLIP 特征 \(\phi_i\)，形成三元组 \(\{m_i, \phi_i, s_i\}\)。
+   - 为每个 3D 高斯附加潜在特征 \(f_{g_i}\)，并通过两个浅层 MLP 映射：
+     - **语言映射器 \(F_l\)**：输入（尺度 \(s_i\), 潜在特征），输出分层语言特征，用 PCA 压缩后的 CLIP 特征做 Huber 损失监督，保证多视角一致性。
+     - **实例映射器 \(F_g\)**：输入同样为（尺度, 潜在特征），输出实例嵌入，使用基于 GARField 的对比损失训练，使同一尺度下同属一个 mask 的像素特征相近，不同 mask 的像素特征分离。
+   - 渲染方式沿用 3DGS 的 alpha blending，实现 2D 特征图的可微渲染。
 
-1. **训练监督生成**：
-   - 先用 SAM 生成 2D 分割掩码，过滤并去重得到掩码候选集；
-   - 利用已训练的 3DGS 渲染深度，计算每个掩码对应 3D 点的标准差，从而得到物理尺度；
-   - 对每个掩码区域提取 CLIP 特征，形成 `(掩码, CLIP特征, 物理尺度)` 三元组。
+2. **LVLM-Guided Hierarchical Grouping（LVLM 引导的分层分组）**
+   - **参考视图选择**：将俯视图和隐式查询输入 LVLM（如 LLaVA 1.5），得到推理出的目标物体名称和解释；再用 CLIP 图像-文本编码器从训练视图中选出与目标语义最匹配的 2D 视图作为参考视图。
+   - **尺度选择**：计算目标物体 CLIP 嵌入与参考视图中各 mask 的 CLIP 嵌入的余弦相似度，选出对应最佳尺度 \(s_{i*}\)。
+   - **高斯分组**：使用 HDBSCAN 对分层实例特征进行聚类，得到若干高斯组；用 alpha blending 渲染参考视图中的实例特征，选出与语言相关度最高像素对应的实例特征，再匹配最相似的聚类中心，最终确定目标高斯组 \(G_i^*\)。
+   - **Amodal 感知**：在任意新视角下，直接渲染选定的高斯组，即可得到包含遮挡部分的完整目标区域。
 
-2. **分层语言特征**：
-   - 对 CLIP 特征做 PCA 压缩，降低高斯存储开销；
-   - 语言映射器 `F_l` 以物理尺度 `s_i` 和高斯潜在特征 `f_gi` 为输入，输出分层语言特征：
-     `φ_sgi = F_l(s_i, f_gi)`
-   - 使用 Huber 损失监督渲染后的语言特征与压缩 CLIP 特征。
+## 三、实验设计
 
-3. **分层实例特征**：
-   - 实例映射器 `F_g` 同样以 `(s_i, f_gi)` 为输入，输出实例嵌入；
-   - 利用 GARField 启发的对比损失：同一掩码内的像素实例特征应相近，不同掩码的实例特征应远离；
-   - 该机制支持在场景中形成多层级高斯分组，有利于不同大小物体的定位。
+- **数据集**：
+  1. **LERF 数据集**：13 个真实场景，用于开放词汇 3D 视觉定位基准。
+  2. **3D-OVS 数据集**：长尾物体场景，主要评估开放集 3D 语义分割/定位。
+  3. **ReasoningGD（新提出）**：由 Blenderproc 生成的超过 1 万场景、263 类物体、约 200 万标注的合成数据集；每个场景含 100 张 RGB-D 图像、相机位姿、2D 模态/非模态（modal/amodal）mask，专为评估隐式指令定位与遮挡下 amodal 感知而设计。
+- **评估指标**：Localization Accuracy（定位成功即最高相关度像素落在标注框内）和 Mean IoU（用于 LERF、3D-OVS、ReasoningGD）。
+- **对比方法**：
+  - 2D 方法：LSeg、ODISE、OV-Seg。
+  - 3D 方法：LERF、3D-OVS、LangSplat、Feature Field Distillation（FFD）等。
+- **主要实验**：
+  1. LERF 数据集上的定位准确率与 IoU 对比。
+  2. 3D-OVS 数据集上的 IoU 对比。
+  3. 隐式指令 3D 定位（在 LERF、3D-OVS、ReasoningGD 上的定量与定性实验）。
+  4. 遮挡场景下的 amodal 感知（ReasoningGD 的 5 个场景定量评估）。
+  5. 挑战性场景（多层级结构、相似物体、小目标）的鲁棒性测试。
+  6. 消融实验：验证 SHF（尺度分层特征）、LVLM、3DGS 三个组件的贡献，同时对比 O-3DVG、I-3DVG、AP 三个能力维度。
 
-4. **LVLM 引导的参考视角选择**：
-   - 输入顶视图和隐含查询 `Q_im`，LVLM 推理出目标物体 `O_t` 和解释 `E`；
-   - 通过 CLIP 图像-文本相似度，从训练视角中选出与目标物体最一致的参考视角 `V̂`。
+## 四、资源与算力
 
-5. **分层高斯分组与物体定位**：
-   - 计算目标物体的 CLIP 嵌入与参考视角中渲染语言特征的相关性分数；
-   - 根据相关性选择最匹配的物理尺度 `s_i*`；
-   - 在选定尺度下用 `F_g` 生成分层实例特征，并利用 **HDBSCAN** 对高斯进行聚类；
-   - 选取相关性最高像素的实例特征作为参考特征，在聚类中心中找到最匹配的高斯组；
-   - 最终通过 alpha blending 渲染该高斯组，即可在新视角中实现“amodal perception”。
+- 论文中明确提到的算力信息有限：
+  - 训练和推理使用 **NVIDIA RTX-3090 GPU** 和 14 vCPU Intel Xeon Gold 6330 CPU。
+  - 部分消融实验（figurine 场景）在 **NVIDIA H100 GPU** 上完成。
+  - 训练流程：先训标准 3DGS 30,000 迭代，再训练分层特征场（固定其他参数，只训练潜在特征和两个 MLP）10,000 迭代。
+- **未说明的信息**：未提及使用的 GPU 数量、总训练时长、能耗等具体细节。
 
-### 2.3 公式与算法流程
+## 五、实验数量与充分性分析
 
-- 3D 高斯定义：`G(x) = exp(-0.5 (x-μ)^T Σ^-1 (x-μ))`
-- 颜色渲染沿用 3DGS 的 tile-based rasterization：
-  `C = Σ_i c_i α_i ∏_{j=1}^{i-1}(1-α_j)`
-- 特征渲染同样采用 alpha blending：
-  `f̄_i = Σ_i f_gi α_i ∏_{j=1}^{i-1}(1-α_j)`
-- 语言特征损失：`L_lang = L_δ(φ_si, φ̂_i)`
-- 实例特征对比损失：同掩码拉近、异掩码推远，公式如 `Lin = ||ψ_m - ψ_n||`（同掩码）或 `ReLU(λ - ||ψ_m - ψ_n||)`（异掩码）。
-- 参考视角选择：`V̂ = argmax cosine(CLIP_img(V_i), CLIP_text(O_t))`
-- 高斯组选择：`Gi* = {Gi | Ti = argmax cosine(T̂, Tj)}`
+- **实验数量**：较充分。
+  - 在 3 个数据集上进行了定量评估，覆盖 2D 和 3D 方法对比。
+  - 包含显式指令定位、隐式指令推理、amodal 感知、挑战场景鲁棒性、消融实验等多维度实验。
+  - 定性可视化展示了与 LERF、LangSplat 的对比以及遮挡场景下的效果。
+- **充分性与公平性**：
+  - 对比方法选择合理，涵盖了主流开放词汇定位方法。
+  - 在显式查询实验中，作者声明使用了与 LangSplat 相同的查询，保证对比公平。
+  - 消融实验验证了各组件有效性，但仅在单一场景（Figurines 和 ReasoningGD 001 场景）上完成，覆盖范围有限。
+  - 隐式指令实验没有与同类方法在相同隐式查询下进行对比，因为缺乏现有开放词汇推理定位方法，只能与显式方法进行间接比较。
+  - ReasoningGD 是合成数据集，不能完全代表真实世界复杂遮挡，泛化性需进一步验证。
 
-整体流程可概括为：3DGS 场景训练 → SAM 掩码与尺度生成 → 分层特征高斯场训练 → LVLM 推理意图 → 参考视角选择 → 尺度选择 → HDBSCAN 高斯聚类 → 目标高斯组渲染定位。
+## 六、主要结论与发现
 
-## 3. 实验设计
+- ReasonGrounder 在 LERF 数据集上达到 **86.7%** 的平均定位准确率，在 3D-OVS 上达到 **94.7%** 的平均 IoU，优于现有方法（如 LangSplat）。
+- 通过 LVLM 理解隐式指令，ReasonGrounder 不仅能定位目标，还能提供自然语言解释，展示出较强的推理能力。
+- 通过分层高斯分组，ReasonGrounder 可以在新视角下恢复被遮挡物体的完整区域，实现 amodal 感知（ReasoningGD 上平均 IoU 约 90%+）。
+- 消融实验证明：3DGS 相较于 NeRF 能显著提升推理速度；LVLM 带来的隐式指令理解是独立于显式定位能力的重要增益；尺度分层特征（SHF）对 amodal 感知必不可少。
+- 总体表明：将 LVLM 的常识推理能力与 3D 高斯分层特征结合，是解决开放词汇 3D 定位与推理的有效路径。
 
-### 3.1 数据集与 Benchmark
+## 七、优点
 
-- **LERF 数据集**：13 个真实场景，包含 in-the-wild 和长尾场景，用于开放词汇 3D 定位与推理测试。
-- **3D-OVS 数据集**：多组真实场景，主要用于开放集 3D 语义分割和开放词汇定位测试。
-- **ReasoningGD 数据集（本文新提出）**：
-  - 超过 10K 个场景；
-  - 263 类常见物体；
-  - 约 200 万条标注；
-  - 每个场景含 100 张 RGB-D 图像、相机位姿、2D 可见掩码和 amodal 掩码（即遮挡部分也标注）；
-  - 用于评估隐式指令下的 3D 定位、遮挡条件下的 amodal 感知。
+- **方法创新**：
+  - 首次将 LVLM 引入 3DGS 开放词汇定位流程，实现隐式指令理解与推理。
+  - 提出“物理尺度 + 分层特征”的高斯分组机制，使分组粒度可自适应，能定位完整目标（包括遮挡部分）。
+  - 参考视图选择机制解决了 LVLM 直接处理复杂 3D 场景的难题，利用 CLIP 在 2D 视图之间做语义匹配，思路简洁有效。
+- **数据集贡献**：构建了首个包含 modal/amodal mask、面向开放词汇推理的大规模合成数据集 ReasoningGD，为后续研究提供基准。
+- **效率优势**：采用 3DGS 而非 NeRF，渲染和推理速度更快（消融中 0.895s vs 0.92s 每视图，且精度更高）。
+- **实验设计较全面**：同时评估显式定位、隐式推理、遮挡感知、挑战场景、消融分析，充分展示了系统能力。
 
-### 3.2 对比方法
+## 八、不足与局限
 
-- 2D 方法：LSeg、ODISE、OV-Seg。
-- 3D 方法：FFD、LERF、3D-OVS、LangSplat。
-- 主要对比任务：开放词汇 3D 视觉定位的 localization accuracy 和 mIoU。
-
-### 3.3 主要实验设置
-
-- LERF 上对比 localization accuracy 和 mIoU；
-- 3D-OVS 上对比 mIoU；
-- 在 LERF、3D-OVS、ReasoningGD 上测试**隐式指令 3D 定位**（例如 "Which object can hold coffee?"）；
-- 在 ReasoningGD 上测试**amodal perception**（新视角下物体被遮挡时的完整定位）；
-- 另选 5 个复杂挑战场景进行鲁棒性测试；
-- 在 Figurines 场景和 ReasoningGD 001 场景上做消融实验。
-
-## 4. 资源与算力
-
-- 论文在“Implementation Details”中提到：
-  - 使用 OpenCLIP ViT-B/16 提取语言特征；
-  - SAM 使用 ViT-H；
-  - 3DGS 训练 30,000 次迭代；
-  - 分层特征高斯场固定 3DGS 参数，只训练潜在特征和两个 MLP，共 10,000 次迭代；
-  - LVLM 使用 LLaVA 1.5；
-  - 模型在 **NVIDIA RTX-3090 GPU** 和 **14 vCPU Intel Xeon Gold 6330 CPU @ 2.00GHz** 上训练；
-  - 消融实验在 **NVIDIA H100 GPU** 上完成。
-- 但论文**未明确说明**具体 GPU 数量、总训练时长、单场景训练耗时等详细信息，因此算力总成本无法从文中精确判断。
-
-## 5. 实验数量与充分性
-
-- 实验数量较为丰富：
-  - 在 3 个数据集上做了开放词汇定位评测；
-  - 包含显式查询和隐式指令两类任务；
-  - 包含定性可视化结果和定量指标；
-  - 包含标准定位对比、隐式推理定位、amodal 新视角感知、挑战场景鲁棒性测试；
-  - 包含消融实验（有无 3DGS、有无 SHF、有无 LVLM、是否支持 amodal）。
-- 总体来看，实验**覆盖了方法的各个核心卖点**：开放词汇、隐式指令推理、遮挡下定位、novel view amodal 感知，并与多个 SOTA 方法对比。
-- 但也有一些充分性上的不足：
-  - ReasoningGD 虽宣称 10K+ 场景，但定量实验仅选取了其中 5 个场景（001–005）的样本，未展示全数据集的整体性能；
-  - 论文未报告多次重复实验的方差或统计显著性检验，结果可能存在一定偏差；
-  - 消融主要在两个场景上进行，规模较小；
-  - 未在真实机器人或视觉语言导航系统上做端到端应用验证。  
-- 总体而言，实验设计相对系统、对比方法合理，但**全数据集评测和统计分析仍不够完整**。
-
-## 6. 主要结论与发现
-
-- ReasonGrounder 在开放词汇 3D 视觉定位上优于现有方法：
-  - LERF 数据集 localization accuracy 达到 86.7%，mIoU 达到 55.1%；
-  - 3D-OVS 数据集 mIoU 达 94.7%，超过 LangSplat 等此前 SOTA。
-- 在隐式指令推理任务中，ReasonGrounder 能准确理解类似“Which object can hold coffee?”的间接描述，并定位到正确目标。
-- 在遮挡场景中，ReasonGrounder 通过分层高斯分组实现了新视角下的 amodal 感知，即使物体被部分或完全遮挡，也能渲染和定位完整物体。
-- 消融实验表明：
-  - 3DGS 替代 NeRF 能提升效率与精度；
-  - LVLM 的引入对于隐式指令理解至关重要；
-  - 分层特征高斯场（SHF）是支持 amodal 感知和精确分组的关键模块。
-- 作者还构建了 ReasoningGD 数据集，提供大规模场景和约 200 万标注，为开放词汇 3D 定位与遮挡感知研究提供了新评测资源。
-
-## 7. 优点
-
-- **方法设计有新意**：将 3DGS、层级特征、物理尺度、LVLM 推理结合，形成统一框架，兼顾定位精度和推理能力。
-- **支持隐式语言指令**：不同于 LERF/LangSplat 只处理显式文本，ReasonGrounder 能借助 LVLM 进行常识推理和目标意图解析。
-- **分层高斯分组机制**：基于物理尺度自适应分组，能够适应不同大小物体，并可借助 HDBSCAN 聚类完成完整的物体定位。
-- **支持遮挡下的 amodal 感知**：通过高斯组渲染，即使物体在 novel view 中被遮挡，也能定位完整目标，这是很多既有方法不具备的能力。
-- **不依赖 3D 检测器或 3D 标注**：训练过程中仅使用 2D 模型（SAM、CLIP）和已训练好的 3DGS 作为监督，提升了开放词汇泛化性。
-- **数据集贡献**：ReasoningGD 规模大、包含 amodal 掩码，弥补了现有评测数据在“3D 推理 + 遮挡 amodal 感知”方面的不足。
-- 实验对比了 2D 和 3D 的多种 SOTA 方法，并给出定量与定性结果，较为可信。
-
-## 8. 不足与局限
-
-- **依赖 2D 基础模型质量**：SAM 的掩码质量和 CLIP 的语义粒度会直接影响 3D 特征场的学习，进而影响定位精度。
-- **LVLM 和 CLIP 的固有偏差**：对隐含指令的解析依赖 LVLM 的常识与视觉能力，CLIP 对长尾或抽象概念可能不鲁棒。
-- **遮挡评测主要依赖合成数据**：ReasoningGD 是 Blenderproc 生成，真实复杂场景中的遮挡表现仍需要进一步验证。
-- **全数据集评测不足**：论文对 ReasoningGD 的定量评测只展示部分场景，缺少对 10K+ 场景的整体统计结果。
-- **算力细节不透明**：未报告训练总时长、GPU 数量、显存占用等，难以准确评估实际部署成本。
-- **无端到端应用验证**：论文未在真实机器人、导航系统或 AR 场景中验证该方法的实用性和实时性。
-- **推理速度仍有提升空间**：虽然 3DGS 渲染较快，但 LVLM 推理、CLIP 检索、HDBSCAN 聚类等环节可能在真实系统中形成瓶颈。
-- **缺少失败案例分析**：论文展示了成功案例，但对复杂、歧义或多目标场景下的失败模式缺少深入分析。
+- **实验覆盖不完整**：
+  - 消融实验只在两个场景上进行，缺乏跨场景的统计显著性。
+  - 隐式指令测试缺少与专门针对隐式推理的现有方法对比（虽然现有方法稀缺，但至少可与 LLM-based 方法如 LLM-Grounder 做比较会更有说服力）。
+- **数据集偏向**：
+  - ReasoningGD 是合成数据，物体类别有限，遮挡模式由程序生成，与真实世界遮挡形态可能存在差距。
+  - LERF/3D-OVS 规模较小，复杂隐式推理结果多为定性展示，缺乏大样本定量统计。
+- **依赖限制**：
+  - 对 LVLM 的推理质量有较强依赖，如果 LVLM 对隐式查询理解错误，后续定位会失败。
+  - 依赖 SAM 生成的 2D mask 质量，mask 不准确时物理尺度估计和实例特征会有误差。
+  - 使用 PCA 压缩 CLIP 特征，压缩比过高时可能损失细粒度语义。
+- **未报告内容**：
+  - 缺少模型参数量、训练时间、推理延迟的详细统计。
+  - 缺少与最新推理型 3D 方法的横向对比（如 ScanReason、Reasoning3D），使得结论的外部效度受限于特定 baseline。
+- **现实应用限制**：当前方法在单个场景上逐场景训练 3DGS，不具备跨场景泛化能力；对大规模动态环境的快速部署仍需进一步优化。
 
 （完）
