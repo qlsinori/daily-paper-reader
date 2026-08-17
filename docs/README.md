@@ -44,14 +44,14 @@
       <span class="dpr-home-dashboard-kicker">2026-08-08 ~ 2026-08-17</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 27 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 24 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>14</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>13</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>12</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>12</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-08-17 11:44:42 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-08-17 12:06:14 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,7 +62,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>本期精读14篇、速读13篇，其中两篇满分论文聚焦零样本开放词汇物体导航与航拍视觉语言导航。最值得关注的是AECNav与DreamFly在高效物体定位和因果记忆规划上的突破，速读中安全关键场景与课程生成也值得一瞥。建议优先精读两篇满分工作，再沿其方法扩展至鲁棒导航策略。</p>
+<p>今日聚焦24篇导航论文，精读12篇，重点关注开放词汇语言引导导航与城市仿真基准。</p>
+<p>最值得看的是《OpenBelief-Nav》的证据保留记忆机制与《360CityArena》的真实城市场景测试，均获高分推荐。</p>
+<p>建议优先探索这两项工作，并留意速读中安全关键场景下具身VLMs的实际表现。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -71,12 +73,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">14 篇</strong>
+    <strong class="dpr-home-dashboard-count">12 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation">AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation">DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="SAP-Nav: Spatial Semantic Representation Meets Active Perception for Hierarchical Open-Vocabulary Object Navigation">SAP-Nav: Spatial Semantic Representation Meets Active Perception for Hierarchical Open-Vocabulary Object Navigation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="OpenBelief-Nav: Evidence-Preserving Object Memory for Open-Vocabulary Language-Guided Navigation">OpenBelief-Nav: Evidence-Preserving Object Memory for Open-Vocabulary Language-Guided Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="360CityArena: A Realistic Virtual Urban Navigation Benchmark for Embodied Agents">360CityArena: A Realistic Virtual Urban Navigation Benchmark for Embodied Agents</span></li><li><span class="dpr-home-dashboard-paper-title" title="SAIN: Structure-Aware Interactive Navigation with Active Dialogue Grounding for Mobile Robot">SAIN: Structure-Aware Interactive Navigation with Active Dialogue Grounding for Mobile Robot</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>13</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>1</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>11</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -84,12 +86,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">13 篇</strong>
+    <strong class="dpr-home-dashboard-count">12 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Explore, Map, Remember, Decide: Are Embodied VLMs Ready for Safety-Critical Scenarios?">Explore, Map, Remember, Decide: Are Embodied VLMs Ready for Safety-Critical Scenarios?</span></li><li><span class="dpr-home-dashboard-paper-title" title="Curriculum Generation under Structured Parametric Environments for Robust Navigation Policies">Curriculum Generation under Structured Parametric Environments for Robust Navigation Policies</span></li><li><span class="dpr-home-dashboard-paper-title" title="Latent World Models with Monotone Planning Costs for Image-Goal Navigation">Latent World Models with Monotone Planning Costs for Image-Goal Navigation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Explore, Map, Remember, Decide: Are Embodied VLMs Ready for Safety-Critical Scenarios?">Explore, Map, Remember, Decide: Are Embodied VLMs Ready for Safety-Critical Scenarios?</span></li><li><span class="dpr-home-dashboard-paper-title" title="Goal-oriented Navigation Instruction Generation with Tour Video Priors">Goal-oriented Navigation Instruction Generation with Tour Video Priors</span></li><li><span class="dpr-home-dashboard-paper-title" title="Latent World Models with Monotone Planning Costs for Image-Goal Navigation">Latent World Models with Monotone Planning Costs for Image-Goal Navigation</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>7</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>3</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>3</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>9</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>3</strong></span></div>
 </section>
 </div>
 

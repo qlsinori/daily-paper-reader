@@ -1,0 +1,616 @@
+Title: Goal-oriented Navigation Instruction Generation with Tour Video Priors
+
+URL Source: https://arxiv.org/pdf/2608.08596v1
+
+Published Time: Tue, 11 Aug 2026 01:32:04 GMT
+
+Number of Pages: 30
+
+Markdown Content:
+# Goal-oriented Navigation Instruction Generation with Tour Video Priors 
+
+Fangdi Li 1,2∗, Juncheng Liao 1,2∗, Changxu Cheng 1∗, Jiazhi Wang 1∗,Senda Chen 1,3, Tao Wang 1†, and Wuyue Zhao 1 
+
+> 1
+
+Uni-Ubi AI, Hangzhou, China  
+
+> 2
+
+Zhejiang University, Hangzhou, China  
+
+> 3
+
+Tongji University, Shanghai, China 
+
+Abstract. Navigation Instruction Generation (NIG) aims to produce step-by-step natural language instructions for navigation guidance. Ex-isting studies primarily treat NIG as an auxiliary task for vision-and-language navigation (VLN), focusing on data augmentation or multi-task learning. However, generating navigation instructions from compact en-vironmental priors requires meticulous spatial reasoning, especially when the target route does not simply follow the demonstrated tour, and re-mains challenging for current multimodal models. In this work, we intro-duce VideoNIG, a goal-oriented video-grounded NIG task that generates navigation instructions from ego-centric tour videos, an initial obser-vation, and a textual or visual goal, without relying on intermediate representations such as graphs and maps. We instantiate VideoNIG in a controlled simulator benchmark with 60K tour videos across continu-ous indoor environments and 37K multimodal prompts with progressive difficulty levels. We further introduce a diagnostic evaluation protocol that combines text similarity, choice-based spatial consistency tests, and downstream navigation execution. To address this task, we propose a two-stage Curriculum Learning framework that decomposes the learning into foundational motion perception and long-horizon navigation reason-ing. Specifically, we first employ Action Warmup for spatial action-view alignment, followed by Complexity Progression using trajectories with increasing exploratory difficulty. Extensive experiments show that exist-ing MLLMs struggle with VideoNIG, while our approach significantly improves instruction quality across complementary diagnostic metrics. Finally, integrating VideoNIG-generated instructions with a VLN agent demonstrates the executability of this task formulation for end-to-end navigation. 
+
+Keywords: Navigation Instruction Generation, Curriculum Learning, MLLMs, Vision-and-Language Navigation 
+
+1 Introduction 
+
+Vision-and-Language Navigation (VLN) has become an important and widely studied topic in the embodied intelligence community [4, 11, 25, 29, 30, 75]. With  
+
+> ∗
+
+Equal contribution.  
+
+> †
+
+Corresponding author. Email: wangtaomarvel@gmail.com arXiv:2608.08596v1 [cs.CV] 9 Aug 2026 2 F. Li et al. Path Description: Turn to the right and walk past the open doors on the left. Walk forward and turn left… 
+
+> Trajectory Meta Info :
+> Actions Observations
+> Auxiliary Info:
+> Graph Landmarks …
+
+Naive NIG Agent 🤖 
+
+> (a)
+
+VLN Agent 🚶    
+
+> Turn to the right and walk past the open doors on the left. Walk forward and turn left…
+> Turn right 15 o.
+> …
+> tStreaming Observations
+> (b)
+> Tour Video
+> Video-NIG Agent 🤖
+> Path Reasoning: Turn to the right and walk past the open doors on the left. Walk forward and turn left… Go to the black padded chair.
+> …
+> TInitial Observation
+
+VLN Agent 🚶 Turn right 15 o.
+
+> (c)
+> …
+> tStreaming Observations
+
+Fig. 1: The relationship between NIG and VLN. (a) The input to a VLN agent is typi-cally fine-grained textual guidance, which demands extensive reasoning from users and is therefore not user-friendly. (b) Most previous works formulate NIG as a trajectory-captioning task, optionally with auxiliary heuristic environmental information. (c) Our VideoNIG agent requires only simple goal descriptions from users, together with single-view ego-centric tour videos and initial observations, to generate global navigation in-structions. This relieves human users from the reasoning effort required to prepare inputs for VLN agents. 
+
+the powerful reasoning capabilities of language models, language plays a key role in improving navigation generalization and facilitating human-robot inter-action [22, 73, 77]. As a result, Navigation Instruction Generation (NIG) [16, 21, 47,56,75] has also been actively explored as a complementary direction that aims to generate natural language guidance from observations. Most existing works treat NIG merely as trajectory captioning (Fig. 1(b)), using it to augment VLN training data or facilitate multi-task learning [21, 47, 49, 56, 59,75]. Although VLN has made substantial progress, the fine-grained navigation instructions provided as input are crucial to navigation performance. An effective navigation instruction should allow a navigator to reach the goal without ambi-guity in diverse environments when followed strictly [30]. This demands meticu-lous reasoning from users, often yielding suboptimal or ambiguous instructions, which is not user-friendly, as shown in Fig. 1(a). Scenario-oriented object navi-gation [79] is thus introduced to simplify human input into object-level descrip-tions, with the starting point unconstrained. In this setting, the agent explores the environment toward the target, optionally leveraging explicit environment representations like frontier maps [65]. Considering both goal-oriented naviga-tion and fine-grained instructions in VLN, this raises the question: can optimal navigation instructions be automatically generated for global planning, given a goal description and environmental priors? GoViG [63] generates instructions solely from start-goal observations to bypass the limitations of explicit environ-mental priors. Despite its adaptability, GoViG is prone to hallucinations over long distances. Furthermore, its zero-shot instructions often remain suboptimal, exhibiting ambiguities or inefficient path planning relative to shortest-path tra-jectories in persistent indoor settings. Therefore, environmental priors are crucial for goal-oriented NIG, and zero-shot navigation should not be overemphasized, as embodied agents often operate in persistent environments [25]. Recent advances in video-based visual spatial intelligence demonstrate the po-tential of vision-language models for understanding the physical world [26,64,78]. Goal-oriented Navigation Instruction Generation with Tour Video Priors 3
+
+Learning actions from videos has also been explored in robot manipulation [12]. This motivates us to use ego-centric tour videos as compact video-native envi-ronmental priors, which provide dense and temporally ordered spatial cues while avoiding explicit representations such as landmarks [51], BEV features [18], and topological maps [2]. Here, a tour video refers to a recording captured by humans or embodied agents that covers a wide range of the environment with rich visual and spatial information and is usually associated with the target route. As a re-sult, we propose VideoNIG, a novel task of goal-oriented navigation instruction generation that is conditioned on ego-centric tour videos, initial observations, and goal descriptions. Fig. 1(c) illustrates the concept of VideoNIG, in which the NIG agent performs global planning autonomously while requiring from the user only a simple goal description. Endpoint-only formulations such as GoViG [63] and trajectory-captioning NIG can be viewed as neighboring settings along the amount of available environmental prior: they use either sparse endpoint ob-servations or a tour that exactly follows the target route, whereas VideoNIG studies richer tour-video priors that may include additional observations beyond the optimal path. To instantiate the task, we build a controlled VideoNIG benchmark comprising 60K tour videos with three different complexity levels, 20K Gold Route videos marking the optimal paths, and 37K multimodal discriminative goal descrip-tions. While ensuring coverage of the optimal path’s viewpoints, the tours are further diversified by randomly extending start and end points, introducing ran-dom look-around behaviors along the route, and shifting waypoints to other local reachable locations. These settings provide a graded experimental substrate for analyzing video-grounded spatial reasoning. Meanwhile, we propose a two-stage Curriculum Learning framework, consisting of Action Warmup and Complexity Progression to progressively enhance the visual-spatial reasoning capabilities of multimodal large language models (MLLMs). We adopt three complementary evaluation perspectives: classical text similarity metrics, Choice Evaluation and Navigation Execution. We integrate VideoNIG with an MLLM-based VLN agent to assess downstream navigation performance in an end-to-end setting from tour videos and goal descriptions. Our experiments reveal that performance consis-tently degrades as video complexity increases, highlighting VideoNIG as a chal-lenging yet promising task. Existing state-of-the-art MLLMs perform poorly on VideoNIG, suggesting that their spatial reasoning abilities, although improved on existing benchmarks, are not effectively activated by this task. Our analysis suggests this limitation primarily manifests as semantic fragmentation in the generated instructions: models struggle to maintain persistent spatial grounding throughout long-horizon navigation videos, which in turn misleads the down-stream agent. Succinctly, our contributions are threefold: (1) we define VideoNIG , a goal-oriented video-grounded NIG task that converts tour-video environmental priors, initial observations, and multimodal goals into executable navigation instruc-tions. (2) we introduce a diagnostic evaluation protocol that combines Choice Evaluation and Navigation Execution to assess spatial consistency and down-4 F. Li et al. 
+
+stream executability beyond text similarity. (3) we provide a two-stage Curricu-lum Learning reference method and a controlled benchmark instantiation, re-vealing persistent limitations of current MLLMs on long-horizon video-grounded navigation reasoning. 
+
+2 Related Works 
+
+Vision-and-Language Navigation (VLN) requires an embodied agent to execute navigation actions based on natural language instructions and visual observations [4, 29, 30]. Typical instructions are detailed and step-by-step, en-abling zero-shot navigation in unseen environments. Map-free approaches such as Navid [70] and NaviLLM [75] leverage large vision-language models to pre-dict actions directly from egocentric observations, inspiring subsequent exten-sions [13, 61, 69]. However, the absence of environment priors often limits ro-bustness in complex scenarios [25]. To address this, other methods incorporate explicit environmental representations, including topological maps [1,2,11,14,32, 44, 77], value maps [37], semantic maps [71], and frontier maps [72]. While these works improve instruction-following, the reliance on rigid, step-by-step guid-ance differs from goal-oriented navigation settings that require flexible planning. Goal-directed object navigation [24,40,66,79] addresses this limitation by provid-ing more natural, high-level goals rather than exhaustive stepwise instructions. Emerging task settings further push VLN toward persistent and interactive ap-plications, including long-horizon navigation [5, 46], scene adaptation [25], and multi-turn dialog navigation with clarifications [22, 42]. These advances high-light the importance of maintaining persistent spatial grounding and reasoning over extended sequences. The work most closely related to VideoNIG is Mobility VLA [14], which also leverages tour videos and user queries. However, it relies on discrete topological graphs for localization and planning. In contrast, VideoNIG treats continuous ego-centric tour videos as dense video-native priors, enabling flexible goal-oriented instruction generation without explicit graph abstraction. 
+
+Navigation Instruction Generation (NIG) has long been regarded as an auxiliary task for VLN, i.e ., trajectory captioning. Speaker models [21, 47, 59] generate instructions from route observations to augment navigation training data. YTB-VLN [34] and RoomTour3D [23] leverage online room tour videos to generate human trajectories and corresponding instructions. LANA [56] and CCC-VLN [49] learn instruction following (navigation) and generation in a sin-gle model. ASSISTER [27] generates instructions conditioned on planned routes for blind followers. VLN-SRDF [58] iteratively refines the instruction genera-tor and navigator. NaviLLM [75] incorporates the trajectory summarization and EQA [62] into multi-task learning. FCA-NIG [16] considers sub-instruction-level trajectory alignment. Training-free pathway instruction generation method [17] employs VQA and LLMs by in-context learning. To better incorporate spatial cues, explicit environment representations are commonly used, including land-marks [51], panoramic views [49], hierarchical trees [57], BEV features [18], and map context [19]. Recently, NIG is adopted for the navigation task directly, such Goal-oriented Navigation Instruction Generation with Tour Video Priors 5(d) Captioning Start & Goal                   
+
+> Aroom contains alarge white curtain, marble-patterned walls, and two stone basins on araised platform. Framed artworks hang beside the basins. A dark mat holds towels and small bowls on the floor.
+> (c) Inconsistent Samples (b) Non-optimal Gold Routes
+> RENDERING FILTERING CAPTIONING FILTERING
+> (a) Optimal Route & Tour Videos
+> video (e) Non-discriminative Start & Goal
+
+Fig. 2: Benchmark construction pipeline for VideoNIG. (a) The left panel shows the observation at the arrow position in the right panel. The orange and red points are the initial and goal positions of the green Gold Route, respectively, and the blue trajectory is an Explorer Tour. (c) Outliers are filtered via three different methods. Blue and green points remain after filtering. (e) The initial and goal descriptions (text or image) are supposed to be discriminative with other scene observations. 
+
+as intermediate state reasoning [77] and goal-conditioned visual navigation [63]. VideoNIG differs from these works by using tour videos as compact environmen-tal priors for goal-oriented NIG. 
+
+Visual Spatial Intelligence is emerging as a key research focus within the multimodal large language model community, laying the groundwork for em-bodied intelligence in the physical world. VSI-Bench [64] presents a video-based benchmark with various space-aware tasks, including route planning that high-lights direction choices. VLM4D [78] benchmarks the spatio-temporal reasoning capabilities of vision-language models. LLaVA-AURORA [9] and HiMTok [52] demonstrate the potential of MLLMs to exhibit strong foundational abilities in depth estimation, referring expression segmentation and object localization. VGGT [50] infers 3D attributes of scenes from single or multiple RGB views. 3DRS [26] improves 3D representations of MLLMs by distilling from 3D founda-tion models. Recent open-source MLLMs, such as InternVL3.5 [55] and Qwen3-VL [7], achieve notable progress in visual spatial understanding. These advance-ments have made the task of generating navigation instructions directly from videos a promising and compelling research direction. 
+
+3 VideoNIG Task and Benchmark Instantiation 
+
+3.1 Task Definition 
+
+The proposed VideoNIG task aims to generate fine-grained navigation instruc-tions I for optimal routes conditioned on goal descriptions G, initial RGB ob-servations O0, and relevant tour videos V, i.e ., P (I|G , O0, V). The tour video captures environmental priors along the optimal route, including the start and end waypoints, while potentially incorporating additional observations beyond this route. Goal descriptions may consist of text and images. 6 F. Li et al.  
+
+> Fig. 3: Data distributions in VideoNIG. (a) and (b) compare the distance and cir-cuitousness of Gold Route across the filtered R2R and RxR samples. (c)-(h) compare the distributional differences among different tours.
+
+3.2 Benchmark Instantiation 
+
+We instantiate VideoNIG based on the classical R2R-CE and RxR-CE [4,29,30] in continuous environments through the Habitat simulator [43], using their high-quality human-annotated navigation instructions. This instantiation serves as a controlled diagnostic setting for studying the VideoNIG task; it is not intended to claim coverage of naturally collected tour videos or human-aware/social nav-igation scenarios. We construct the benchmark through a carefully designed pipeline to ensure the quality of the tour videos and navigation instructions, as well as the distinctiveness of initial and goal descriptions, as shown in Fig. 2. See Sec. A for more details. 
+
+Rendering Gold Route & Tour Videos. We render four types of videos in the simulator. First, the original annotated route waypoints are used for rendering, yielding Gold Route videos. These videos correspond directly to their annotated instructions. We then prepare Tyro Tour videos by extending the Gold Route with a few random steps at both the start and goal points. In addition, Curiosity Tour videos are rendered by introducing two random behaviors: looking around and visiting neighboring areas. Furthermore, Explorer Tour videos are generated by applying larger offsets to intermediate points on the Gold Route, resulting in lower trajectory overlap. Each frame is captured after a discrete action is taken. The video fps is 6. Strict connectivity checks, obstacle avoidance, and manual inspection ensure video quality. 
+
+Filtering Non-optimal Routes. Some annotated routes in the original R2R-CE and RxR-CE datasets are not optimal from the start to the goal, which is not expected in VideoNIG. We additionally calculate the shortest trajectories in the simulator and filter out suboptimal Gold Routes using nDTW [28], a metric for measuring trajectory similarity. Routes with nDTW < 0.8 are regarded as non-optimal and removed. 
+
+Filtering Inconsistent Samples. Based on our observations, some samples contain incomplete, coarse, or overly redundant instructions, as well as abnor-Goal-oriented Navigation Instruction Generation with Tour Video Priors 7
+
+Table 1: Statistics of videos and goals in VideoNIG. Each cell lists the numbers in the training and val_unseen sets.                                             
+
+> Data source R2R-CE RxR-CE Total Train Val_unseen Train Val_unseen Train Val_unseen Gold Route 7778 1341 9623 1962 17401 3303 Tyro Tour 7441 1272 9395 1840 16836 3112 Curiosity Tour 7418 1256 9381 1849 16799 3105 Explorer Tour 7358 1233 9367 1792 16725 3025 Image Goal 7586 1313 9408 1934 16994 3247 Textual Goal 6407 1183 7628 1629 14035 2812
+
+mal trajectories caused by flaws in the original annotations. Approximately one-third of the original instructions omit a necessary “turn around” action at the beginning, compared with the action sequences. To ensure alignment between trajectory complexity and linguistic descriptions, as well as temporal consistency in tours, we employ an ensemble outlier-detection strategy that integrates multi-ple methods to assess two critical correlations: action sequence length |A| versus instruction word count |I| , and |A| versus tour video duration |V| . We use three methods for ensembling – Z-score, RANSAC [20], and Isolation Forest [35] – and retain samples that are identified as outliers by at most one method across both correlations. Fig. 2(c) shows the |I| -|A| scatter plot, where the blue and green points are retained while the others are dropped. 
+
+Captioning Initial & Goal Observations. To obtain multimodal descriptions for the start and goal points, we caption the corresponding RGB views using the 
+
+qwen3-vl-plus API. The descriptions are required to be concise and clear. 
+
+Filtering Non-discriminative Initial & Goal views. Non-discriminative initial and goal descriptions can easily confuse the agent during localization. We filter [36] them using text-image and image-image similarities between the start or goal descriptions and other observation frames in Gold Route videos (Fig. 2(e)). 
+
+3.3 Statistics 
+
+The VideoNIG dataset contains approximately 20K Gold Route videos derived from R2R-CE and RxR-CE, 60K tour videos, and 37K unambiguous multimodal start–goal descriptions (Tab. 1). The training and val_unseen splits follow the original dataset configurations. 
+
+Difficulty Levels of Gold Route. The filtered routes preserve the original distribution characteristics [30]. VideoNIG-RxR exhibits longer average route distances than VideoNIG-R2R (Fig. 3(a)). To measure route complexity, we define circuitousness as the ratio between the route distance and the straight-line Euclidean distance between start and goal. Values closer to 1 indicate straighter and easier routes. As shown in Fig. 3(b), VideoNIG-RxR routes are generally more tortuous, leading to higher difficulty. 
+
+Distribution of tour videos. We analyze tour-video distributions from six perspectives. (1) Extended distances from the Gold Route endpoints. Longer 8 F. Li et al. Multiple-choice Orthogonal-choice       
+
+> Right: Turn around, walk towards the hallway and past the rug, continue to the top of the steps near the mirror and stop.
+> Direction: Turn around, walk away from the bedroom and past the rug, continue to the bottom of the steps near the cabinet and stop.
+> Delete: Turn around, continue to the top of the steps near the mirror and stop.
+> Add: Turn around, walk away from the hallway and past the rug, then go through the doorway. Continue to the bottom of the steps near the mirror and stop.
+> Change: Turn around, walk towards the bathroom and pause by the door, continue to the top of the steps near the piano and stop.
+> Swap: Continue to the bottom of the steps near the mirror, then turn around and walk away from the hallway and past the rug, and stop. A. Turn around, walk towards the hallway and past the rug, continue to the top of the steps near the mirror and stop. B. Turn around, walk towards the hallway and past the rug, continue to the top of the steps near the bed and stop. C. Turn around, walk away from the hallway and past the rug, continue to the bottom of the steps near the mirror and stop. D. Turn around, walk away from the hallway and past the rug, continue to the bottom of the steps near the bed and stop.
+
+Fig. 4: Multiple-choice: tests spatio-temporal consistency via diverse distractors. Orthogonal-choice: isolates direction and entity changes to mitigate textual shortcuts. 
+
+extensions provide broader and more redundant environmental scenes for opti-mal route planning. Note that the peak near distance=0 for Explorer Tour in Fig. 3(c) occurs because some long-extended points are unreachable, prompting us to narrow the extension range. (2) Tour lengths. (3) Logarithmic detour ra-tios, calculated as the log ratio between the tour length and the optimal Gold Route length. (4) nDTW-m, the nDTW metric between the Gold Route and the matched sub-trajectory from the tour that aligns the start and goal points. (5) Number of look-around actions. Looking around during tours captures more envi-ronmental information, but also introduces more distractions for temporal video understanding. (6) Number of left and right turns. As illustrated in Fig. 3(c)-(h), Tyro Tour exhibits the most concentrated distributions. Conversely, Explorer Tour represents the most challenging scenarios, characterized by the greatest trajectory lengths, route deviations, and turning frequencies. The look-around action distributions for Curiosity Tour and Explorer Tour are similar. 
+
+3.4 Task Evaluation 
+
+To comprehensively evaluate the quality and utility of generated navigation in-structions, we adopt a three-pronged evaluation protocol. 
+
+Text Similarity Evaluation. Assessing the effectiveness of navigation instruc-tions is essential and non-trivial. Inspired by [74], we perform system-level eval-uation using Rouge-L [33] and SPICE [3], which measure text similarity between the annotated and generated instructions. 
+
+Choice Evaluation. To rigorously assess whether the model accurately cap-tures spatial relationships in tour videos, we design a Choice Evaluation inspired by NavBench [41]. It contains two parts: Multiple-choice and Orthogonal-choice. Specifically, Multiple-choice employs five types of negative distractors (Fig. 4), including direction and entity modifications, and various subpath modifications (deletion, addition, change, and swapping). These distractors explicitly exam-ine fine-grained spatio-temporal consistency between generated instructions and the corresponding video trajectories. Complementary to this, Orthogonal-choice Goal-oriented Navigation Instruction Generation with Tour Video Priors 9
+
+focuses exclusively on direction and entity modifications (Fig. 4) to mitigate re-liance on superficial textual patterns. Performance is measured by the accuracy of selecting the ground-truth description among the choices. 
+
+Navigation Execution. Beyond text-based and discriminative evaluations, we further assess downstream navigation performance by feeding the generated in-structions into an off-the-shelf VLN agent [48, 60]. This setup evaluates naviga-tion execution performance while explicitly decoupling instruction quality from execution bias, providing a complementary perspective despite the higher com-putational overhead. 
+
+4 Method 
+
+We adopt a two-stage Curriculum Learning (CL) [8] paradigm to stabilize op-timization and progressively enhance the model’s spatial-semantic reasoning capability. Unlike conventional training that randomly mixes samples of vary-ing complexity, our curriculum explicitly decomposes the learning process into two dimensions: Action Warmup and Complexity Progression. Formally, given a dataset D = {(xi, y i)}Ni=1 and loss function L, Curriculum Learning can be viewed as a stage-wise optimization process: L(t) = PNi=1 w(t) 
+
+> i
+
+· L (f (xi; θ), y i),where w(t) 
+
+> i
+
+controls the contribution of sample i at training stage t. In our set-ting, the curriculum is instantiated through structured stage-wise data schedul-ing rather than explicit re-weighting. 
+
+Stage 1: Action Warmup. We prime the spatial reasoning capability of Qwen3-VL-8B-Instruct through an action-view alignment stage. This stage includes two objectives: action-from-view (predicting relative motion between two frames) and view-from-action (selecting the resulting frame given a specified action). By focusing on local spatial transformations, this stage strengthens orientation sensitivity before introducing long-range temporal dependencies. Details of data construction and training for Action Warmup are provided in Sec. B. 
+
+Stage 2: Complexity Progression. We adopt a Curriculum Learning strategy that transitions from low-complexity trajectories (Gold Route and Tyro Tour) to higher-complexity ones (Curiosity Tour and Explorer Tour). Complex data are introduced after stable convergence on simpler navigation semantics, promoting smoother optimization and improving long-horizon reasoning robustness. 
+
+5 Experiments 
+
+Our experiments are organized around four questions: task difficulty, diagnostic validity, curriculum effectiveness, and downstream executability. 
+
+5.1 Training and Implementation Details. Model Training. We use Qwen3-VL-8B-Instruct as the base model. We imple-ment two training methods: Group Relative Policy Optimization (GRPO) [45] 10 F. Li et al.  
+
+> Fig. 5: Correlation between Rouge-L, SPICE, Multiple-choice, Orthogonal-choice, and VLN Success Rate.
+
+and Mixed Preference Optimization (MPO) [54]. Both are trained with the proposed Curriculum Learning schedule. For GRPO, the reward function is a weighted combination of four complementary components: (1) Instruction Simi-larity, measured by SPICE and Rouge-L scores. (2) Linguistic Quality, evaluated by an LLM judge for clarity and relevance. (3) Trajectory Consistency, quan-tified by an MLLM conditioned on the predicted instruction and Gold Route. (4) Length Penalty to discourage redundancy. MPO employs preference-based learning using negative samples constructed via our evaluation protocol (see Fig. 4), where one negative sample is randomly selected per instance. Details of the GRPO reward function design and MPO dataset construction are provided in Sec. C. 
+
+Training Details. The baseline VideoNIG model is trained by supervised fine-tuning (SFT) on Qwen3-VL-8B-Instruct. Following [52], we adopt a mixed data recipe for SFT to avoid overfitting, including all VideoNIG training samples, text datasets on math and code [10, 15, 38, 67, 68, 76], and several general multi-modal datasets [10,23,39,53]. The ratio between VideoNIG data and other data is about 1:1. During SFT, only the vision module is frozen, while all other com-ponents are fine-tuned for 1 epoch. The frame sampling rate is set to 6, with a maximum of 210 frames. The learning rate is initialized to 1e-5 and uses a cosine scheduler. The Action Warmup stage is optimized using GRPO to strengthen orientation discrimination before full instruction learning. Training is conducted on 4 NVIDIA A100 GPUs for 24 hours with a constant learning rate of 1 × 10 −6.During GRPO, the learning rate is kept constant at 2e-6. The KL coefficient is set to 5e-3, and εhigh is set to 0.28 to encourage exploration. GRPO training is conducted on 8 NVIDIA A100 GPUs for 12 hours. During MPO, the learning rate is kept constant at 5e-6. Training is conducted on 4 NVIDIA A100 GPUs for 12 hours. After MPO, we further perform simple LoRA fine-tuning with a learning rate of 1e-4 for 1 epoch. 
+
+Models and Evaluation. We select representative MLLMs with strong spa-tial performance, namely InternVL3 [80], InternVL3.5 [55], Qwen2.5-VL [6], and Qwen3-VL [7]. All evaluations are conducted within the vLLM framework [31], using greedy decoding with temperature set to 0 and a video frame sampling rate of 4 fps, ensuring consistent and deterministic assessment across models. Goal-oriented Navigation Instruction Generation with Tour Video Priors 11 
+
+Table 2: Evaluation results on VideoNIG. Video type Gold Route Tyro Tour Curiosity Tour Explorer Tour Average Source R2R RxR R2R RxR R2R RxR R2R RxR Goal modal image text image text image text image text image text image text image text image text Text Similarity: Rouge-L on top, SPICE below. InternVL3.5-8B [55] 0.217 0.109 0.212 0.105 0.174 0.112 0.176 0.114 0.213 0.109 0.210 0.102 0.174 0.113 0.177 0.114 0.212 0.106 0.209 0.103 0.174 0.113 0.176 0.112 0.209 0.108 0.206 0.100 0.174 0.111 0.176 0.113 0.193 0.109 Qwen3-VL-8B [7] 0.213 0.121 0.225 0.098 0.175 0.111 0.176 0.107 0.212 0.117 0.201 0.101 0.176 0.111 0.175 0.104 0.210 0.117 0.199 0.100 0.175 0.109 0.174 0.103 0.212 0.116 0.199 0.096 0.173 0.107 0.174 0.102 0.192 0.107 Qwen3-VL-8B (SFT) 0.283 0.156 0.284 0.159 0.197 0.151 0.197 0.152 0.274 0.152 0.278 0.156 0.195 0.147 0.196 0.148 0.267 0.149 0.271 0.146 0.195 0.148 0.193 0.147 0.258 0.143 0.259 0.139 0.193 0.146 0.191 0.143 0.233 0.149 Qwen3-VL-8B (GRPO) 0.301 0.196 0.299 0.195 0.209 0.194 0.209 0.190 0.301 0.193 0.299 0.193 0.211 0.195 0.210 0.189 0.298 0.194 0.297 0.190 0.211 0.196 0.210 0.191 0.296 0.190 0.294 0.185 0.211 0.189 0.209 0.186 0.254 
+
+0.192 
+
+Qwen3-VL-8B (MPO) 0.348 0.196 0.340 0.187 0.186 0.126 0.182 0.121 0.334 0.186 0.315 0.170 0.191 0.131 0.187 0.133 0.296 0.173 0.270 0.151 0.179 0.133 0.171 0.125 0.266 0.161 0.226 0.136 0.166 0.126 0.156 0.123 0.238 0.149 Qwen3-VL-8B (MPO-lora) 0.331 0.190 0.335 0.192 0.192 0.149 0.182 0.129 0.336 0.195 0.338 0.191 0.190 0.144 0.185 0.128 0.334 0.189 0.327 0.186 0.193 0.147 0.183 0.128 0.326 0.185 0.306 0.168 0.184 0.136 0.182 0.126 
+
+0.258 
+
+0.161 Choice Evaluation: Multiple-choice on top, Orthogonal-choice below (accuracy %). InternVL3.5-8B [55] 44.55 49.54 49.40 52.77 44.32 50.78 44.89 48.49 43.85 48.35 45.19 47.19 41.57 45.42 44.76 45.29 44.82 49.51 45.03 49.59 42.74 45.78 44.24 46.03 44.02 48.55 46.33 48.85 43.04 45.36 42.88 45.26 44.48 47.92 Qwen3-VL-8B [7] 54.95 52.70 54.31 55.24 47.45 53.50 49.04 54.42 52.86 54.89 56.33 51.34 47.85 51.52 48.36 50.92 55.44 53.85 57.04 52.81 46.13 50.99 48.04 49.41 52.50 52.25 54.50 52.04 46.66 49.55 45.45 48.72 51.06 52.13 Qwen3-VL-8B (SFT) 58.00 57.46 59.03 58.28 44.42 55.84 43.06 53.42 60.82 55.40 56.57 58.18 42.78 51.96 43.30 50.92 56.98 54.08 59.02 55.25 41.50 49.48 42.23 47.55 53.49 53.96 52.85 50.83 42.16 48.84 40.62 48.31 49.80 53.11 Qwen3-VL-8B (GRPO) 55.86 59.50 56.29 59.54 48.65 54.78 49.35 53.33 55.28 56.57 54.69 57.00 45.94 52.07 47.73 53.15 54.78 57.10 56.94 56.65 47.53 52.20 46.58 51.14 52.24 56.81 53.54 54.82 47.34 48.61 44.65 48.75 51.09 54.50 Qwen3-VL-8B (MPO) 62.63 68.05 65.54 68.42 56.13 59.13 56.42 59.38 61.27 66.59 61.07 65.26 52.39 59.25 51.99 57.57 58.10 59.07 55.23 57.38 51.19 56.15 49.61 52.71 54.50 56.69 49.62 51.94 47.22 50.86 47.04 48.33 55.00 58.55 Qwen3-VL-8B (MPO-lora) 65.56 68.74 67.44 70.66 62.14 63.52 58.06 62.38 64.80 67.99 64.90 67.21 59.11 60.55 59.93 58.78 63.51 65.77 61.90 62.81 58.91 58.34 59.46 57.26 59.47 62.64 54.31 57.43 55.98 52.86 54.48 54.55 
+
+60.62 61.97 
+
+Fig. 6: Correlation of VSI-Bench, Route Planning, and VideoNIG Performance 
+
+5.2 Results on VideoNIG Main Results and Comparative Analysis. We evaluate InternVL and Qwen series models across four metrics: Rouge-L, SPICE, Multiple-choice, and Orthogonal-choice in Tab. 2. Results for additional open-source and top-tier proprietary models are provided in Sec. D. Regarding text similarity metrics, InternVL3.5-8B and Qwen3-VL-8B exhibit comparable performance, both outperforming their earlier or smaller variants in Rouge-L while maintaining similar SPICE scores. Supervised fine-tuning of Qwen3-VL leads to consistent improvements across both metrics. Specifically, both GRPO- and MPO-trained models significantly outperform the Qwen3-VL-8B baseline. Notably, the GRPO-trained model achieves higher Rouge-L and SPICE scores, which can be attributed to the explicit alignment of the reward function with these specific metrics during optimization. In contrast, MPO relies on preference-based supervision without direct metric-driven rewards. In the Choice Evaluation, InternVL series models perform relatively poorly com-pared to Qwen3-VL variants. Within the Qwen3-VL family, the MPO-trained 12 F. Li et al. 
+
+Table 3: Navigation execution results for different video types. System2 is InternVLA-N1 + ShortestPathFollower. Dual System is InternVLA-N1 DualVLN. Video Type Instruction Type Model R2R RxR SR ↑ SPL ↑ OS ↑ NE ↓ SR ↑ SPL ↑ OS ↑ NE ↓ nDTW ↑                                                                                                                                                                                
+
+> Gold Route Ground Truth System2 58.5 53.8 65.9 4.70 55.0 47.2 64.0 5.67 66.1 Dual System 63.4 57.8 69.0 4.29 59.4 50.4 68.2 4.73 69.3
+> Qwen3-VL-8B System2 40.3 34.6 50.5 6.61 29.2 23.5 40.0 8.33 48.3 Dual System 41.6 35.4 52.4 6.21 29.2 23.5 40.0 8.33 48.3 Qwen3-VL-8B(GRPO) System2 40.1 32.2 60.4 6.57 31.4 24.6 47.8 8.43 47.3 Dual System 41.9 32.8 62.0 6.43 30.9 23.9 47.1 8.29 47.8 Qwen3-VL-8B(MPO) System2 56.1 49.8 66.7 4.84 37.5 31.6 49.7 7.23 55.3 Dual System 60.3 52.7 69.7 4.33 40.7 33.3 51.2 6.83 56.4 Tyro Tour Qwen3-VL-8B System2 31.0 29.2 39.0 6.42 20.4 18.7 26.6 8.87 45.6 Dual System 33.9 30.4 36.7 6.26 20.8 21.5 28.7 8.93 46.9 Qwen3-VL-8B(MPO) System2 33.2 30.5 40.5 6.04 21.8 18.8 28.7 8.26 47.9 Dual System 34.3 32.4 40.3 6.01 23.4 21.8 29.3 7.95 47.2
+> Curiosity Tour Qwen3-VL-8B System2 21.0 19.2 29.0 8.22 10.4 8.77 23.9 9.87 40.6 Dual System 16.9 15.4 26.7 8.26 12.8 10.5 24.7 9.63 41.9 Qwen3-VL-8B(MPO) System2 21.2 19.5 29.9 8.04 10.8 8.81 24.7 9.25 40.9 Dual System 18.2 16.4 27.3 8.21 13.4 11.2 21.3 8.55 41.9
+> Explorer Tour Qwen3-VL-8B System2 18.7 17.8 25.3 8.43 8.21 8.42 23.0 9.98 38.0 Dual System 19.3 18.2 25.9 8.17 10.2 10.7 21.9 8.61 40.1 Qwen3-VL-8B(MPO) System2 20.4 18.1 25.9 8.34 10.3 8.51 24.2 9.75 39.2 Dual System 20.2 18.3 25.3 8.23 11.4 10.8 22.0 8.58 41.2
+
+model achieves the best overall performance. This improvement likely stems from preference optimization using diverse negative samples, which sharpens the model’s discriminative power under distractor settings. The MPO-trained model also performs well on Orthogonal-choice, indicating improved robustness to viewpoint shifts and resistance to textual perturbations. Similarly, the GRPO-trained model demonstrates strong performance across Choice Evaluation, fur-ther validating the effectiveness of reinforcement-based optimization for struc-tured navigation reasoning. Additionally, we observe minimal performance dis-crepancies between image-conditioned and text-conditioned targets, suggesting that current MLLMs exhibit comparable capability in handling multimodal goal specifications. Furthermore, we analyze the correlation between four evaluation metrics and Success Rate (SR), a primary performance indicator in VLN. As shown in Fig. 5, although all four metrics exhibit positive correlations with SR, Multiple-choice and Orthogonal-choice show substantially stronger associations compared to Rouge-L and SPICE. 
+
+Takeaway : Choice Evaluation better reflects practical navigation perfor-mance and can provide a more informative signal of instruction quality than traditional text similarity metrics. 
+
+Generalization of Fundamental VSI Ability. We examine whether visual-spatial abilities measured by VSI-Bench [64] generalize to VideoNIG. Fig. 6 shows positive correlations across metrics. Pearson r ranges from 0.481 to 0.902, Goal-oriented Navigation Instruction Generation with Tour Video Priors 13 Current position Target position 
+
+？
+
+## …
+
+System Prompt     
+
+> Our Model Navigation Instruction Qwen3-VL-8B-Instruct Navigation Instruction
+> <video>
+> You are an intelligent navigation robot. The tour video captures the environment from your onboard perspective. The initial ego-centric observation at your current location is: <image>
+> Destination target images: <image>
+> Your tasks are: Briefly perform an environmental scan of your current position and provide a situational overview. Develop an optimal navigation strategy to traverse from your current location to the target location.
+> Proceed straight ahead down the hallway. As you move forward, you will pass by the window at the end of the hallway. Continue until you reach the bathroom area, where you will find the vanity with the mirror on your left side. This will be your target location. Turn around and go through the open doorway into the bedroom. Pass the bed on the right, continue straight through the archway into the next room. At the end of the corridor, turn left into a bedroom, then turn left again past the bed and into the bathroom, stopping in front of the mirror.
+
+❌
+
+Fig. 7: Qualitative analysis of a VideoNIG image-goal case. 
+
+with SPICE and our diagnostic Orthogonal-choice most aligned with general spatial reasoning. 
+
+Takeaway : VideoNIG performance strongly tracks visual-spatial reasoning, highlighting it as a key ability for navigation instruction generation. 
+
+Navigation execution. We evaluate navigation with InternVLA-N1 [48,60] un-der System2 and Dual System settings, reporting SR, SPL, and related metrics. Ground-truth instructions perform best because the VLN agent is trained on this distribution. On Gold Route, generated instructions remain competitive, with MPO consistently outperforming GRPO, likely because the additional super-vised fine-tuning stage stabilizes generation. From Tyro Tour to Curiosity and Explorer Tours, SR and SPL drop under both settings, showing that exploratory trajectories make fine-grained spatial alignment harder. Although generated in-structions still lag behind ground truth under distribution shift, their execution confirms a viable VideoNIG-to-VLN pipeline. 
+
+Takeaway : VideoNIG-generated instructions possess high functional util-ity for autonomous navigation. However, trajectory complexity remains a key scaling bottleneck, highlighting the challenge of maintaining fine-grained spatial alignment in complex scenarios. 
+
+Case study. Fig. 7 shows a tour requiring successive turns and consistent orien-tation tracking. The Qwen3-VL-8B baseline fails to ground the initial viewpoint and shortcuts down the hallway to the bathroom, while our model follows the multi-turn trajectory, demonstrating improved initial-goal alignment and long-horizon video-grounded reasoning. 
+
+5.3 Ablation Studies 
+
+We ablate Chain-of-thought and Curriculum Learning on VideoNIG. 14 F. Li et al. 
+
+Table 4: Effects of Chain-of-thought on model performance. R/S is Rouge-L (top) and SPICE; M/O is Multiple-choice (top) and Orthogonal-choice. Data R2R RxR Average R/S M/O R/S M/O R/S M/O w/ CoT 0.301 0.193 55.28 56.57 0.256 0.194 45.94 52.07  
+
+> 0.279 0.193 50.61 54.32
+> w/o CoT 0.282 0.151 55.74 53.90 0.200 0.166 44.80 51.28 0.241 0.159 50.27 52.59
+
+Table 5: Curriculum Learning Effects on Model Performance. Action Complexity R2R RxR Average Warmup Progression R/S M/O R/S M/O R/S M/O         
+
+> ××0.283 0.142 52.65 58.34 0.148 0.109 44.01 46.23 0.216 0.126 48.33 52.29
+> ✓×0.297 0.143 52.71 58.44 0.151 0.113 45.22 51.01 0.224 0.128 48.97 54.73
+> ×✓0.305 0.150 60.28 61.17 0.151 0.108 45.88 58.06 0.228 0.129 53.08 59.57
+> ✓✓0.334 0.186 61.27 66.59 0.191 0.131 52.39 59.25
+> 0.263 0.159 56.73 62.92
+
+Effects of Chain-of-thought. Tab. 4 compares the original chain-of-thought prompt, which first analyzes the current state and surroundings before instruc-tion generation, with a direct generation prompt. Results are reported for the GRPO-based method on unseen Tyro Tour videos with image goals. The chain-of-thought step lets the model focus on the current environment and state before generation, improving output quality. 
+
+Effects of Curriculum Learning. Tab. 5 evaluates the MPO-trained model on unseen Tyro Tour videos with image goals. Without Curriculum Learning, per-formance is consistently lower, indicating unstable optimization for long-horizon objectives. Action Warmup alleviates this by restricting early-stage optimiza-tion to relative spatial reasoning, providing a more consistent training signal and improving directional discrimination. Building on this foundation, Com-plexity Progression gradually increases route length and difficulty, allowing the model to adapt to harder scenarios while preserving spatial reasoning. Over-all, the two-stage curriculum stabilizes optimization and yields consistent gains across metrics. 
+
+6 Conclusion 
+
+We introduce VideoNIG , a goal-oriented navigation instruction generation task that uses ego-centric tour videos as compact environmental priors. Built on R2R-CE and RxR-CE, our controlled benchmark instantiation provides diverse tour strategies and multimodal goals for studying long-horizon video-grounded in-struction generation. Results show that strong MLLMs still struggle with spatial grounding and trajectory composition, while our two-stage Curriculum Learn-ing framework improves both instruction quality and downstream VLN perfor-mance. Although limited to simulator-based indoor settings, VideoNIG offers a compact evaluation setting for embodied multimodal reasoning and motivates richer multimodal priors and interaction-aware scenarios. 
+
+References 
+
+1. An, D., Qi, Y., Li, Y., Huang, Y., Wang, L., Tan, T., Shao, J.: Bevbert: Multimodal map pre-training for language-guided navigation. arXiv preprint arXiv:2212.04385 Goal-oriented Navigation Instruction Generation with Tour Video Priors 15 (2022) 4 2. An, D., Wang, H., Wang, W., Wang, Z., Huang, Y., He, K., Wang, L.: Etpnav: Evolving topological planning for vision-language navigation in continuous envi-ronments. IEEE Transactions on Pattern Analysis and Machine Intelligence (2024) 3, 4 3. Anderson, P., Fernando, B., Johnson, M., Gould, S.: Spice: Semantic propositional image caption evaluation. In: European conference on computer vision. pp. 382– 398. Springer (2016) 8 4. Anderson, P., Wu, Q., Teney, D., Bruce, J., Johnson, M., Sünderhauf, N., Reid, I., Gould, S., Van Den Hengel, A.: Vision-and-language navigation: Interpreting visually-grounded navigation instructions in real environments. In: Proceedings of the IEEE conference on computer vision and pattern recognition. pp. 3674–3683 (2018) 1, 4, 6 5. Anwar, A., Welsh, J., Biswas, J., Pouya, S., Chang, Y.: Remembr: Building and reasoning over long-horizon spatio-temporal memory for robot navigation. In: 2025 IEEE International Conference on Robotics and Automation (ICRA). pp. 2838– 2845. IEEE (2025) 4 6. Bai, S., Chen, K., Liu, X., Wang, J., Ge, W., Song, S., Dang, K., Wang, P., Wang, S., Tang, J., et al.: Qwen2. 5-vl technical report. arXiv preprint arXiv:2502.13923 (2025) 10, 6 7. Bai, S., et al.: Qwen3-vl github repo. (2025) 5, 10, 11, 6, 7 8. Bengio, Y., Louradour, J., Collobert, R., Weston, J.: Curriculum learning. In: Pro-ceedings of the 26th annual international conference on machine learning. pp. 41–48 (2009) 9 9. Bigverdi, M., Luo, Z., Hsieh, C.Y., Shen, E., Chen, D., Shapiro, L.G., Krishna, R.: Perception tokens enhance visual reasoning in multimodal language models. In: Proceedings of the Computer Vision and Pattern Recognition Conference. pp. 3836–3845 (2025) 5 10. Chen, G.H., Chen, S., Zhang, R., Chen, J., Wu, X., Zhang, Z., Chen, Z., Li, J., Wan, X., Wang, B.: Allava: Harnessing gpt4v-synthesized data for lite vision-language models. arXiv preprint arXiv:2402.11684 (2024) 10 11. Chen, S., Guhur, P.L., Tapaswi, M., Schmid, C., Laptev, I.: Think global, act local: Dual-scale graph transformer for vision-and-language navigation. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 16537–16547 (2022) 1, 4 12. Chen, Y., Ge, Y., Tang, W., Li, Y., Ge, Y., Ding, M., Shan, Y., Liu, X.: Moto: Latent motion token as the bridging language for learning robot manipulation from videos. In: Proceedings of the IEEE/CVF International Conference on Computer Vision. pp. 19752–19763 (2025) 3 13. Cheng, A.C., Ji, Y., Yang, Z., Gongye, Z., Zou, X., Kautz, J., Bıyık, E., Yin, H., Liu, S., Wang, X.: Navila: Legged robot vision-language-action model for navigation. arXiv preprint arXiv:2412.04453 (2024) 4 14. Chiang, H.T.L., Xu, Z., Fu, Z., Jacob, M.G., Zhang, T., Lee, T.W.E., Yu, W., Schenck, C., Rendleman, D., Shah, D., et al.: Mobility vla: Multimodal instruc-tion navigation with long-context vlms and topological graphs. arXiv preprint arXiv:2407.07775 (2024) 4 15. Conover, M., Hayes, M., Mathur, A., Xie, J., Wan, J., Shah, S., Ghodsi, A., Wen-dell, P., Zaharia, M., Xin, R.: Free dolly: Introducing the world’s first truly open instructiontuned llm (2023) 10 16 F. Li et al. 16. Cui, Y., Xie, L., Zhao, Y., Sun, J., Yin, E.: Generating vision-language naviga-tion instructions incorporated fine-grained alignment annotations. arXiv preprint arXiv:2506.08566 (2025) 2, 4 17. Dorbala, V.S., Chowdhury, S., Manocha, D.: Can llms generate human-like wayfinding instructions? towards platform-agnostic embodied instruction synthe-sis. arXiv preprint arXiv:2403.11487 (2024) 4 18. Fan, S., Liu, R., Wang, W., Yang, Y.: Navigation instruction generation with bev perception and large language models. In: European Conference on Computer Vi-sion. pp. 368–387. Springer (2024) 3, 4 19. Fan, S., Liu, R., Wang, W., Yang, Y.: Scene map-based prompt tuning for naviga-tion instruction generation. In: Proceedings of the Computer Vision and Pattern Recognition Conference. pp. 6898–6908 (2025) 4 20. Fischler, M.A., Bolles, R.C.: Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography. Communi-cations of the ACM 24 (6), 381–395 (1981) 7 21. Fried, D., Hu, R., Cirik, V., Rohrbach, A., Andreas, J., Morency, L.P., Berg-Kirkpatrick, T., Saenko, K., Klein, D., Darrell, T.: Speaker-follower models for vision-and-language navigation. Advances in neural information processing sys-tems 31 (2018) 2, 4 22. Han, L., Min, H., Hwangbo, G., Choi, J., Seo, P.H.: Dialnav: Multi-turn dialog navigation with a remote guide. In: Proceedings of the IEEE/CVF International Conference on Computer Vision. pp. 8514–8523 (2025) 2, 4 23. Han, M., Ma, L., Zhumakhanova, K., Radionova, E., Zhang, J., Chang, X., Liang, X., Laptev, I.: Roomtour3d: Geometry-aware video-instruction tuning for embod-ied navigation. In: Proceedings of the Computer Vision and Pattern Recognition Conference. pp. 27586–27596 (2025) 4, 10 24. Hirose, N., Glossop, C., Sridhar, A., Shah, D., Mees, O., Levine, S.: Lelan: Learning a language-conditioned navigation policy from in-the-wild videos. arXiv preprint arXiv:2410.03603 (2024) 4 25. Hong, H., Qiao, Y., Wang, S., Liu, J., Wu, Q.: General scene adaptation for vision-and-language navigation. arXiv preprint arXiv:2501.17403 (2025) 1, 2, 4 26. Huang, X., Wu, J., Xie, Q., Han, K.: Mllms need 3d-aware representation super-vision for scene understanding. arXiv preprint arXiv:2506.01946 (2025) 2, 5 27. Huang, Z., Shangguan, Z., Zhang, J., Bar, G., Boyd, M., Ohn-Bar, E.: Assister: As-sistive navigation via conditional instruction generation. In: European Conference on Computer Vision. pp. 271–289. Springer (2022) 4 28. Ilharco, G., Jain, V., Ku, A., Ie, E., Baldridge, J.: General evaluation for in-struction conditioned navigation using dynamic time warping. arXiv preprint arXiv:1907.05446 (2019) 6 29. Krantz, J., Wijmans, E., Majumdar, A., Batra, D., Lee, S.: Beyond the nav-graph: Vision-and-language navigation in continuous environments. In: European Confer-ence on Computer Vision. pp. 104–120. Springer (2020) 1, 4, 6 30. Ku, A., Anderson, P., Patel, R., Ie, E., Baldridge, J.: Room-across-room: Multilin-gual vision-and-language navigation with dense spatiotemporal grounding. arXiv preprint arXiv:2010.07954 (2020) 1, 2, 4, 6, 7 31. Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Yu, C.H., Gonzalez, J.E., Zhang, H., Stoica, I.: Efficient memory management for large language model serv-ing with pagedattention. In: Proceedings of the ACM SIGOPS 29th Symposium on Operating Systems Principles (2023) 10 Goal-oriented Navigation Instruction Generation with Tour Video Priors 17 32. Li, Z., Zhou, G., Hong, H., Shao, Y., Lyu, W., Qiao, Y., Wu, Q.: Ground-level view-point vision-and-language navigation in continuous environments. arXiv preprint arXiv:2502.19024 (2025) 4 33. Lin, C.Y.: Rouge: A package for automatic evaluation of summaries. In: Text sum-marization branches out. pp. 74–81 (2004) 8 34. Lin, K., Chen, P., Huang, D., Li, T.H., Tan, M., Gan, C.: Learning vision-and-language navigation from youtube videos. In: Proceedings of the IEEE/CVF In-ternational Conference on Computer Vision. pp. 8317–8326 (2023) 4 35. Liu, F.T., Ting, K.M., Zhou, Z.H.: Isolation forest. In: 2008 eighth ieee international conference on data mining. pp. 413–422. IEEE (2008) 7 36. Liu, Y., Zhang, Y., Cai, J., Jiang, X., Hu, Y., Yao, J., Wang, Y., Xie, W.: Lamra: Large multimodal model as your advanced retrieval assistant. In: Proceedings of the Computer Vision and Pattern Recognition Conference. pp. 4015–4025 (2025) 737. Long, Y., Cai, W., Wang, H., Zhan, G., Dong, H.: Instructnav: Zero-shot sys-tem for generic instruction navigation in unexplored environment. arXiv preprint arXiv:2406.04882 (2024) 4 38. Mitra, A., Khanpour, H., Rosset, C., Awadallah, A.: Orca-math: Unlocking the potential of slms in grade school math. arXiv preprint arXiv:2402.14830 (2024) 10 39. Ouyang, K., Liu, Y., Wu, H., Liu, Y., Zhou, H., Zhou, J., Meng, F., Sun, X.: Spacer: Reinforcing mllms in video spatial reasoning. arXiv preprint arXiv:2504.01805 (2025) 10 40. Qi, Y., Wu, Q., Anderson, P., Wang, X., Wang, W.Y., Shen, C., Hengel, A.v.d.: Reverie: Remote embodied visual referring expression in real indoor environments. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 9982–9991 (2020) 4 41. Qiao, Y., Hong, H., Lyu, W., An, D., Zhang, S., Xie, Y., Wang, X., Wu, Q.: Navbench: Probing multimodal large language models for embodied navigation. arXiv preprint arXiv:2506.01031 (2025) 8 42. Ramrakhya, R., Chang, M., Puig, X., Desai, R., Kira, Z., Mottaghi, R.: Grounding multimodal llms to embodied agents that ask for help with reinforcement learning. arXiv preprint arXiv:2504.00907 (2025) 4 43. Savva, M., Kadian, A., Maksymets, O., Zhao, Y., Wijmans, E., Jain, B., Straub, J., Liu, J., Koltun, V., Malik, J., et al.: Habitat: A platform for embodied ai research. In: Proceedings of the IEEE/CVF international conference on computer vision. pp. 9339–9347 (2019) 6 44. Shah, D., Osiński, B., Levine, S., et al.: Lm-nav: Robotic navigation with large pre-trained models of language, vision, and action. In: Conference on robot learning. pp. 492–504. PMLR (2023) 4 45. Shao, Z., Wang, P., Zhu, Q., Xu, R., Song, J., Bi, X., Zhang, H., Zhang, M., Li, Y., Wu, Y., et al.: Deepseekmath: Pushing the limits of mathematical reasoning in open language models. arXiv preprint arXiv:2402.03300 (2024) 9, 4 46. Song, X., Chen, W., Liu, Y., Chen, W., Li, G., Lin, L.: Towards long-horizon vision-language navigation: Platform, benchmark and method. In: Proceedings of the Computer Vision and Pattern Recognition Conference. pp. 12078–12088 (2025) 447. Tan, H., Yu, L., Bansal, M.: Learning to navigate unseen environments: Back translation with environmental dropout. arXiv preprint arXiv:1904.04195 (2019) 2, 4 48. Team, I.: InternVLA-N1: An open dual-system navigation foundation model with learned latent plans (2025) 9, 13 18 F. Li et al. 49. Wang, H., Liang, W., Shen, J., Van Gool, L., Wang, W.: Counterfactual cycle-consistent learning for instruction following and generation in vision-language nav-igation. In: Proceedings of the IEEE/CVF conference on computer vision and pat-tern recognition. pp. 15471–15481 (2022) 2, 4 50. Wang, J., Chen, M., Karaev, N., Vedaldi, A., Rupprecht, C., Novotny, D.: Vggt: Visual geometry grounded transformer. In: Proceedings of the Computer Vision and Pattern Recognition Conference. pp. 5294–5306 (2025) 5 51. Wang, S., Montgomery, C., Orbay, J., Birodkar, V., Faust, A., Gur, I., Jaques, N., Waters, A., Baldridge, J., Anderson, P.: Less is more: Generating grounded navi-gation instructions from landmarks. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 15428–15438 (2022) 3, 4 52. Wang, T., Cheng, C., Wang, L., Chen, S., Zhao, W.: Himtok: Learning hierarchical mask tokens for image segmentation with large multimodal model. In: Proceedings of the IEEE/CVF International Conference on Computer Vision. pp. 23267–23278 (2025) 5, 10 53. Wang, W., Lv, Q., Yu, W., Hong, W., Qi, J., Wang, Y., Ji, J., Yang, Z., Zhao, L., XiXuan, S., et al.: Cogvlm: Visual expert for pretrained language models. Advances in Neural Information Processing Systems 37 , 121475–121499 (2024) 10 54. Wang, W., Chen, Z., Wang, W., Cao, Y., Liu, Y., Gao, Z., Zhu, J., Zhu, X., Lu, L., Qiao, Y., et al.: Enhancing the reasoning ability of multimodal large language models via mixed preference optimization. arXiv preprint arXiv:2411.10442 (2024) 10, 5 55. Wang, W., Gao, Z., Gu, L., Pu, H., Cui, L., Wei, X., Liu, Z., Jing, L., Ye, S., Shao, J., et al.: Internvl3. 5: Advancing open-source multimodal models in versatility, reasoning, and efficiency. arXiv preprint arXiv:2508.18265 (2025) 5, 10, 11, 6, 7 56. Wang, X., Wang, W., Shao, J., Yang, Y.: Lana: A language-capable navigator for instruction following and generation. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. pp. 19048–19058 (2023) 2, 4 57. Wang, Z., Zhu, Y., Lee, G.H., Fan, Y.: Navrag: Generating user demand instruc-tions for embodied navigation through retrieval-augmented llm. arXiv preprint arXiv:2502.11142 (2025) 4 58. Wang, Z., Li, J., Hong, Y., Li, S., Li, K., Yu, S., Wang, Y., Qiao, Y., Wang, Y., Bansal, M., et al.: Bootstrapping language-guided navigation learning with self-refining data flywheel. arXiv preprint arXiv:2412.08467 (2024) 4 59. Wang, Z., Li, J., Hong, Y., Wang, Y., Wu, Q., Bansal, M., Gould, S., Tan, H., Qiao, Y.: Scaling data generation in vision-and-language navigation. In: Proceed-ings of the IEEE/CVF international conference on computer vision. pp. 12009– 12020 (2023) 2, 4 60. Wei, M., Wan, C., Peng, J., Yu, X., Yang, Y., Feng, D., Cai, W., Zhu, C., Wang, T., Pang, J., et al.: Ground slow, move fast: A dual-system foundation model for generalizable vision-and-language navigation. arXiv preprint arXiv:2512.08186 (2025) 9, 13 61. Wei, M., Wan, C., Yu, X., Wang, T., Yang, Y., Mao, X., Zhu, C., Cai, W., Wang, H., Chen, Y., et al.: Streamvln: Streaming vision-and-language navigation via slowfast context modeling. arXiv preprint arXiv:2507.05240 (2025) 4 62. Wijmans, E., Datta, S., Maksymets, O., Das, A., Gkioxari, G., Lee, S., Essa, I., Parikh, D., Batra, D.: Embodied question answering in photorealistic environments with point cloud perception. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 6659–6668 (2019) 4 Goal-oriented Navigation Instruction Generation with Tour Video Priors 19 63. Wu, F., Dong, Y., Cheng, Z.Q., Dai, Y., Chen, G., Wang, H., Dai, Q., Haupt-mann, A.G.: Govig: Goal-conditioned visual navigation instruction generation. arXiv preprint arXiv:2508.09547 (2025) 2, 3, 5 64. Yang, J., Yang, S., Gupta, A.W., Han, R., Fei-Fei, L., Xie, S.: Thinking in space: How multimodal large language models see, remember, and recall spaces. In: Pro-ceedings of the Computer Vision and Pattern Recognition Conference. pp. 10632– 10643 (2025) 2, 5, 12 65. Yokoyama, N., Ha, S., Batra, D., Wang, J., Bucher, B.: Vlfm: Vision-language frontier maps for zero-shot semantic navigation. In: 2024 IEEE International Con-ference on Robotics and Automation (ICRA). pp. 42–48. IEEE (2024) 2 66. Yokoyama, N., Ramrakhya, R., Das, A., Batra, D., Ha, S.: Hm3d-ovon: A dataset and benchmark for open-vocabulary object goal navigation. In: 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS). pp. 5543– 5550. IEEE (2024) 4 67. Yu, L., Jiang, W., Shi, H., Yu, J., Liu, Z., Zhang, Y., Kwok, J.T., Li, Z., Weller, A., Liu, W.: Metamath: Bootstrap your own mathematical questions for large language models. arXiv preprint arXiv:2309.12284 (2023) 10 68. Yue, X., Qu, X., Zhang, G., Fu, Y., Huang, W., Sun, H., Su, Y., Chen, W.: Mam-moth: Building math generalist models through hybrid instruction tuning. arXiv preprint arXiv:2309.05653 (2023) 10 69. Zhang, J., Wang, K., Wang, S., Li, M., Liu, H., Wei, S., Wang, Z., Zhang, Z., Wang, H.: Uni-navid: A video-based vision-language-action model for unifying embodied navigation tasks. arXiv preprint arXiv:2412.06224 (2024) 4 70. Zhang, J., Wang, K., Xu, R., Zhou, G., Hong, Y., Fang, X., Wu, Q., Zhang, Z., Wang, H.: Navid: Video-based vlm plans the next step for vision-and-language navigation. arXiv preprint arXiv:2402.15852 (2024) 4 71. Zhang, L., Hao, X., Xu, Q., Zhang, Q., Zhang, X., Wang, P., Zhang, J., Wang, Z., Zhang, S., Xu, R.M.: A novel memory representation via annotated semantic maps for vlm-based vision-and-language navigation. arXiv preprint arXiv:2502.13451 (2025) 4 72. Zhang, L., Liu, Y., Zhang, Z., Aghaei, M., Hu, Y., Gu, H., Alomrani, M.A., Bravo, D.G.A., Karimi, R., Hamidizadeh, A., et al.: Mem2ego: Empowering vision-language models with global-to-ego memory for long-horizon embodied navigation. arXiv preprint arXiv:2502.14254 (2025) 4 73. Zhang, Y., Ma, Z., Li, J., Qiao, Y., Wang, Z., Chai, J., Wu, Q., Bansal, M., Ko-rdjamshidi, P.: Vision-and-language navigation today and tomorrow: A survey in the era of foundation models. arXiv preprint arXiv:2407.07035 (2024) 2 74. Zhao, M., Anderson, P., Jain, V., Wang, S., Ku, A., Baldridge, J., Ie, E.: On the evaluation of vision-and-language navigation instructions. arXiv preprint arXiv:2101.10504 (2021) 8 75. Zheng, D., Huang, S., Zhao, L., Zhong, Y., Wang, L.: Towards learning a generalist model for embodied navigation. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 13624–13634 (2024) 1, 2, 4 76. Zheng, T., Zhang, G., Shen, T., Liu, X., Lin, B.Y., Fu, J., Chen, W., Yue, X.: Opencodeinterpreter: Integrating code generation with execution and refinement. arXiv preprint arXiv:2402.14658 (2024) 10 77. Zhou, G., Hong, Y., Wang, Z., Wang, X.E., Wu, Q.: Navgpt-2: Unleashing naviga-tional reasoning capability for large vision-language models. In: European Confer-ence on Computer Vision. pp. 260–278. Springer (2024) 2, 4, 5 20 F. Li et al. 78. Zhou, S., Vilesov, A., He, X., Wan, Z., Zhang, S., Nagachandra, A., Chang, D., Chen, D., Wang, X.E., Kadambi, A.: Vlm4d: Towards spatiotemporal awareness in vision language models. In: Proceedings of the IEEE/CVF international conference on computer vision. pp. 8600–8612 (2025) 2, 5 79. Zhu, F., Liang, X., Zhu, Y., Yu, Q., Chang, X., Liang, X.: Soon: Scenario oriented object navigation with graph-based exploration. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 12689–12699 (2021) 2, 4 80. Zhu, J., Wang, W., Chen, Z., Liu, Z., Ye, S., Gu, L., Tian, H., Duan, Y., Su, W., Shao, J., et al.: Internvl3: Exploring advanced training and test-time recipes for open-source multimodal models. arXiv preprint arXiv:2504.10479 (2025) 10, 6, 7 Goal-oriented Navigation Instruction Generation with Tour Video Priors 1
+
+A Details on VideoNIG Dataset 
+
+In this section, we provide the detailed pipeline for constructing the three types of tour videos used in VideoNIG: Tyro Tour , Curiosity Tour , and Explorer Tour .All tours are generated in the Habitat simulator, following the discretized action space {turn-left, turn-right, move-forward}. For each action taken, one frame is captured at 6 FPS. 
+
+A.1 Overview 
+
+To ensure that all tours retain the essential visual coverage of the underlying optimal path, we use the Gold Route—the shortest path between the annotated start and goal—as the structural reference. Diversity is introduced by (1) sam-pling randomized start/end points, (2) inserting look-around behaviors along the route, and (3) performing neighborhood exploration by locally shifting way-points to reachable neighboring locations. These strategies enrich the spatial and temporal variability of the rendered videos, improving realism and robustness. 
+
+A.2 Tyro Tour Videos 
+
+Tyro tours represent the simplest extension from the Gold Route. 
+
+Randomized Start/Goal Offsets. We extend both the start and goal points by sampling reachable offsets uniformly within: 
+
+d ∼ Uniform (1 , 4) .
+
+The sampled points are projected onto the navigable mesh to ensure validity. 
+
+Behavior Characteristics. No additional exploration beyond the extended endpoints is performed; the route follows the gold path except for the offset regions. 
+
+Success Criterion. A tour is considered successful when the ending position is within 0.25 m of the sampled target endpoint. 
+
+A.3 Curiosity Tour Videos 
+
+Curiosity tours simulate mild exploratory behaviors driven by human-like cu-riosity. 
+
+Randomized Start/Goal Offsets. Offsets are sampled from a truncated Gaus-sian: 
+
+d ∼ Normal (μ = 3 .6, σ = 1 .2, min = 0 , max = 10) .
+
+Neighborhood Visits. With probability P , the agent performs a forward neighborhood exploration by moving toward directions sampled from [−90 ◦, +90 ◦]
+
+relative to its heading. Step lengths follow: 
+
+r ∼ Normal (μ = 1 .5, σ = 0 .5, min = 0 , max = 3) .2 F. Li et al. 
+
+Random Look-around. Also with probability P , the agent performs a curiosity-driven look-around, rotating 30 ◦ to the left and right before resuming navigation. 
+
+Success Criterion. A tour is valid if the final position falls within 0.5 m of the sampled target endpoint. 
+
+A.4 Explorer Tour Videos 
+
+Explorer tours introduce strong exploratory behaviors and substantially reduce trajectory overlap with the Gold Route. 
+
+Randomized Start/Goal Offsets. Offsets follow: 
+
+d ∼ Normal (μ = 7 .5, σ = 2 .5, min = 0 , max = 15) .
+
+Large-Scale Neighborhood Visits. With probability P , neighborhood explo-ration is triggered in more extreme lateral directions sampled from: 
+
+[−90 ◦, −30 ◦] ∪ [30 ◦, 90 ◦],
+
+with step lengths: 
+
+r ∼ Normal (μ = 3 , σ = 1 , min = 0 , max = 15) .
+
+Random Look-around. Similar to curiosity tours, an additional left-right 30 ◦
+
+look-around may be triggered with probability P .
+
+Success Criterion. A valid explorer tour terminates within 1 m of the sampled target endpoint. 
+
+A.5 Trigger Probability P
+
+Exploration behaviors (neighborhood visits and look-arounds) are triggered with different probabilities depending on the region of the route: Offset regions 
+
+(random start → gold start, gold goal → random goal): 
+
+P = 0 .02 .
+
+Gold-route region (gold start → gold goal): 
+
+P = 0 .07 .
+
+This design encourages more exploration where the environment is well struc-tured (the Gold Route region), while keeping the offset regions lightweight. 
+
+A.6 Quality Assurance 
+
+All tours undergo: (1) strict connectivity validation on the navigation mesh, (2) obstacle avoidance checks, (3) per-frame collision detection, (4) manual inspection for temporal consistency. Only videos that pass all checks are included in VideoNIG. Goal-oriented Navigation Instruction Generation with Tour Video Priors 3
+
+B Action Warmup 
+
+The Action Warmup stage is designed to establish foundational visual-spatial reasoning by training the model on local spatial transformations and orientation alignment before it tackles complex, long-horizon navigation instructions. We formulate this stage through two complementary subtasks: Action-from-View 
+
+and View-from-Action .
+
+B.1 Data Collection Pipeline 
+
+To generate training samples for this stage, we programmatically interact with the Habitat simulator to collect precise (initial view, action, next view) triplets. We define a fine-grained, discrete action space consisting of 13 actions: 
+
+– Translation : Move forward by {25 , 50 , 75 , 100 } cm. 
+
+– Rotation : Turn left or right by {15 ◦, 30 ◦, 45 ◦, 60 ◦}.
+
+– Stop : Remain in the current position. For each randomly sampled valid starting position in the environment, we first enforce a strict navigability check (e.g., ensuring a 100 cm forward movement is collision-free). Once validated, we record the initial egocentric RGB observation. The agent then resets to the initial state and iteratively executes each of the 13 actions, capturing the corresponding subsequent observations. From this candi-date pool, we systematically construct pairs for the two warmup tasks, ensuring balanced sampling and the rigorous exclusion of invalid trajectories. 
+
+B.2 Task Formulation 
+
+Using the collected observations, we formulate two distinct training tasks: 
+
+Action-from-View: Given an initial frame and a subsequent frame, the model is tasked with inferring the relative camera motion (i.e., outputting the exact action label, such as “Move forward 100 cm”). 
+
+View-from-Action: Given an initial frame and a specific textual action in-struction, the model must select the correct resulting frame from a candidate set. We formulate this as a multiple-choice QA task with four visual options: one ground-truth frame and three distractor frames sampled from other actions originating from the same initial state. 
+
+B.3 GRPO Reward Formulation 
+
+To optimize the model effectively during the Action Warmup stage using Group Relative Policy Optimization (GRPO), we carefully design task-specific reward functions. Rather than relying on a sparse binary reward, we implement a hier-archical step reward for the Action-from-View task to capture the partial cor-rectness of continuous spatial concepts. 
+
+Action-from-View Reward: The reward Ra2v penalizes the model based on the semantic and physical distance between the predicted action and the ground truth. 4 F. Li et al. 
+
+– Distance Hierarchy (Forward Actions): If the ground truth is “Move forward 100 cm”, predictions of {100 , 75 , 50 , 25 } cm yield rewards of {1.0, 0.8, 0.6, 0.1}
+
+respectively. 
+
+– Angle Hierarchy (Turn Actions): If the ground truth is “Turn left 30 ◦”, pre-dicting the exact angle yields 1.0. Predicting adjacent angles in the same direction (e.g., 15 ◦ or 45 ◦) yields 0.8, and 60 ◦ yields 0.6. Predicting any turn in the opposite direction (e.g., right turn) yields 0.0.
+
+– Type Mismatch: Any confusion between fundamentally different action cate-gories (e.g., predicting a Turn when the ground truth is Forward, or confusing Any action with Stop) strictly yields a reward of 0.0.
+
+View-from-Action Reward: Because this is formulated as an explicit multiple-choice task, we apply a straightforward binary reward Rv2a . The model receives a reward of 1.0 if it successfully selects the correct target frame from the four candidates, and 0.0 otherwise. By applying these targeted rewards, the model develops a robust prior for ego-centric spatial transformations, significantly stabilizing the subsequent training phase on long, complex tour videos. 
+
+C Complexity Progression 
+
+Our curriculum learning begins with Action Warmup, which establishes a foun-dational spatial-orientation representation through local action-view alignment. Building on this initialization, the second stage focuses on complexity progres-sion, where training samples are gradually introduced according to the difficulty and exploratory behavior of the tour videos. This progression aims to scale the model’s capacity to handle long-horizon spatial reasoning. To optimize the model under this curriculum, we employ Group Relative Policy Optimization (GRPO) and Mixed Preference Optimization (MPO) to ensure both textual alignment and spatial-temporal consistency in navigation instruction generation. 
+
+C.1 GRPO Group Relative Policy Optimization (GRPO) [45] is adopted to optimize instruction generation in a group-relative manner. A known issue of GRPO is that when all sampled outputs {yi}Gi=1 receive nearly identical rewards, the group contributes negligible gradients. To maintain effective batch diversity, we discard non-informative groups whose reward range falls below a threshold δ (set to 0.1). 
+
+Objective Function. We define the query q of each sample as (P, V, O0, G),which consists of the prompt, tour video, initial RGB observation, and goal de-scription. The generated navigation instruction is denoted as Ipred . The objective function is then defined as:               
+
+> J(θ) = E(q,I gt )∼D ,{Ii
+> pred }Gi=1 ∼πθold (·| q)
+> "
+> 1
+> G
+> GX
+> i=1
+> 1
+> |Ii
+> pred |
+> |Ii
+> pred |
+> X
+> t=1
+> min
+> 
+> ri,t (θ) ˆAi,t ,clip  ri,t (θ),1−εlow ,1 + εhigh
+> ˆAi,t
+> 
+> −βD KL (πθ∥πref )
+> #
+
+(1) Goal-oriented Navigation Instruction Generation with Tour Video Priors 5
+
+s.t. max {Ri}Gi=1 − min {Ri}Gi=1 ≥ δ
+
+where 
+
+ˆAi,t = Ri − mean ({Ri}Gi=1 )
+
+std ({Ri}Gi=1 ) , ri,t (θ) = πθ (Ii,t  
+
+> pred
+
+| q, I i,<t 
+
+> pred
+
+)
+
+πθold (Ii,t  
+
+> pred
+
+| q, I i,<t 
+
+> pred
+
+) .
+
+(q, I gt ) is a (query, ground-truth instruction) pair from the training dataset D;
+
+εlow and εhigh are clipping parameters, and G is the rollout group size. 
+
+Reward functions. We analyze the predicted navigation instruction from three perspectives: 
+
+(1) Similarity : We measure the similarity between the predicted instruction 
+
+Ipred  and the ground-truth instruction  Igt  using classical metrics, including SPICE score  fSPICE (Ipred , I gt ) and Rouge-L score  fRouge-L (Ipred , I gt ).
+
+(2) Quality : We assess whether the predicted instruction clearly expresses each action, movement, and direction, without including extraneous information un-related to navigation. Note that this quality score  fquality (Ipred ) focuses on the clarity of expression rather than the accuracy of actions, and is evaluated by an LLM judge. 
+
+(3) Trajectory Consistency : We measure the consistency between the trajec-tory guided by the predicted instruction and the optimal trajectory recorded in the Gold Route video  Vgt . This trajectory score  ftraj (Vgt , I pred ) is evaluated by an MLLM that takes both the Gold Route video and the predicted instruction as inputs. The main reward component is defined as:       
+
+> Rmain =αf SPICE (Ipred , I gt ) + βf Rouge-L (Ipred , I gt ) + γf quality (Ipred ) + δf traj (Vgt , I pred )
+
+(2) where  α, β, γ, and  δ are the weights for each reward component. We set  α = 0 .1,
+
+β = 0 .1, γ = 0 .2 and  δ = 0 .6. To penalize overly long instructions, we define a length penalty term based on the ratio  r = Lpred  
+
+> Lgt
+
+, where  Lpred  and  Lgt  are the lengths of the predicted and ground-truth instructions, respectively: 
+
+Rlength =
+
+
+
+0, if r < 3
+
+− r − 32 , if 3 ≤ r ≤ 5
+
+−1, if r > 5
+
+(3) The final reward is: 
+
+R = Rmain + Rlength  (4) 
+
+C.2 MPO. Mixed Preference Optimization (MPO). [54] To generate semantically con-sistent navigation instructions from a given video v and start–goal pair (s, g ), we formulate the task as conditional generation with a multimodal language model 
+
+πθ (y | v, s, g ), where y denotes the navigation instruction. The model is first initialized via supervised fine-tuning (SFT): 
+
+LSFT = −E(v,s,g,y ∗) [log πθ (y∗ | v, s, g )] , (5) 6 F. Li et al. 
+
+Table 6: Evaluation results on VideoNIG. Each cell shows two scores: Rouge-L on top, SPICE below. Video type Gold Route Tyro Tour Curiosity Tour Explorer Tour Average Source R2R RxR R2R RxR R2R RxR R2R RxR Goal modal image text image text image text image text image text image text image text image text gpt-5.2-chat 0.167 0.092 0.160 0.078 0.186 0.135 0.181 0.127 0.164 0.084 0.159 0.076 0.181 0.129 0.180 0.130 0.166 0.088 0.161 0.078 0.181 0.137 0.179 0.122 0.168 0.089 0.154 0.071 0.187 0.140 0.174 0.121 0.172 0.106 qwen3-vl-plus 0.143 0.062 0.135 0.055 0.157 0.096 0.156 0.091 0.147 0.066 0.140 0.063 0.157 0.099 0.153 0.089 0.138 0.066 0.136 0.063 0.156 0.096 0.154 0.101 0.134 0.063 0.133 0.063 0.154 0.088 0.150 0.091 0.146 0.078 InternVL3-8B [80] 0.160 0.087 0.165 0.087 0.173 0.117 0.173 0.112 0.158 0.088 0.163 0.086 0.174 0.114 0.174 0.113 0.157 0.086 0.163 0.086 0.173 0.116 0.173 0.109 0.153 0.085 0.162 0.085 0.172 0.114 0.174 0.111 0.167 0.100 InternVL3.5-4B [55] 0.191 0.105 0.174 0.097 0.173 0.116 0.174 0.115 0.189 0.101 0.170 0.090 0.174 0.116 0.173 0.114 0.188 0.101 0.169 0.091 0.174 0.116 0.172 0.112 0.187 0.101 0.168 0.089 0.172 0.116 0.173 0.111 0.176 0.106 InternVL3.5-8B [55] 0.217 0.109 0.212 0.105 0.174 0.112 0.176 0.114 0.213 0.109 0.210 0.102 0.174 0.113 0.177 0.114 0.212 0.106 0.209 0.103 0.174 0.113 0.176 0.112 0.209 0.108 0.206 0.100 0.174 0.111 0.176 0.113 0.193 0.109 Qwen2.5-VL-7B [6] 0.195 0.109 0.182 0.094 0.164 0.101 0.171 0.102 0.199 0.106 0.178 0.095 0.166 0.097 0.175 0.104 0.198 0.106 0.178 0.093 0.166 0.099 0.173 0.102 0.195 0.105 0.177 0.094 0.166 0.100 0.175 0.105 0.179 0.101 Qwen3-VL-4B [7] 0.224 0.114 0.201 0.097 0.172 0.131 0.181 0.118 0.169 0.065 0.097 0.053 0.187 0.095 0.195 0.136 0.243 0.107 0.201 0.091 0.192 0.132 0.180 0.116 0.217 0.110 0.196 0.091 0.201 0.141 0.178 0.113 0.190 0.107 Qwen3-VL-8B [7] 0.213 0.121 0.225 0.098 0.175 0.111 0.176 0.107 0.212 0.117 0.201 0.101 0.176 0.111 0.175 0.104 0.210 0.117 0.199 0.100 0.175 0.109 0.174 0.103 0.212 0.116 0.199 0.096 0.173 0.107 0.174 0.102 0.192 0.107 Qwen3-VL-4B (SFT) 0.277 0.156 0.282 0.154 0.201 0.157 0.202 0.156 0.267 0.148 0.269 0.151 0.202 0.158 0.201 0.155 0.254 0.147 0.257 0.143 0.200 0.155 0.200 0.155 0.240 0.134 0.243 0.138 0.199 0.154 0.197 0.151 0.231 0.151 Qwen3-VL-8B (SFT) 0.283 0.156 0.284 0.159 0.197 0.151 0.197 0.152 0.274 0.152 0.278 0.156 0.195 0.147 0.196 0.148 0.267 0.149 0.271 0.146 0.195 0.148 0.193 0.147 0.258 0.143 0.259 0.139 0.193 0.146 0.191 0.143 0.233 0.149 Qwen3-VL-8B (GRPO) 0.301 0.196 0.299 0.195 0.209 0.194 0.209 0.190 0.301 0.193 0.299 0.193 0.211 0.195 0.210 0.189 0.298 0.194 0.297 0.190 0.211 0.196 0.210 0.191 0.296 0.190 0.294 0.185 0.211 0.189 0.209 0.186 
+
+0.254 0.192 
+
+Qwen3-VL-8B (MPO) 0.348 0.196 0.340 0.187 0.186 0.126 0.182 0.121 0.334 0.186 0.315 0.170 0.191 0.131 0.187 0.133 0.296 0.173 0.270 0.151 0.179 0.133 0.171 0.125 0.266 0.161 0.226 0.136 0.166 0.126 0.156 0.123 0.238 0.149 Qwen3-VL-8B (MPO-lora) 0.331 0.190 0.335 0.192 0.192 0.149 0.182 0.129 0.336 0.195 0.338 0.191 0.190 0.144 0.185 0.128 0.334 0.189 0.327 0.186 0.193 0.147 0.183 0.128 0.326 0.185 0.306 0.168 0.184 0.136 0.182 0.126 0.258 0.161 
+
+where y∗ is the reference instruction. However, SFT alone does not explicitly pe-nalize reasoning inconsistencies such as incorrect directional descriptions, entity hallucinations, or sub-path mismatches. We therefore employ Mixed Preference Optimization (MPO), which decomposes instruction quality into multiple rea-soning dimensions. For dimension k, we construct a preferred instruction pair 
+
+(y+
+
+k , y −
+
+k ) and optimize: 
+
+L(k)
+
+pref = − log σ  β  log πθ (y+
+
+k | v, s, g ) − log πθ (y−
+
+k | v, s, g ) . (6) The mixed preference objective is 
+
+LMPO =
+
+KX
+
+k=1 
+
+λkL(k)
+
+pref , (7) and the final training objective integrates imitation learning, mixed preference optimization, and KL regularization: 
+
+L = λSFT LSFT + LMPO + λKL DKL (πθ (· | v, s, g ) ∥ πref (· | v, s, g )) . (8) 
+
+Dataset. During MPO training, preference pairs are constructed to guide op-timization. Specifically, we design five types of negative samples as rejected in-structions (Fig. 4). We use qwen3-vl-plus to generate these instructions, pro-ducing diverse distractor descriptions conditioned on the original trajectory. For each negative sample type, we generate three variants. This results in a pool of Goal-oriented Navigation Instruction Generation with Tour Video Priors 7
+
+Table 7: Evaluation results on VideoNIG. Each cell shows choice-evaluation results: Multiple-choice on top and Orthogonal-choice on the bottom. Values are percentages. Video type Gold Route Tyro Tour Curiosity Tour Explorer Tour Average Source R2R RxR R2R RxR R2R RxR R2R RxR Goal modal image text image text image text image text image text image text image text image text gpt-5.2-chat 63.00 64.00 53.00 65.00 56.00 52.00 52.00 54.00 51.00 58.00 55.00 53.00 60.00 57.00 49.00 59.00 54.00 58.00 50.00 58.00 52.00 44.00 59.00 52.00 55.00 54.00 61.00 52.00 56.00 57.00 54.00 58.00 55.00 56.13 qwen3-vl-plus 63.00 59.00 63.00 66.00 60.00 52.00 58.00 52.00 58.00 60.00 58.00 62.00 65.00 56.00 65.00 53.00 61.00 60.00 56.00 67.00 63.00 55.00 60.00 54.00 60.00 55.00 60.00 52.00 54.00 48.00 62.00 46.00 60.38 56.07 InternVL3-8B [80] 43.97 47.77 43.13 47.10 43.62 44.79 42.98 43.10 42.16 45.58 43.98 45.05 39.56 41.02 39.49 44.73 41.27 –46.86 41.18 45.48 39.64 41.26 40.53 43.85 39.90 45.06 40.35 45.23 41.35 41.80 40.59 41.63 41.43 44.11 InternVL3.5-4B [55] 43.97 47.77 43.13 47.10 43.62 44.79 42.98 43.10 42.16 45.58 43.98 45.05 39.56 41.02 39.49 44.73 41.27 46.86 41.18 45.48 39.64 41.26 40.53 43.85 39.90 45.06 40.35 45.23 41.35 41.80 40.59 41.63 41.48 44.39 InternVL3.5-8B [55] 44.55 49.54 49.40 52.77 44.32 50.78 44.89 48.49 43.85 48.35 45.19 47.19 41.57 45.42 44.76 45.29 44.82 49.51 45.03 49.59 42.74 45.78 44.24 46.03 44.02 48.55 46.33 48.85 43.04 45.36 42.88 45.26 44.48 47.92 Qwen3-VL-4B [7] 48.19 52.21 48.50 53.50 41.48 50.81 42.07 49.48 45.15 51.05 46.65 51.92 42.27 48.23 43.45 50.00 49.10 50.00 47.87 50.09 41.39 46.63 43.83 47.58 45.38 52.33 46.64 51.20 44.45 45.75 41.59 48.01 44.88 49.92 Qwen3-VL-8B [7] 54.95 52.70 54.31 55.24 47.45 53.50 49.04 54.42 52.86 54.89 56.33 51.34 47.85 51.52 48.36 50.92 55.44 53.85 57.04 52.81 46.13 50.99 48.04 49.41 52.50 52.25 54.50 52.04 46.66 49.55 45.45 48.72 51.06 52.13 Qwen3-VL-8B (SFT) 58.00 57.46 59.03 58.28 44.42 55.84 43.06 53.42 60.82 55.40 56.57 58.18 42.78 51.96 43.30 50.92 56.98 54.08 59.02 55.25 41.50 49.48 42.23 47.55 53.49 53.96 52.85 50.83 42.16 48.84 40.62 48.31 49.80 53.11 Qwen3-VL-8B (GRPO) 55.86 59.50 56.29 59.54 48.65 54.78 49.35 53.33 55.28 56.57 54.69 57.00 45.94 52.07 47.73 53.15 54.78 57.10 56.94 56.65 47.53 52.20 46.58 51.14 52.24 56.81 53.54 54.82 47.34 48.61 44.65 48.75 51.09 54.50 Qwen3-VL-8B (MPO) 62.63 68.05 65.54 68.42 56.13 59.13 56.42 59.38 61.27 66.59 61.07 65.26 52.39 59.25 51.99 57.57 58.10 59.07 55.23 57.38 51.19 56.15 49.61 52.71 54.50 56.69 49.62 51.94 47.22 50.86 47.04 48.33 55.00 58.55 Qwen3-VL-8B (MPO-lora) 65.56 68.74 67.44 70.66 62.14 63.52 58.06 62.38 64.80 67.99 64.90 67.21 59.11 60.55 59.93 58.78 63.51 65.77 61.90 62.81 58.91 58.34 59.46 57.26 59.47 62.64 54.31 57.43 55.98 52.86 54.48 54.55 
+
+60.62 61.97 
+
+5 × 3 = 15 candidate rejected instructions. During training, one instruction is randomly sampled from this pool to construct the preference pair. 
+
+D Experimental Results 
+
+This section provides supplementary results to complement the main experi-ments and instruction navigation execution evaluations presented in the primary manuscript. In particular, we include additional evaluations on both proprietary and open-source multimodal models to provide a more comprehensive analysis of the proposed VideoNIG task. 
+
+D.1 Main Results 
+
+For the VideoNIG task, we evaluate a diverse set of both open-source and propri-etary multimodal models. The proprietary benchmarks include gpt-5.2-chat 
+
+and qwen3-vl-plus , both evaluated via API access. Following the environmen-tal settings of R2R and RxR, we construct 16 distinct evaluation configura-tions and evaluate on a representative subset of 100 randomly sampled instances for each configuration. For open-source models, we assess the InternVL and Qwen3 series at the 4B and 8B parameter scales. The evaluation encompasses text-similarity metrics and choice evaluations, specifically Multiple-choice and Orthogonal-choice. Detailed results for text similarity are reported in Tab. 6, while the results for choice-based diagnostics are shown in Tab. 7. 
+
+Text Similarity Metrics. We quantify the linguistic overlap between predicted and ground-truth instructions using Rouge-L and SPICE. As shown in Tab. 6, 8 F. Li et al. 
+
+Table 8: Navigation execution results on R2R and RxR with different instructions. System2 denotes InternVLA-N1 + ShortestPathFollower, and Dual System denotes InternVLA-N1 DualVLN. 
+
+Video Type Instruction Type Model R2R RxR SR ↑ SPL ↑ OS ↑ NE ↓ SR ↑ SPL ↑ OS ↑ NE ↓ nDTW ↑
+
+Gold Route Ground Truth System2 58.5 53.8 65.9 4.70 55.0 47.2 64.0 5.67 66.1 Dual System 63.4 57.8 69.0 4.29 59.4 50.4 68.2 4.73 69.3 
+
+Qwen3-VL-8B System2 40.3 34.6 50.5 6.61 29.2 23.5 40.0 8.33 48.3 Dual System 41.6 35.4 52.4 6.21 29.2 23.5 40.0 8.33 48.3 Qwen3-VL-8B(GRPO) System2 40.1 32.2 60.4 6.57 31.4 24.6 47.8 8.43 47.3 Dual System 41.9 32.8 62.0 6.43 30.9 23.9 47.1 8.29 47.8 Qwen3-VL-8B(MPO) System2 56.1 49.8 66.7 4.84 37.5 31.6 49.7 7.23 55.3 Dual System 60.3 52.7 69.7 4.33 40.7 33.3 51.2 6.83 56.4 Qwen3-VL-8B(MPO-lora) System2 53.6 47.1 64.6 4.99 35.8 29.8 49.8 7.40 54.4 Dual System 55.6 49.1 65.5 4.79 38.7 31.6 51.0 7.01 56.2 Tyro Tour Qwen3-VL-8B System2 31.0 29.2 39.0 6.42 20.4 18.7 26.6 8.87 45.6 Dual System 33.9 30.4 36.7 6.26 20.8 21.5 28.7 8.93 46.9 Qwen3-VL-8B(MPO) System2 33.2 30.5 40.5 6.04 21.8 18.8 28.7 8.26 47.9 Dual System 34.3 32.4 40.3 6.01 23.4 21.8 29.3 7.95 47.2 
+
+Qwen3-VL-8B(GRPO) System2 31.2 29.2 39.4 6.57 21.4 18.6 27.8 8.43 47.3 Dual System 31.9 30.8 39.6 6.53 20.9 18.9 27.1 8.42 47.1 Qwen3-VL-8B(MPO-lora) System2 20.7 18.9 28.4 8.32 10.6 8.77 23.5 9.84 40.9 Dual System 16.9 15.5 25.9 8.52 13.4 10.7 24.7 9.63 42.0 Curiosity Tour Qwen3-VL-8B System2 21.0 19.2 29.0 8.22 10.4 8.77 23.9 9.87 40.6 Dual System 16.9 15.4 26.7 8.26 12.8 10.5 24.7 9.63 41.9 Qwen3-VL-8B(MPO) System2 21.2 19.5 29.9 8.04 10.8 8.81 24.7 9.25 40.9 Dual System 18.2 16.4 27.3 8.21 13.4 11.2 21.3 8.55 41.9 
+
+Qwen3-VL-8B(GRPO) System2 20.2 18.4 28.7 8.24 10.7 9.04 24.1 9.85 40.9 Dual System 18.6 17.1 28.4 8.26 11.2 9.12 24.6 9.83 41.1 Qwen3-VL-8B(MPO-lora) System2 20.1 18.5 27.9 8.24 9.86 8.31 23.6 9.90 40.5 Dual System 20.1 18.4 28.3 8.27 12.2 9.78 24.5 9.63 41.8 Explorer Tour Qwen3-VL-8B System2 18.7 17.8 25.3 8.43 8.21 8.42 23.0 9.98 38.0 Dual System 19.3 18.2 25.9 8.17 10.2 10.7 21.9 8.61 40.1 Qwen3-VL-8B(MPO) System2 20.4 18.1 25.9 8.34 10.3 8.51 24.2 9.75 39.2 Dual System 20.2 18.3 25.3 8.23 11.4 10.8 22.0 8.58 41.2 
+
+Qwen3-VL-8B(GRPO) System2 19.1 17.5 27.6 8.23 10.6 8.31 23.1 9.84 41.0 Dual System 19.9 17.9 27.9 8.24 10.6 8.94 23.5 9.85 41.2 Qwen3-VL-8B(MPO-lora) System2 21.7 19.8 28.8 8.23 10.4 8.79 23.9 9.73 40.9 Dual System 18.8 17.0 27.6 8.31 12.7 10.4 24.3 9.46 41.9 
+
+GRPO-trained models generally achieve the highest text-similarity scores, re-flecting superior alignment with the reference instruction’s surface-level phras-ing. This is expected, as the GRPO reward function explicitly optimizes these metrics during training. In contrast, proprietary models tend to yield lower sim-ilarity scores despite strong reasoning capabilities. This discrepancy is primarily attributed to differences in linguistic style and phrasing relative to the ground-truth annotations rather than a lack of spatial understanding. This observa-tion further justifies the need for choice evaluations, namely Multiple-choice and Orthogonal-choice, to assess spatial-temporal reasoning in navigation instruction generation beyond simple textual overlap. 
+
+Choice Evaluation. We evaluate model performance using Multiple-choice and Orthogonal-choice accuracy, as shown in Tab. 7. A clear performance trend emerges: MPO-trained models achieve the highest accuracy, followed by propri-etary models, while other open-source baselines generally underperform. Specif-ically, the superior performance of MPO-trained models in Multiple-choice set-tings demonstrates the effectiveness of our two-stage curriculum framework and preference-based optimization in sharpening the model’s discriminative power against diverse negative distractors. In Orthogonal-choice evaluations, the MPO-Goal-oriented Navigation Instruction Generation with Tour Video Priors 9<video> You are an intelligent navigation system. The tour video captures the environment from your onboard perspective, including visual references for both your current location and your target destination. The initial ego-centric observation at your current location is: < image > The surrounding environment information of the current location images are: < image > < image >  
+
+> The destination target images are: < image >
+> Your tasks are: - Briefly perform an environmental scan of your current position and provide a situational overview and orientation. - Develop an optimal navigation strategy to traverse from your current location to the destination location. Required output structure: - The current surrounding and orientation - The navigation instruction
+> <video> You are an intelligent navigation system. The tour video captures the environment from your onboard perspective, including visual references for both your current location and your target destination. The initial ego-centric observation at your current location is: < image > The surrounding environment information of the current location images are: < image > < image >
+> Your target destination: text_description
+> Your tasks are: - Briefly perform an environmental scan of your current position and provide a situational overview and orientation. - Develop an optimal navigation strategy to traverse from your current location to the target location. Required output structure: - The current surrounding and orientation - The navigation instruction
+
+Image-based Goal Instruction Generation Prompt Text-based Goal Instruction Generation Prompt 
+
+Fig. 8: The prompt templates support goal specification via either image-based goal observations or textual descriptions in the VideoNIG task. 
+
+trained models also excel, indicating a reduced reliance on superficial textual patterns and an improved focus on core directional and entity cues. Despite the general-purpose strengths of proprietary models, our task-specific fine-tuned models outperform them in these structured assessments, suggesting that care-ful spatial-action alignment can surpass even proprietary models in specialized navigation tasks. 
+
+D.2 Navigation Execution. 
+
+To investigate the functional utility of the generated instructions, we conduct downstream navigation execution tests within the Habitat simulator, which pro-vides high-fidelity continuous 3D environments. Following the setup in our main experiments, we employ InternVLA-N1 as the navigation follower under both System-2 and Dual-System configurations. As established in the main results, the model optimized with MPO-lora achieves superior performance across diagnostic metrics. We additionally report the exe-cution results for models fine-tuned using LoRA, as shown in Tab. 8. Notably, we observe that LoRA-based supervised models exhibit significantly lower navi-gation success rates compared to those using full-parameter fine-tuning. This ob-servation suggests that LoRA may lead to an imitation bias. In this scenario, the model primarily mimics the linguistic style of the training data instead of inter-nalizing the underlying spatial-temporal structure. In contrast, reinforcement-based optimization enforces strict consistency between generated instructions and navigation logic. This approach effectively mitigates style mimicry and re-sults in superior spatial grounding. We also note that the execution performance of GRPO-generated instructions remains below that of ground-truth (GT) instructions when evaluated using the DualVLN agent. We attribute this remaining gap to a distributional shift in linguistic style. Since the DualVLN agent is pre-trained exclusively on GT in-structions, it inherently develops a distributional bias toward specific human 10 F. Li et al. Qwen3-vl-plus ✅
+
+To reach the target location—indicated by the close-up views of a white door edge and a window showing a blue house outside—I need to move forward through the hallway toward the right-side door visible in earlier frames (e.g., at 0:04–0:05), which leads into a room with a window overlooking the exterior. Specifically:\n\n1. Proceed straight ahead along the hallway, passing the leaf wall art.\n2. Enter the open white door on the right (visible at 0:04), which opens into a bedroom or adjacent room.\n3. Once inside, turn right toward the window (as seen in target images 4–6); the window is adjacent to the door frame, offering the view of the blue house.\n4. Stop near the window for the final vantage point.\n\nThis path aligns with the transition from the upper hallway (current view) into the interior room where the target window is located. 
+
+Gpt-5.2-chat ✅
+
+1. From your current position, turn **left** toward the open doorway leading into the bedroom area.\n2. Move **forward** through the doorway into the bedroom, passing the bed on your left and the dresser on your right.\n3. Continue straight toward the back of the bedroom where multiple doors are visible.\n4. Enter the **hallway leading to the bathroom and closets**, keeping straight ahead.\n5. Proceed forward until you reach the area with a **white door adjacent to a window**.\n6. Move closer to the **window-side wall next to the white door**—this matches the target view with the door edge on one side and the window looking outside.\n\nYou have arrived at the target location when the white door fills the left side of your view and the window with neighboring houses is clearly visible on the right. 
+
+InternVL3.5-8B ❌
+
+1. Move forward through the hallway.\n2. Turn right at the end of the hallway where the bedroom is located.\n3. Continue straight ahead until you reach the door on the right side.\n4. Open the door and enter the room with the window, which is the target location. 
+
+Qwen3-VL-8B-Instruct(GRPO) ✅
+
+Turn left and walk into the bedroom. Pass the bed on the left and continue through the open doorway into the hallway. At the end of the hallway, turn left and enter the bathroom through the open door on the left. Proceed past the closet and stop in front of the window on the right. 
+
+Qwen3-VL-8B-Instruct(MPO) ✅
+
+Walk into the bedroom and turn left. Walk out of the bedroom and turn right. Walk into the bathroom and wait in the toilet closet. 
+
+Turn left and walk into the bedroom. Turn left and turn left again and turn right into the bathroom after the white rug. 
+
+Qwen3-VL-8B-Instruct ❌
+
+Turn right and proceed forward through the doorway into the hallway. Continue straight until you reach the end of the hallway, where you will find a door on your right. This door leads to the target location. 
+
+Fig. 9: Qualitative comparison of navigation instructions generated by proprietary models, open-source models, and our fine-tuned models. 
+
+phrasing and syntactic patterns. Consequently, even when model-generated in-structions are spatially accurate, subtle stylistic departures can degrade agent execution performance. 
+
+E Prompt Template 
+
+In the VideoNIG task, the goal location can be specified via either image-based goal observations or textual descriptions. Fig. 8 illustrates the specific multi-modal prompt templates employed for these two settings, ensuring consistent task specification across different model architectures. 
+
+F Qualitative Comparison of Different Models 
+
+In this section, we present qualitative examples of navigation instructions gen-erated by both open-source and proprietary models, as shown in Fig. 9. By comparing these instructions, we analyze the correctness and formatting styles of the generated instructions. The model trained with our method produces in-structions that better align with the ground-truth style while reducing redundant expressions.
