@@ -1,0 +1,345 @@
+{
+  "date": "20260812-20260821",
+  "date_label": "2026-08-12 ~ 2026-08-21",
+  "generated_at": "2026-08-21 05:36:00 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.16476v1",
+      "route": "20260812-20260821/2608.16476v1-exposing-the-long-tail-in-embodied-urban-navigation-via-scalable-learning-from-in-the-wild-videos",
+      "title": "Exposing the Long-tail in Embodied Urban Navigation via Scalable Learning from In-the-Wild Videos",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于视觉-语言-动作策略的点目标具身导航",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.17318v1",
+      "route": "20260812-20260821/2608.17318v1-if-then-otherwise-diagnosing-conditional-branching-in-vision-language-navigation",
+      "title": "If, Then, Otherwise: Diagnosing Conditional Branching in Vision-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "提出了CondVLN基准，用于带条件分支的自然语言指令视觉语言导航",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.17512v1",
+      "route": "20260812-20260821/2608.17512v1-embodied-navigator-point-think-memorize-and-align-for-efficient-navigation",
+      "title": "Embodied-Navigator: Point, Think, Memorize, and Align for Efficient Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于VLM像素到3D动作与记忆管理的统一具身导航框架",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.17633v3",
+      "route": "20260812-20260821/2608.17633v3-ovip-sg-open-vocabulary-instance-preserving-scene-graphs-for-mapping-and-retrieval-of-small-fine-grained-objects",
+      "title": "OVIP-SG: Open-Vocabulary Instance-Preserving Scene Graphs for Mapping and Retrieval of Small, Fine-Grained Objects",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "开放词汇实例保持场景图，用于导航中的建图与物体检索",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.18470v1",
+      "route": "20260812-20260821/2608.18470v1-devgru-depth-guided-visual-navigation-using-a-collision-aware-recurrent-model",
+      "title": "DevGRU: Depth-guided Visual Navigation using a Collision-aware Recurrent Model",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "基于点目标条件的深度引导视觉导航，使用碰撞感知循环模型",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.19059v1",
+      "route": "20260812-20260821/2608.19059v1-lt-mem-volatility-aware-spatio-temporal-memory-for-lifelong-scene-understanding",
+      "title": "LT-Mem: Volatility-Aware Spatio-Temporal Memory for Lifelong Scene Understanding",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "构建多会话SLAM的长期语义记忆，支持跨会话物体历史查询，可用于长期导航地图",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.15284v1",
+      "route": "20260812-20260821/2608.15284v1-vtinstructor-visual-trajectory-prompting-for-navigation-instruction-generation-in-continuous-environments",
+      "title": "VTInstructor: Visual Trajectory Prompting for Navigation Instruction Generation in Continuous Environments",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "首个面向连续环境的VLN指令生成框架",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.18292v1",
+      "route": "20260812-20260821/2608.18292v1-guidefetch-a-task-coordination-framework-for-concurrent-navigation-and-object-retrieval-in-assistive-robot-dogs",
+      "title": "GuideFetch: A Task Coordination Framework for Concurrent Navigation and Object Retrieval in Assistive Robot Dogs",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "助残机器狗根据自然语言指令执行并发的导航与物体取送任务",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.13095v1",
+      "route": "20260812-20260821/2608.13095v1-semantic-radiance-fields-as-simulators-for-spatial-reasoning-in-real-world-scenes",
+      "title": "Semantic Radiance Fields as Simulators for Spatial Reasoning in Real-World Scenes",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "语义辐射场联合编码几何、外观与逐类语义，可支撑具身智能体的语义建图与空间推理",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.14125v1",
+      "route": "20260812-20260821/2608.14125v1-traj-lewm-path-aware-world-model-planning-via-latent-trajectory-cost",
+      "title": "Traj-LeWM: Path-Aware World-Model Planning via Latent Trajectory Cost",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "视觉世界模型规划以到达目标，直接适用于点目标导航",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.15269v1",
+      "route": "20260812-20260821/2608.15269v1-remember-smarter-visual-history-compressor-and-hyperbolic-experience-space-for-robotic-memory",
+      "title": "Remember Smarter: Visual History Compressor and Hyperbolic Experience Space for Robotic Memory",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向具身智能体的视觉历史压缩与双曲经验记忆",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.15605v1",
+      "route": "20260812-20260821/2608.15605v1-alloego-vlm-disambiguating-allocentric-and-egocentric-reference-frames-in-vision-language-models",
+      "title": "AlloEgo-VLM: Disambiguating Allocentric and Egocentric Reference Frames in Vision-Language Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "为视觉语言模型消解空间参照系歧义，提升具身指令理解能力",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.17535v1",
+      "route": "20260812-20260821/2608.17535v1-groupforward-building-referable-3d-scenes-via-instance-grouped-feed-forward-gaussian-splatting",
+      "title": "GroupForward: Building Referable 3D Scenes via Instance-Grouped Feed-Forward Gaussian Splatting",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "前馈语义3D场景重建，支持实例分组与语义，可用于语义地图构建",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.20237v1",
+      "route": "20260812-20260821/2608.20237v1-rule-compliant-visual-spatial-planning-for-multimodal-large-language-models",
+      "title": "Rule-Compliant Visual Spatial Planning for Multimodal Large Language Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "多模态大模型按自然语言规则导航迷宫，直接匹配指令导航任务",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.12743v1",
+      "route": "20260812-20260821/2608.12743v1-spatial-memory-agent-experience-grounded-procedure-memory-for-spatial-intelligence",
+      "title": "Spatial Memory Agent: Experience-Grounded Procedure Memory for Spatial Intelligence",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向具身场景的VLM智能体空间记忆与推理",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.14986v1",
+      "route": "20260812-20260821/2608.14986v1-gaussmemory-task-driven-3d-gaussian-scene-memory-for-long-horizon-robotic-manipulation",
+      "title": "GaussMemory: Task-Driven 3D Gaussian Scene Memory for Long-Horizon Robotic Manipulation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向长程机器人操作的任务驱动三维高斯空间记忆，未涉及导航",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.16433v1",
+      "route": "20260812-20260821/2608.16433v1-robot-body-aware-traversal-risk-graph-planning-for-wheeled-legged-robots-in-complex-terrain",
+      "title": "Robot-Body-Aware Traversal Risk Graph Planning for Wheeled-Legged Robots in Complex Terrain",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向机器人身体感知导航的拓扑风险图规划",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.16794v2",
+      "route": "20260812-20260821/2608.16794v2-neurosymbolic-embodied-agents",
+      "title": "Neurosymbolic Embodied Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向家庭任务的具身智能体，结合视觉探索与符号规划",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.17553v1",
+      "route": "20260812-20260821/2608.17553v1-scalix-uncertainty-aware-scale-consistent-monocular-slam",
+      "title": "Scalix: Uncertainty-Aware Scale-Consistent Monocular SLAM",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "单目SLAM用于度量尺度建图；几何基础模型",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.18410v1",
+      "route": "20260812-20260821/2608.18410v1-role-conditioned-sub-token-routing-for-efficient-vision-language-action-policies",
+      "title": "Role-Conditioned Sub-Token Routing for Efficient Vision-Language-Action Policies",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向具身智能体的高效视觉-语言-动作策略",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    },
+    {
+      "paper_id": "2608.19522v1",
+      "route": "20260812-20260821/2608.19522v1-lf-gicp-parameter-free-degeneracy-aware-lidar-odometry-via-a-voxel-normal-localizability-field",
+      "title": "LF-GICP: Parameter-Free Degeneracy-Aware LiDAR Odometry via a Voxel-Normal Localizability Field",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "退化感知的激光雷达里程计，为SLAM与导航提供定位支撑",
+      "first_seen_at": "2026-08-21 05:36:00 UTC",
+      "updated_at": "2026-08-21 05:36:00 UTC"
+    }
+  ]
+}
