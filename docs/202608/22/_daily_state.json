@@ -1,0 +1,73 @@
+{
+  "date": "20260822",
+  "date_label": "",
+  "generated_at": "2026-08-22 20:54:25 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.15175v1",
+      "route": "202608/22/2608.15175v1-lapf-llm-agent-based-path-finder-using-the-uavscenes-dataset",
+      "title": "LAPF: LLM-Agent-Based Path Finder Using the UAVScenes Dataset",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "基于LLM智能体的自主无人机导航路径查找，可迁移至点目标导航",
+      "first_seen_at": "2026-08-22 20:54:25 UTC",
+      "updated_at": "2026-08-22 20:54:25 UTC"
+    },
+    {
+      "paper_id": "2608.19661v1",
+      "route": "202608/22/2608.19661v1-world-model-grounded-llm-planning-for-auv-and-asv-navigation-near-offshore-wind-farms",
+      "title": "World-Model-Grounded LLM Planning for AUV and ASV Navigation Near Offshore Wind Farms",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "基于自然语言任务的大模型导航，结合世界模型物理接地",
+      "first_seen_at": "2026-08-22 20:54:25 UTC",
+      "updated_at": "2026-08-22 20:54:25 UTC"
+    },
+    {
+      "paper_id": "2608.16447v1",
+      "route": "202608/22/2608.16447v1-harecap-habitual-action-grounding-for-recursive-large-language-model-agents",
+      "title": "HaReCAP: Habitual-action Grounding for Recursive Large Language Model Agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向长时程具身任务的大语言模型智能体方法，降低递归规划中的动作接地开销",
+      "first_seen_at": "2026-08-22 20:54:25 UTC",
+      "updated_at": "2026-08-22 20:54:25 UTC"
+    },
+    {
+      "paper_id": "2608.18734v1",
+      "route": "202608/22/2608.18734v1-cl4d-contrastive-language-4d-pretraining-for-vision-language-reasoning-in-dynamic-scenes",
+      "title": "CL4D: Contrastive Language-4D Pretraining for Vision-Language Reasoning in Dynamic Scenes",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "对比语言-4D预训练对齐时空几何与自然语言，支持具身智能的语言理解",
+      "first_seen_at": "2026-08-22 20:54:25 UTC",
+      "updated_at": "2026-08-22 20:54:25 UTC"
+    }
+  ]
+}

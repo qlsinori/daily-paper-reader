@@ -1,0 +1,191 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-22T20:51:31.276822+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 0,
+    "deep_cap": 8,
+    "deep_selected": 0,
+    "quick_candidates": 4,
+    "quick_skim_target": 13,
+    "quick_selected": 4
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2608.15175v1",
+      "source": "arxiv",
+      "title": "LAPF: LLM-Agent-Based Path Finder Using the UAVScenes Dataset",
+      "abstract": "Uncrewed aerial vehicles (UAVs) are increasingly deployed for autonomous navigation in complex outdoor environments, where dynamic conditions and mission requirements require intelligent adaptive decision-making. Existing optimization-based, Machine Learning (ML), and Reinforcement Learning (RL) approaches often rely on predefined models or task-specific training, limiting their generalization and adaptability in uncertain scenarios. Recent Large Language Model (LLM)-assisted approaches offer promising reasoning capabilities but remain constrained by limited agentic functionality, including insufficient memory, planning, and tool interaction mechanisms.This paper proposes an LLM-Agent-Based Path Finder (LAPF) framework for autonomous UAV navigation in town-scale outdoor environments. LAPF extends LLM-assisted navigation by integrating perception, memory, planning, and action modules into a closed-loop cognitive architecture. The proposed agent leverages prior navigation experiences, performs Chain-of-Thought (CoT) reasoning, couples each detected hazard to a bounded corrective action, and dynamically refines waypoint decisions based on environmental feedback.The three independent trials per method demonstrate that LAPF achieves mean path lengths of 512.83 m and 506.37 m, compared to the straight-line optimum of 497.33 m, corresponding to path length reductions of 17.2% and 15.6% relative to CoT prompting and absolute path efficiencies of 97.1% and 98.1% in open-field and obstacle-injected scenarios, respectively. Furthermore, LAPF is the only evaluated approach that couples every detected hazard to a bounded, metric-neutral corrective action while maintaining near-goal stability, with zero clamp events in both scenarios, whereas CoT prompting increases from 9.7 to 14.0 events.",
+      "authors": [
+        "Yousef Emami",
+        "Mohammadhossein Homaei",
+        "Hao Zhou",
+        "Miguel Gutiérrez Gaitán",
+        "Atefeh Hajijamali Arani",
+        "Rui Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-15T11:28:21+00:00",
+      "link": "https://arxiv.org/pdf/2608.15175v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "LLM-agent path finder for autonomous UAV navigation to target coordinates; transferable to point-goal navigation",
+      "llm_evidence_cn": "基于LLM智能体的自主无人机导航路径查找，可迁移至点目标导航",
+      "llm_evidence": "基于LLM智能体的自主无人机导航路径查找，可迁移至点目标导航",
+      "canonical_evidence": "基于LLM智能体的自主无人机导航路径查找，可迁移至点目标导航",
+      "llm_tldr_en": "Proposes LAPF, an LLM-agent path finder for autonomous UAV navigation using memory, planning, and tool interaction; addresses generalization limits of optimization and RL methods; relevant to point-goal navigation.",
+      "llm_tldr_cn": "论文针对无人机在复杂室外环境中自主导航的适应性问题，提出基于大语言模型智能体的路径查找框架LAPF，利用LLM的推理、记忆、规划及工具交互能力，弥补传统优化、机器学习和强化学习方法依赖预定义模型与任务特定训练的局限。在城镇规模的UAVScenes数据集上的实验验证了该方法在动态条件下的有效性与泛化能力。该工作虽面向无人机，但坐标目标点路径规划的思想与点目标导航任务高度一致。",
+      "llm_tldr": "论文针对无人机在复杂室外环境中自主导航的适应性问题，提出基于大语言模型智能体的路径查找框架LAPF，利用LLM的推理、记忆、规划及工具交互能力，弥补传统优化、机器学习和强化学习方法依赖预定义模型与任务特定训练的局限。在城镇规模的UAVScenes数据集上的实验验证了该方法在动态条件下的有效性与泛化能力。该工作虽面向无人机，但坐标目标点路径规划的思想与点目标导航任务高度一致。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "point goal navigation reaching target coordinates",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.16447v1",
+      "source": "arxiv",
+      "title": "HaReCAP: Habitual-action Grounding for Recursive Large Language Model Agents",
+      "abstract": "Long-horizon embodied tasks require LLM agents to iteratively decompose high-level goals, revise plans in response to environmental feedback, and ground leaf-level subgoals into valid executable actions. Recursive context-management methods such as ReCAP improve planning stability through multi-level task decomposition and parent-node refinement, but still repeatedly invoke the LLM at leaf nodes to ground atomic subtasks into exact valid actions. We refer to this final grounding step as last-mile grounding redundancy, which accumulates into substantial LLM-call and token overhead during long-horizon execution. To mitigate this issue, we propose HaReCAP (Habitual-action Grounded ReCAP), a low-intrusion leaf grounding extension for ReCAP. HaReCAP extracts frequent leaf decisions from successful trajectories and compiles them offline into auditable and abstainable one-step leaf-reflex rules. At runtime, it skips the leaf LLM call only when a rule can uniquely determine a legal action in the current valid-action set; otherwise, it falls back to the original ReCAP. This design avoids repeatedly carrying the full recursive context into the LLM for routine leaf action grounding, while preserving the original recursive control flow. We evaluate HaReCAP on Robotouille and ALFWorld with Qwen3.5-27B as the main model. On tasks solved by both ReCAP and HaReCAP, HaReCAP reduces token consumption by 14.67%, 17.93%, and 20.08% on Robotouille synchronous, Robotouille asynchronous, and ALFWorld, respectively. The results show that HaReCAP can serve as a low-intrusion extension to ReCAP-style recursive context-management frameworks, reducing last-mile grounding redundancy across environments and models on commonly successful trajectories.",
+      "authors": [
+        "Shen Liu",
+        "Zhenguo Xu",
+        "Shaopu Wang",
+        "Yike Gao",
+        "Chunlei Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-08-17T11:47:03+00:00",
+      "link": "https://arxiv.org/pdf/2608.16447v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "LLM-agent method for long-horizon embodied tasks; reduces grounding overhead in recursive planning",
+      "llm_evidence_cn": "面向长时程具身任务的大语言模型智能体方法，降低递归规划中的动作接地开销",
+      "llm_evidence": "面向长时程具身任务的大语言模型智能体方法，降低递归规划中的动作接地开销",
+      "canonical_evidence": "面向长时程具身任务的大语言模型智能体方法，降低递归规划中的动作接地开销",
+      "llm_tldr_en": "HaReCAP extends recursive LLM-agent planning with habitual-action grounding to reduce leaf-level grounding redundancy and LLM call/token overhead in long-horizon embodied tasks.",
+      "llm_tldr_cn": "长时程具身任务要求LLM智能体不断分解高层目标并将叶子子目标落实为有效动作，但ReCAP等递归方法在叶子节点反复调用大模型，造成大量冗余与开销。HaReCAP提出惯常动作接地的低侵入扩展，利用习惯性动作复用减少最后一英里接地冗余，从而降低LLM调用与令牌消耗，提升长时程执行效率。该方法对具身导航等需要分层规划与动作落地的任务具有启发意义。",
+      "llm_tldr": "长时程具身任务要求LLM智能体不断分解高层目标并将叶子子目标落实为有效动作，但ReCAP等递归方法在叶子节点反复调用大模型，造成大量冗余与开销。HaReCAP提出惯常动作接地的低侵入扩展，利用习惯性动作复用减少最后一英里接地冗余，从而降低LLM调用与令牌消耗，提升长时程执行效率。该方法对具身导航等需要分层规划与动作落地的任务具有启发意义。",
+      "llm_tags": [
+        "query:embodied-nav:composite"
+      ],
+      "matched_query_tag": "query:embodied-nav:composite",
+      "matched_query_text": "Papers central to 请查找有关视觉语言导航（VLN）、点目标导航（PointNav）和物体目标导航（ObjectNav）的文章, especially work that connects or combines: vision language navigation following natural language instructions; point goal navigation reaching target coordinates; object goal navigation locating target object category; embodied navigation agent in simulated environments; navigation from natural language instructions; How do agents perform vision language navigation using natural language instructions?; Which models achieve state of the art results on embodied navigation benchmarks?.",
+      "matched_requirement_id": "req-composite-embodied-nav",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.19661v1",
+      "source": "arxiv",
+      "title": "World-Model-Grounded LLM Planning for AUV and ASV Navigation Near Offshore Wind Farms",
+      "abstract": "Large language models can turn a natural-language mission into a sequence of robot actions, but they do not have a sense of physics: they cannot judge how long a command should run, or whether it will make the robot drift into an obstacle. We proposed the use of a world model to expand the capabilities of Large Language model-based planners. Our method has three components: a physics-grounded neural world model, a three-phase gradient-based trajectory optimizer, and a Model Predictive Controller (MPC)-style closed-loop replanner with a trust-region guard. The language model decides what to do, and the world model decides how long, whether that means driving eight thrusters through 6 DOF or two differential thrusters through 3 DOF. We evaluate two marine vehicle classes operating near offshore wind infrastructure: a 6-DOF Autonomous Underwater Vehicle (AUV) and a 3-DOF differential-drive Autonomous Surface Vehicle (ASV). In five benchmark missions per platform, both vehicles reach every goal with zero predicted collisions, and both transfer to GazeboSim under ocean current, waves, and thruster dynamics, remaining collision-free and cutting GazeboSim goal-distance error versus the ungrounded baseline by 70-82% (ASV) and roughly 93% (AUV), after a residual fine-tuning pass that separately reduces surrogate rollout Root Mean Square Error (RMSE) by 60% (AUV) and 69% (ASV). For the ASV we further demonstrate a Vision language model (VLM)-assisted semantic-mapping pipeline that extracts obstacles and environmental context from satellite imagery, nautical charts, and forecast Application Programming Interface (API) instead of onboard sensors, reaching 96% navigability accuracy as a drop-in replacement for hand-specified obstacle geometry.",
+      "authors": [
+        "Markus Buchholz",
+        "Ignacio Carlucho",
+        "Yvan R. Petillot"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-20T05:56:25+00:00",
+      "link": "https://arxiv.org/pdf/2608.19661v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "LLM-based navigation from natural language missions with world-model grounding",
+      "llm_evidence_cn": "基于自然语言任务的大模型导航，结合世界模型物理接地",
+      "llm_evidence": "基于自然语言任务的大模型导航，结合世界模型物理接地",
+      "canonical_evidence": "基于自然语言任务的大模型导航，结合世界模型物理接地",
+      "llm_tldr_en": "LLM-based navigation planner grounded in a physics world model converts natural-language missions into feasible robot actions, using trajectory optimization and MPC replanning; evaluated on AUV/ASV navigation near offshore wind farms.",
+      "llm_tldr_cn": "论文针对大语言模型规划器缺乏物理常识的问题，提出世界模型支撑的LLM规划方法。该方法由物理约束神经世界模型、三阶段梯度轨迹优化器和MPC式闭环重规划器组成，由语言模型决定动作语义、世界模型决定动作时长与可行性。在近海风电场AUV/ASV导航任务上的评估表明，该方法能将自然语言任务转化为安全可行的机器人导航动作。该工作为语言指令驱动的具身导航提供了一种将常识推理与物理约束融合的有效范式。",
+      "llm_tldr": "论文针对大语言模型规划器缺乏物理常识的问题，提出世界模型支撑的LLM规划方法。该方法由物理约束神经世界模型、三阶段梯度轨迹优化器和MPC式闭环重规划器组成，由语言模型决定动作语义、世界模型决定动作时长与可行性。在近海风电场AUV/ASV导航任务上的评估表明，该方法能将自然语言任务转化为安全可行的机器人导航动作。该工作为语言指令驱动的具身导航提供了一种将常识推理与物理约束融合的有效范式。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "navigation from natural language instructions",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.18734v1",
+      "source": "arxiv",
+      "title": "CL4D: Contrastive Language-4D Pretraining for Vision-Language Reasoning in Dynamic Scenes",
+      "abstract": "4D understanding and reasoning is a fundamental capability for embodied AI agents operating in dynamic physical environments. However, existing vision encoders are largely limited to static 2D images or 3D point clouds without temporal modeling, or to 2D videos that lack accurate geometric depth reasoning. Consequently, current approaches fail to jointly capture spatial structure and motion evolution in dynamic scenes. We present CL4D, the first foundational 4D vision encoder that directly operates on dynamic point clouds, trained with a contrastive learning objective to align spatio-temporal geometric representations with natural language descriptions. By learning a shared embedding space between text and 4D scene dynamics, CL4D enables zero-shot motion-to-text and text-to-motion retrieval in dynamic environments and serves as a foundational 4D vision encoder for downstream 4D vision-language tasks. Building on this encoder, we introduce 4DVLM, a 4D vision-language model that conditions language generation on dynamic geometric representations. 4DVLM is the first VLM designed to operate directly on 4D point clouds without relying on 2D images, 2D videos, or static 3D point clouds. We train CL4D and subsequently 4DVLM on a newly constructed dataset termed DynAction4D capturing diverse human motions across varying object interactions and scene environments. Extensive experiments across multiple 4D human action benchmarks demonstrate that CL4D achieves state-of-the-art performance, with improvements of approximately ~16.75% over prior methods. Furthermore, 4DVLM outperforms frontier video VLMs such as Gemini and GPT-5 even when these models are provided with RGB video sequences corresponding to the same scenes represented as 4D point clouds for 4DVLM.",
+      "authors": [
+        "Kumal Hewagamage",
+        "Isuranga Senavirathne",
+        "Sasika Amarasinghe",
+        "Hasitha Gallella",
+        "Dulanga Weerakoon",
+        "Vigneshwaran Subbaraju",
+        "Ranga Rodrigo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-08-19T09:37:15+00:00",
+      "link": "https://arxiv.org/pdf/2608.18734v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "contrastive language-4D pretraining aligning spatial-temporal geometric representations with natural language, supporting embodied language understanding",
+      "llm_evidence_cn": "对比语言-4D预训练对齐时空几何与自然语言，支持具身智能的语言理解",
+      "llm_evidence": "对比语言-4D预训练对齐时空几何与自然语言，支持具身智能的语言理解",
+      "canonical_evidence": "对比语言-4D预训练对齐时空几何与自然语言，支持具身智能的语言理解",
+      "llm_tldr_en": "CL4D is the first foundation 4D vision encoder operating on dynamic point clouds, trained with contrastive learning to align spatio-temporal geometric representations with natural language, enabling joint spatial and motion reasoning.",
+      "llm_tldr_cn": "现有视觉编码器缺乏对动态场景中空间结构与运动演化的联合建模，难以支撑具身智能体的动态环境理解。CL4D提出首个直接处理动态点云的4D基础视觉编码器，通过对比学习将时空几何表示与自然语言描述对齐。它能够在文本和4D场景动态之间学得共享嵌入空间，从而支持视觉-语言推理。该工作为体智能体在动态环境中的语言引导导航与操作提供了关键的表示基础。",
+      "llm_tldr": "现有视觉编码器缺乏对动态场景中空间结构与运动演化的联合建模，难以支撑具身智能体的动态环境理解。CL4D提出首个直接处理动态点云的4D基础视觉编码器，通过对比学习将时空几何表示与自然语言描述对齐。它能够在文本和4D场景动态之间学得共享嵌入空间，从而支持视觉-语言推理。该工作为体智能体在动态环境中的语言引导导航与操作提供了关键的表示基础。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
