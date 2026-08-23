@@ -1,0 +1,39 @@
+{
+  "label": "2026-08-23",
+  "date": "2026-08-23",
+  "generated_at": "2026-08-23T20:41:26",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202608/23/biorxiv-10-1101-2025-10-25-684594-v3-organizing-experiences-into-cognitive-maps-makes-goal-directed-action-selection-flexible-efficient-and-explainable",
+      "section": "deep",
+      "title_en": "Organizing experiences into cognitive maps makes goal-directed action selection flexible, efficient, and explainable",
+      "authors": "Yang, Y., Maass, W.",
+      "date": "2026-08-20",
+      "pdf": "https://www.biorxiv.org/content/10.1101/2025.10.25.684594v3.full.pdf",
+      "score": "8.0",
+      "evidence": "认知地图将经验组织为空间长期记忆，支持目标导向的动作选择，与导航系统中的空间长期记忆机制相关",
+      "tldr": "现有目标导向行动选择方法通常需要深度网络或大语言模型，能耗高且缺乏基于经验的解释，难以部署在边缘设备上。本文借鉴大脑的超低功耗决策机制，提出一种基于认知地图的经验组织方式，仅使用浅层网络和二值突触权重进行局部在线学习。在抽象状态空间中进行导航时，无论行动是确定性还是随机的，该方法都能以更少的计算步骤实现灵活的行动选择，并给出相关先前经验作为解释。这种脑启发的学习方式为资源受限设备上的可解释、低能耗行动选择提供了新思路。",
+      "tags": "query:vln-memory",
+      "abstract_en": "Most current methods for goal-directed action selection in the face of changing goals and contingencies require DNNs or LLMs. Therefore they are less suited for implementation in edge devices, where low energy-consumption is imperative. The brain shows that similar functionality can be produced with just 20W, even with low precision of synaptic weights. In addition, it endows our action selection with explanations in terms of prior experience, a capability that is missing in those learning approaches where prior experiences are compressed into parameter values. We show that experimental data from neuroscience and cognitive science suggest a concrete alternative where experiences are organized into cognitive maps. It only requires local online learning in shallow networks with binary synaptic weights, and provides explanations for selected actions in terms of related prior experiences. This brain-inspired approach also requires substantially fewer computation steps for navigation in abstract state spaces with deterministic or stochastic actions.",
+      "source": "biorxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/23/2608.16447v1-harecap-habitual-action-grounding-for-recursive-large-language-model-agents",
+      "section": "quick",
+      "title_en": "HaReCAP: Habitual-action Grounding for Recursive Large Language Model Agents",
+      "authors": "Shen Liu, Zhenguo Xu, Shaopu Wang, Yike Gao, Chunlei Wang",
+      "date": "2026-08-17",
+      "pdf": "https://arxiv.org/pdf/2608.16447v1",
+      "score": "6.0",
+      "evidence": "面向长时程具身任务的LLM智能体动作落地，可用于具身导航",
+      "tldr": "长时程具身任务中，LLM代理需反复分解高层目标并接地叶级动作，递归式方法ReCAP虽改进了规划稳定性，却在叶节点重复调用LLM，造成最后一英里接地冗余。HaReCAP从成功轨迹提取频繁叶决策，编译为可审计、可放弃的规则，运行时仅当规则唯一确定合法动作时跳过LLM，否则回退原流程。在Robotouille和ALFWorld上，token消耗分别降低14.67%、17.93%和20.08%，且不破坏递归控制流。该扩展作为低侵入模块，可降低常见成功轨迹上的冗余，提升效率。",
+      "tags": "query:embodied-nav",
+      "abstract_en": "Long-horizon embodied tasks require LLM agents to iteratively decompose high-level goals, revise plans in response to environmental feedback, and ground leaf-level subgoals into valid executable actions. Recursive context-management methods such as ReCAP improve planning stability through multi-level task decomposition and parent-node refinement, but still repeatedly invoke the LLM at leaf nodes to ground atomic subtasks into exact valid actions. We refer to this final grounding step as last-mile grounding redundancy, which accumulates into substantial LLM-call and token overhead during long-horizon execution. To mitigate this issue, we propose HaReCAP (Habitual-action Grounded ReCAP), a low-intrusion leaf grounding extension for ReCAP. HaReCAP extracts frequent leaf decisions from successful trajectories and compiles them offline into auditable and abstainable one-step leaf-reflex rules. At runtime, it skips the leaf LLM call only when a rule can uniquely determine a legal action in the current valid-action set; otherwise, it falls back to the original ReCAP. This design avoids repeatedly carrying the full recursive context into the LLM for routine leaf action grounding, while preserving the original recursive control flow. We evaluate HaReCAP on Robotouille and ALFWorld with Qwen3.5-27B as the main model. On tasks solved by both ReCAP and HaReCAP, HaReCAP reduces token consumption by 14.67%, 17.93%, and 20.08% on Robotouille synchronous, Robotouille asynchronous, and ALFWorld, respectively. The results show that HaReCAP can serve as a low-intrusion extension to ReCAP-style recursive context-management frameworks, reducing last-mile grounding redundancy across environments and models on commonly successful trajectories.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

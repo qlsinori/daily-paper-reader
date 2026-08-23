@@ -1,0 +1,101 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-23T20:40:23.212472+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 1,
+    "deep_cap": 8,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 13,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "biorxiv-10-1101-2025-10-25-684594-v3",
+      "source": "biorxiv",
+      "title": "Organizing experiences into cognitive maps makes goal-directed action selection flexible, efficient, and explainable",
+      "abstract": "Most current methods for goal-directed action selection in the face of changing goals and contingencies require DNNs or LLMs. Therefore they are less suited for implementation in edge devices, where low energy-consumption is imperative. The brain shows that similar functionality can be produced with just 20W, even with low precision of synaptic weights. In addition, it endows our action selection with explanations in terms of prior experience, a capability that is missing in those learning approaches where prior experiences are compressed into parameter values. We show that experimental data from neuroscience and cognitive science suggest a concrete alternative where experiences are organized into cognitive maps. It only requires local online learning in shallow networks with binary synaptic weights, and provides explanations for selected actions in terms of related prior experiences. This brain-inspired approach also requires substantially fewer computation steps for navigation in abstract state spaces with deterministic or stochastic actions.",
+      "authors": [
+        "Yang, Y.",
+        "Maass, W."
+      ],
+      "primary_category": "neuroscience",
+      "categories": [
+        "neuroscience"
+      ],
+      "published": "2026-08-20T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.1101/2025.10.25.684594v3.full.pdf",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Cognitive maps organize experiences as spatial long-term memory for goal-directed action selection, relevant to spatial memory in navigation systems",
+      "llm_evidence_cn": "认知地图将经验组织为空间长期记忆，支持目标导向的动作选择，与导航系统中的空间长期记忆机制相关",
+      "llm_evidence": "认知地图将经验组织为空间长期记忆，支持目标导向的动作选择，与导航系统中的空间长期记忆机制相关",
+      "canonical_evidence": "认知地图将经验组织为空间长期记忆，支持目标导向的动作选择，与导航系统中的空间长期记忆机制相关",
+      "llm_tldr_en": "Proposes that organizing experiences into cognitive maps supports flexible, efficient and explainable goal-directed action selection, offering a low-power brain-inspired alternative to DNN/LLM-based approaches for edge deployment.",
+      "llm_tldr_cn": "当前目标导向动作选择方法多依赖DNN或LLM，难以在低功耗边缘设备上部署；该论文借鉴神经科学和认知科学的实验证据，提出将经验组织为认知地图的替代方案。认知地图能提供灵活、高效且可解释的动作选择，同时通过先验经验给出解释，避免参数压缩丢失信息，为导航等场景中的空间长期记忆机制提供了具体实例。",
+      "llm_tldr": "当前目标导向动作选择方法多依赖DNN或LLM，难以在低功耗边缘设备上部署；该论文借鉴神经科学和认知科学的实验证据，提出将经验组织为认知地图的替代方案。认知地图能提供灵活、高效且可解释的动作选择，同时通过先验经验给出解释，避免参数压缩丢失信息，为导航等场景中的空间长期记忆机制提供了具体实例。",
+      "llm_tags": [
+        "query:vln-memory"
+      ],
+      "matched_query_tag": "query:vln-memory",
+      "matched_query_text": "spatial long-term memory mechanisms in navigation systems",
+      "matched_requirement_id": "req-18",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.16447v1",
+      "source": "arxiv",
+      "title": "HaReCAP: Habitual-action Grounding for Recursive Large Language Model Agents",
+      "abstract": "Long-horizon embodied tasks require LLM agents to iteratively decompose high-level goals, revise plans in response to environmental feedback, and ground leaf-level subgoals into valid executable actions. Recursive context-management methods such as ReCAP improve planning stability through multi-level task decomposition and parent-node refinement, but still repeatedly invoke the LLM at leaf nodes to ground atomic subtasks into exact valid actions. We refer to this final grounding step as last-mile grounding redundancy, which accumulates into substantial LLM-call and token overhead during long-horizon execution. To mitigate this issue, we propose HaReCAP (Habitual-action Grounded ReCAP), a low-intrusion leaf grounding extension for ReCAP. HaReCAP extracts frequent leaf decisions from successful trajectories and compiles them offline into auditable and abstainable one-step leaf-reflex rules. At runtime, it skips the leaf LLM call only when a rule can uniquely determine a legal action in the current valid-action set; otherwise, it falls back to the original ReCAP. This design avoids repeatedly carrying the full recursive context into the LLM for routine leaf action grounding, while preserving the original recursive control flow. We evaluate HaReCAP on Robotouille and ALFWorld with Qwen3.5-27B as the main model. On tasks solved by both ReCAP and HaReCAP, HaReCAP reduces token consumption by 14.67%, 17.93%, and 20.08% on Robotouille synchronous, Robotouille asynchronous, and ALFWorld, respectively. The results show that HaReCAP can serve as a low-intrusion extension to ReCAP-style recursive context-management frameworks, reducing last-mile grounding redundancy across environments and models on commonly successful trajectories.",
+      "authors": [
+        "Shen Liu",
+        "Zhenguo Xu",
+        "Shaopu Wang",
+        "Yike Gao",
+        "Chunlei Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-08-17T11:47:03+00:00",
+      "link": "https://arxiv.org/pdf/2608.16447v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "long-horizon embodied task grounding for LLM agents, transferable to embodied navigation",
+      "llm_evidence_cn": "面向长时程具身任务的LLM智能体动作落地，可用于具身导航",
+      "llm_evidence": "面向长时程具身任务的LLM智能体动作落地，可用于具身导航",
+      "canonical_evidence": "面向长时程具身任务的LLM智能体动作落地，可用于具身导航",
+      "llm_tldr_en": "Addresses last-mile grounding redundancy in long-horizon embodied tasks where LLM agents repeatedly ground subgoals into actions; proposes HaReCAP, a low-intrusion extension to ReCAP that reduces LLM-call and token overhead while maintaining planning stability.",
+      "llm_tldr_cn": "长时程具身任务中，递归上下文管理方法虽提升了规划稳定性，但叶节点反复将原子子目标落地为可执行动作，造成大量LLM调用与token开销。为缓解该冗余，本文提出HaReCAP，作为ReCAP的低侵入式叶节点落地扩展，通过习惯动作知识减少重复调用。实验验证该方法能在保持任务规划稳定性的同时显著降低计算开销，为长时程具身智能体提供更高效的落地机制。",
+      "llm_tldr": "长时程具身任务中，递归上下文管理方法虽提升了规划稳定性，但叶节点反复将原子子目标落地为可执行动作，造成大量LLM调用与token开销。为缓解该冗余，本文提出HaReCAP，作为ReCAP的低侵入式叶节点落地扩展，通过习惯动作知识减少重复调用。实验验证该方法能在保持任务规划稳定性的同时显著降低计算开销，为长时程具身智能体提供更高效的落地机制。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
