@@ -1,0 +1,69 @@
+{
+  "label": "2026-08-15 ~ 2026-08-24",
+  "date": "2026-08-15 ~ 2026-08-24",
+  "generated_at": "2026-08-24T02:54:29",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "20260815-20260824/2608.20556v1-logic-vla-a-temporal-logic-conditioned-vision-language-action-model",
+      "section": "quick",
+      "title_en": "Logic-VLA: A Temporal Logic Conditioned Vision-Language-Action Model",
+      "authors": "Celina Shiyu Wang, Yiqi Zhao, Junjie Ye, Yue Wang, Jyotirmoy V. Deshmukh",
+      "date": "2026-08-20",
+      "pdf": "https://arxiv.org/pdf/2608.20556v1",
+      "score": "7.0",
+      "evidence": "视觉-语言-动作模型遵循自然语言指令并施加时序逻辑约束，可应用于具身智能体",
+      "tldr": "自然语言指令往往无法精确刻画安全关键或时空约束，导致VLA行为可能违反形式化要求。针对此问题，提出Logic-VLA，一种以信号时态逻辑(STL)规范为条件的视觉-语言-行动模型，利用语法图编码器学习时序逻辑语义，并通过STL条件监督微调与基于流匹配的轨迹级偏好优化两阶段训练。在随机逼真四旋翼导航仿真中，相比STL盲基线，STL满足率提升24.8-40.7个百分点，同时名义任务成功率最多仅降低1.8个百分点。结果表明，一个VLA能够依据不同形式化要求灵活调整行为，无需为每条规范部署独立策略。",
+      "tags": "query:embodied-nav",
+      "abstract_en": "Vision-language-action (VLA) models can follow natural-language (NL) task instructions, but such instructions may not precisely specify safety-critical or spatiotemporal requirements on the resulting behavior. We introduce Logic-VLA, a formal-requirement-aware VLA that conditions on Signal Temporal Logic (STL) specifications supplied at inference time. Logic-VLA uses a syntax-graph-based STL encoder pre-trained to capture temporal logic semantics. Policy adaptation proceeds in two stages: STL-conditioned supervised fine-tuning on satisfying demonstrations is followed by trajectory-level preference optimization over matched satisfying-violating rollout pairs using a flow-matching surrogate for Identity Preference Optimization. This formulation improves formal requirement satisfaction while preserving the nominal NL task. We evaluate Logic-VLA in closed-loop quadcopter navigation simulation across randomized photorealistic environments and test generalization to STL formulas unseen during training. Across the evaluation benchmarks, Logic-VLA improves STL satisfaction rate over an STL-blind base policy by 24.8 to 40.7 percentage points (pp) while reducing nominal NL task success by at most 1.8 pp, showing that a single VLA can adapt its behavior to varying formal requirements without requiring a separate policy for each specification.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "20260815-20260824/2608.14996v1-hp2-slam-adaptive-hybrid-icp-for-robust-and-efficient-lidar-slam",
+      "section": "quick",
+      "title_en": "HP2-SLAM: Adaptive Hybrid ICP for Robust and Efficient LiDAR SLAM",
+      "authors": "Nam Tran, Thu Tran, Hieu Phan, Thai Luu, Toan Nguyen, William J. Beksi, Tuan Dang",
+      "date": "2026-08-15",
+      "pdf": "https://arxiv.org/pdf/2608.14996v1",
+      "score": "6.0",
+      "evidence": "自适应混合ICP的激光雷达SLAM，为导航提供稳健建图",
+      "tldr": "LiDAR SLAM需同时满足鲁棒、精确与高效，但几何方法在平面场景易退化。本文提出HP2-SLAM，采用邻域自适应混合ICP，以平面感知阈值动态平衡点-平面与点-点残差，无需特征工程或学习。在公开数据集上超越强几何基线并保持实时性能，证明几何自适应能带来强泛化与鲁棒性。",
+      "tags": "query:semantic-map",
+      "abstract_en": "Achieving robustness, accuracy, and efficiency simultaneously remains a central challenge in light detection and ranging (LiDAR) simultaneous localization and mapping (SLAM). While learning-based approaches deliver strong benchmark performance, they often require extensive training, substantial computational resources, and struggle to generalize to unseen or degenerate environments. Geometry-based methods are efficient and interpretable, yet their performance degrades in planar or repetitive scenes due to limitations of standard iterative closest point (ICP) formulations. We present HP2-SLAM, a minimalist yet robust LiDAR SLAM framework built around a neighborhood-size adaptive hybrid ICP. Our key insight is a planarity-aware adaptive threshold that dynamically classifies correspondences based on local geometric structure and density, thereby enabling a principled balance between point-to-plane and point-to-point residuals. This formulation stabilizes alignment in both structured and degenerate environments without feature engineering, learning modules, or dataset-specific tuning. Integrated into a complete SLAM pipeline with submap management, loop closure detection, and pose graph optimization, HP2-SLAM consistently outperforms strong geometry-based baselines across publicly available datasets while maintaining real-time performance on commodity hardware. Our results demonstrate that carefully designed geometric adaptation can achieve strong generalization and robustness without sacrificing simplicity or efficiency.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "20260815-20260824/2608.17033v1-yildiz-vpr-a-novel-dataset-with-dense-coverage-under-diverse-environmental-conditions-for-visual-place-recognition",
+      "section": "quick",
+      "title_en": "YILDIZ-VPR: A Novel Dataset with Dense Coverage Under Diverse Environmental Conditions for Visual Place Recognition",
+      "authors": "Serdar Yildiz, Abbas Memiş, Songül Varli",
+      "date": "2026-08-17",
+      "pdf": "https://arxiv.org/pdf/2608.17033v1",
+      "score": "6.0",
+      "evidence": "视觉地点识别数据集，为定位与导航智能体提供支撑",
+      "tldr": "视觉地点识别旨在通过图像检索判定位置，但现有数据集在行人视角下的密集覆盖和多样性不足。为此，YILDIZ-VPR数据集采用重复步行遍历方式，在伊尔迪兹技术大学校园采集了跨时段、季节和天气的户外场景，并配备GPS、陀螺仪等同步传感器数据。该数据集具有密集覆盖与长期视觉变化特性，为图像基和时间感知的视觉地点识别研究提供了重要基准资源。",
+      "tags": "query:semantic-map",
+      "abstract_en": "Visual Place Recognition (VPR) aims to recognize the location of a query image by comparing it with a set of geo-referenced images. Although many datasets have been proposed for VPR, collecting dense and diverse visual data from pedestrian-level viewpoints is still an important need. In this paper, we introduce YILDIZ-VPR, a visual geo-localization dataset collected through repeated walking traversals on the Davutpasa campus of Yildiz Technical University. The dataset includes outdoor scenes captured at different times of day, seasons, and weather conditions. It contains a wide range of visual content, including historical buildings, modern structures, roads, green areas, and wooded regions. Each video was recorded with a GoPro 9 camera and synchronized with GPS sensor data to provide location labels for the extracted frames. In addition to GPS coordinates, the dataset also includes auxiliary sensor information such as gyroscope, speed, and temperature data. With its dense coverage and long-term visual variability, YILDIZ-VPR provides a useful resource for studying image-based and temporal visual place recognition under realistic outdoor conditions.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "20260815-20260824/2608.18840v1-beyond-placement-and-articulation-usage-driven-code-scenes-for-embodied-interaction",
+      "section": "quick",
+      "title_en": "Beyond Placement and Articulation: Usage-Driven Code Scenes for Embodied Interaction",
+      "authors": "Zijian Xiao, Zipeng Ye, Jinkun Hao, Xiong Yang, Yuchen Xie, Ran Yi",
+      "date": "2026-08-19",
+      "pdf": "https://arxiv.org/pdf/2608.18840v1",
+      "score": "6.0",
+      "evidence": "为具身智能仿真提供代码化3D场景，可用于导航环境生成",
+      "tldr": "现有代码式室内场景生成仅关注视觉构建和物体级关节，缺乏对功能使用的建模。为此提出RoomWright，一种智能体驱动的用法驱动框架，以每个锚点为任务中心，推理任务所需物体及其可供性，并将交互编译为触发-条件-效果规则以更新物体状态。该方法利用注释引导的方向来恢复可操作物朝向。实验表明生成场景可执行、可编辑且仿真就绪，为具身AI与策略学习提供交互环境。",
+      "tags": "query:embodied-nav",
+      "abstract_en": "Indoor scene synthesis provides essential environments for embodied AI, robotic manipulation, and simulation-based policy learning. Recent code-based scene generation methods produce editable and extensible environments, yet they remain focused on visual construction and object-level articulation, leaving the functional usage of scenes largely unmodeled. To address this problem, we present RoomWright, an agentic usage-driven framework for generating 3D scenes represented entirely as code for embodied interaction. RoomWright performs usage-driven object reasoning, which treats each anchor as a task centre and admits task-required objects and their affordances. A code agent further enables multi-part interaction by compiling each interaction into a trigger, condition, effect rule that updates structured object states, capturing causal dependencies across objects. Moreover, since manipuland orientation is ambiguous and hard to recover from pixels, RoomWright alleviates this via annotation-informed usage-guided orientation. Extensive experiments demonstrate the effectiveness of our method. The resulting scenes are executable, editable, and simulation-ready, providing interactive environments for embodied AI and policy learning.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

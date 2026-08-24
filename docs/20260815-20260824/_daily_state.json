@@ -1,0 +1,73 @@
+{
+  "date": "20260815-20260824",
+  "date_label": "2026-08-15 ~ 2026-08-24",
+  "generated_at": "2026-08-24 02:54:26 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.20556v1",
+      "route": "20260815-20260824/2608.20556v1-logic-vla-a-temporal-logic-conditioned-vision-language-action-model",
+      "title": "Logic-VLA: A Temporal Logic Conditioned Vision-Language-Action Model",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "视觉-语言-动作模型遵循自然语言指令并施加时序逻辑约束，可应用于具身智能体",
+      "first_seen_at": "2026-08-24 02:54:26 UTC",
+      "updated_at": "2026-08-24 02:54:26 UTC"
+    },
+    {
+      "paper_id": "2608.14996v1",
+      "route": "20260815-20260824/2608.14996v1-hp2-slam-adaptive-hybrid-icp-for-robust-and-efficient-lidar-slam",
+      "title": "HP2-SLAM: Adaptive Hybrid ICP for Robust and Efficient LiDAR SLAM",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "自适应混合ICP的激光雷达SLAM，为导航提供稳健建图",
+      "first_seen_at": "2026-08-24 02:54:26 UTC",
+      "updated_at": "2026-08-24 02:54:26 UTC"
+    },
+    {
+      "paper_id": "2608.17033v1",
+      "route": "20260815-20260824/2608.17033v1-yildiz-vpr-a-novel-dataset-with-dense-coverage-under-diverse-environmental-conditions-for-visual-place-recognition",
+      "title": "YILDIZ-VPR: A Novel Dataset with Dense Coverage Under Diverse Environmental Conditions for Visual Place Recognition",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "视觉地点识别数据集，为定位与导航智能体提供支撑",
+      "first_seen_at": "2026-08-24 02:54:26 UTC",
+      "updated_at": "2026-08-24 02:54:26 UTC"
+    },
+    {
+      "paper_id": "2608.18840v1",
+      "route": "20260815-20260824/2608.18840v1-beyond-placement-and-articulation-usage-driven-code-scenes-for-embodied-interaction",
+      "title": "Beyond Placement and Articulation: Usage-Driven Code Scenes for Embodied Interaction",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "为具身智能仿真提供代码化3D场景，可用于导航环境生成",
+      "first_seen_at": "2026-08-24 02:54:26 UTC",
+      "updated_at": "2026-08-24 02:54:26 UTC"
+    }
+  ]
+}
