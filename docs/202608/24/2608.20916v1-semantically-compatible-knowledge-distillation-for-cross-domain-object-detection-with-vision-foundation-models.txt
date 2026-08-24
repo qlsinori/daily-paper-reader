@@ -1,0 +1,720 @@
+Title: Semantically Compatible Knowledge Distillation for Cross-Domain Object Detection with Vision Foundation Models
+
+URL Source: https://arxiv.org/pdf/2608.20916v1
+
+Published Time: Mon, 24 Aug 2026 00:37:43 GMT
+
+Number of Pages: 14
+
+Markdown Content:
+# Semantically Compatible Knowledge Distillation for Cross-Domain Object Detection with Vision Foundation Models 
+
+Qifeng Zhang 1 Ting Xiang 1 Zeyuan Bai 1 Changjian Chen 1
+
+## Abstract 
+
+Vision foundation models (VFMs) offer strong generalization capabilities for domain-adaptive object detection (DAOD). However, existing VFM-based methods overlook the spatial-scale discrepancy between teacher and student fea-ture maps, resulting in semantic incompatibil-ity that weakens both feature alignment and pseudo-label learning. Moreover, domain shift can cause source-trained VFM teachers to miss target-domain objects, limiting the quality of their pseudo-labels. To address these issues, we propose the Semantic Localization-Enhanced Teacher (SLE-T), a semantically compatible knowledge-distillation framework built around a lightweight SLE Adapter for DINOv2. SLE Adapter injects pretrained local-texture priors into DINOv2 to improve cross-domain recognition and reformulates its features into dense represen-tations that are spatially and semantically compat-ible with the student detector. SLE-T transfers the resulting teacher knowledge through either pseudo-label learning or feature alignment. We in-stantiate SLE-T with DINOv2-B and DINOv2-L (the ViT-B and ViT-L variants) and compare them with the larger DINOv2-G teacher. Extensive experiments on three DAOD benchmarks demon-strate that our method achieves state-of-the-art performance, and ablation studies confirm the im-portance of teacher–student semantic compatibil-ity. Notably, SLE-T with DINOv2-B produces competitive or superior pseudo-labels using ap-proximately one-quarter of the training time of DINOv2-G and substantially less GPU memory, demonstrating efficient VFM knowledge trans-fer under limited computational resources. Our 
+
+> 1
+
+National Supercomputing Center in Changsha, Hunan Uni-versity, Changsha, Hunan Province, China. Correspondence to: Changjian Chen <changjianchen@hnu.edu.cn >, Qifeng Zhang 
+
+<zqfhnucsee@hnu.edu.cn >.
+
+Proceedings of the 43 rd International Conference on Machine Learning , Seoul, South Korea. PMLR 306, 2026. Copyright 2026 by the author(s). 
+
+code is available at https://github.com/ hnu-vis/SLE-T .
+
+## 1. Introduction 
+
+Domain adaptation object detection (DAOD) transfers a de-tector from a labeled source domain to an unlabeled target domain, enabling deployment in changing environments without costly target annotations. Vision foundation models (VFMs), particularly DINOv2 (Oquab et al., 2023), provide transferable representations and are increasingly used as DAOD teachers (Lavoie et al., 2025; Cui et al., 2026). How-ever, transferable teacher features alone do not guarantee effective knowledge transfer; they must also be compatible with the spatial granularity and task semantics of the stu-dent detector (Hao et al., 2023; Yang et al., 2022; Shu et al., 2021). Existing VFM-based DAOD methods mainly transfer knowl-edge through feature alignment and pseudo-label learn-ing (Lavoie et al., 2025; Cui et al., 2026). We identify an overlooked spatial-scale discrepancy in both mechanisms due to the different resolutions and strides. Specifically, for feature alignment, Interpolation can match their tensor dimensions, but cannot establish correspondence between teacher features and student feature locations (Fig. 1A). The resulting semantic incompatibility forces features with dif-ferent spatial granularity and task semantics to align, weak-ening feature-level knowledge transfer. For pseudo-label learning, the student must assimilate object-level supervi-sion generated from an incompatible teacher representation, limiting performance (Fig. 1C). Our controlled experiments confirm that improving teacher–student semantic compati-bility benefits both feature alignment and pseudo-label learn-ing. Our central insight is that VFM features should be re-formulated into representations that are spatially and semantically compatible with the student, rather than merely resized to the same dimensions. This requires pre-serving transferable VFM semantics, adapting the teacher’s spatial granularity, and improving target-domain recogni-tion without the cost of fully adapting a large VFM. To 1arXiv:2608.20916v1 [cs.CV] 21 Aug 2026 Submission and Formatting Instructions for ICML 2026 (2) Pseudo-Label Learning Low-resolution student features 
+
+> weaken or miss those object details, making pseudo labels hard to learn.
+
+Teacher Model (stride=14) Student Model (e.g. , vgg4, Stride=32) 
+
+Predictions (pseudo labels) Student Model 
+
+(e.g. , vgg3, Stride=16) 
+
+Teacher Model w/ SLE Adapter (stride=16) 
+
+Predictions (pseudo labels) Teacher features are reformulated to the same scale. Key details are preserved in student features.    
+
+> Result: Higher quality pseudo label, easier and more effective learning. High-resolution teacher features capture more object details (edges, textures), which are important for prediction.
+
+Semantic Incompatibility (Existing work) Semantic Compatibility (Ours) 
+
+Teacher Model (stride=14) 
+
+Student Model (e.g. , vgg4, Stride=32)  
+
+> Teacher model VFM backbone Student model backbone Interpolation
+
+(e.g. , VGG) (e.g. , Dinov2)  
+
+> Resolution Mismatch Semantic Mismatch
+
+Global Feature Alignment 
+
+(e.g. , Cosine, L1, L2) 
+
+(1) Feature Alignment Teacher Model w/ SLE Adapter (stride=16) 
+
+Student Model (e.g. , vgg3, Stride=16) 
+
+Semantic Incompatibility (Existing work) Semantic Compatibility (Ours)       
+
+> Semantic matched
+> Semantic Alignment : regions are well corresponded.
+> Detail preserved: teacher knowledge is reformulated to the same scale.
+> Result: more effective feature alignment and better knowledge transfer. Background Object B ( e.g. ,person) Object A ( e.g .,car) Teacher features Student features ABCD
+
+Figure 1. Motivation for semantically compatible knowledge transfer. (A) Resizing matches feature dimensions but not object-level semantics. (B) Our method reformulates teacher features and selects a stride-compatible student representation. (C) Coarse student features lose object details which are helpful for pseudo-label learning. (D) Compatible representations preserve these details for more effective transfer. 
+
+this end, we propose the Semantic Localization-Enhanced Teacher (SLE-T), a framework comprising SLE Adapter and two alternative knowledge-transfer routes. SLE Adapter in-jects pretrained local-texture priors into DINOv2 to reduce missed target-domain objects and extracts dense stride-16 features that match the student detector’s spatial granularity and task semantics. The resulting teacher generates higher-quality pseudo-labels and provides semantically compatible targets for feature alignment, while most VFM parameters remain frozen for efficient training. We instantiate SLE-T with DINOv2-B and DINOv2-L and compare them with the larger DINOv2-G teacher. Extensive experiments demonstrate that SLE-T improves both the effectiveness and efficiency of VFM-based DAOD. Our method achieves state-of-the-art performance on three DAOD benchmarks, and the ablation studies verify that se-mantic compatibility improves both feature alignment and pseudo-label learning. Moreover, SLE-T with DINOv2-B provides competitive or superior pseudo-labels with approx-imately one-quarter of the training time of DINOv2-G and substantially lower memory use. Our contributions are summarized as follows: 1. We identify teacher–student semantic incompatibility as a key limitation of VFM-based DAOD and show that it weakens both feature alignment and pseudo-label learning. 2. We propose SLE-T, which combines SLE Adapter with pseudo-label learning or feature alignment for semantically compatible knowledge transfer. 3. We achieve state-of-the-art performance on three DAOD benchmarks and show that an SLE-enhanced DINOv2-B teacher can match or surpass the larger DINOv2-G teacher with substantially lower computational cost. 
+
+## 2. Related Work 
+
+2.1. Domain-Adaptive Object Detection 
+
+DAOD methods primarily follow two directions: domain-discrepancy reduction and self-training. Domain-2Submission and Formatting Instructions for ICML 2026 Trainable Frozen     
+
+> (3) Transferring Knowledge to Student (1) Dino Labeller / Align Backbone Training SLE Adapter RPN Det Head Det Loss labeller Backbone Source images w/ GT
+> tSde
+
+L
+
+> Align Backbone Linear Source images Target images Student Backbone
+
+L1 SLE Adapter Det Loss ... 
+
+> tSde
+
+LtTde L
+
+> Target Pseudo labels
+> sim SLE
+
+L   
+
+> Align Backbone Source images w/ GT SLE Adapter RPN Det Head Det Loss tSde
+
+L  
+
+> (2) Pseudo Label Generation
+> Target images labeller Backbone Target Pseudo labels SLE Adapter
+
+Figure 2. Overview of the SLE Teacher framework. An SLE-enhanced teacher is trained on source annotations and then frozen to transfer knowledge through either pseudo-label learning or feature alignment. 
+
+discrepancy methods learn domain-invariant representations through adversarial learning (Chen et al., 2025b; He et al., 2025c; Zhou et al., 2022), contrastive learning (Cao et al., 2023; Bai et al., 2025), or graph alignment (Li et al., 2022a; Gao et al., 2023). Self-training methods use a teacher to generate target-domain pseudo-labels for a student detec-tor (Chen et al., 2025a; Deng et al., 2023; Kennerley et al., 2024; Li et al., 2022c). Recent approaches improve this pro-cess through pseudo-label reweighting (Deng et al., 2023), confidence alignment (Chen et al., 2025a), and class-wise balancing (Kennerley et al., 2024). Unlike these methods, our work studies how a VFM teacher should represent and transfer knowledge to a detection student. 
+
+2.2. Vision Foundation Models for DAOD 
+
+Prior DAOD methods obtain transferable supervision from vision-language models (Fahes et al., 2023; Vidit et al., 2023; Yang et al., 2024; Zhang et al., 2025; Sikdar et al., 2025) or diffusion models (He et al., 2024; 2025b;a). Our work instead focuses on DINOv2, a self-supervised VFM with strong cross-domain representations (Oquab et al., 2023). DINO Teacher (DT) (Lavoie et al., 2025) uses DINOv2 to generate target pseudo-labels and supervise student features, whereas ETS (Cui et al., 2026) combines VFM knowledge with an EMA teacher to provide domain-specific guidance. These methods improve the source of supervision but do not explicitly address the spatial-scale discrepancy between VFM teachers and detection students. Matching feature dimensions by interpolation leaves this semantic incompat-ibility unresolved, limiting both feature alignment and the student’s assimilation of pseudo-label supervision. More-over, a VFM teacher trained only on the source domain can miss target-domain objects and consequently produce incomplete pseudo-labels. In this work, we propose SLE-T, which uses the proposed SLE Adapter to inject local-texture priors into DINOv2 and extract dense representations compatible with the student detector. This design positions our method as a teacher-representation adaptation approach that improves both fea-ture alignment and pseudo-label quality while reducing the cost of VFM-based DAOD. 
+
+## 3. Method 
+
+3.1. Problem Setting 
+
+Let Ds = {(Xis, B is, Y is )}ns 
+
+> i=1
+
+denote a labeled source do-main and Dt = {Xit }nt 
+
+> i=1
+
+an unlabeled target domain, where 
+
+X, B, and Y denote images, bounding boxes, and class la-bels, respectively. Our goal is to learn a detector fθ that predicts target-domain boxes and labels, fθ (Xt) = ( ˆBt, ˆYt).Effective transfer requires compatible teacher and student representations. On the teacher side, we reformulate DI-NOv2 features only from stride 14 to stride 16, limiting spatial distortion while matching the detector’s resolution. On the student side, we use the stride-16 feature whose reso-lution is closest to the DINOv2 output, rather than a coarser detection feature. We further attach lightweight trainable modules to DINOv2-B or DINOv2-L, avoiding the cost of training a DINOv2-G labeller while improving target-domain recognition. SLE-T comprises source-domain train-ing of an SLE-enhanced teacher and knowledge transfer to 
+
+fθ through either pseudo-label learning or feature alignment. Figure 2 summarizes the workflow. First, the SLE-enhanced labeller or alignment teacher is trained with source annota-tions; the frozen labeller then generates target pseudo-labels; finally, the student receives either output-level pseudo-label supervision or feature-level alignment supervision. 3Submission and Formatting Instructions for ICML 2026 Images Patch Embedding Spatial Prior Module Injector Extractor Block 1 Block 2 Block n ...  
+
+> Vision Foundation Model ( e.g .,Dinov2 )
+> Feature map Stride = 16 Reshape Feature map Stride = 14 Interpolation Stride = 16 Reformulated feature map
+
+key / value query query key / value Pretrained CNN network Patch size = 14 
+
+Train able Frozen Positional embedding 16 P
+
+> D
+
+Z IZ
+
+> D
+> 
+
+Z
+
+> DAttn( ) 
+> 16
+
+P
+
+> ConvFFN SLE 0
+
+T
+
+> SLE
+
+T
+
+> SLE
+> T
+
+F
+
+> DINO rz
+
+F
+
+Figure 3. Architecture of SLE Adapter. The Spatial Prior Module extracts stride-16 local features from a pretrained CNN. The Injector uses deformable attention ( DAttn ) to inject these local cues into DINOv2 tokens, while the Extractor reverses the attention direction to produce a dense stride-16 representation refined by ConvFFN. The resized final DINOv2 feature is added as a semantic residual, preserving pretrained VFM knowledge in the student-compatible teacher feature. Blue and orange blocks denote frozen and trainable components, respectively. 
+
+3.2. SLE Adapter 
+
+Raw DINOv2 tokens and dense student features differ in spatial granularity and task semantics, creating semantic incompatibility. SLE Adapter addresses this problem with a Spatial Prior Module (SPM), an Injector, and an Extractor (Fig. 3). Together, they inject local texture cues into DI-NOv2 and minimally reformulate its stride-14 tokens into a semantically compatible stride-16 teacher representation. 
+
+Spatial Prior Module. For an image batch X ∈
+
+RB×3×H×W , a pretrained VGG pathway extracts local con-volutional features. We select its stride-16 feature because its spatial granularity is close to the stride-14 DINOv2 to-kens and the stride-16 student feature. A 1 × 1 convolution projects it to the DINOv2 channel dimension CD, after which it is flattened into local-prior tokens: 
+
+P16 = Flatten 
+
+
+
+Conv 1×1(E(16) VGG (X)) 
+
+
+
+∈ RB×N16 ×CD ,N16 = H16 W16 .
+
+(1) where H16 = H/ 16 and W16 = W/ 16 .
+
+Local-Texture Injection. Let ZD ∈ RB×ND ×CD denote the tokens produced by the frozen DINOv2 blocks before the final block. The Injector uses deformable attention, denoted by DAttn , to inject the stride-16 VGG3 prior P16 into these tokens. For each DINOv2 query, DAttn predicts sampling offsets and attention weights, samples a small set of relevant locations from P16 , and aggregates their local texture cues. Only the VGG3 feature level is used; no multi-scale VGG features participate. 
+
+ZI = ZD + γI DAttn (LN( ZD ), rD→16 , LN( P16 ), Ω16 ) ,
+
+(2) where γI is a learnable residual scale, LN is Layer Normal-ization operation, rD→16 contains reference points from the DINOv2 grid to the stride-16 grid, and Ω16 describes that grid. The trainable final DINOv2 block BL−1 
+
+> D
+
+then produces the enhanced tokens 
+
+Z+ 
+
+> D
+
+= LN D
+
+ BL−1 
+
+> D
+
+(ZI ) . (3) 
+
+Student-Compatible Feature Extraction. The Extractor reverses the attention direction: P16 supplies the queries and Z+ 
+
+> D
+
+supplies the values. Here, DAttn lets each VGG3 query sample relevant locations from the enhanced DINOv2 tokens and aggregate their semantic information. Because the queries remain on the single stride-16 VGG3 grid, the output preserves the student-compatible spatial layout: 
+
+TSLE 0 = P16 +DAttn  LN( P16 ), r16 →D, LN( Z+ 
+
+> D
+
+), ΩD
+
+ ,
+
+(4) where r16 →D and ΩD specify the DINOv2 token grid. A convolutional feed-forward residual refines the extracted tokens: 
+
+TSLE = TSLE 0 + ConvFFN  LN( TSLE 0 ), H 16 , W 16 
+
+ .
+
+(5) We reshape the Extractor output and interpolate the final stride-14 DINOv2 feature to the same stride-16 resolution: 
+
+FSLE Ext = Reshape( TSLE ),
+
+FDINO rz = Interp  Reshape( Z+ 
+
+> D
+
+), H 16 , W 16 
+
+ . (6) Their residual fusion forms the final teacher feature: 
+
+FSLE  
+
+> T
+
+= FSLE Ext + FDINO rz ∈ RB×CD ×H16 ×W16 . (7) The resized DINOv2 feature acts as a semantic anchor that preserves pretrained VFM knowledge, while the Extractor supplies local, detection-oriented refinements. 4Submission and Formatting Instructions for ICML 2026 
+
+Student-Side Feature Selection. The teacher-side refor-mulation is paired with the stride-16 feature of the student, which is spatially closer to DINOv2’s stride-14 output than the stride-32 feature. This choice reduces the spatial trans-formation required for knowledge transfer: the stride-16 feature serves as the alignment interface in the feature-alignment route and as the detector representation trained by pseudo-label supervision in the pseudo-label route. The similar strides facilitate semantic compatibility but do not assume that teacher and student features are semantically identical. 
+
+3.3. SLE Teacher Knowledge Transfer Teacher Training. Training a large DINOv2-G labeller is expensive, yet a source-trained labeller may still miss target objects. As shown in stage (1) of Fig. 2, we instead construct 
+
+gSLE from DINOv2-B or DINOv2-L, SLE Adapter, and a detection head, and train it on source annotations: 
+
+Lteacher = Ldet  
+
+> S
+
+(gSLE (Xs), B s, Y s). (8) All DINOv2 blocks except the final block remain frozen, while the final block, SPM, Injector, Extractor, and detec-tion head are optimized. This parameter-efficient design shortens labeller training, while the injected local texture cues improve its sensitivity to target-domain objects. The trained teacher is then frozen and used in one of the follow-ing transfer routes. 
+
+Pseudo-Label Learning. In stage (2) of Fig. 2, the frozen teacher predicts target pseudo-labels 
+
+( ˜Bt, ˜Yt) = gSLE (Xt). (9) Because SLE Adapter combines DINOv2 semantics with local texture cues, these predictions reduce missed target objects and provide stronger localization-sensitive super-vision than labels generated from raw DINOv2 features. The student is trained with source annotations and target pseudo-labels: 
+
+LPL = Ldet  
+
+> S
+
++ λunsup Ldet  
+
+> T
+
+, (10) where Ldet  
+
+> T
+
+uses ( ˜Bt, ˜Yt) as target supervision. 
+
+Feature Alignment. In the feature-alignment route shown in stage (3) of Fig. 2, the frozen teacher provides dense features FSLE  
+
+> T
+
+(X) rather than pseudo-labels. Let FS (X)
+
+be the stride-16 student feature. A shape-preserving linear projection ϕlin maps its channels to CD, yielding the same shape as the teacher feature: 
+
+ϕlin (FS (X)) , FSLE  
+
+> T
+
+(X) ∈ RB×CD ×H16 ×W16 . (11) We minimize their L1 distance: 
+
+Lsim 
+
+> SLE
+
+(X) = ϕlin (FS (X)) − sg  FSLE  
+
+> T
+
+(X) 
+
+> 1
+
+, (12) where sg stops gradients through the teacher. Following DINO Teacher, alignment is applied to source images ini-tially and to both source and target images in the later stage. For an alignment batch BA, where BA = BS initially and 
+
+BA = BS ∪ B T later, the student objective is 
+
+LFA = Ldet  
+
+> S
+
++ λsim 
+
+|B A|
+
+X
+
+> X∈B A
+
+Lsim 
+
+> SLE
+
+(X). (13) Thus, LPL transfers output-level predictions, whereas LFA 
+
+transfers intermediate representations. We treat them as in-dependent routes: FA directly evaluates representation-level transferability, while PL is adopted for the final configura-tion because it yields the best detection performance. At inference, the SLE-enhanced teacher and projection layer are discarded, and only the adapted student detector fθ is retained. The complete SLE-T training procedure is sum-marized in the supplemental material. 
+
+## 4. Experiments 
+
+4.1. Datasets Cityscapes. We use Cityscapes as the labeled source do-main, with 2,975 training images, 500 validation images, and eight detection categories. 
+
+Foggy Cityscapes. Foggy Cityscapes adds three fog levels to Cityscapes and contains 8,925 training and 1,500 valida-tion images in the full setting (Lavoie et al. 2025). 
+
+BDD100K Daytime. Following prior DAOD proto-cols (Deng et al., 2023; Lavoie et al., 2025), we use 36,728 training and 5,258 validation images from BDD100K Day-time, with seven categories shared with Cityscapes. 
+
+ACDC. ACDC contains real fog, night, rain, and snow scenes in the Cityscapes category space; each condition has 400 training images and 100 validation images, except night with 106 validation images (Lavoie et al. 2025). 
+
+4.2. Experimental Setup 
+
+We implement all models in Detectron2 and follow DINO Teacher (DT) (Lavoie et al., 2025) unless stated otherwise. Faster R-CNN uses ImageNet-pretrained VGG16 for Foggy Cityscapes and BDD100K Daytime and ResNet-50 for ACDC; we select the stride-16 VGG3 or Res3 feature as the student representation. Training uses two RTX 4090 GPUs and a batch of four images, equally split between source and target domains. Images are resized to a height of 560 pixels to accommodate the stride-14 DINOv2 and stride-16 SLE grids. We train SLE Adapter for 30k itera-tions with AdamW, a learning rate of 10 −4, weight decay of 0.1, and a 5k-iteration linear warm-up. Only the final DI-NOv2 Transformer block, SLE Adapter, RPN, and RoI head 5Submission and Formatting Instructions for ICML 2026 
+
+Method Type Person Rider Car Truck Bus Train Motor Bicycle mAP 
+
+DA-Faster (Chen et al., 2018) FR 29.2 40.4 43.4 19.7 38.3 28.5 23.7 32.7 32.0 DICN (Jiao et al., 2022) FR 47.3 57.4 64.0 22.7 45.6 29.6 38.6 47.4 44.1 NLTE (Liu et al., 2022) FR+GA 43.1 50.7 58.7 33.6 56.7 42.7 33.7 43.3 45.4 PT (Chen et al., 2022) FR+MT 43.2 52.4 63.4 33.4 56.6 37.8 41.3 48.7 47.1 MIC (Hoyer et al., 2023) FR+MT 50.9 55.3 67.0 33.9 52.4 33.7 40.6 47.5 47.6 AT (Li et al., 2022c) FR+MT 45.5 55.1 64.2 35.0 56.3 54.3 38.5 51.9 50.9 CMT (Cao et al., 2023) FR+MT 47.0 55.7 64.5 39.4 63.2 51.9 40.3 53.1 51.9 REACT (Li et al., 2024) FR+MT 51.4 57.9 67.4 37.7 58.4 52.8 44.6 54.6 53.1 DT ∗ (Lavoie et al., 2025) FR+MT (ViT-G) 46.5 56.2 62.3 40.8 64.1 58.0 45.5 51.8 53.2 ETS (Cui et al., 2026) FR +MT 49.0 61.8 65.8 41.7 69.9 56.8 46.7 57.7 56.2 SLE-T (Ours) FR+MT (ViT-B) 57.0 65.1 70.0 42.9 63.2 52.9 48.5 60.0 57.4 SLE-T (Ours) FR+MT (ViT-L) 56.7 64.5 69.8 43.6 62.3 53.7 51.1 59.3 57.6      
+
+> Table 1. Class-wise AP 50 (%) on Cityscapes →Foggy Cityscapes (all fog levels). GA and MT denote Graph Alignment and Mean Teacher framework, respectively. ‘*’ indicates results we reproduced using the official publicly available code.
+
+are optimized; the remaining DINOv2 blocks are frozen. We reimplement DT from its official codebase on the same platform for a controlled comparison. 
+
+4.3. Experimental Results 
+
+We evaluate Cityscapes → Foggy Cityscapes / BDD100K Daytime, and Cityscapes → ACDC using mAP 50 . SLE-T is instantiated with DINOv2-B and DINOv2-L and com-pared with DINOv2-G. Unless otherwise stated, Tabs. 1, 2, and 3 report the PL-only configuration, which outperforms both FA alone and joint FA–PL training; the corresponding ablation is provided in the supplemental material. 
+
+Cross-Domain Detection. Tables 1, 2, and 3 show that SLE-T achieves state-of-the-art performance across synthetic fog, cross-camera daytime scenes, and real adverse conditions. With DINOv2-L, SLE-T reaches 57.6 and 48.6 mAP 50 on Foggy Cityscapes and BDD100K Daytime, exceeding DT with DINOv2-G by 4.4 and 3.3, respectively. On ACDC, both SLE-T variants consistently outperform DT across all four adverse conditions. The ViT-L variant improves DT by 4.0, 1.9, 9.5, and 6.3 on fog, night, rain, and snow, re-spectively. It exceeds ViT-B by 4.1 on rain, while the two variants remain within 0.3 under the other conditions, sug-gesting that the larger backbone is particularly beneficial for the more complex rain-domain shift. The supplemen-tal material provides a class-wise ACDC breakdown and qualitative detections under dense fog. 
+
+Efficient Labellers. Tab. 4 shows that SLE with DINOv2-B uses 22.5% of the DINOv2-G training time while re-maining within 0.8 on BDD100K Daytime. SLE with DINOv2-L uses 30.2% of the training time and improves target performance by 1.9. These results support our claim ViT-B SLE Adapter + ViT-B  Image  
+
+> Figure 4. Grad-CAM comparison between raw and SLE-enhanced DINOv2-B.
+
+that lightweight adaptation of a smaller VFM can pro-duce stronger target supervision at substantially lower cost. The supplemental material further visualizes the accuracy– size trade-off and evaluates an SLE-T instantiation with DINOv3-B. 
+
+4.4. Ablation Study 
+
+We design the ablations to test teacher–student semantic compatibility, student feature selection, and the effective-ness of SLE Adapter. 
+
+Semantic Compatibility in Feature Alignment. Tab. 5 compares raw and SLE-enhanced DINOv2-B as alignment teachers. Although VGG3 is weaker than VGG4 without alignment, using its stride-16 feature improves raw-DINOv2 alignment by 2.3 on FC and 1.1 on BD. This reversal indi-cates that the student feature closest to DINOv2’s stride-14 resolution provides a more compatible interface for knowl-edge transfer. SLE Adapter further improves raw-DINOv2 alignment by 6Submission and Formatting Instructions for ICML 2026 
+
+Method Type Person Rider Car Truck Bus Motor Bicycle mAP 
+
+DA-Faster (Chen et al., 2018) FR 28.9 27.4 44.2 19.1 18.0 14.2 22.4 24.9 SIGMA (Li et al., 2022b) FCOS+GA 46.9 29.6 64.1 20.2 23.6 17.9 26.3 32.7 TDD (He et al., 2022) FR+MT 39.6 38.9 53.9 24.1 25.5 24.5 28.8 33.6 PT (Chen et al., 2022) FR+MT 40.5 39.9 52.7 25.8 33.8 23.0 28.8 34.9 NSA (Zhou et al., 2023) FR+MT – – – – – – – 35.5 REACT (Li et al., 2024) FR+MT – – – – – – – 35.8 CAT (Kennerley et al., 2024) FR+MT 44.6 41.5 61.2 31.4 34.6 24.4 31.7 38.5 HT (Deng et al., 2023) FCOS+MT 53.4 40.4 63.5 27.4 30.6 28.2 38.0 40.2 DT ∗ (Lavoie et al., 2025) FR+MT (ViT-G) 48.5 47.2 63.9 39.7 42.9 33.1 41.0 45.2 SLE-T (Ours) FR+MT (ViT-B) 57.2 46.5 71.0 39.3 41.7 37.8 40.2 47.7 SLE-T (Ours) FR+MT (ViT-L) 57.5 47.2 71.1 40.7 44.6 36.9 41.9 48.6      
+
+> Table 2. Class-wise AP 50 (%) on Cityscapes →BDD100K Daytime.
+
+Method Fog Night Rain Snow 
+
+AT (Li et al., 2022c) 62.2 29.5 37.7 55.2 DT* (Lavoie et al., 2025) 62.0 33.3 33.4 49.4 SLE-T (ViT-B) 66.3 34.9 38.8 55.5 SLE-T (ViT-L) 66.0 35.2 42.9 55.7     
+
+> Table 3. mAP 50 (%) comparison on Cityscapes →ACDC under different adverse weather conditions.
+
+Backbone mAP 50 Training Time (h) C BD 
+
+ViT-G 62.8 50.7 26.35 SLE (ViT-B) 65.8 49.9 5.93 
+
+SLE (ViT-L) 64.9 52.6 7.95   
+
+> Table 4. Labeller accuracy and training time on Cityscapes →
+> BDD100K Daytime. C and BD denote Cityscapes and BDD100K Daytime.
+
+No. Layer FA AlignM FC BD 
+
+1 VGG4 – – 40.1 22.3 2 VGG4 ✓ ViT-B 46.6 32.2 3 VGG4 ✓ SLE (ViT-B) 47.4 33.1 4 VGG3 – – 38.7 21.7 5 VGG3 ✓ ViT-B 48.9 33.3 6 VGG3 ✓ SLE (ViT-B) 51.0 34.3  
+
+> Table 5. Feature-alignment ablation on Foggy Cityscapes (FC) and BDD100K Daytime (BD). FA and AlignM denote feature alignment and the alignment model, respectively.
+
+Feature Layer PL FC BD 
+
+VGG4 – 40.1 22.3 VGG4 ✓ 53.6 44.3 VGG3 – 38.7 21.7 VGG3 ✓ 57.4 47.7  
+
+> Table 6. Pseudo-label-learning ablation on Foggy Cityscapes (FC) and BDD100K Daytime (BD). PL denotes pseudo-label learning. All experiments use pseudo labels generated by SLE-enhanced Dinov2-B.
+
+0.8/0.9 with VGG4 and 2.1/1.0 with VGG3 on FC/BD. The larger gain with VGG3 supports the benefit of jointly re-formulating the teacher feature and selecting a spatially compatible student feature. The Grad-CAM comparison in Fig. 4 also shows that SLE Adapter emphasizes detection-relevant regions such as cars and pedestrians. Therefore, although PL is used for the main results, FA provides inde-pendent evidence that SLE Adapter improves feature-level transfer rather than only pseudo-label generation. 
+
+Semantic Compatibility in Pseudo-label Learning. Ta-ble 6 shows that replacing VGG4 with the stride-16 VGG3 feature improves pseudo-label learning by 3.8 on FC and 3.4 on BD. VGG3 is weaker without pseudo-labels (38.7 versus 40.1 AP 50 ) but becomes stronger after transfer (57.4 versus 53.6), showing that its advantage comes from more effective knowledge assimilation rather than standalone ca-pacity. These results support student feature selection as an important part of teacher–student semantic compatibility. 
+
+SLE Adapter Components and Efficiency. Table 7 iso-lates the contributions of SLE Adapter. Injector and Extrac-tor improve DINOv2-B by 3.1; adding a pretrained spatial prior raises the total gain over raw DINOv2-B to 6.7, and fine-tuning the final DINOv2 block adds 1.9 over the adapter 7Submission and Formatting Instructions for ICML 2026 010 20 30 40 50 60 70           
+
+> Correct ratio (%)  +9.4 +9.7 +5.9 +2.8 +2.9 +3.0 +11.3 +8.5 +5.2 +4.3 +1.4 +7.1
+> Class-wise Correct ratio Comparison
+> SLE Adapter + ViT-B SLE Adapter + ViT-L
+> person rider car truck bus motor bicycle
+> ViT-G
+> +16.3 +17.1
+
+Figure 5. Class-wise correct-pseudo-label ratio for DINOv2 and SLE-enhanced labellers in Foggy Cityscapes. 
+
+without either component. Combining both choices gives 59.9 mAP 50 with DINOv2-B and 61.3 with DINOv2-L. SLE Adapter adds about 22M parameters. As shown in Tab. 8, SLE with DINOv2-B surpasses DINOv2-G by 2.9 on FC with roughly one-tenth of its model size, while SLE with DINOv2-L improves DINOv2-G by 3.8/1.9 on FC/BD with less than one-third of its size. Figure 5 confirms that these compact teachers also generate more correct pseudo-labels across categories. 
+
+Backbone Pre-SPM FLB mAP 50 
+
+ViT-B – – 51.8 ViT-L – – 54.5 SLE (ViT-B) – – 54.9 
+
+✓ – 58.5 – ✓ 56.8 
+
+✓ ✓ 59.9 SLE (ViT-L) ✓ ✓ 61.3 
+
+Table 7. SLE Adapter ablation on Cityscapes → Foggy Cityscapes. Pre-SPM and FLB denote a pretrained spatial prior module and fine-tuning the final DINOv2 block, respectively. 
+
+Backbone Model Size (M) mAP 50 
+
+FC BD 
+
+ViT-B 86 51.8 43.8 ViT-L 300 55.4 46.6 ViT-G 1,100 57.0 50.7 SLE (ViT-B) 108 59.9 49.9 SLE (ViT-L) 322 61.3 52.6 
+
+Table 8. DINOv2 model size and labeller performance on Foggy Cityscapes (FC) and BDD100K Daytime (BD). 
+
+## 5. Conclusion 
+
+We identified the spatial-scale discrepancy between VFM teachers and detection students as a source of semantic in-compatibility that limits feature alignment and pseudo-label learning. To address this problem, we proposed SLE-T, which combines SLE Adapter with pseudo-label learning or feature alignment. SLE Adapter injects local-texture pri-ors into DINOv2 and reformulates its features into dense, student-compatible representations while preserving pre-trained semantics. Experiments on three DAOD benchmarks demonstrate state-of-the-art performance, and the ablations validate the importance of teacher–student semantic compat-ibility and each SLE component. Moreover, SLE-enhanced DINOv2-B and DINOv2-L teachers provide competitive or superior target supervision with substantially lower training cost than DINOv2-G. These results establish SLE-T as an effective and efficient framework for VFM-based DAOD. 
+
+## References 
+
+Bai, Y., Wu, Y., Zhu, B., and Li, X. Contrastive-domain mean teacher for domain adaptive object detection. IEEE Transactions on Circuits and Systems for Video Technol-ogy , 2025. Cao, S., Joshi, D., Gui, L.-Y., and Wang, Y.-X. Contrastive mean teacher for domain adaptive object detectors. In 
+
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pp. 23839–23848, 2023. Chen, J., Liu, L., Deng, W., Liu, Z., Liu, Y., Wei, Y., and Liu, Y. Refining pseudo labeling via multi-granularity confidence alignment for unsupervised cross domain ob-ject detection. IEEE Transactions on Image Processing ,34:279–294, 2025a. Chen, L., Han, J., and Wang, Y. Datr: Unsupervised domain adaptive detection transformer with dataset-level adapta-tion and prototypical alignment. IEEE Transactions on Image Processing , 34:982–994, 2025b. Chen, M., Chen, W., Yang, S., Song, J., Wang, X., Zhang, L., Yan, Y., Qi, D., Zhuang, Y., Xie, D., et al. Learn-ing domain adaptive object detection with probabilistic teacher. arXiv preprint arXiv:2206.06293 , 2022. Chen, Y., Li, W., Sakaridis, C., Dai, D., and Van Gool, L. Domain adaptive faster r-cnn for object detection in the wild. In Proceedings of the IEEE conference on computer vision and pattern recognition , pp. 3339–3348, 2018. Cui, Y., Li, L., Yin, H., Gao, Y., Sheng, X., and Yan, C. Expert-teacher-student collaborative learning for do-main adaptive object detection. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 25557–25567, 2026. Deng, J., Xu, D., Li, W., and Duan, L. Harmonious teacher for cross-domain object detection. In Proceedings of the 
+
+8Submission and Formatting Instructions for ICML 2026 
+
+IEEE/CVF conference on computer vision and pattern recognition , pp. 23829–23838, 2023. Fahes, M., Vu, T.-H., Bursuc, A., P´ erez, P., and De Charette, R. Poda: Prompt-driven zero-shot domain adaptation. In 
+
+Proceedings of the IEEE/CVF international conference on computer vision , pp. 18623–18633, 2023. Gao, C., Liu, C., Dun, Y., and Qian, X. Csda: Learning category-scale joint feature for domain adaptive object detection. In Proceedings of the IEEE/CVF international conference on computer vision , pp. 11421–11430, 2023. Hao, Z., Guo, J., Han, K., Tang, Y., Hu, H., Wang, Y., and Xu, C. One-for-all: Bridge the gap between heteroge-neous architectures in knowledge distillation. Advances in Neural Information Processing Systems , 36:79570– 79582, 2023. He, B., Ji, Y., Tan, Z., and Wu, L. Diffusion domain teacher: Diffusion guided domain adaptive object detector. In 
+
+Proceedings of the 32nd ACM International Conference on Multimedia , pp. 3284–3293, 2024. He, B., Ji, Y., Tan, Z., and Wu, L. Boosting domain gener-alized and adaptive detection with diffusion models: Fit-ness, generalization, and transferability. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pp. 1912–1923, 2025a. He, B., Ji, Y., Ye, Q., Tan, Z., and Wu, L. Generalized diffusion detector: Mining robust features from diffusion models for domain-generalized detection. In Proceedings of the Computer Vision and Pattern Recognition Confer-ence , pp. 9921–9932, 2025b. He, M., Wang, Y., Wu, J., Wang, Y., Li, H., Li, B., Gan, W., Wu, W., and Qiao, Y. Cross domain object detection by target-perceived dual branch distillation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 9570–9580, 2022. He, X., Li, X., and Guo, X. Differential alignment for domain adaptive object detection. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 39, pp. 17150–17158, 2025c. Hoyer, L., Dai, D., Wang, H., and Van Gool, L. Mic: Masked image consistency for context-enhanced domain adaptation. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pp. 11721– 11732, 2023. Jiao, Y., Yao, H., and Xu, C. Dual instance-consistent network for cross-domain object detection. IEEE Trans-actions on Pattern Analysis and Machine Intelligence , 45 (6):7338–7352, 2022. Kennerley, M., Wang, J.-G., Veeravalli, B., and Tan, R. T. Cat: Exploiting inter-class dynamics for domain adaptive object detection. In Proceedings of the IEEE/CVF con-ference on computer vision and pattern recognition , pp. 16541–16550, 2024. Lavoie, M.-A., Mahmoud, A., and Waslander, S. L. Large self-supervised models bridge the gap in domain adap-tive object detection. In Proceedings of the Computer Vision and Pattern Recognition Conference , pp. 4692– 4702, 2025. Li, H., Zhang, R., Yao, H., Zhang, X., Hao, Y., Song, X., and Li, L. React: Remainder adaptive compensation for domain adaptive object detection. IEEE Transactions on Image Processing , 33:3735–3748, 2024. Li, W., Liu, X., Yao, X., and Yuan, Y. Scan: Cross domain object detection with semantic conditioned adaptation. In 
+
+Proceedings of the AAAI Conference on Artificial Intelli-gence , volume 36, pp. 1421–1428, 2022a. Li, W., Liu, X., and Yuan, Y. Sigma: Semantic-complete graph matching for domain adaptive object detection. In 
+
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pp. 5291–5300, 2022b. Li, Y.-J., Dai, X., Ma, C.-Y., Liu, Y.-C., Chen, K., Wu, B., He, Z., Kitani, K., and Vajda, P. Cross-domain adap-tive teacher for object detection. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pp. 7581–7590, 2022c. Liu, X., Li, W., Yang, Q., Li, B., and Yuan, Y. Towards robust adaptive object detection under noisy annotations. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pp. 14207–14216, 2022. Oquab, M., Darcet, T., Moutakanni, T., Vo, H., Szafraniec, M., Khalidov, V., Fernandez, P., Haziza, D., Massa, F., El-Nouby, A., et al. Dinov2: Learning robust visual features without supervision. arXiv preprint arXiv:2304.07193 ,2023. Shu, C., Liu, Y., Gao, J., Yan, Z., and Shen, C. Channel-wise knowledge distillation for dense prediction. In Pro-ceedings of the IEEE/CVF international conference on computer vision , pp. 5311–5320, 2021. Sikdar, A., Kishor, A., Kadam, I., and Sundaram, S. Picazo: Pixel-aligned contrastive learning for zero-shot domain adaptation. In Proceedings of the Computer Vision and Pattern Recognition Conference , pp. 6534–6544, 2025. Sim´ eoni, O., Vo, H. V., Seitzer, M., Baldassarre, F., Oquab, M., Jose, C., Khalidov, V., Szafraniec, M., Yi, S., Ramamonjisoa, M., et al. Dinov3. arXiv preprint arXiv:2508.10104 , 2025. 9Submission and Formatting Instructions for ICML 2026 
+
+Vidit, V., Engilberge, M., and Salzmann, M. Clip the gap: A single domain generalization approach for object de-tection. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pp. 3219–3229, 2023. Yang, S., Tian, Z., Jiang, L., and Jia, J. Unified language-driven zero-shot domain adaptation. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pp. 23407–23415, 2024. Yang, Z., Li, Z., Jiang, X., Gong, Y., Yuan, Z., Zhao, D., and Yuan, C. Focal and global knowledge distillation for detectors. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pp. 4643–4652, 2022. Zhang, X., Wei, F., Wang, Y., Zhao, W., Li, F., and Chu, X. Upre: Zero-shot domain adaptation for object detection via unified prompt and representation enhancement. In 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision , pp. 508–518, 2025. Zhou, W., Du, D., Zhang, L., Luo, T., and Wu, Y. Multi-granularity alignment domain adaptation for object de-tection. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pp. 9581–9590, 2022. Zhou, W., Fan, H., Luo, T., and Zhang, L. Unsupervised domain adaptive detection with network stability analysis. In Proceedings of the IEEE/CVF International Confer-ence on Computer Vision , pp. 6986–6995, 2023. 10 Submission and Formatting Instructions for ICML 2026 
+
+## A. Pseudo code of SLE Teacher. 
+
+Algorithm 1 summarizes the Semantic Localization-Enhanced Teacher (SLE-T) framework. For clarity, Inj and Ext denote the deformable-attention operations in the Injector and Extractor, respectively. 
+
+Algorithm 1 SLE Teacher 
+
+Require: Ds, Dt; transfer route r ∈ { PL , FA }; pretrained DINOv2 G and VGG encoder E
+
+Ensure: Adapted student detector fθ 
+
+> 1:
+
+Initialize SPM, Inj , Ext , ConvFFN, and detection head h 
+
+> 2:
+
+Freeze all DINOv2 blocks except the final block GL 
+
+> 3:
+
+for each source mini-batch (Xs, B s, Y s) do  
+
+> 4:
+
+P16 ← Flatten(Conv 1×1(E(16) (Xs)))  
+
+> 5:
+
+ZD ← G<L (Xs) 
+
+> 6:
+
+ZI ← ZD + γI Inj(LN( ZD ), LN( P16 ))  
+
+> 7:
+
+Z+ 
+
+> D
+
+← LN D (GL(ZI ))  
+
+> 8:
+
+T0 ← P16 + Ext(LN( P16 ), LN( Z+ 
+
+> D
+
+))  
+
+> 9:
+
+T ← T0 + ConvFFN(LN( T0), H 16 , W 16 ) 
+
+> 10:
+
+FSLE  
+
+> T
+
+← Reshape( T) + Interp(Reshape( Z+ 
+
+> D
+
+), H 16 , W 16 ) 
+
+> 11:
+
+Lteacher ← L det  
+
+> S
+
+(h(FSLE  
+
+> T
+
+), B s, Y s) 
+
+> 12:
+
+Update all unfrozen parameters using ∇L teacher  
+
+> 13:
+
+end for  
+
+> 14:
+
+Freeze the trained SLE-enhanced teacher gSLE  
+
+> 15:
+
+if r = PL then  
+
+> 16:
+
+Generate ( ˜Bt, ˜Yt) ← gSLE (Xt) 
+
+> 17:
+
+for each source–target mini-batch do  
+
+> 18:
+
+L ← L det  
+
+> S
+
++ λunsup Ldet  
+
+> T
+> 19:
+
+Update θ using ∇θ L 
+
+> 20:
+
+end for  
+
+> 21:
+
+else  
+
+> 22:
+
+Set BA ← B S initially and BS ∪ B T later  
+
+> 23:
+
+for each source and alignment mini-batch do  
+
+> 24:
+
+L ← L det  
+
+> S
+
++ λsim 
+
+> |B A|
+
+P 
+
+> X∈B A
+
+∥ϕlin (FS (X)) − sg( FSLE  
+
+> T
+
+(X)) ∥1 
+
+> 25:
+
+Update {θ, ϕ lin } using ∇L  
+
+> 26:
+
+end for  
+
+> 27:
+
+end if  
+
+> 28:
+
+return fθ
+
+## B. Instantiate SLE-T with DINOv3 
+
+To evaluate the extensibility of SLE-T beyond DINOv2, we instantiate its SLE-enhanced teacher with DINOv3-B (Sim´ eoni et al., 2025). We replace the DINOv2 backbone while retaining the SLE Adapter and training protocol, and evaluate the resulting labeller on all target domains. Table 9 shows that DINOv3-B closely matches DINOv2-B on FC and BD, with differences of only 0.4 and 0.2 points, while improving all four ACDC conditions by 0.9–2.7 points. It also outperforms the larger DINOv2-G on five of the six target domains, including gains of 7.4, 6.7, and 8.4 points on ACDC fog, rain, and snow, respectively. DINOv2-L remains stronger on FC, BD, night, and snow, whereas DINOv3-B achieves the best fog and rain results. These results demonstrate that SLE-T generalizes across DINO generations, although its performance remains backbone- and domain-dependent. 
+
+## C. Interaction Between Feature Alignment and Pseudo-Label Learning 
+
+Table 10 shows no synergistic gain from jointly applying feature alignment (FA) and pseudo-label learning (PL). Compared with PL alone, their combination reduces mAP 50 by 0.7 points for DINO Teacher and 1.4 points for SLE-T. One possible explanation is that FA enforces dense matching to fixed teacher representations, including background and domain-specific 11 Submission and Formatting Instructions for ICML 2026 
+
+Model FC BD ACDC Fog Night Rain Snow 
+
+DINOv2-G 57.0 50.7 65.9 36.4 45.8 52.0 SLE-enhanced DINOv2-B 59.9 49.9 72.4 36.5 49.8 60.0 SLE-enhanced DINOv2-L 61.3 52.6 70.5 38.7 48.2 60.5 
+
+SLE-enhanced DINOv3-B 59.5 49.7 73.3 37.6 52.5 60.4  
+
+> Table 9. Labeller performance ( mAP 50 , %) with different backbones on Foggy Cityscapes (FC), BDD100K Daytime (BD), and ACDC.
+
+cues, whereas PL directly optimizes target localization and classification from selected predictions. Under a shared weighting and training schedule, these objectives may produce competing gradients that restrict task-specific adaptation. We therefore use the PL route of SLE-T as the final configuration and leave conflict-aware joint optimization to future work. 
+
+Method FA Pse mAP 50 
+
+Baseline (VGG3) – – 38.7 Baseline (VGG4) – – 40.1 DINO Teacher 
+
+✓ – 42.6 – ✓ 53.2 
+
+✓ ✓ 52.5 SLE Teacher (Ours) 
+
+✓ – 48.9 – ✓ 57.4 
+
+✓ ✓ 56.0  
+
+> Table 10. Ablation study of feature alignment and pseudo-label learning with different teacher models on Foggy Cityscapes. All experiments use pseudo labels generated by SLE-enhanced Dinov2-B.
+
+## D. Visualization 
+
+Figure 6 compares student detections produced by DT and SLE-T under dense fog. Compared with DT, SLE-T recovers more small and distant objects, including car in low-visibility regions, persons in the second scene, and crowded road person in the third scene. Its predictions also more closely match the GT in the fourth scene, where DT misses several distant vehicles. These examples suggest that the local cues introduced by SLE Adapter improve the completeness of target pseudo-labels and help the student retain localization-sensitive details, although occasional false positives remain. 
+
+## E. Accuracy–Model Size Trade-off 
+
+Figure 7 visualizes the accuracy–size trade-off reported in the corresponding table of the main paper. Adding SLE Adapter shifts DINOv2-B and DINOv2-L substantially upward with only 22M additional parameters, improving FC/BD by 8.1/6.1 and 5.4/6.0 points, respectively. With 108M parameters, SLE-B outperforms the 1,100M-parameter DINOv2-G by 2.9 points on FC and remains within 0.8 points on BD. SLE-L further surpasses DINOv2-G by 3.8 and 1.9 points on FC and BD while using less than one-third of its parameters. The visualization therefore highlights that the gains arise from more effective adaptation rather than simply increasing backbone capacity. 
+
+## F. Class-wise performance of ACDC Results 
+
+The main paper reports condition-wise mAP 50 on ACDC, showing that both SLE-T variants outperform DT under fog, night, rain, and snow. To identify the categories driving these aggregate improvements, Table 11 provides the corresponding class-wise results. Both SLE-T variants generally improve person and car detection across adverse conditions, indicating more robust recognition of common road users. The gains are particularly pronounced for bus and motor under fog and for person, 12 Submission and Formatting Instructions for ICML 2026 DT SLE-T (ViT-L)  Image GT  
+
+> Figure 6. Qualitative detection results on Foggy Cityscapes. From top to bottom, the rows show the input image, predictions from DINO Teacher (DT), predictions from SLE-T instantiated with DINOv2-L, and ground truth (GT).
+
+rider, and motor under snow. Under rain, SLE-T with ViT-L improves rider and truck AP by 28.4 and 23.8 points over DT, respectively, which largely explains its 9.5-point mAP gain. The two model scales remain complementary: ViT-B is stronger for rider under fog and night and for truck under snow, whereas ViT-L performs better for motor under fog and snow and for rider and truck under rain. Performance on less frequent classes, such as train, motor, and bicycle, still varies across conditions, suggesting sensitivity to condition-specific sample scarcity. Overall, the class-wise results explain the condition-level trends in the main paper: the modest night gains are distributed across a few categories, whereas the larger rain and snow improvements arise from substantial gains on several difficult road-user classes. 13 Submission and Formatting Instructions for ICML 2026 50 54 58 62  
+
+> 100 1,000
+> Foggy Cityscapes (FC)
+> 300
+
+mAP50 
+
+> DINOv2-B 51.8 SLE-B 59.9 DINOv2-L 55.4 SLE-L 6 1.3
+> DINOv2-G 57.0
+
+42 46 50 54  
+
+> 100 1,000
+> BDD100K Daytime (BD)
+> 300
+
+mAP50 
+
+> DINOv2-B 43.8 SLE-B 49.9 DINOv2-L 46.6 SLE-L 52.6 DINOv2-G 50.7
+
+DINOv2 SLE-enhanced 
+
+Parameters (M, log scale) Parameters (M, log scale)  
+
+> Figure 7. Labeller performance versus model size on Foggy Cityscapes (FC) and BDD100K Daytime (BD). The parameter axis uses a logarithmic scale.
+
+Weather Condition Method Person Rider Car Truck Bus Train Motor Bicycle mAP 
+
+Fog DT (ViT-G) 59.9 62.0 78.6 40.0 81.8 70.1 36.5 67.5 62.0 SLE-T (ViT-B) 64.9 70.6 83.5 33.5 100.0 63.6 44.2 69.8 66.3 
+
+SLE-T (ViT-L) 68.6 59.0 84.1 41.8 97.0 63.6 47.0 66.8 66.0 Night DT (ViT-G) 37.1 21.2 58.1 35.6 – 40.8 24.3 15.7 33.3 SLE-T (ViT-B) 40.4 35.5 57.2 30.9 – 45.2 24.2 10.8 34.9 SLE-T (ViT-L) 39.0 30.6 59.3 37.6 – 47.7 19.4 13.0 35.2 
+
+Rain DT (ViT-G) 43.6 1.7 72.7 28.7 35.7 30.4 54.2 0.4 33.4 SLE-T (ViT-B) 50.1 15.1 78.1 41.6 39.3 33.7 50.9 1.6 38.8 SLE-T (ViT-L) 48.7 30.1 78.5 52.5 37.0 38.9 53.5 4.2 42.9 
+
+Snow DT (ViT-G) 44.6 54.5 69.6 51.3 24.5 66.8 49.0 34.5 49.4 SLE-T (ViT-B) 54.7 54.5 77.3 57.6 25.0 65.4 61.0 48.7 55.5 SLE-T (ViT-L) 54.9 67.5 77.9 46.5 30.7 58.4 69.6 40.4 55.7    
+
+> Table 11. Class-wise performance of the Cityscapes →ACDC results reported in the main paper ( AP 50 , %).
+
+14

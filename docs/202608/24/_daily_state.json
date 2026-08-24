@@ -1,0 +1,73 @@
+{
+  "date": "20260824",
+  "date_label": "",
+  "generated_at": "2026-08-24 20:19:07 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.20478v1",
+      "route": "202608/24/2608.20478v1-endolift-language-disambiguated-latent-conditioned-rectified-flow-for-bidirectional-endoscopic-control",
+      "title": "EndoLIFT: Language-Disambiguated Latent-Conditioned Rectified Flow for Bidirectional Endoscopic Control",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "基于语言消歧的视觉-语言-动作策略，通过自然语言指令控制内窥镜运动",
+      "first_seen_at": "2026-08-24 20:19:07 UTC",
+      "updated_at": "2026-08-24 20:19:07 UTC"
+    },
+    {
+      "paper_id": "2608.21175v1",
+      "route": "202608/24/2608.21175v1-srl-mpc-shape-aware-reinforcement-learned-model-predictive-control",
+      "title": "SRL-MPC: Shape-Aware Reinforcement Learned Model Predictive Control",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "提出形状感知的强化学习MPC，用于异质人群中的安全导航，属具身导航方法",
+      "first_seen_at": "2026-08-24 20:19:07 UTC",
+      "updated_at": "2026-08-24 20:19:07 UTC"
+    },
+    {
+      "paper_id": "2608.16229v1",
+      "route": "202608/24/2608.16229v1-planner-conditioned-diffusion-for-coordinated-multi-agent-exploration",
+      "title": "Planner-Conditioned Diffusion for Coordinated Multi-Agent Exploration",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "基于扩散的长时间轨迹规划用于协调式多智能体探索",
+      "first_seen_at": "2026-08-24 20:19:07 UTC",
+      "updated_at": "2026-08-24 20:19:07 UTC"
+    },
+    {
+      "paper_id": "2608.20916v1",
+      "route": "202608/24/2608.20916v1-semantically-compatible-knowledge-distillation-for-cross-domain-object-detection-with-vision-foundation-models",
+      "title": "Semantically Compatible Knowledge Distillation for Cross-Domain Object Detection with Vision Foundation Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "跨域目标检测方法可用于物体目标导航的目标定位",
+      "first_seen_at": "2026-08-24 20:19:07 UTC",
+      "updated_at": "2026-08-24 20:19:07 UTC"
+    }
+  ]
+}

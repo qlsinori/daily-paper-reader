@@ -1,0 +1,194 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-24T20:16:19.328561+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 0,
+    "deep_cap": 8,
+    "deep_selected": 0,
+    "quick_candidates": 4,
+    "quick_skim_target": 13,
+    "quick_selected": 4
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2608.20478v1",
+      "source": "arxiv",
+      "title": "EndoLIFT: Language-Disambiguated Latent-Conditioned Rectified Flow for Bidirectional Endoscopic Control",
+      "abstract": "Routine gastrointestinal endoscopy is intrinsically bidirectional: the instrument is advanced to reach target anatomy and later withdrawn or retroflexed for inspection, while an external cue may require earlier reversal. When the requested phase changes before the visual scene does, nearly identical observations can require opposite axial actions. We identify and formalize this ambiguity in bidirectional endoscopic control as intent aliasing. We propose EndoLIFT (Endoscopic Language-Instruction Flow with Trajectory Latents), a vision-language-action policy that combines explicit language-based intent conditioning with a latent-conditioned rectified-flow action expert. The policy receives RGB, a language instruction, and the previous-action state; a 32-D variational trajectory latent stochastically conditions continuous action-chunk generation. Controlled same-observation instruction swaps establish that language selects the axial mode, independently of whether the trajectory latent is present. Relative to the matched model without latent conditioning, EndoLIFT improves navigation-direction accuracy by 11.1 percentage points and reduces wrong-direction advance by 83\\%. An architecture-controlled 1-bit mode-flag reference exhibits weaker canonical-anchor switching, while EndoLIFT retains 82.8\\% intent-following accuracy across 44 held-out linguistic variants. In closed-loop evaluation, EndoLIFT improves overall success by 30 percentage points over EndoLIFT w/o VTL on both the seen colon phantom and the unseen lung and stomach phantoms, and completes 10/10 ex-vivo porcine-trachea trials. These results separate language-based intent selection from the trajectory latent's contribution to directional correctness and robust retraction.",
+      "authors": [
+        "Chi Kit Ng",
+        "Yidong Zhang",
+        "Lui Siu Hing",
+        "Jinsong Lin",
+        "Tianchun Wu",
+        "Ho Yin Chim",
+        "Zhiqing Tang",
+        "Tao Yang",
+        "Huxin Gao",
+        "Trevor Yeung",
+        "Raymond Shing-Yan Tang",
+        "Hongliang Ren"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-20T18:09:52+00:00",
+      "link": "https://arxiv.org/pdf/2608.20478v1",
+      "tags": [
+        "keyword:embodied-nav"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "language-disambiguated vision-language-action policy for bidirectional endoscopic control follows natural language instructions",
+      "llm_evidence_cn": "基于语言消歧的视觉-语言-动作策略，通过自然语言指令控制内窥镜运动",
+      "llm_evidence": "基于语言消歧的视觉-语言-动作策略，通过自然语言指令控制内窥镜运动",
+      "canonical_evidence": "基于语言消歧的视觉-语言-动作策略，通过自然语言指令控制内窥镜运动",
+      "llm_tldr_en": "EndoLIFT is a vision-language-action policy using language instructions and latent-conditioned rectified flow to control bidirectional endoscopy, addressing intent aliasing.",
+      "llm_tldr_cn": "该论文针对双向内窥镜控制中视听相同但轴向动作相反的任务混淆问题，提出EndoLIFT方法。方法结合显式语言意图条件和隐变量条件化的整流流动作专家，将视觉观测与语言指令映射为轴动作。实验表明该方法能有效消除意图歧义，实现准确的双向控制。这为视觉语言导航中语言引导的决策提供了可迁移的建模思路。",
+      "llm_tldr": "该论文针对双向内窥镜控制中视听相同但轴向动作相反的任务混淆问题，提出EndoLIFT方法。方法结合显式语言意图条件和隐变量条件化的整流流动作专家，将视觉观测与语言指令映射为轴动作。实验表明该方法能有效消除意图歧义，实现准确的双向控制。这为视觉语言导航中语言引导的决策提供了可迁移的建模思路。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "vision language navigation following natural language instructions",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.16229v1",
+      "source": "arxiv",
+      "title": "Planner-Conditioned Diffusion for Coordinated Multi-Agent Exploration",
+      "abstract": "Coordinated multi-agent exploration requires not only efficient individual coverage but also non-redundant coverage across agents over extended planning horizons. Conventional approaches rely on hand-crafted coordination rules, while end-to-end multi-agent learning methods are difficult to scale and train. Diffusion-based planners such as DARE offer a promising alternative by generating long-horizon trajectories instead of single-step actions, but existing methods are trained on a narrow planner distribution, limiting behavioral diversity and inference-time controllability. We propose a Planner-Conditioned Diffusion Policy (PCDP) for graph-based multi-agent exploration. PCDP is trained on demonstrations from multiple planner styles with planner identity as an explicit conditioning input, enabling a single shared model to learn a multimodal trajectory distribution and generate diverse, controllable trajectory candidates from the same observation. Rather than learning coordination end-to-end, we reuse this multimodal single-agent policy across all agents and introduce coordination through local reranking, in which nearby agents jointly select the trajectory combination with minimal predicted overlap. We evaluate PCDP against classical and diffusion-based baselines on 100 held-out maps in a four-agent simulation setting. PCDP matches the perfect success rate of the diffusion-based baselines while improving mean max-agent travel, total team travel, and agent imbalance. Crucially, reranking alone over a single-planner baseline yields only marginal gains, indicating that planner-conditioned multimodality is the main contributor to improved coordination. Qualitative simulation results and real-robot experiments with two agents further validate that diverse long-horizon trajectory generation produces emergent spatial separation between agents without any explicit repulsion mechanism.",
+      "authors": [
+        "Marcus Yu Siong Teo",
+        "Jeric Lew",
+        "Tanishq Duhan",
+        "Guillaume Sartoretti"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-17T08:07:20+00:00",
+      "link": "https://arxiv.org/pdf/2608.16229v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "diffusion-based long-horizon trajectory planning for coordinated multi-agent exploration",
+      "llm_evidence_cn": "基于扩散的长时间轨迹规划用于协调式多智能体探索",
+      "llm_evidence": "基于扩散的长时间轨迹规划用于协调式多智能体探索",
+      "canonical_evidence": "基于扩散的长时间轨迹规划用于协调式多智能体探索",
+      "llm_tldr_en": "Proposes Planner-Conditioned Diffusion Policy (PCDP) for graph-based coordinated multi-agent exploration, generating long-horizon trajectories conditioned on planner identity, improving behavioral diversity and controllability over prior diffusion planners.",
+      "llm_tldr_cn": "协调多智能体探索要求长时间内高效且不重叠地覆盖环境，现有扩散规划器在狭窄规划器分布上训练，行为多样性与可控性受限。本文提出规划器条件扩散策略（PCDP），在图像化环境中基于多种规划器演示训练，并利用规划器身份进行条件生成。实验表明PCDP提升了多智能体探索行为的多样性与推理时可控性，为具身导航中的长时程规划提供了新思路。",
+      "llm_tldr": "协调多智能体探索要求长时间内高效且不重叠地覆盖环境，现有扩散规划器在狭窄规划器分布上训练，行为多样性与可控性受限。本文提出规划器条件扩散策略（PCDP），在图像化环境中基于多种规划器演示训练，并利用规划器身份进行条件生成。实验表明PCDP提升了多智能体探索行为的多样性与推理时可控性，为具身导航中的长时程规划提供了新思路。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.21175v1",
+      "source": "arxiv",
+      "title": "SRL-MPC: Shape-Aware Reinforcement Learned Model Predictive Control",
+      "abstract": "Safe and efficient shape-aware navigation in heterogeneous crowds and robot fleets remains challenging. Traditional approaches often assume homogeneous robots, sparse workspaces, simplified geometry, offline computation, or handcrafted parameters to make the problem tractable, which limits their deployment in dense crowd scenarios. Toward this end, we propose Shape-Aware Reinforcement Learned Model Predictive Control (SRL-MPC), a method for safe, efficient, and adaptive navigation in crowds with heterogeneous shapes without geometry simplification. To encode shape-aware safety, we formulate high-order control barrier function (HOCBF) constraints from geometric separation features (GSFs) based on support function transformation. A reinforcement learning (RL) framework then learns a neural policy that reads GSFs and outputs real-time MPC parameter updates, enabling the MPC solver to adapt to neighboring crowd geometries. The key advantage of SRL-MPC is that it preserves the safety structure and generalizability of MPC while integrating the adaptability and intelligence of RL. Experiments in randomized crowd scenarios with arbitrary shaped robot fleets demonstrate the effectiveness, scalability, and robustness of SRL-MPC. The results show that SRL-MPC substantially outperforms representative baselines in safety and adaptability. Project website: https://hanruihua.github.io/srl_mpc_project/",
+      "authors": [
+        "Ruihua Han",
+        "Rui Gao",
+        "Zhe Liu",
+        "Xinyi Wang",
+        "Chang Chen",
+        "Shuai Wang",
+        "Qi Hao",
+        "Jia Pan",
+        "Hengshuang Zhao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-21T14:46:06+00:00",
+      "link": "https://arxiv.org/pdf/2608.21175v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proposes shape-aware RL-MPC for safe navigation in heterogeneous crowds, an embodied navigation method",
+      "llm_evidence_cn": "提出形状感知的强化学习MPC，用于异质人群中的安全导航，属具身导航方法",
+      "llm_evidence": "提出形状感知的强化学习MPC，用于异质人群中的安全导航，属具身导航方法",
+      "canonical_evidence": "提出形状感知的强化学习MPC，用于异质人群中的安全导航，属具身导航方法",
+      "llm_tldr_en": "Crowd navigation often simplifies geometry; SRL-MPC combines reinforcement learning with MPC, constructing high-order control barrier functions from geometric separation features to achieve shape-aware safe navigation in dense heterogeneous crowds without simplification.",
+      "llm_tldr_cn": "在密集异质人群与机器人编队中，传统导航方法常简化为均匀形状和稀疏环境，难以兼顾安全与效率。本文提出SRL-MPC，将强化学习与模型预测控制结合，利用支撑函数变换得到几何分离特征，构建高阶控制障碍函数约束以编码形状安全。方法无需简化几何，能自适应地完成人群中的安全高效导航。实验表明其在密集场景下可显著提升安全性和适应性，为具身机器人在复杂动态环境中的导航提供了新思路。",
+      "llm_tldr": "在密集异质人群与机器人编队中，传统导航方法常简化为均匀形状和稀疏环境，难以兼顾安全与效率。本文提出SRL-MPC，将强化学习与模型预测控制结合，利用支撑函数变换得到几何分离特征，构建高阶控制障碍函数约束以编码形状安全。方法无需简化几何，能自适应地完成人群中的安全高效导航。实验表明其在密集场景下可显著提升安全性和适应性，为具身机器人在复杂动态环境中的导航提供了新思路。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.20916v1",
+      "source": "arxiv",
+      "title": "Semantically Compatible Knowledge Distillation for Cross-Domain Object Detection with Vision Foundation Models",
+      "abstract": "Vision foundation models (VFMs) offer strong generalization capabilities for domain-adaptive object detection (DAOD). However, existing VFM-based methods overlook the spatial-scale discrepancy between teacher and student feature maps, resulting in semantic incompatibility that weakens both feature alignment and pseudo-label learning. Moreover, domain shift can cause source-trained VFM teachers to miss target-domain objects, limiting the quality of their pseudo-labels. To address these issues, we propose the Semantic Localization-Enhanced Teacher (SLE-T), a semantically compatible knowledge-distillation framework built around a lightweight SLE Adapter for DINOv2. SLE Adapter injects pretrained local-texture priors into DINOv2 to improve cross-domain recognition and reformulates its features into dense representations that are spatially and semantically compatible with the student detector. SLE-T transfers the resulting teacher knowledge through either pseudo-label learning or feature alignment. We instantiate SLE-T with DINOv2-B and DINOv2-L (the ViT-B and ViT-L variants) and compare them with the larger DINOv2-G teacher. Extensive experiments on three DAOD benchmarks demonstrate that our method achieves state-of-the-art performance, and ablation studies confirm the importance of teacher-student semantic compatibility. Notably, SLE-T with DINOv2-B produces competitive or superior pseudo-labels using approximately one-quarter of the training time of DINOv2-G and substantially less GPU memory, demonstrating efficient VFM knowledge transfer under limited computational resources.",
+      "authors": [
+        "Qifeng Zhang",
+        "Ting Xiang",
+        "Zeyuan Bai",
+        "Changjian Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-08-21T09:36:02+00:00",
+      "link": "https://arxiv.org/pdf/2608.20916v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "cross-domain object detection for locating target object category",
+      "llm_evidence_cn": "跨域目标检测方法可用于物体目标导航的目标定位",
+      "llm_evidence": "跨域目标检测方法可用于物体目标导航的目标定位",
+      "canonical_evidence": "跨域目标检测方法可用于物体目标导航的目标定位",
+      "llm_tldr_en": "Proposes SLE-T, a semantically compatible knowledge-distillation framework that injects local-texture priors into DINOv2 via an SLE Adapter for cross-domain object detection, improving pseudo-labeling and feature alignment.",
+      "llm_tldr_cn": "论文针对跨域目标检测中师生特征图尺度不一致导致语义不兼容、教师容易漏检目标域物体的问题，提出SLE-T框架。该方法在DINOv2上附加轻量级SLE适配器，注入预训练局部纹理先验，通过语义兼容的知识蒸馏改进特征对齐与伪标签学习。实验表明SLE-T在跨域检测基准上取得明显性能提升。该技术可作为物体目标导航中目标类别定位的感知基础。",
+      "llm_tldr": "论文针对跨域目标检测中师生特征图尺度不一致导致语义不兼容、教师容易漏检目标域物体的问题，提出SLE-T框架。该方法在DINOv2上附加轻量级SLE适配器，注入预训练局部纹理先验，通过语义兼容的知识蒸馏改进特征对齐与伪标签学习。实验表明SLE-T在跨域检测基准上取得明显性能提升。该技术可作为物体目标导航中目标类别定位的感知基础。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

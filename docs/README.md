@@ -41,7 +41,7 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-08-15 ~ 2026-08-24</span>
+      <span class="dpr-home-dashboard-kicker">2026-08-24</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
     <strong class="dpr-home-dashboard-count">共 4 篇</strong>
@@ -51,7 +51,7 @@
     <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>0</dd></div>
     <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>4</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-08-24 02:54:26 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-08-24 20:19:07 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,9 +62,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日共速读4篇论文，覆盖视觉-语言-动作模型、LiDAR SLAM及视觉地点识别数据集。</p>
-<p>最值得关注的是《Logic-VLA》，用时序逻辑条件增强机器人动作生成，得分7.0，适合关注具身智能的朋友。</p>
-<p>建议优先了解VLA方向，并抽空精读该文以判断是否值得复现或扩展。</p>
+<p>今日共筛选4篇论文，速读3篇，无精读；重点集中在医疗内镜控制、机器人预测控制与多智能体探索三个方向。</p>
+<p>最值得关注的是7.0分的内镜双向控制（LIFT）与形状感知强化模型预测控制（SRL-MPC），前者用语言消歧提升内镜操作精度，后者结合形状感知增强控制鲁棒性。</p>
+<p>建议优先精读这两篇高分论文，并关注其方法在手术机器人与自动化操作中的落地潜力。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -89,9 +89,9 @@
     <strong class="dpr-home-dashboard-count">4 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Logic-VLA: A Temporal Logic Conditioned Vision-Language-Action Model">Logic-VLA: A Temporal Logic Conditioned Vision-Language-Action Model</span></li><li><span class="dpr-home-dashboard-paper-title" title="HP2-SLAM: Adaptive Hybrid ICP for Robust and Efficient LiDAR SLAM">HP2-SLAM: Adaptive Hybrid ICP for Robust and Efficient LiDAR SLAM</span></li><li><span class="dpr-home-dashboard-paper-title" title="YILDIZ-VPR: A Novel Dataset with Dense Coverage Under Diverse Environmental Conditions for Visual Place Recognition">YILDIZ-VPR: A Novel Dataset with Dense Coverage Under Diverse Environmental Conditions for Visual Place Recognition</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="EndoLIFT: Language-Disambiguated Latent-Conditioned Rectified Flow for Bidirectional Endoscopic Control">EndoLIFT: Language-Disambiguated Latent-Conditioned Rectified Flow for Bidirectional Endoscopic Control</span></li><li><span class="dpr-home-dashboard-paper-title" title="SRL-MPC: Shape-Aware Reinforcement Learned Model Predictive Control">SRL-MPC: Shape-Aware Reinforcement Learned Model Predictive Control</span></li><li><span class="dpr-home-dashboard-paper-title" title="Planner-Conditioned Diffusion for Coordinated Multi-Agent Exploration">Planner-Conditioned Diffusion for Coordinated Multi-Agent Exploration</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>2</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>2</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>4</strong></span></div>
 </section>
 </div>
 
