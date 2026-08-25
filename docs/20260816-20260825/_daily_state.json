@@ -1,0 +1,185 @@
+{
+  "date": "20260816-20260825",
+  "date_label": "2026-08-16 ~ 2026-08-25",
+  "generated_at": "2026-08-25 12:34:00 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.21878v1",
+      "route": "20260816-20260825/2608.21878v1-vismoe-visual-aware-sparse-mixture-of-experts-for-embodied-referring-expression-grounding",
+      "title": "ViSMoE: Visual-Aware Sparse Mixture-of-Experts for Embodied Referring Expression Grounding",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "基于自然语言指令的具身导航与目标定位",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    },
+    {
+      "paper_id": "2608.22678v1",
+      "route": "20260816-20260825/2608.22678v1-raco-reliability-aware-coarse-goal-optimization-for-inspection-oriented-uav-vision-language-navigation",
+      "title": "RACO: Reliability-Aware Coarse-Goal Optimization for Inspection-Oriented UAV Vision-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向UAV视觉语言导航的可靠性感知优化",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    },
+    {
+      "paper_id": "2608.22896v1",
+      "route": "20260816-20260825/2608.22896v1-supermap-a-spatio-temporal-slam-system-for-visual-language-navigation",
+      "title": "SuperMap: A Spatio-Temporal SLAM System for Visual-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向视觉语言导航的时空语义SLAM系统，直接命中语言引导导航与语义建图需求。",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    },
+    {
+      "paper_id": "2608.23055v1",
+      "route": "20260816-20260825/2608.23055v1-macro-action-topological-navigation-under-noisy-localization-using-reinforcement-learning",
+      "title": "Macro-Action Topological Navigation under Noisy Localization using Reinforcement Learning",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "在三维公寓中探索并到达多个目标物体",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    },
+    {
+      "paper_id": "2608.23354v1",
+      "route": "20260816-20260825/2608.23354v1-optisight-bridging-semantic-reasoning-and-geometric-control-for-embodied-navigation",
+      "title": "OptiSight: Bridging Semantic Reasoning and Geometric Control for Embodied Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "在AI Habitat中融合VLM推理与几何控制的具身导航",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    },
+    {
+      "paper_id": "2608.22869v1",
+      "route": "20260816-20260825/2608.22869v1-unimem-unifying-multimodal-memory-and-control-for-vision-language-action-models",
+      "title": "UniMem: Unifying Multimodal Memory and Control for Vision-Language-Action Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "为视觉-语言-动作模型提供统一多模态记忆，针对具身智能体的长期记忆而非特指导航。",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    },
+    {
+      "paper_id": "2608.22971v1",
+      "route": "20260816-20260825/2608.22971v1-parallelworld-test-time-scaling-for-embodied-reasoning",
+      "title": "ParallelWorld: Test-Time Scaling for Embodied Reasoning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向空间探索的具身推理，与具身导航相关",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    },
+    {
+      "paper_id": "2608.15788v1",
+      "route": "20260816-20260825/2608.15788v1-chainspace-a-chained-reasoning-paradigm-for-spatial-intelligence",
+      "title": "ChainSpace: A Chained-Reasoning Paradigm for Spatial Intelligence",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "提出保持空间状态的链式推理基准，支持具身导航的空间理解",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    },
+    {
+      "paper_id": "2608.21440v1",
+      "route": "20260816-20260825/2608.21440v1-geo-vla-geometry-aware-vision-language-action-planning-via-internalization-of-map-semantics",
+      "title": "Geo-VLA: Geometry-Aware Vision-Language-Action Planning via Internalization of Map Semantics",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "自动驾驶中内化几何地图语义以增强VLA规划",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    },
+    {
+      "paper_id": "2608.22035v1",
+      "route": "20260816-20260825/2608.22035v1-ludiscriptscriptstyle-01-an-agentic-system-for-socially-intelligent-robots",
+      "title": "Ludi${}_{\\scriptscriptstyle 0.1}$: An Agentic System for Socially Intelligent Robots",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "具身机器人智能体系统，整合记忆、导航与多模态推理，核心为视觉语言模型",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    },
+    {
+      "paper_id": "2608.22296v1",
+      "route": "20260816-20260825/2608.22296v1-tonav-task-oriented-navigation-and-action-velocity-chunk-learning-for-articulated-object-quadrupedal-mobile-manipulation",
+      "title": "TONAV: Task-Oriented Navigation and Action-Velocity Chunk Learning for Articulated Object Quadrupedal Mobile Manipulation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向操作准备位姿的任务导向导航",
+      "first_seen_at": "2026-08-25 12:34:00 UTC",
+      "updated_at": "2026-08-25 12:34:00 UTC"
+    }
+  ]
+}

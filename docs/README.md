@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-08-24</span>
+      <span class="dpr-home-dashboard-kicker">2026-08-16 ~ 2026-08-25</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 4 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 11 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>0</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>4</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>5</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>6</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-08-24 20:19:07 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-08-25 12:34:00 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,9 +62,7 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日共筛选4篇论文，速读3篇，无精读；重点集中在医疗内镜控制、机器人预测控制与多智能体探索三个方向。</p>
-<p>最值得关注的是7.0分的内镜双向控制（LIFT）与形状感知强化模型预测控制（SRL-MPC），前者用语言消歧提升内镜操作精度，后者结合形状感知增强控制鲁棒性。</p>
-<p>建议优先精读这两篇高分论文，并关注其方法在手术机器人与自动化操作中的落地潜力。</p>
+<p>今日精读5篇、速读6篇共11篇论文，聚焦具身智能与多模态导航。最值得关注的是满分论文ViSMoE（具身指代表达理解）与9分RACO（无人机视觉导航优化）。建议下一步优先研读这两篇，并留意速读中的UniMem与ParallelWorld以拓展VLA与推理视角。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -73,12 +71,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">0 篇</strong>
+    <strong class="dpr-home-dashboard-count">5 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p class="dpr-home-dashboard-empty">今日暂无推荐。</p>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="ViSMoE: Visual-Aware Sparse Mixture-of-Experts for Embodied Referring Expression Grounding">ViSMoE: Visual-Aware Sparse Mixture-of-Experts for Embodied Referring Expression Grounding</span></li><li><span class="dpr-home-dashboard-paper-title" title="RACO: Reliability-Aware Coarse-Goal Optimization for Inspection-Oriented UAV Vision-Language Navigation">RACO: Reliability-Aware Coarse-Goal Optimization for Inspection-Oriented UAV Vision-Language Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="SuperMap: A Spatio-Temporal SLAM System for Visual-Language Navigation">SuperMap: A Spatio-Temporal SLAM System for Visual-Language Navigation</span></li></ul>
   </div>
-
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>5</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -86,12 +84,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">4 篇</strong>
+    <strong class="dpr-home-dashboard-count">6 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="EndoLIFT: Language-Disambiguated Latent-Conditioned Rectified Flow for Bidirectional Endoscopic Control">EndoLIFT: Language-Disambiguated Latent-Conditioned Rectified Flow for Bidirectional Endoscopic Control</span></li><li><span class="dpr-home-dashboard-paper-title" title="SRL-MPC: Shape-Aware Reinforcement Learned Model Predictive Control">SRL-MPC: Shape-Aware Reinforcement Learned Model Predictive Control</span></li><li><span class="dpr-home-dashboard-paper-title" title="Planner-Conditioned Diffusion for Coordinated Multi-Agent Exploration">Planner-Conditioned Diffusion for Coordinated Multi-Agent Exploration</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="UniMem: Unifying Multimodal Memory and Control for Vision-Language-Action Models">UniMem: Unifying Multimodal Memory and Control for Vision-Language-Action Models</span></li><li><span class="dpr-home-dashboard-paper-title" title="ParallelWorld: Test-Time Scaling for Embodied Reasoning">ParallelWorld: Test-Time Scaling for Embodied Reasoning</span></li><li><span class="dpr-home-dashboard-paper-title" title="ChainSpace: A Chained-Reasoning Paradigm for Spatial Intelligence">ChainSpace: A Chained-Reasoning Paradigm for Spatial Intelligence</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>4</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>4</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>1</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
 </section>
 </div>
 
