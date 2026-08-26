@@ -1,0 +1,57 @@
+{
+  "date": "20260817-20260826",
+  "date_label": "2026-08-17 ~ 2026-08-26",
+  "generated_at": "2026-08-26 13:03:11 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.23650v1",
+      "route": "20260817-20260826/2608.23650v1-concept-guided-exploration-building-persistent-actionable-scene-graphs",
+      "title": "Concept-Guided Exploration: Building Persistent, Actionable Scene Graphs",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "为室内机器人导航构建由房间和门概念组成的持久可操作场景图",
+      "first_seen_at": "2026-08-26 13:03:11 UTC",
+      "updated_at": "2026-08-26 13:03:11 UTC"
+    },
+    {
+      "paper_id": "2608.24026v1",
+      "route": "20260817-20260826/2608.24026v1-neurraft-robot-motion-planning-via-anchor-level-flow-matching-with-clearance-aware-preference-tuning",
+      "title": "NeurRAFT: Robot Motion Planning via Anchor-Level Flow Matching with Clearance-Aware Preference Tuning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "基于原始观测的神经运动规划器；直接支持到达目标坐标",
+      "first_seen_at": "2026-08-26 13:03:11 UTC",
+      "updated_at": "2026-08-26 13:03:11 UTC"
+    },
+    {
+      "paper_id": "2608.22869v1",
+      "route": "20260817-20260826/2608.22869v1-unimem-unifying-multimodal-memory-and-control-for-vision-language-action-models",
+      "title": "UniMem: Unifying Multimodal Memory and Control for Vision-Language-Action Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "为视觉语言动作模型统一多模态记忆，可服务于具身导航记忆增强",
+      "first_seen_at": "2026-08-26 13:03:11 UTC",
+      "updated_at": "2026-08-26 13:03:11 UTC"
+    }
+  ]
+}

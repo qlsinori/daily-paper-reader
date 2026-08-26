@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-08-16 ~ 2026-08-25</span>
+      <span class="dpr-home-dashboard-kicker">2026-08-17 ~ 2026-08-26</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 11 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 3 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>5</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>6</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>1</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>2</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-08-25 12:34:00 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-08-26 13:03:11 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,7 +62,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日精读5篇、速读6篇共11篇论文，聚焦具身智能与多模态导航。最值得关注的是满分论文ViSMoE（具身指代表达理解）与9分RACO（无人机视觉导航优化）。建议下一步优先研读这两篇，并留意速读中的UniMem与ParallelWorld以拓展VLA与推理视角。</p>
+<p>今日精读场景图构建研究，速读机器人运动规划与多模态记忆控制两篇。</p>
+<p>最值得关注的是《Concept-Guided Exploration》的高分场景图方法，以及《NeurRAFT》的路径规划新思路。</p>
+<p>建议优先精读场景图论文，再结合速读内容拓展对机器人学习系统的整体认知。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -71,12 +73,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">5 篇</strong>
+    <strong class="dpr-home-dashboard-count">1 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="ViSMoE: Visual-Aware Sparse Mixture-of-Experts for Embodied Referring Expression Grounding">ViSMoE: Visual-Aware Sparse Mixture-of-Experts for Embodied Referring Expression Grounding</span></li><li><span class="dpr-home-dashboard-paper-title" title="RACO: Reliability-Aware Coarse-Goal Optimization for Inspection-Oriented UAV Vision-Language Navigation">RACO: Reliability-Aware Coarse-Goal Optimization for Inspection-Oriented UAV Vision-Language Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="SuperMap: A Spatio-Temporal SLAM System for Visual-Language Navigation">SuperMap: A Spatio-Temporal SLAM System for Visual-Language Navigation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Concept-Guided Exploration: Building Persistent, Actionable Scene Graphs">Concept-Guided Exploration: Building Persistent, Actionable Scene Graphs</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>5</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">semantic-map <strong>1</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -84,12 +86,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">6 篇</strong>
+    <strong class="dpr-home-dashboard-count">2 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="UniMem: Unifying Multimodal Memory and Control for Vision-Language-Action Models">UniMem: Unifying Multimodal Memory and Control for Vision-Language-Action Models</span></li><li><span class="dpr-home-dashboard-paper-title" title="ParallelWorld: Test-Time Scaling for Embodied Reasoning">ParallelWorld: Test-Time Scaling for Embodied Reasoning</span></li><li><span class="dpr-home-dashboard-paper-title" title="ChainSpace: A Chained-Reasoning Paradigm for Spatial Intelligence">ChainSpace: A Chained-Reasoning Paradigm for Spatial Intelligence</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="NeurRAFT: Robot Motion Planning via Anchor-Level Flow Matching with Clearance-Aware Preference Tuning">NeurRAFT: Robot Motion Planning via Anchor-Level Flow Matching with Clearance-Aware Preference Tuning</span></li><li><span class="dpr-home-dashboard-paper-title" title="UniMem: Unifying Multimodal Memory and Control for Vision-Language-Action Models">UniMem: Unifying Multimodal Memory and Control for Vision-Language-Action Models</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>4</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>1</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>1</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
 </section>
 </div>
 

@@ -1,0 +1,54 @@
+{
+  "label": "2026-08-17 ~ 2026-08-26",
+  "date": "2026-08-17 ~ 2026-08-26",
+  "generated_at": "2026-08-26T13:03:15",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "20260817-20260826/2608.23650v1-concept-guided-exploration-building-persistent-actionable-scene-graphs",
+      "section": "deep",
+      "title_en": "Concept-Guided Exploration: Building Persistent, Actionable Scene Graphs",
+      "authors": "Noé Zapata, Gerardo Pérez, Alejandro Torrejón, Pedro Núñez, Pablo Bustos",
+      "date": "2026-08-24",
+      "pdf": "https://arxiv.org/pdf/2608.23650v1",
+      "score": "9.0",
+      "evidence": "为室内机器人导航构建由房间和门概念组成的持久可操作场景图",
+      "tldr": "传统机器人空间感知多采用先建图后加语义的流程，本文提出概念优先的替代架构。房间与门作为异步概念代理，直接实例化并管理语义实体，通过层次约束传播（房间先验指导门检测）和预测匹配循环，协作建立持久可操作的场景图。该方法不依赖全局度量地图，在结构化室内环境中支持可扩展、任务相关的空间理解，为机器人建图提供了新思路。",
+      "tags": "query:semantic-map",
+      "abstract_en": "The perception of 3D space by mobile robots is rapidly moving from flat metric grid representations to hybrid metric-semantic graphs built from human-interpretable concepts. While most approaches first build metric maps and then add semantic layers, we explore an alternative, concept-first architecture in which spatial understanding emerges from asynchronous concept agents that directly instantiate and manage semantic entities. Our robot employs two spatial concepts (room and door), implemented as autonomous processes within a cognitive distributed architecture. These concept agents cooperatively build a shared scene graph representation of indoor layouts through active exploration and incremental validation. The key architectural principle is hierarchical constraint propagation: Room instantiation provides geometric and semantic priors to guide and support door detection within wall boundaries. The resulting structure is maintained by a complementary functional principle based on prediction-matching loops. This approach is designed to yield an actionable, human-interpretable spatial representation without relying on any pre-existing global metric map, supporting scalable operation and persistent, task-relevant understanding in structured indoor environments.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "20260817-20260826/2608.24026v1-neurraft-robot-motion-planning-via-anchor-level-flow-matching-with-clearance-aware-preference-tuning",
+      "section": "quick",
+      "title_en": "NeurRAFT: Robot Motion Planning via Anchor-Level Flow Matching with Clearance-Aware Preference Tuning",
+      "authors": "Sibo Tian, Chang Liu, Minghui Zheng, Xiao Liang",
+      "date": "2026-08-25",
+      "pdf": "https://arxiv.org/pdf/2608.24026v1",
+      "score": "7.0",
+      "evidence": "基于原始观测的神经运动规划器；直接支持到达目标坐标",
+      "tldr": "端到端神经运动规划虽避免特权几何模型，但在杂乱环境中无碰撞仍具挑战。我们提出NeurRAFT，基于锚点级流匹配与间隙感知偏好调优，利用Jacobian加权损失考虑各锚点的任务空间影响，以紧凑锚点生成轨迹并插值。直接偏好优化将概率质量移向更大障碍间隙，无需增加推理成本。仿真与真实实验显著超越最新规划器，并实现Franka机器人零样本迁移。",
+      "tags": "query:embodied-nav",
+      "abstract_en": "Recent end-to-end neural motion planners generate trajectories from raw sensor observations, avoiding the privileged geometric models required by classical planners. However, collision-free planning in cluttered environments remains challenging. We present NeurRAFT, a generative planning framework based on anchor-level flow matching and clearance-aware preference tuning. Unlike prior neural planners that model dense waypoint sequences and spend capacity on redundant local details and smoothness, NeurRAFT operates on compact anchor waypoints. We train the planner using a Jacobian-weighted loss that accounts for the task-space impact of each anchor. At inference, the anchors are generated in two integration steps, followed by cubic-spline interpolation to recover a smooth, full-resolution trajectory. Since imitation learning from positive demonstrations cannot distinguish collision-free from near-collision trajectories, collision-prone behaviors persist at test time. Rather than relying on post-hoc corrections, we directly reshape the pretrained planner's distribution toward safer solutions without augmenting inference. Specifically, Direct Preference Optimization shifts probability mass toward trajectories with larger obstacle clearance, with the resulting improvement directly absorbed into the planner parameters. Experiments show substantial improvements over state-of-the-art planners, while real-world experiments demonstrate zero-shot transfer to a Franka robot under noisy and partially occluded depth observations. Video results available at https://neurraft.github.io/.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "20260817-20260826/2608.22869v1-unimem-unifying-multimodal-memory-and-control-for-vision-language-action-models",
+      "section": "quick",
+      "title_en": "UniMem: Unifying Multimodal Memory and Control for Vision-Language-Action Models",
+      "authors": "Lars Osterberg, Maggie Wang, Mac Schwager",
+      "date": "2026-08-24",
+      "pdf": "https://arxiv.org/pdf/2608.22869v1",
+      "score": "6.0",
+      "evidence": "为视觉语言动作模型统一多模态记忆，可服务于具身导航记忆增强",
+      "tldr": "针对VLA模型在长时程任务中需要记忆但非马尔可夫场景下表现不佳，而现有方法依赖额外VLM管理记忆导致瓶颈与训练流程断裂的问题，UniMem提出在单一骨干中统一多模态记忆与低层控制。通过事件分类器更新记忆、关键帧编码器保存空间信息、关键帧缓存降低推理开销，在仿真与硬件任务中成功率分别达93.4%和80.0%，优于固定间隔采样与层级基线，同时推理更快、训练更简单。",
+      "tags": "query:vln-memory",
+      "abstract_en": "While Vision-Language-Action (VLA) models have leveraged internet-scale pretraining and task-focused finetuning to achieve strong performance on long-horizon tasks, they often struggle with non-Markovian tasks that require memory. Existing approaches to memory typically involve additional Vision-Language-Models (VLMs) for long-term memory management, introducing a memory bottleneck and a fractured training pipeline. Conditioning on multiple historical frames can provide the VLA with access to more descriptive features of past scenes, but can degrade performance if frames are chosen at arbitrary, fixed intervals. To address these limitations, we present UniMem, a framework that unifies high-level, multimodal memory and low-level control under one backbone. UniMem employs an event classifier for memory updates, a keyframe encoder for dense spatial memory, and a keyframe caching technique to minimize overhead during policy rollouts. We evaluate UniMem across five simulation and four hardware tasks targeting sequential and spatial memory, demonstrating that our unified, single-model system outperforms fixed-interval image sampling baselines (93.4% vs. 68.2%) in simulation and hierarchical baselines (80.0% vs. 43.5%) in hardware, while offering faster inference and a simple training pipeline for easy adoption. Project website: https://losterberg3.github.io/unimem-vla/",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
