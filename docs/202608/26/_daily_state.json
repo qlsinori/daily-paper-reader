@@ -1,0 +1,25 @@
+{
+  "date": "20260826",
+  "date_label": "",
+  "generated_at": "2026-08-26 22:38:14 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.19794v1",
+      "route": "202608/26/2608.19794v1-towards-general-embodied-intelligence-integrating-large-language-models-knowledge-bases-and-reasoning-capabilities-to-build-the-next-generation-of-ai-agents",
+      "title": "Towards general embodied intelligence: integrating large language models, knowledge bases, and reasoning capabilities to build the next generation of AI agents",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "LLM与推理结合构建具身智能体的综述",
+      "first_seen_at": "2026-08-26 22:38:14 UTC",
+      "updated_at": "2026-08-26 22:38:14 UTC"
+    }
+  ]
+}

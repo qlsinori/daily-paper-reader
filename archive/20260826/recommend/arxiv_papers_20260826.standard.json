@@ -1,0 +1,66 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-26T22:36:38.703957+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 0,
+    "deep_cap": 8,
+    "deep_selected": 0,
+    "quick_candidates": 1,
+    "quick_skim_target": 13,
+    "quick_selected": 1
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2608.19794v1",
+      "source": "arxiv",
+      "title": "Towards general embodied intelligence: integrating large language models, knowledge bases, and reasoning capabilities to build the next generation of AI agents",
+      "abstract": "The convergence of large language models (LLMs), structured knowledge bases (KBs), and reasoning ability (RA) presents a promising trajectory toward general embodied intelligence (GEI). This paper reviews the evolution of LLM-centered intelligent systems, emphasising their integration with knowledge representation, logical reasoning, and physical embodiment. We analyse LLM architectures, pre-training methods, and inference mechanisms, along with their interaction with external knowledge sources and structured reasoning frameworks. Furthermore, we examine embodied intelligence (EI) paradigms wherein agents learn and act in physical environments. To synthesise these dimensions, we present a conceptual framework that illustrates the synergy among LLMs, KBs, RA, and embodiment, serving as a guiding model for perception, reasoning, and action rather than an implemented engineering architecture. To advance toward GEI, we identify five key challenges: efficient LLM deployment, closed-loop knowledge integration, hybrid symbolic-neural reasoning, perception-action grounding, and continual learning. This survey provides a comprehensive roadmap for developing adaptive, multimodal agents capable of operating in complex, dynamic settings.",
+      "authors": [
+        "Fujiang Yuan",
+        "Xia Huang",
+        "Lusheng Wang",
+        "Jun Ding",
+        "Zhen Tian",
+        "Yuxin Wang",
+        "Shaojie Gu",
+        "Yuki Funabora",
+        "Yanhong Peng",
+        "Zebing Mao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-08-20T08:45:51+00:00",
+      "link": "https://arxiv.org/pdf/2608.19794v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "review of embodied intelligence agents integrating LLMs and reasoning",
+      "llm_evidence_cn": "LLM与推理结合构建具身智能体的综述",
+      "llm_evidence": "LLM与推理结合构建具身智能体的综述",
+      "canonical_evidence": "LLM与推理结合构建具身智能体的综述",
+      "llm_tldr_en": "This review examines how large language models, knowledge bases, and reasoning integrate to build general embodied intelligence, analyzing architectures and embodied learning paradigms in physical environments.",
+      "llm_tldr_cn": "通用具身智能是AI发展的重要方向。本文回顾了以大语言模型为中心的智能系统演进，重点分析其与结构化知识库和逻辑推理能力的融合，并探讨智能体在物理环境中学习与行动的具身智能范式。通过综合现有架构、预训练和推理机制，论文为构建下一代具身智能体提供了系统性的技术路径和方向总结。",
+      "llm_tldr": "通用具身智能是AI发展的重要方向。本文回顾了以大语言模型为中心的智能系统演进，重点分析其与结构化知识库和逻辑推理能力的融合，并探讨智能体在物理环境中学习与行动的具身智能范式。通过综合现有架构、预训练和推理机制，论文为构建下一代具身智能体提供了系统性的技术路径和方向总结。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
