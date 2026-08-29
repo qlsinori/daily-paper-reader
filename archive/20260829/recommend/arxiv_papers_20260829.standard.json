@@ -1,0 +1,417 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-29T22:56:35.903536+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 7,
+    "deep_cap": 8,
+    "deep_selected": 7,
+    "quick_candidates": 2,
+    "quick_skim_target": 13,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2608.25610v1",
+      "source": "arxiv",
+      "title": "Advantage-Driven Explicit Memory for Social Navigation",
+      "abstract": "Robot policies are predominantly learned with classical parametric variants of imitation learning or RL, where training stores the agent's behavior exclusively in the policy's network parameters, putting a heavy burden on the representation learning algorithm. We propose a new navigation agent equipped with non-parametric memory which explicitly indexes prior steps leading to critical events. The advantages are twofold: first, it allows the policy to outsource some of its behavior into an explicit memory; second, it encourages a form of continual learning by allowing an agent to collect data from its testing episodes during deployment and therefore to better generalize to OOD situations. In the context of social navigation, we show that this improves the agent's capability to retain sparse, high-cost failures, such as human collisions. If the policy is trained in simulation, this also naturally addresses the sim-to-real gap, partially, by basing some of the decision making on real data. We integrate the explicit memory into a recurrent PPO architecture and use hidden states for memory retrieval to capture continuous spatiotemporal dynamics. The goal of exploiting rare, high-impact events is achieved by leveraging the RL agent's advantage signals. We train our agent in simulation with a combination of photorealistic rendering and non-visual crowd simulation and show that the agent is robust with respect to OOD social behavior.",
+      "authors": [
+        "Yeonsoo Park",
+        "Mattia Racca",
+        "Guillaume Bono",
+        "Steeven Janny",
+        "Gianluca Monaci",
+        "Tomi Silander",
+        "Christian Wolf"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-26T10:27:08+00:00",
+      "link": "https://arxiv.org/pdf/2608.25610v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "explicit non-parametric memory augmenting visual social navigation policies",
+      "llm_evidence_cn": "非参数显式记忆增强视觉社交导航策略",
+      "llm_evidence": "非参数显式记忆增强视觉社交导航策略",
+      "canonical_evidence": "非参数显式记忆增强视觉社交导航策略",
+      "llm_tldr_en": "This paper proposes a navigation agent with non-parametric explicit memory that indexes prior steps leading to critical events, improving generalization and continual learning in social navigation without storing behavior only in policy parameters.",
+      "llm_tldr_cn": "现有机器人导航策略通常仅将行为存储在神经网络参数中，对表征学习负担大且泛化受限。本文提出一种配备非参数显式记忆的导航智能体，显式索引先前导致关键事件的步骤，使策略可以将部分行为外包给记忆模块。实验表明，在社交导航场景中该方法提升了对分布外情境的适应能力，并支持在部署阶段持续收集数据。这一显式记忆机制为具身导航中的长期记忆与泛化提供了轻量级增强手段。",
+      "llm_tldr": "现有机器人导航策略通常仅将行为存储在神经网络参数中，对表征学习负担大且泛化受限。本文提出一种配备非参数显式记忆的导航智能体，显式索引先前导致关键事件的步骤，使策略可以将部分行为外包给记忆模块。实验表明，在社交导航场景中该方法提升了对分布外情境的适应能力，并支持在部署阶段持续收集数据。这一显式记忆机制为具身导航中的长期记忆与泛化提供了轻量级增强手段。",
+      "llm_tags": [
+        "query:vln-memory"
+      ],
+      "matched_query_tag": "query:vln-memory",
+      "matched_query_text": "visual navigation with memory augmentation",
+      "matched_requirement_id": "req-20",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.26496v1",
+      "source": "arxiv",
+      "title": "RTNav: Towards Real-Time Zero-Shot Object Navigation",
+      "abstract": "Navigation in unknown environments to find unforeseen objects has become increasingly feasible with capable vision and language foundation models. However, these models also introduce non-negligible inference latency, which becomes an important concern when agents must operate continuously in the real world. Most state-of-the-art methods are still developed in synchronous simulators, where the environment waits for the agent to act and inference time is effectively free. As a result, agents are often designed around the sequential execution of perception, reasoning, and action, with little regard for time constraints. Under real-time execution, where wall-clock time counts towards the task budget, the inefficiencies of these architectures become clear. We show that recent zero-shot object navigation methods suffer consistent performance degradation under such realistic timing conditions. Motivated by this observation, we propose RTNav, a simple but effective architecture that treats inference latency, asynchronous environment stepping, and bounded compute as explicit design considerations. Evaluated on real-time variants of HM3D-v1, HM3D-v2, and HM3D-OVON, RTNav improves the success rate by up to 11% and the Success weighted by Completion Time by up to 5.1 points over prior work.",
+      "authors": [
+        "Easop Lee",
+        "Lingyu Zhang",
+        "Boyuan Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-08-27T00:35:50+00:00",
+      "link": "https://arxiv.org/pdf/2608.26496v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "zero-shot object navigation in unknown environments",
+      "llm_evidence_cn": "未知环境中的零样本目标导航",
+      "llm_evidence": "未知环境中的零样本目标导航",
+      "canonical_evidence": "未知环境中的零样本目标导航",
+      "llm_tldr_en": "RTNav addresses real-time zero-shot object navigation, showing that state-of-the-art vision-language agents fail under wall-clock time constraints; it proposes an architecture that balances perception, reasoning, and action to achieve efficient navigation in unknown environments.",
+      "llm_tldr_cn": "RTNav针对未知环境中零样本目标导航的实时性问题，指出现有最先进方法在同步模拟器中忽略推理延迟，难以应对真实世界连续运行的时间预算。该方法重新设计感知、推理与动作的并发执行方式，以降低端到端延迟。实验表明，在实时执行条件下，该方法比现有方法更高效地完成导航任务，为实现真实世界零样本目标导航提供了可行路径。",
+      "llm_tldr": "RTNav针对未知环境中零样本目标导航的实时性问题，指出现有最先进方法在同步模拟器中忽略推理延迟，难以应对真实世界连续运行的时间预算。该方法重新设计感知、推理与动作的并发执行方式，以降低端到端延迟。实验表明，在实时执行条件下，该方法比现有方法更高效地完成导航任务，为实现真实世界零样本目标导航提供了可行路径。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.25366v1",
+      "source": "arxiv",
+      "title": "RAEM: Robust Autonomous Exploration for Multi-Floor Environments with a Quadruped Robot",
+      "abstract": "In this paper, we propose RAEM, a robust autonomous exploration framework for quadruped robots operating in multi-floor environments. Most existing ground-robot exploration approaches rely on planar traversability representations, which cannot adequately represent the overlapping structures and cross-floor connectivity of multi-floor buildings. Although tomography-based representations provide effective traversability modeling for multi-floor navigation, maintaining a global tomography map incurs substantial computational overhead for online exploration with frequent replanning. Moreover, sparse and fragmented LiDAR observations in stairwells can degrade local traversability estimation, leading to irregular viewpoint placement and temporary topological disconnections. To address these challenges, RAEM adopts a hybrid local-global traversability representation, in which a local tomography map and an explicitly categorized local 3D grid map are used for online terrain analysis and connectivity evaluation, while an elevation-aware global topological graph is incrementally constructed from these local spatial representations for efficient cross-floor exploration planning. We further introduce a staircase center alignment strategy to reduce abrupt yaw variations during climbing and a dual path searching mechanism to recover guidance paths when the global topology is locally disconnected. Extensive simulation and real-world experiments demonstrate robust and computationally stable autonomous exploration across multi-floor structures, including continuous exploration of a five-floor stairwell.",
+      "authors": [
+        "Zikang Yuan",
+        "Yuan Ren",
+        "Yian Wang",
+        "Yixue Wang",
+        "Enze Fang",
+        "Xuewei Zhang",
+        "Junda Cheng",
+        "Chi Chen",
+        "Chin-Pang Ho",
+        "Lijun Zhu",
+        "Shaohang Xu",
+        "Kwang-Ting Cheng",
+        "Xin Yang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-26T04:40:34+00:00",
+      "link": "https://arxiv.org/pdf/2608.25366v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "autonomous exploration and navigation framework for quadruped robots in multi-floor environments",
+      "llm_evidence_cn": "四足机器人在多楼层环境中的自主探索与导航框架",
+      "llm_evidence": "四足机器人在多楼层环境中的自主探索与导航框架",
+      "canonical_evidence": "四足机器人在多楼层环境中的自主探索与导航框架",
+      "llm_tldr_en": "RAEM presents a robust autonomous exploration framework for quadruped robots in multi-floor environments, using a tomography-based traversability representation to handle overlapping structures and cross-floor connectivity while managing computational overhead.",
+      "llm_tldr_cn": "本文提出RAEM，一种面向四足机器人的多楼层环境鲁棒自主探索框架。针对平面可通行性表示难以表达重叠结构与跨楼层连接的问题，采用断层扫描式表示对多楼层可通行性建模，并设计高效维护策略以降低在线探索的计算开销。在楼梯间等稀疏LiDAR观测下也保持稳定的局部估计。实验验证了该框架在复杂多楼层环境中实现连续自主探索的有效性。",
+      "llm_tldr": "本文提出RAEM，一种面向四足机器人的多楼层环境鲁棒自主探索框架。针对平面可通行性表示难以表达重叠结构与跨楼层连接的问题，采用断层扫描式表示对多楼层可通行性建模，并设计高效维护策略以降低在线探索的计算开销。在楼梯间等稀疏LiDAR观测下也保持稳定的局部估计。实验验证了该框架在复杂多楼层环境中实现连续自主探索的有效性。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.25642v1",
+      "source": "arxiv",
+      "title": "EgoNav: Bridging Learned Waypoints and Geometry-Aware Local Control for Robust Indoor Navigation",
+      "abstract": "Image-goal navigation using lightweight topological maps is a practical paradigm for indoor robot deployment: the map requires only geotagged images, and localization relies on visual matching rather than precise pose estimation. However, learned waypoint predictors can produce targets that violate geometric constraints or deviate from the global path. Executing these waypoints safely further requires a local planner capable of collision avoidance, yet existing systems either lack one or rely on fixed parameters that cannot adapt to confined spaces. To address these limitations while retaining the navigational intuition of the learned predictor, we present EgoNav, a hierarchical system that implements this idea by generating candidates from semantically segmented traversable regions and scoring them alongside the learned waypoint for geometric safety, directional coherence, and fidelity to the learned prior. An adaptive local path planner then executes the refined waypoint with parameters modulated based on the refinement outcome. Experiments in Habitat-sim and on a physical humanoid robot show that EgoNav consistently outperforms contemporary baselines in both success rate and path efficiency.",
+      "authors": [
+        "Jing Wang",
+        "Shiqi Zhao",
+        "Hairong Qu",
+        "Peng Yin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-26T11:13:07+00:00",
+      "link": "https://arxiv.org/pdf/2608.25642v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Indoor embodied navigation agent using topological maps and local control",
+      "llm_evidence_cn": "室内具身导航智能体，使用拓扑地图与局部控制",
+      "llm_evidence": "室内具身导航智能体，使用拓扑地图与局部控制",
+      "canonical_evidence": "室内具身导航智能体，使用拓扑地图与局部控制",
+      "llm_tldr_en": "Presents EgoNav, a hierarchical indoor navigation system that combines learned waypoints with geometry-aware local control for collision avoidance, addressing robustness in confined spaces; strongly relevant to embodied navigation.",
+      "llm_tldr_cn": "EgoNav针对轻量拓扑地图下的室内图像目标导航提出分层系统，解决学习航点违反几何约束的问题。该方法将学习式航点预测器与几何感知的局部控制器相结合，在保留导航直觉的同时实现碰撞避免，并能适应受限空间。系统利用视觉匹配而非精确位姿估计进行定位，降低了部署需求。实验表明该分层方式提升了室内导航的鲁棒性和实用性，对具身导航研究具有直接参考价值。",
+      "llm_tldr": "EgoNav针对轻量拓扑地图下的室内图像目标导航提出分层系统，解决学习航点违反几何约束的问题。该方法将学习式航点预测器与几何感知的局部控制器相结合，在保留导航直觉的同时实现碰撞避免，并能适应受限空间。系统利用视觉匹配而非精确位姿估计进行定位，降低了部署需求。实验表明该分层方式提升了室内导航的鲁棒性和实用性，对具身导航研究具有直接参考价值。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.26190v1",
+      "source": "arxiv",
+      "title": "Predicting Consequences and Reinforcing Navigation Policies with Latent World Models",
+      "abstract": "World models enable agents to reason about future outcomes and learn policies from their knowledge of state transition, but existing approaches primarily focus on reconstructing future observations or features, which introduces unnecessary complexity and limits their effectiveness for decision making. In this work, we propose a compatibility prediction Latent World Model (LWM) for robot navigation that predicts action-conditioned latent feature compatibility rather than reconstructing observations. Our key insight is that spatial proximity correlates with latent feature similarity, enabling action consequences to be evaluated directly in latent space. To support counterfactual training, our model leverages action sequences sampled across trajectories and learns to predict which sequences lead closer to the goal. Furthermore, we demonstrate how the learned world model can supervise policy learning from unlabeled video data and further improve policies through reinforcement learning entirely within the world model. This imagination-driven framework eliminates the need for action annotations and additional environment interaction. Extensive experiments on multiple real-world robot navigation datasets show that our approach significantly outperforms prior world model and imitation learning methods in prediction accuracy, policy learning, and real-world navigation performance. The code, pretrained models, and additional materials are available at https://wzm206.github.io/latent-world-model-nav.",
+      "authors": [
+        "Zengmao Wang",
+        "Wei Gao",
+        "Shuhan Shen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-23T11:58:42+00:00",
+      "link": "https://arxiv.org/pdf/2608.26190v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Latent world model for predicting navigation consequences and reinforcing navigation policies; relevant to point goal navigation in robotics.",
+      "llm_evidence_cn": "面向机器人导航的潜在世界模型，预测动作结果并强化导航策略；与点目标导航相关。",
+      "llm_evidence": "面向机器人导航的潜在世界模型，预测动作结果并强化导航策略；与点目标导航相关。",
+      "canonical_evidence": "面向机器人导航的潜在世界模型，预测动作结果并强化导航策略；与点目标导航相关。",
+      "llm_tldr_en": "This paper proposes a compatibility prediction latent world model for robot navigation, predicting action-conditioned latent feature compatibility instead of reconstructing observations, and uses counterfactual action sampling to reinforce navigation policies.",
+      "llm_tldr_cn": "针对现有世界模型过度关注重建未来观测而难以服务决策的问题，作者提出一种面向机器人导航的兼容性预测潜在世界模型（LWM）。该模型直接在潜在空间中评估动作后果，利用空间邻近与特征相似的一致性，结合反事实动作序列训练导航策略。实验表明该方法能有效强化导航策略，为仿真环境中的目标导航提供高效解决方案。",
+      "llm_tldr": "针对现有世界模型过度关注重建未来观测而难以服务决策的问题，作者提出一种面向机器人导航的兼容性预测潜在世界模型（LWM）。该模型直接在潜在空间中评估动作后果，利用空间邻近与特征相似的一致性，结合反事实动作序列训练导航策略。实验表明该方法能有效强化导航策略，为仿真环境中的目标导航提供高效解决方案。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "point goal navigation reaching target coordinates",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.26788v1",
+      "source": "arxiv",
+      "title": "Decoupling Planning and Control for Instructable Agents",
+      "abstract": "Recent work shows that pre-trained, instruction-tuned vision-language models (VLMs) perform well at mapping from instructions and observations to high-level plans, but struggle to realize such plans as reliable low-latency action sequences in unfamiliar environments. At the same time, world-model controllers excel at fast observation-to-action control, but lack open-ended task guidance. In this work, we combine these strengths into a single system, Instruct-to-Act, where we train a world-model controller to act autonomously at high frequency when conditioned on sparse, higher-latency, and high-level text instructions generated by a VLM planner. To train controllers to be language-instructable, we relabel segments of controller policy rollouts with synthetic instructions and jointly optimize a behavior-cloning objective along with existing reward-maximizing and world-modeling objectives. We evaluate our proposed approach across seven embodied environments, including three multi-agent environments where VLM planners coordinate through language while trained controllers serve as their actuators. Under matched observation and action spaces, our decoupled approach consistently outperforms controller-only and direct VLM action-generation variants, preserves fast control, and lets us swap in different pretrained VLM planners without fine-tuning, while remaining competitive with strong vision-language-action and multi-agent RL baselines on six of seven tasks.",
+      "authors": [
+        "Zineng Tang",
+        "Kelsey R. Allen",
+        "Sjoerd van Steenkiste",
+        "Ishita Dasgupta",
+        "Alane Suhr"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.MA",
+        "cs.RO"
+      ],
+      "published": "2026-08-27T08:17:58+00:00",
+      "link": "https://arxiv.org/pdf/2608.26788v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "instructable agents combining VLM planning with world-model control; directly relevant to navigation from natural language instructions",
+      "llm_evidence_cn": "结合VLM规划与世界模型控制的指令跟随智能体，与自然语言指令导航直接相关",
+      "llm_evidence": "结合VLM规划与世界模型控制的指令跟随智能体，与自然语言指令导航直接相关",
+      "canonical_evidence": "结合VLM规划与世界模型控制的指令跟随智能体，与自然语言指令导航直接相关",
+      "llm_tldr_en": "Proposes Instruct-to-Act, combining a VLM planner with a world-model controller to follow high-level text instructions in unfamiliar environments; a strong match for language-instructed navigation.",
+      "llm_tldr_cn": "该论文提出Instruct-to-Act系统，结合视觉语言模型的高层规划能力与世界模型控制器的低延迟控制能力，使智能体在陌生环境中能够根据高层文本指令自主行动。他们通过将策略回放片段加注合成指令来训练控制器，使其具备语言可指令性。实验表明，该耦合框架能克服预训练VLM执行动作序列可靠性不足、而世界模型控制器缺乏任务引导的各自缺陷。该方法虽然不是特化为导航，但其语言指令到行动的核心机制直接支撑自然语言指令导航任务。",
+      "llm_tldr": "该论文提出Instruct-to-Act系统，结合视觉语言模型的高层规划能力与世界模型控制器的低延迟控制能力，使智能体在陌生环境中能够根据高层文本指令自主行动。他们通过将策略回放片段加注合成指令来训练控制器，使其具备语言可指令性。实验表明，该耦合框架能克服预训练VLM执行动作序列可靠性不足、而世界模型控制器缺乏任务引导的各自缺陷。该方法虽然不是特化为导航，但其语言指令到行动的核心机制直接支撑自然语言指令导航任务。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "navigation from natural language instructions",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.27456v1",
+      "source": "arxiv",
+      "title": "UrbanGround: From Local Perception to Spatial Agency in a Real-Scale City",
+      "abstract": "Multimodal large language models (MLLMs) can interpret a street view, but urban agency depends on whether such local evidence remains useful after the agent starts to move. In this paper, we investigate how far current MLLM agents can turn local urban perception into reliable action in a complicated real-scale city. We propose UrbanGround, the first sandbox to make this question testable in a physically constrained replica of Hong Kong built from territory-wide 3D geospatial data. UrbanGround supports closed-loop interaction from a first-person view and provides an interactive map for navigation. Agents can directly enter the 3D city and explore from a first-person view. Our analysis follows the growth of the spatial problem through three research questions. We first test whether an agent can ground a local scene well enough to answer spatial questions after active observation. Then we ask whether that grounding supports navigation as destinations become farther away and less explicit. Finally, we examine whether the resulting behavior survives changes in route availability and pedestrian motion. Contemporary MLLM agents usually show useful atomic abilities in visual recognition and short-range spatial reasoning, while orientation and pedestrian-aware movement remain unreliable. Their central failure emerges over extended exploration, where local abilities do not compose into sustained goal-directed behavior and errors accumulate without effective correction. We hope UrbanGround will support broader study of how far current MLLM agents can explore reliably in complex, open-ended urban environments.",
+      "authors": [
+        "Tianjie Ju",
+        "Zheng Wu",
+        "Yueqing Sun",
+        "Yuhan Cui",
+        "Bobo Li",
+        "Shengqiong Wu",
+        "Pengzhou Cheng",
+        "Haodong Zhao",
+        "Zongru Wu",
+        "Xinbei Ma",
+        "Doris Zhang",
+        "Kunling Li",
+        "Mong-Li Lee",
+        "Wynne Hsu",
+        "Hao Fei",
+        "Qi Gu",
+        "Gongshen Liu",
+        "Zhuosheng Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-08-27T17:59:33+00:00",
+      "link": "https://arxiv.org/pdf/2608.27456v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "embodied navigation agent in a simulated real-scale city with closed-loop interaction and interactive map",
+      "llm_evidence_cn": "在真实规模城市模拟环境中进行具身导航，支持闭环交互和交互式地图",
+      "llm_evidence": "在真实规模城市模拟环境中进行具身导航，支持闭环交互和交互式地图",
+      "canonical_evidence": "在真实规模城市模拟环境中进行具身导航，支持闭环交互和交互式地图",
+      "llm_tldr_en": "Presents UrbanGround, a sandbox in a 3D replica of Hong Kong enabling closed-loop first-person navigation for MLLM agents, testing how local perception supports spatial agency.",
+      "llm_tldr_cn": "该论文提出UrbanGround，一个基于香港真实地理数据构建的3D城市沙盒，支持第一人称闭环交互和交互式地图导航。它用于评测多模态大语言模型（MLLM）体能否将局部城市感知转化为可靠的空间行动。实验分析了空间问题随代理移动的增长，揭示了当前MLLM在复杂城市环境中的导航能力限制。该工作为具身导航研究提供了一个可重复的物理受限城市测试平台。",
+      "llm_tldr": "该论文提出UrbanGround，一个基于香港真实地理数据构建的3D城市沙盒，支持第一人称闭环交互和交互式地图导航。它用于评测多模态大语言模型（MLLM）体能否将局部城市感知转化为可靠的空间行动。实验分析了空间问题随代理移动的增长，揭示了当前MLLM在复杂城市环境中的导航能力限制。该工作为具身导航研究提供了一个可重复的物理受限城市测试平台。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.26737v1",
+      "source": "arxiv",
+      "title": "Generative Semantic Scene Completion",
+      "abstract": "Outdoor LiDAR semantic scene completion (SSC) recovers a dense semantic voxel grid from a scan observing 1% of the target volume, under class imbalance beyond 7,000x. We recast SSC as generative semantic scene completion (GSSC): a single discrete-diffusion formulation in three roles. First, paired sparse-dense scene synthesis (PS$^3$) generates matched sparse LiDAR observations with their dense semantic completions, addressing the long tail at its source and yielding the PS$^3$-SemanticKITTI corpus we train on alongside SemanticKITTI. Second, semantic-guided generative scene completion (SGSC) generates the scene from noise with multinomial discrete diffusion, conditioned on the sparse scan through a bird's-eye-view semantic map and a sparse 3D feature stream. Third, the same framework instead refines an existing completion in one flow-matching step: structured source discrete diffusion (S$^2$D$^2$). S$^2$D$^2$ improves the mIoU of SGSC's own output and every external SSC base tested, without base retraining or test-time adaptation. On the strongest base, one step without test-time augmentation reaches 38.8% mIoU on the SemanticKITTI hidden test. To our knowledge that is the best causal, single-sweep, single-sample result on that leaderboard, +2.1 pp over the previous best published score under the same restriction. Four correction steps with eight-view test-time augmentation reach 39.2%, outside that restriction.",
+      "authors": [
+        "Shi Chen",
+        "Weifeng Ge"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-08-27T07:29:15+00:00",
+      "link": "https://arxiv.org/pdf/2608.26737v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "LiDAR semantic scene completion to dense semantic voxel maps via discrete diffusion",
+      "llm_evidence_cn": "通过离散扩散将LiDAR语义场景补全为稠密语义体素地图",
+      "llm_evidence": "通过离散扩散将LiDAR语义场景补全为稠密语义体素地图",
+      "canonical_evidence": "通过离散扩散将LiDAR语义场景补全为稠密语义体素地图",
+      "llm_tldr_en": "Presents Generative Semantic Scene Completion (GSSC), a discrete-diffusion framework that synthesizes sparse LiDAR and dense semantic completions and generates scene from noise; relevant to semantic mapping for autonomous agents.",
+      "llm_tldr_cn": "该论文将户外LiDAR语义场景补全（SSC）重新定义为生成式语义场景补全（GSSC），在仅有1%体素被观测的情况下使用离散扩散模型恢复稠密语义体素网格。GSSC包含三个角色：配对稀疏-稠密场景合成、语义引导的生成式场景补全，以及统一的扩散框架，并在SemanticKITTI上训练。实验表明该方法能有效处理超过7000倍的类别不平衡，生成高质量语义场景补全结果。该工作为语义地图构建提供了强大的生成式方案，可直接服务于自主智能体的环境感知。",
+      "llm_tldr": "该论文将户外LiDAR语义场景补全（SSC）重新定义为生成式语义场景补全（GSSC），在仅有1%体素被观测的情况下使用离散扩散模型恢复稠密语义体素网格。GSSC包含三个角色：配对稀疏-稠密场景合成、语义引导的生成式场景补全，以及统一的扩散框架，并在SemanticKITTI上训练。实验表明该方法能有效处理超过7000倍的类别不平衡，生成高质量语义场景补全结果。该工作为语义地图构建提供了强大的生成式方案，可直接服务于自主智能体的环境感知。",
+      "llm_tags": [
+        "query:semantic-map"
+      ],
+      "matched_query_tag": "query:semantic-map",
+      "matched_query_text": "semantic mapping techniques for autonomous agents",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.27158v1",
+      "source": "arxiv",
+      "title": "Diffusion Policies for Short-Horizon Planning in Robot Crowd Navigation",
+      "abstract": "Robot crowd navigation requires safe and efficient decision-making under dense, dynamic, and multimodal human--robot interactions. Existing reinforcement-learning methods typically output a single reactive action at each timestep, which limits their ability to represent diverse short-term avoidance strategies. We propose Planning Diffusion Policy Optimization (PDPO), an offline-to-online reinforcement-learning framework that uses a diffusion policy to generate short-horizon action chunks for crowd navigation. PDPO is first pretrained on collision-avoidance demonstrations and then fine-tuned online with PPO by treating the denoising process as an internal decision process. During execution, the policy generates a five-step action chunk and applies it in a receding-horizon manner. Furthermore, we observe an evaluation artifact in common crowd-navigation benchmarks: without explicit boundary constraints, learned agents may leave the valid domain and bypass dense crowds. To address this, we introduce a setting in which boundary violations are treated as collisions. Experiments show that PDPO obtains an improved success rate over strong baselines, and ablations demonstrate that action chunks are especially important for the modified bounded benchmark.",
+      "authors": [
+        "Wendong Li",
+        "Jochen Garcke"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-27T14:10:39+00:00",
+      "link": "https://arxiv.org/pdf/2608.27158v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Diffusion policy for robot crowd navigation; embodied navigation agent in dynamic environments.",
+      "llm_evidence_cn": "面向机器人人群导航的扩散策略，属于动态环境中的具身导航智能体。",
+      "llm_evidence": "面向机器人人群导航的扩散策略，属于动态环境中的具身导航智能体。",
+      "canonical_evidence": "面向机器人人群导航的扩散策略，属于动态环境中的具身导航智能体。",
+      "llm_tldr_en": "PDPO is an offline-to-online RL framework that uses a diffusion policy to generate short-horizon action chunks for robot crowd navigation, pretraining on demonstrations and fine-tuning with PPO to produce diverse avoidance strategies.",
+      "llm_tldr_cn": "针对机器人人群导航中强化学习方法只输出单步反应动作、难以表达多样规避策略的问题，提出规划扩散策略优化（PDPO）框架。该方法先以碰撞避免演示预训练扩散策略，再通过PPO在线微调，将去噪过程作为内部决策过程，执行时生成五步动作块。实验显示其在密集动态行人场景下能做出更安全高效的短时避障决策。",
+      "llm_tldr": "针对机器人人群导航中强化学习方法只输出单步反应动作、难以表达多样规避策略的问题，提出规划扩散策略优化（PDPO）框架。该方法先以碰撞避免演示预训练扩散策略，再通过PPO在线微调，将去噪过程作为内部决策过程，执行时生成五步动作块。实验显示其在密集动态行人场景下能做出更安全高效的短时避障决策。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

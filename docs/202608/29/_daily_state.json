@@ -1,0 +1,153 @@
+{
+  "date": "20260829",
+  "date_label": "",
+  "generated_at": "2026-08-29 23:03:12 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.25610v1",
+      "route": "202608/29/2608.25610v1-advantage-driven-explicit-memory-for-social-navigation",
+      "title": "Advantage-Driven Explicit Memory for Social Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "非参数显式记忆增强视觉社交导航策略",
+      "first_seen_at": "2026-08-29 23:03:12 UTC",
+      "updated_at": "2026-08-29 23:03:12 UTC"
+    },
+    {
+      "paper_id": "2608.26496v1",
+      "route": "202608/29/2608.26496v1-rtnav-towards-real-time-zero-shot-object-navigation",
+      "title": "RTNav: Towards Real-Time Zero-Shot Object Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "未知环境中的零样本目标导航",
+      "first_seen_at": "2026-08-29 23:03:12 UTC",
+      "updated_at": "2026-08-29 23:03:12 UTC"
+    },
+    {
+      "paper_id": "2608.25366v1",
+      "route": "202608/29/2608.25366v1-raem-robust-autonomous-exploration-for-multi-floor-environments-with-a-quadruped-robot",
+      "title": "RAEM: Robust Autonomous Exploration for Multi-Floor Environments with a Quadruped Robot",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "四足机器人在多楼层环境中的自主探索与导航框架",
+      "first_seen_at": "2026-08-29 23:03:12 UTC",
+      "updated_at": "2026-08-29 23:03:12 UTC"
+    },
+    {
+      "paper_id": "2608.25642v1",
+      "route": "202608/29/2608.25642v1-egonav-bridging-learned-waypoints-and-geometry-aware-local-control-for-robust-indoor-navigation",
+      "title": "EgoNav: Bridging Learned Waypoints and Geometry-Aware Local Control for Robust Indoor Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "室内具身导航智能体，使用拓扑地图与局部控制",
+      "first_seen_at": "2026-08-29 23:03:12 UTC",
+      "updated_at": "2026-08-29 23:03:12 UTC"
+    },
+    {
+      "paper_id": "2608.26190v1",
+      "route": "202608/29/2608.26190v1-predicting-consequences-and-reinforcing-navigation-policies-with-latent-world-models",
+      "title": "Predicting Consequences and Reinforcing Navigation Policies with Latent World Models",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向机器人导航的潜在世界模型，预测动作结果并强化导航策略；与点目标导航相关。",
+      "first_seen_at": "2026-08-29 23:03:12 UTC",
+      "updated_at": "2026-08-29 23:03:12 UTC"
+    },
+    {
+      "paper_id": "2608.26788v1",
+      "route": "202608/29/2608.26788v1-decoupling-planning-and-control-for-instructable-agents",
+      "title": "Decoupling Planning and Control for Instructable Agents",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "结合VLM规划与世界模型控制的指令跟随智能体，与自然语言指令导航直接相关",
+      "first_seen_at": "2026-08-29 23:03:12 UTC",
+      "updated_at": "2026-08-29 23:03:12 UTC"
+    },
+    {
+      "paper_id": "2608.27456v1",
+      "route": "202608/29/2608.27456v1-urbanground-from-local-perception-to-spatial-agency-in-a-real-scale-city",
+      "title": "UrbanGround: From Local Perception to Spatial Agency in a Real-Scale City",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "在真实规模城市模拟环境中进行具身导航，支持闭环交互和交互式地图",
+      "first_seen_at": "2026-08-29 23:03:12 UTC",
+      "updated_at": "2026-08-29 23:03:12 UTC"
+    },
+    {
+      "paper_id": "2608.26737v1",
+      "route": "202608/29/2608.26737v1-generative-semantic-scene-completion",
+      "title": "Generative Semantic Scene Completion",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "通过离散扩散将LiDAR语义场景补全为稠密语义体素地图",
+      "first_seen_at": "2026-08-29 23:03:12 UTC",
+      "updated_at": "2026-08-29 23:03:12 UTC"
+    },
+    {
+      "paper_id": "2608.27158v1",
+      "route": "202608/29/2608.27158v1-diffusion-policies-for-short-horizon-planning-in-robot-crowd-navigation",
+      "title": "Diffusion Policies for Short-Horizon Planning in Robot Crowd Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向机器人人群导航的扩散策略，属于动态环境中的具身导航智能体。",
+      "first_seen_at": "2026-08-29 23:03:12 UTC",
+      "updated_at": "2026-08-29 23:03:12 UTC"
+    }
+  ]
+}
