@@ -1,0 +1,137 @@
+{
+  "date": "20260830",
+  "date_label": "",
+  "generated_at": "2026-08-30 22:52:46 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.25799v1",
+      "route": "202608/30/2608.25799v1-agro-nav-autonomous-graph-based-orchard-navigation",
+      "title": "AGRO-Nav: Autonomous Graph-based Orchard Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "从SLAM点云构建稀疏拓扑图用于全局路径规划",
+      "first_seen_at": "2026-08-30 22:52:46 UTC",
+      "updated_at": "2026-08-30 22:52:46 UTC"
+    },
+    {
+      "paper_id": "2608.26947v1",
+      "route": "202608/30/2608.26947v1-4dsynth-controllable-procedural-world-synthesis-for-dynamic-embodied-simulation",
+      "title": "4DSynth: Controllable Procedural World Synthesis for Dynamic Embodied Simulation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "为具身智能体创建可编辑的4D仿真环境",
+      "first_seen_at": "2026-08-30 22:52:46 UTC",
+      "updated_at": "2026-08-30 22:52:46 UTC"
+    },
+    {
+      "paper_id": "2608.22149v2",
+      "route": "202608/30/2608.22149v2-meta-ctrl-guaranteed-plan-generation-by-decoupling-syntactic-and-semantic-constraints",
+      "title": "Meta-Ctrl: Guaranteed Plan Generation by Decoupling Syntactic and Semantic Constraints",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "用于机器人规划生成的约束解码，可适用于导航指令规划",
+      "first_seen_at": "2026-08-30 22:52:46 UTC",
+      "updated_at": "2026-08-30 22:52:46 UTC"
+    },
+    {
+      "paper_id": "2608.22675v1",
+      "route": "202608/30/2608.22675v1-vikpath-a-vision-kansformer-framework-for-effective-obstacle-avoidance-in-self-supervised-pathfinding",
+      "title": "VikPath: A Vision Kansformer Framework for Effective Obstacle Avoidance in Self-Supervised Pathfinding",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "自监督路径规划与避障，与点目标导航密切相关",
+      "first_seen_at": "2026-08-30 22:52:46 UTC",
+      "updated_at": "2026-08-30 22:52:46 UTC"
+    },
+    {
+      "paper_id": "2608.24959v1",
+      "route": "202608/30/2608.24959v1-gaussvla-geometry-aware-spatial-reasoning-for-vision-language-action-model",
+      "title": "GaussVLA: Geometry-Aware Spatial Reasoning for Vision-Language-Action Model",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向视觉-语言-动作具身智能体的几何感知空间推理",
+      "first_seen_at": "2026-08-30 22:52:46 UTC",
+      "updated_at": "2026-08-30 22:52:46 UTC"
+    },
+    {
+      "paper_id": "2608.26983v1",
+      "route": "202608/30/2608.26983v1-graphmemix-query-aware-evidence-forests-for-long-term-multimodal-agent-memory",
+      "title": "GraphMemix: Query-Aware Evidence Forests for Long-Term Multimodal Agent Memory",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向多模态智能体的查询感知长期图记忆，可应用于具身导航记忆",
+      "first_seen_at": "2026-08-30 22:52:46 UTC",
+      "updated_at": "2026-08-30 22:52:46 UTC"
+    },
+    {
+      "paper_id": "2608.27033v1",
+      "route": "202608/30/2608.27033v1-riemann-10-an-embodied-world-action-model-for-physical-ai",
+      "title": "Riemann-1.0: An Embodied World Action Model for Physical AI",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "具身世界动作模型，统一策略执行与环境仿真",
+      "first_seen_at": "2026-08-30 22:52:46 UTC",
+      "updated_at": "2026-08-30 22:52:46 UTC"
+    },
+    {
+      "paper_id": "2608.27226v1",
+      "route": "202608/30/2608.27226v1-dinocular-self-supervised-visuospatial-representations",
+      "title": "DINOcular: Self-Supervised Visuospatial Representations",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向具身感知的RGB-D自监督视觉空间表征",
+      "first_seen_at": "2026-08-30 22:52:46 UTC",
+      "updated_at": "2026-08-30 22:52:46 UTC"
+    }
+  ]
+}

@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-08-29</span>
+      <span class="dpr-home-dashboard-kicker">2026-08-30</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 9 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 8 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>7</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>2</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>0</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>8</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-08-29 23:03:12 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-08-30 22:52:46 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,7 +62,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日精读9篇导航与具身智能论文，聚焦社交导航与零样本物体导航两大高分解法。最值得关注的是《Advantage-Driven Explicit Memory》和《RTNav》，分别以记忆机制与实时推理突破导航瓶颈。下一步可优先追踪零样本导航的部署效率问题，速读中的场景补全与扩散规划可作辅助参考。</p>
+<p>今日共筛选8篇论文，完成3篇速读（最高7.0分），暂无精读。</p>
+<p>最值得关注的是农业机器人导航（AGRO-Nav）与动态仿真世界生成（4DSynth），均获7.0分。</p>
+<p>下一步建议优先精读这两篇高分论文，或拓展检索其同领域近期工作。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -71,12 +73,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">7 篇</strong>
+    <strong class="dpr-home-dashboard-count">0 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Advantage-Driven Explicit Memory for Social Navigation">Advantage-Driven Explicit Memory for Social Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="RTNav: Towards Real-Time Zero-Shot Object Navigation">RTNav: Towards Real-Time Zero-Shot Object Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="RAEM: Robust Autonomous Exploration for Multi-Floor Environments with a Quadruped Robot">RAEM: Robust Autonomous Exploration for Multi-Floor Environments with a Quadruped Robot</span></li></ul>
+<p class="dpr-home-dashboard-empty">今日暂无推荐。</p>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>6</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
+
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -84,12 +86,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">2 篇</strong>
+    <strong class="dpr-home-dashboard-count">8 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Generative Semantic Scene Completion">Generative Semantic Scene Completion</span></li><li><span class="dpr-home-dashboard-paper-title" title="Diffusion Policies for Short-Horizon Planning in Robot Crowd Navigation">Diffusion Policies for Short-Horizon Planning in Robot Crowd Navigation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="AGRO-Nav: Autonomous Graph-based Orchard Navigation">AGRO-Nav: Autonomous Graph-based Orchard Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="4DSynth: Controllable Procedural World Synthesis for Dynamic Embodied Simulation">4DSynth: Controllable Procedural World Synthesis for Dynamic Embodied Simulation</span></li><li><span class="dpr-home-dashboard-paper-title" title="Meta-Ctrl: Guaranteed Plan Generation by Decoupling Syntactic and Semantic Constraints">Meta-Ctrl: Guaranteed Plan Generation by Decoupling Syntactic and Semantic Constraints</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>1</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>1</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>6</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>1</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
 </section>
 </div>
 
