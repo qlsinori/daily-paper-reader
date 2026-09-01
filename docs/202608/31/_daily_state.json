@@ -1,0 +1,153 @@
+{
+  "date": "20260831",
+  "date_label": "",
+  "generated_at": "2026-09-01 00:36:42 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2608.28270v1",
+      "route": "202608/31/2608.28270v1-spatial-semantic-reasoning-using-large-language-models-for-efficient-uav-search-operations",
+      "title": "Spatial-Semantic Reasoning using Large Language Models for Efficient UAV Search Operations",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "直接面向物体目标导航，融合自然语言指令理解与语义推理",
+      "first_seen_at": "2026-09-01 00:36:42 UTC",
+      "updated_at": "2026-09-01 00:36:42 UTC"
+    },
+    {
+      "paper_id": "2608.28279v1",
+      "route": "202608/31/2608.28279v1-stegnav-spatio-temporal-event-graph-reasoning-for-multimodal-lifelong-object-navigation",
+      "title": "STEGNav: Spatio-Temporal Event Graph Reasoning for Multimodal Lifelong Object Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "多模态终身目标导航结合时空事件图直接面向物体类别目标导航",
+      "first_seen_at": "2026-09-01 00:36:42 UTC",
+      "updated_at": "2026-09-01 00:36:42 UTC"
+    },
+    {
+      "paper_id": "2608.23405v1",
+      "route": "202608/31/2608.23405v1-momadv2-reliable-temporal-memory-for-end-to-end-autonomous-driving",
+      "title": "MomADv2: Reliable Temporal Memory for End-to-End Autonomous Driving",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向可靠长时程自动驾驶的选择性状态空间时序记忆，对应具身环境中导航智能体的记忆需求",
+      "first_seen_at": "2026-09-01 00:36:42 UTC",
+      "updated_at": "2026-09-01 00:36:42 UTC"
+    },
+    {
+      "paper_id": "2608.22885v1",
+      "route": "202608/31/2608.22885v1-dragent-discriminative-reasoning-agent-for-referring-expression-segmentation",
+      "title": "DRAgent: Discriminative Reasoning Agent for Referring Expression Segmentation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "指代表达分割中的判别式目标选择方法，可用于物体目标导航中的目标定位",
+      "first_seen_at": "2026-09-01 00:36:42 UTC",
+      "updated_at": "2026-09-01 00:36:42 UTC"
+    },
+    {
+      "paper_id": "2608.23478v1",
+      "route": "202608/31/2608.23478v1-act-with-intent-distilling-behavior-intent-for-vision-language-action-models",
+      "title": "Act with Intent: Distilling Behavior Intent for Vision-Language-Action Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "视觉-语言-动作模型，行为意图蒸馏，语言条件机器人控制",
+      "first_seen_at": "2026-09-01 00:36:42 UTC",
+      "updated_at": "2026-09-01 00:36:42 UTC"
+    },
+    {
+      "paper_id": "2608.26239v1",
+      "route": "202608/31/2608.26239v1-wall-ss-scaling-long-horizon-world-models-via-next-scale-autoregression",
+      "title": "WALL-SS: Scaling Long-horizon World Models via Next-Scale Autoregression",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "生成世界模型支持动作可控的长时程机器人仿真，可用于模拟环境中的具身导航智能体",
+      "first_seen_at": "2026-09-01 00:36:42 UTC",
+      "updated_at": "2026-09-01 00:36:42 UTC"
+    },
+    {
+      "paper_id": "2608.27259v1",
+      "route": "202608/31/2608.27259v1-making-latent-evolution-explicit-operator-structured-transitions-for-world-action-models",
+      "title": "Making Latent Evolution Explicit: Operator-Structured Transitions for World Action Models",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向机器人交互预测的世界行动模型算子化潜在转移，支持具身智能体规划与模拟",
+      "first_seen_at": "2026-09-01 00:36:42 UTC",
+      "updated_at": "2026-09-01 00:36:42 UTC"
+    },
+    {
+      "paper_id": "2608.27793v1",
+      "route": "202608/31/2608.27793v1-cave-nav-vlm-based-autonomous-3d-navigation-in-underwater-cave-environments",
+      "title": "CAVE-NAV: VLM-Based Autonomous 3D Navigation in Underwater Cave Environments",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "基于视觉语言模型与思维链的自主三维导航，与具身导航相关",
+      "first_seen_at": "2026-09-01 00:36:42 UTC",
+      "updated_at": "2026-09-01 00:36:42 UTC"
+    },
+    {
+      "paper_id": "2608.27797v1",
+      "route": "202608/31/2608.27797v1-cedar-automata-as-verifiable-interfaces-for-language-guided-embodied-action",
+      "title": "CEDAR: Automata as Verifiable Interfaces for Language-Guided Embodied Action",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向自然语言指令的具身行动规约，可迁移至导航任务",
+      "first_seen_at": "2026-09-01 00:36:42 UTC",
+      "updated_at": "2026-09-01 00:36:42 UTC"
+    }
+  ]
+}

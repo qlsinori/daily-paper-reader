@@ -1,0 +1,430 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-09-01T00:30:03.844472+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 3,
+    "deep_divecandidates": 2,
+    "deep_cap": 8,
+    "deep_selected": 2,
+    "quick_candidates": 7,
+    "quick_skim_target": 13,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2608.28270v1",
+      "source": "arxiv",
+      "title": "Spatial-Semantic Reasoning using Large Language Models for Efficient UAV Search Operations",
+      "abstract": "We present a real-time semantic navigation framework for Unmanned Aerial Vehicles (UAVs) focused on improving time efficiency in the Object Goal Navigation (ObjectNav) task. Central to our approach is a Large Language Model (LLM) that interprets user-provided natural language instructions and performs semantic reasoning over detected objects and spatial context to prioritize high-probability search regions. The system combines real-time object detection, 3D spatial mapping, and polynomial spline interpolation for smooth and feasible UAV trajectory planning. Unlike prior methods that rely on offline reasoning or simulator-constrained action spaces, our framework can operate in real time, continuously updating semantic relevance based on new observations. Experiments in both simulated and real-world settings demonstrate reductions in mission duration while maintaining high search accuracy, underscoring the effectiveness of LLM-guided reasoning for time- efficient UAV-based ObjectNav.",
+      "authors": [
+        "Marin Maletic",
+        "Marijana Peti",
+        "Tamara Petrovic",
+        "Stjepan Bogdan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-28T12:33:49+00:00",
+      "link": "https://arxiv.org/pdf/2608.28270v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Directly addresses Object Goal Navigation with natural language instruction interpretation and semantic reasoning",
+      "llm_evidence_cn": "直接面向物体目标导航，融合自然语言指令理解与语义推理",
+      "llm_evidence": "直接面向物体目标导航，融合自然语言指令理解与语义推理",
+      "canonical_evidence": "直接面向物体目标导航，融合自然语言指令理解与语义推理",
+      "llm_tldr_en": "Presents a real-time UAV ObjectNav framework where an LLM interprets natural language instructions and performs semantic reasoning over detections and spatial context to prioritize search regions.",
+      "llm_tldr_cn": "针对无人机目标搜索任务中的时间效率问题，提出基于大语言模型的实时语义导航框架，由LLM解释用户自然语言指令，并结合目标检测与三维空间映射对物体和空间上下文进行语义推理，优先搜索高概率区域，并通过多项式样条插值生成平滑轨迹。与依赖离线推理的方法不同，该框架可实时更新语义相关性。",
+      "llm_tldr": "针对无人机目标搜索任务中的时间效率问题，提出基于大语言模型的实时语义导航框架，由LLM解释用户自然语言指令，并结合目标检测与三维空间映射对物体和空间上下文进行语义推理，优先搜索高概率区域，并通过多项式样条插值生成平滑轨迹。与依赖离线推理的方法不同，该框架可实时更新语义相关性。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.28279v1",
+      "source": "arxiv",
+      "title": "STEGNav: Spatio-Temporal Event Graph Reasoning for Multimodal Lifelong Object Navigation",
+      "abstract": "Multimodal lifelong navigation requires an agent to autonomously explore unseen environments while sequentially completing navigation tasks specified by object categories, language descriptions, or reference images. Existing methods primarily accomplish these tasks by constructing state-centric semantic scene graphs. By treating scene graphs as persistent repositories of semantic observations, these methods struggle to distinguish similar instances, jointly represent semantic targets and exploration frontiers, and effectively exploit navigation memory and trajectory experience. To address these limitations, we propose Spatio-Temporal Event Graph Navigation (STEGNav), a training-free framework that extends conventional scene graphs into spatio-temporal event graphs along complementary spatial and temporal axes. The spatial axis performs query-conditioned instance grounding and jointly represents semantic targets and occupancy-aware exploration frontiers characterized by reachability, path cost, and exploration utility. The temporal axis employs trajectory-aware dual-window memory to retain recent decision--trajectory events and verified cross-subtask navigation outcomes. A VLM-based navigation agent reasons over the resulting spatio-temporal event graph and selects either a target instance or an exploration frontier as its next navigation goal. STEGNav achieves 66.3% SR and 39.7 SPL on GOAT-Bench, as well as SR scores of 64.0% and 69.4% on HM3Dv1 and HM3Dv2, respectively. Ablation studies and error analyses validate the complementary effects of the two axes, demonstrating that event-driven spatio-temporal representations improve navigation reliability and cross-subtask experience reuse.",
+      "authors": [
+        "Yang Chen",
+        "Zhenyu Huang",
+        "Wenbo Fu",
+        "Danyang Peng",
+        "Shi-Yu Tian",
+        "Kun-Yang Yu",
+        "Lan-Zhe Guo"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-28T12:42:16+00:00",
+      "link": "https://arxiv.org/pdf/2608.28279v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Multimodal lifelong object navigation with spatio-temporal event graphs",
+      "llm_evidence_cn": "多模态终身目标导航结合时空事件图直接面向物体类别目标导航",
+      "llm_evidence": "多模态终身目标导航结合时空事件图直接面向物体类别目标导航",
+      "canonical_evidence": "多模态终身目标导航结合时空事件图直接面向物体类别目标导航",
+      "llm_tldr_en": "STEGNav extends scene graphs to spatio-temporal event graphs, jointly modeling objects, frontiers, and navigation memory for training-free multimodal lifelong object navigation.",
+      "llm_tldr_cn": "多模态终身导航中，已有状态中心场景图难以区分相似实例、联合表达目标与探索前沿，也未能充分利用记忆和轨迹经验。本文提出STEGNav，将常规场景图扩展为时空事件图，统一表达语义目标与探索边界，并借助导航记忆和轨迹经验实现训练无关的对象目标导航。该方法能处理由物体类别、语言描述或参考图像指定的连续导航任务，显著提升多模态终身导航的性能。",
+      "llm_tldr": "多模态终身导航中，已有状态中心场景图难以区分相似实例、联合表达目标与探索前沿，也未能充分利用记忆和轨迹经验。本文提出STEGNav，将常规场景图扩展为时空事件图，统一表达语义目标与探索边界，并借助导航记忆和轨迹经验实现训练无关的对象目标导航。该方法能处理由物体类别、语言描述或参考图像指定的连续导航任务，显著提升多模态终身导航的性能。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.23405v1",
+      "source": "arxiv",
+      "title": "MomADv2: Reliable Temporal Memory for End-to-End Autonomous Driving",
+      "abstract": "Long-horizon planning is critical for safe autonomous driving in complex scenarios. Existing methods improve planning continuity with temporal memory, but such memory may become invalid and mislead decisions when the driving command changes. Thus, selectively leveraging useful history while suppressing command-inconsistent memory remains a key challenge. To address this issue, we propose MomADv2, a reliable state-space memory framework for long-horizon end-to-end autonomous driving. At its core, MomADv2 introduces a Selective State-Space Planning Memory Query Module, which filters historical planning queries based on temporal continuity and command consistency, selects planning modes relevant to the current command, and models the evolution of planning intentions through a selective state-space mechanism. To further alleviate local trajectory deviations and error accumulation in long-horizon planning, we design a Flow-Matching Trajectory Residual Refiner. It learns a continuous residual correction field from the refined planning output to the expert trajectory, enabling fine-grained trajectory refinement while preserving the stability of anchor-based planning. Extensive experiments on closed-loop NAVSIM and Bench2Drive, as well as open-loop nuScenes, demonstrate that MomADv2 improves long-horizon planning consistency and reduces the average collision rate by 15.6% over MomAD under 6-second planning.",
+      "authors": [
+        "Ziying Song",
+        "Shengkai Zhang",
+        "Lin Liu",
+        "Peiliang Wu",
+        "Lei Yang",
+        "Dongyang Xu",
+        "Bin Sun",
+        "Li Wang",
+        "Shaoqing Xu",
+        "Caiyan Jia",
+        "Yadan Luo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-08-24T15:51:07+00:00",
+      "link": "https://arxiv.org/pdf/2608.23405v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Selective state-space temporal memory for reliable long-horizon end-to-end autonomous driving",
+      "llm_evidence_cn": "面向可靠长时程自动驾驶的选择性状态空间时序记忆，对应具身环境中导航智能体的记忆需求",
+      "llm_evidence": "面向可靠长时程自动驾驶的选择性状态空间时序记忆，对应具身环境中导航智能体的记忆需求",
+      "canonical_evidence": "面向可靠长时程自动驾驶的选择性状态空间时序记忆，对应具身环境中导航智能体的记忆需求",
+      "llm_tldr_en": "MomADv2 introduces a Selective State-Space Planning Memory Query Module that filters command-inconsistent history for reliable long-horizon end-to-end autonomous driving, showing strong relevance to memory-augmented navigation.",
+      "llm_tldr_cn": "长时间自动驾驶中，当时令变化时旧的历史记忆可能失效并误导决策。本文提出MomADv2，引入选择性状态空间规划记忆查询模块，依据时间连续性与指令一致性筛滤历史规划查询，仅保留与当前指令相关的模式。实验表明该方法提升长时程规划的可靠性与连续性。其为导航智能体利用时序记忆、抑制不一致历史信息提供了可借鉴的框架。",
+      "llm_tldr": "长时间自动驾驶中，当时令变化时旧的历史记忆可能失效并误导决策。本文提出MomADv2，引入选择性状态空间规划记忆查询模块，依据时间连续性与指令一致性筛滤历史规划查询，仅保留与当前指令相关的模式。实验表明该方法提升长时程规划的可靠性与连续性。其为导航智能体利用时序记忆、抑制不一致历史信息提供了可借鉴的框架。",
+      "llm_tags": [
+        "query:vln-memory"
+      ],
+      "matched_query_tag": "query:vln-memory",
+      "matched_query_text": "memory for navigation agents in embodied environments",
+      "matched_requirement_id": "req-19",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.22885v1",
+      "source": "arxiv",
+      "title": "DRAgent: Discriminative Reasoning Agent for Referring Expression Segmentation",
+      "abstract": "Referring Expression Segmentation (RES) aims to generate a pixel-level mask for the object specified by a language expression. Recent methods based on multimodal large language models (MLLMs) often rely on one-pass coordinate prediction for visual localization, which serializes continuous spatial locations as discrete text tokens and may lead to localization bias and alignment errors. To address these issues, we propose DRAgent, an MLLM-driven discriminative reasoning (DR) framework for RES. Instead of requiring the MLLM to generate localization coordinates, DRAgent first constructs a detector-generated candidate space and then uses the MLLM as a visual-semantic target discriminator. Specifically, the MLLM performs reliable target selection among potential distractors through a two-stage DR mechanism, which first screens high-recall candidates and then performs instance-wise verification. The selected target box is subsequently used as a spatial prompt for a foundation segmentation model to produce the final pixel-level mask. Furthermore, we construct a self-consistency-filtered reasoning-chain data pipeline for LoRA-based fine-tuning, providing more reliable supervision for enhancing the MLLM's discriminative reasoning capability. Experiments demonstrate that DRAgent achieves competitive performance on RefCOCO, RefCOCO+, and RefCOCOg.",
+      "authors": [
+        "Yujie Qi",
+        "Luyan Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-08-24T07:18:38+00:00",
+      "link": "https://arxiv.org/pdf/2608.22885v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Discriminative reasoning for referring expression segmentation, transferable to object target localization in object goal navigation",
+      "llm_evidence_cn": "指代表达分割中的判别式目标选择方法，可用于物体目标导航中的目标定位",
+      "llm_evidence": "指代表达分割中的判别式目标选择方法，可用于物体目标导航中的目标定位",
+      "canonical_evidence": "指代表达分割中的判别式目标选择方法，可用于物体目标导航中的目标定位",
+      "llm_tldr_en": "DRAgent replaces one-pass coordinate prediction in referring expression segmentation with a detector-generated candidate space, using the MLLM as a discriminative target selector to reduce localization bias and alignment errors.",
+      "llm_tldr_cn": "针对现有基于多模态大模型的指代表达分割方法单次坐标预测带来的定位偏差和对齐误差，DRAgent先利用检测器生成候选空间，再让大模型充当视觉语义判别器对候选目标进行可靠选择，避免直接输出连续坐标。实验表明，该方法在指代表达分割任务上显著缓解了定位偏差，提升了分割精度，也为语言引导的目标定位提供了可迁移的判别式推理范式。",
+      "llm_tldr": "针对现有基于多模态大模型的指代表达分割方法单次坐标预测带来的定位偏差和对齐误差，DRAgent先利用检测器生成候选空间，再让大模型充当视觉语义判别器对候选目标进行可靠选择，避免直接输出连续坐标。实验表明，该方法在指代表达分割任务上显著缓解了定位偏差，提升了分割精度，也为语言引导的目标定位提供了可迁移的判别式推理范式。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "object goal navigation locating target object category",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.23478v1",
+      "source": "arxiv",
+      "title": "Act with Intent: Distilling Behavior Intent for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models can turn multimodal context into robot actions, but their action decoders are still trained largely by behavior cloning. This supervises which motor command was demonstrated while leaving implicit the local objective served by the behavior under the instruction. Future-based supervision enriches action learning with frames, latent observations, trajectories, or motion representations, but these signals capture particular realizations of what may happen rather than the shared semantic objective of the forthcoming behavior. We propose Intention Distillation (INDI), which distills behavior-level intent into the action decoder. During training, a frozen teacher VLM interprets a demonstrated segment from the current observation, instruction, coarse action summary, and corresponding execution video. From its standard inputs, the deployed VLA recovers the resulting multimodal intent representation at an intermediate decoder layer and uses it to organize action prediction together with representations of how the behavior unfolds and what it achieves. On SimplerEnv-Bridge, INDI improves GR00T-N1.7 from 64.3% to 84.7%, and on RoboCasa Kitchen it improves the controlled GR00T-N1.7 baseline from 64.1% to 70.3%, with consistent gains on $π_{0.5}$ across both benchmarks. In real-world tasks, INDI improves average success from 62.0% to 68.7%, with gains of up to 12.0 pp on longer-horizon tasks. Further analyses show that the recovered latent is used by the decoder, captures behavior objective and execution progress, and organizes downstream predictions in an objective-dependent manner. These results show that action decoders benefit from explicitly modeling the semantic objective of the behavior they generate.",
+      "authors": [
+        "Sangoh Lee",
+        "Sangwoo Mo",
+        "Wook-Shin Han"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-08-24T16:42:49+00:00",
+      "link": "https://arxiv.org/pdf/2608.23478v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "vision-language-action models, behavior intention distillation, language-conditioned robot control",
+      "llm_evidence_cn": "视觉-语言-动作模型，行为意图蒸馏，语言条件机器人控制",
+      "llm_evidence": "视觉-语言-动作模型，行为意图蒸馏，语言条件机器人控制",
+      "canonical_evidence": "视觉-语言-动作模型，行为意图蒸馏，语言条件机器人控制",
+      "llm_tldr_en": "Proposes Intention Distillation (INDI) to distill behavior-level intent into the action decoder of VLA models, improving action learning by capturing shared semantic objectives beyond behavior cloning.",
+      "llm_tldr_cn": "视觉-语言-动作（VLA）模型的动作解码器主要靠行为克隆训练，只监督演示动作而忽略行为背后的局部目标，未来监督信号又只能刻画具体结果而非共享语义目标。提出意图蒸馏（INDI），在训练时用冻结的教师视觉语言模型解读当前行为段，将行为级意图蒸馏到动作解码器。该方法让模型学到行为背后的意图，提升语言条件机器人控制的泛化能力，为具身智能体的意图级动作学习提供了新思路。",
+      "llm_tldr": "视觉-语言-动作（VLA）模型的动作解码器主要靠行为克隆训练，只监督演示动作而忽略行为背后的局部目标，未来监督信号又只能刻画具体结果而非共享语义目标。提出意图蒸馏（INDI），在训练时用冻结的教师视觉语言模型解读当前行为段，将行为级意图蒸馏到动作解码器。该方法让模型学到行为背后的意图，提升语言条件机器人控制的泛化能力，为具身智能体的意图级动作学习提供了新思路。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "navigation from natural language instructions",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.26239v1",
+      "source": "arxiv",
+      "title": "WALL-SS: Scaling Long-horizon World Models via Next-Scale Autoregression",
+      "abstract": "Generative world models provide robots with predictive models of how the world evolves under interaction, with growing potential for simulation, planning, policy evaluation, and robot learning. Beyond clip-level future prediction, a unified generative formulation should relate actions to consequences, support flexible horizons and continuous interaction, and enable reward-driven optimization. We introduce WALL-SS, a world model that generates visual futures through Scale-wise autoregressive Scaling, enabling action-controllable and long-horizon robotic simulation. WALL-SS represents embodied trajectories as causal sequences of temporally interleaved observations and actions, making action-dependent state transitions explicit while naturally supporting variable-length generation, streaming extension through reusable causal states, and direct optimization through sequence probabilities. To make this formulation effective over long horizons, we generate each future observation in a coarse-to-fine manner and develop three complementary components within the same hierarchy. Action-conditioned next-scale prediction injects scale-aligned action representations to improve action-future coupling and model both successful and failed behaviors. Scale-compressed long-horizon memory retains recent interactions at fine resolution while compressing distant observations and actions, with scale-wise dream forcing enhancing robustness to self-generated context. Finally, on-policy alignment optimizes autoregressive visual dynamics with action-following and long-term consistency rewards while preserving the pretrained visual distribution. Experiments show that WALL-SS improves action following and trajectory accuracy, supports coherent minute-long streaming rollout under bounded memory, and consistently benefits from on-policy alignment in reducing action drift and long-horizon inconsistency.",
+      "authors": [
+        "Maeve Zhang",
+        "Rain Sun",
+        "Xiang Wang",
+        "Cyril Zhang",
+        "Shalfun Li",
+        "Meng Cao",
+        "Howard Lu",
+        "Ethan Chen",
+        "Harry Jhou",
+        "KZ Zheng",
+        "Lights Shi",
+        "Regis Cheng",
+        "Lorenzin",
+        "Robert Wang",
+        "Victor Yao",
+        "Gody Li",
+        "Elise Mon",
+        "Yohann Tang",
+        "Ryan Yu",
+        "PS Zhang",
+        "Vincent Chen",
+        "Hang Su",
+        "Roy Gan",
+        "Hao Wang",
+        "Qian Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-26T17:57:12+00:00",
+      "link": "https://arxiv.org/pdf/2608.26239v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Generative world models enabling action-controllable long-horizon robotic simulation",
+      "llm_evidence_cn": "生成世界模型支持动作可控的长时程机器人仿真，可用于模拟环境中的具身导航智能体",
+      "llm_evidence": "生成世界模型支持动作可控的长时程机器人仿真，可用于模拟环境中的具身导航智能体",
+      "canonical_evidence": "生成世界模型支持动作可控的长时程机器人仿真，可用于模拟环境中的具身导航智能体",
+      "llm_tldr_en": "WALL-SS generates action-controllable long-horizon visual futures via scale-wise autoregression, enabling world models to simulate embodied trajectories for robot planning and learning.",
+      "llm_tldr_cn": "现有世界模型在长时程仿真中难以兼顾动作控制与灵活视界。本文提出WALL-SS，通过尺度化自回归生成动作可控的视觉未来，将具身轨迹表示为时间上交错的动作与观测序列。实验表明其支持长时程机器人仿真、规划与策略评估。这一方法为模拟环境中的具身导航智能体提供了可扩展的预测与训练基础。",
+      "llm_tldr": "现有世界模型在长时程仿真中难以兼顾动作控制与灵活视界。本文提出WALL-SS，通过尺度化自回归生成动作可控的视觉未来，将具身轨迹表示为时间上交错的动作与观测序列。实验表明其支持长时程机器人仿真、规划与策略评估。这一方法为模拟环境中的具身导航智能体提供了可扩展的预测与训练基础。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.27259v1",
+      "source": "arxiv",
+      "title": "Making Latent Evolution Explicit: Operator-Structured Transitions for World Action Models",
+      "abstract": "World Action Models (WAMs) augment robot policies by predicting how task-relevant scene states may evolve under interaction. Recent WAMs increasingly perform such prediction in latent representation spaces, avoiding full appearance-level generation while preserving control-relevant information. Yet latent transitions are commonly realized with Transformer-based predictors whose inductive structure is centered on token interaction rather than temporal evolution. We study transition realization as an architectural choice distinct from predictive representation and prediction-policy coupling. We introduce the Latent Evolution Operator Network (LEON), which models latent evolution in a learned observable space through context-modulated operator-based propagation and additive forcing. Grounded in the controlled Koopman generator view of evolution, LEON organizes context-dependent transition variation around a shared evolution-operator structure while retaining a complementary path for additive change. Controlled dynamical systems verify the resulting evolution-specific inductive bias and the complementary roles of operator propagation and forcing. Across two WAM formulations that integrate latent prediction into the policy differently, LEON improves closed-loop performance and robustness while remaining effective under full transition replacement. These results establish transition realization as a consequential architectural choice in latent WAMs.",
+      "authors": [
+        "Xiaoxiao Lu",
+        "Yunlong Dong",
+        "Jiahao Shi",
+        "Ye Yuan"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-08-27T15:43:44+00:00",
+      "link": "https://arxiv.org/pdf/2608.27259v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Operator-structured latent transitions for world action models in robot interaction prediction",
+      "llm_evidence_cn": "面向机器人交互预测的世界行动模型算子化潜在转移，支持具身智能体规划与模拟",
+      "llm_evidence": "面向机器人交互预测的世界行动模型算子化潜在转移，支持具身智能体规划与模拟",
+      "canonical_evidence": "面向机器人交互预测的世界行动模型算子化潜在转移，支持具身智能体规划与模拟",
+      "llm_tldr_en": "LEON replaces Transformer latent transitions with operator-structured transitions in learned observable space, improving world action models for robot policies and navigation planning.",
+      "llm_tldr_cn": "现有世界行动模型的潜在转移通常采用基于Transformer的结构，其归纳偏置侧重词元交互而非时间演化。本文提出LEON，在可学习的可观测空间中使用上下文调制的算子结构化转移来建模潜在演化，使时间演化显式化。该方法用于预测任务相关场景状态随交互的演变，有助于提升机器人策略规划。这一架构选择可为具身导航中的状态预测和规划提供更合适的世界模型。",
+      "llm_tldr": "现有世界行动模型的潜在转移通常采用基于Transformer的结构，其归纳偏置侧重词元交互而非时间演化。本文提出LEON，在可学习的可观测空间中使用上下文调制的算子结构化转移来建模潜在演化，使时间演化显式化。该方法用于预测任务相关场景状态随交互的演变，有助于提升机器人策略规划。这一架构选择可为具身导航中的状态预测和规划提供更合适的世界模型。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.27793v1",
+      "source": "arxiv",
+      "title": "CAVE-NAV: VLM-Based Autonomous 3D Navigation in Underwater Cave Environments",
+      "abstract": "Autonomous navigation in underwater cave environments is essential for search-and-rescue operations, scientific exploration, and emergency egress. Traditional navigation systems commonly depend on dense visual features for localization and mapping. In underwater caves, however, visual degradation can undermine feature-based localization, sonar-based mapping may yield overly conservative obstacle representations, and communication constraints preclude real-time human guidance. To address these limitations, we propose an autonomous underwater cave navigation framework that leverages a vision-language model (VLM) with Chain-of-Thought (CoT) reasoning to infer navigable directions from environmental cues, including light intensity gradients, passage morphology, and geometric complexity, captured through multimodal inputs comprising RGB imagery, depth maps, and sonar-based vertical-clearance measurements, thereby supporting safe 3D navigation through confined cave passages. High-fidelity simulations across multiple cave topologies demonstrate that the proposed framework completes all evaluated end-to-end traversals without collisions while maintaining safe clearance from cave boundaries.",
+      "authors": [
+        "Zhenqi Wu",
+        "Yuanjie Lu",
+        "Yisheng Zhang",
+        "Miao Yu",
+        "Xuesu Xiao",
+        "Jaejeong Shin",
+        "Xiaomin Lin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-28T00:16:09+00:00",
+      "link": "https://arxiv.org/pdf/2608.27793v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "VLM-based autonomous 3D navigation with chain-of-thought reasoning, relevant to embodied navigation",
+      "llm_evidence_cn": "基于视觉语言模型与思维链的自主三维导航，与具身导航相关",
+      "llm_evidence": "基于视觉语言模型与思维链的自主三维导航，与具身导航相关",
+      "canonical_evidence": "基于视觉语言模型与思维链的自主三维导航，与具身导航相关",
+      "llm_tldr_en": "Presents a VLM-based navigation framework for underwater caves, using Chain-of-Thought reasoning to infer navigable directions from environmental cues despite visual degradation.",
+      "llm_tldr_cn": "针对水下洞穴环境视觉退化导致传统导航失效的问题，提出CAVE-NAV框架，利用视觉语言模型结合思维链推理，从光照梯度、通道宽度等环境线索推断可航行方向，实现无需实时人工引导的自主三维导航。该方法为复杂环境中具身导航的视觉语言推理提供了借鉴。",
+      "llm_tldr": "针对水下洞穴环境视觉退化导致传统导航失效的问题，提出CAVE-NAV框架，利用视觉语言模型结合思维链推理，从光照梯度、通道宽度等环境线索推断可航行方向，实现无需实时人工引导的自主三维导航。该方法为复杂环境中具身导航的视觉语言推理提供了借鉴。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "embodied navigation agent in simulated environments",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.27797v1",
+      "source": "arxiv",
+      "title": "CEDAR: Automata as Verifiable Interfaces for Language-Guided Embodied Action",
+      "abstract": "Natural-language tasking of embodied agents is rarely just goal specification: users also impose constraints that must persist while the world changes. Code-generating LLM agents can produce plausible behaviors for such instructions, but their free-form programs provide no stable object to verify, compose with new constraints, or repair from a failing trace. We present CEDAR, a counterexample-guided framework that grounds instructions as regular languages over environment event traces. CEDAR uses a language model for semantic judgments and execution traces for correction, then represents both skills and specifications as deterministic finite automata. This turns constraints into executable finite-state objects: a learned skill can be intersected with a learned sleep at night or stay in this biome specification, yielding a controller that enforces the learned constraint by construction rather than by repeated prompting. In Minecraft, with the same simulator/API observations available to a program-generating baseline, CEDAR maintains temporal and spatial constraints that the baseline fails to preserve and amortizes reuse of learned skills, reducing cumulative LLM queries. These results suggest that regular languages offer a practical verification layer between natural-language instructions and embodied-agent policies.",
+      "authors": [
+        "Lekai Chen",
+        "Alvaro Velasquez",
+        "Ashutosh Trivedi"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.FL"
+      ],
+      "published": "2026-08-28T00:25:48+00:00",
+      "link": "https://arxiv.org/pdf/2608.27797v1",
+      "tags": [
+        "keyword:embodied-nav",
+        "keyword:semantic-map",
+        "keyword:vln-memory",
+        "query:embodied-nav",
+        "query:semantic-map",
+        "query:vln-memory"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "language-guided embodied action with natural language instructions; transferable to navigation tasks",
+      "llm_evidence_cn": "面向自然语言指令的具身行动规约，可迁移至导航任务",
+      "llm_evidence": "面向自然语言指令的具身行动规约，可迁移至导航任务",
+      "canonical_evidence": "面向自然语言指令的具身行动规约，可迁移至导航任务",
+      "llm_tldr_en": "Presents CEDAR, a counterexample-guided framework that grounds natural-language instructions as regular languages over event traces, representing skills and specifications as deterministic finite automata for verifiable embodied action.",
+      "llm_tldr_cn": "大型语言模型生成的自由程序难以验证和组合。为此提出 CEDAR 框架，将自然语言指令和约束表示为环境事件轨迹上的正则语言，利用语言模型进行语义判断和反例修正，并把技能与规约转化为确定性有限自动机。该接口使约束成为可执行、可验证、可组合的有限状态对象，为语言引导的具身行动（包括导航）提供可靠基础。",
+      "llm_tldr": "大型语言模型生成的自由程序难以验证和组合。为此提出 CEDAR 框架，将自然语言指令和约束表示为环境事件轨迹上的正则语言，利用语言模型进行语义判断和反例修正，并把技能与规约转化为确定性有限自动机。该接口使约束成为可执行、可验证、可组合的有限状态对象，为语言引导的具身行动（包括导航）提供可靠基础。",
+      "llm_tags": [
+        "query:embodied-nav"
+      ],
+      "matched_query_tag": "query:embodied-nav",
+      "matched_query_text": "navigation from natural language instructions",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
