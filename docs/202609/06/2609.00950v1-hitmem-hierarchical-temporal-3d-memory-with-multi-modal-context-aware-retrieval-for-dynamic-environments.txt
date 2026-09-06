@@ -1,0 +1,523 @@
+Title: HitMem: Hierarchical Temporal 3D Memory with Multi-Modal Context-Aware Retrieval for Dynamic Environments
+
+URL Source: https://arxiv.org/pdf/2609.00950v1
+
+Published Time: Wed, 02 Sep 2026 01:03:01 GMT
+
+Number of Pages: 28
+
+Markdown Content:
+# HitMem: Hierarchical Temporal 3D Memory with Multi-Modal Context-Aware Retrieval for Dynamic Environments 
+
+Ruijie Tang 1,2,4, Chenye Zou 3, Guoquan Wu 1,2,4(B),Jun Wei 1,2,4, Wei Chen 1,2,4, and Jiaxin Zhu 1,2,4 
+
+> 1
+
+Institute of Software, Chinese Academy of Sciences (ISCAS), Beijing, China  
+
+> 2
+
+University of Chinese Academy of Sciences, Beijing, China  
+
+> 3
+
+Alibaba Group, Shanghai, China  
+
+> 4
+
+Beijing Key Laboratory of Intelligent Software Engineering, China 
+
+Abstract. Executing long-term tasks in dynamic environments requires embodied agents to maintain robust and adaptive 3D scene represen-tations. However, most existing 3D memory frameworks rely on static world assumptions. When objects are displaced by human activities or unobserved events, agents encounter memory-observation conflicts and often require costly geometric recomputations or inefficient global re-exploration. To address this, we propose HitMem, a hierarchical tempo-ral 3D memory framework with a multi-modal context-aware retrieval mechanism. Through continuous perception, HitMem unifies semantic and spatial information into a lightweight topological graph that cap-tures support relationships, while a temporal decay mechanism dynami-cally regulates memory activeness to mitigate the impact of stale repre-sentations. In addition, the multi-modal context-aware retrieval mecha-nism defaults to filtering candidates using integrated semantic, spatial, and temporal memory features, and activates a specialized two-stage re-trieval process when object displacement is detected. This process com-bines spatial constraints inferred from external agent trajectories with semantic common sense grounded in class affinities, efficiently identi-fying high-probability candidate regions. Extensive evaluations on our constructed Dyna-THOR benchmark demonstrate that HitMem signif-icantly improves object relocation accuracy, reduces exploration costs, and enhances task execution performance in dynamic environments. 
+
+Keywords: Dynamic 3D Memory · Context-Aware Retrieval · Embod-ied AI 
+
+1 Introduction 
+
+Performing complex and long-term tasks within real-world environments is a fundamental objective of modern embodied agents. Such agents must operate continuously, respond to user instructions, autonomously identify targets, and arXiv:2609.00950v1 [cs.RO] 1 Sep 2026 2 R. Tang et al. Target is missing from the memorized position. Where can I find it?        
+
+> Human-Inspired Cognitive Search
+> When might the target have been taken?
+> Who might have been nearby, and where did he/she go? Where is the target most likely to be found?
+> ➊Temporal ➋Spatial ➌Semantic
+> Memorized Location Displaced Location Human Trajectory
+> Human interaction
+
+Fig. 1: Design intention of HitMem. Existing methods are constrained by static environment assumptions or resort to blind exploration when targets are displaced. In contrast, we construct a hierarchical temporal memory and leverage multi-modal environmental information for retrieval, effectively enhancing adaptability to dynamic environments and improving exploration efficiency. 
+
+execute corresponding actions [29, 34, 37]. A cornerstone of achieving these ob-jectives is the integration of memory, which enables the agent to store and effec-tively retrieve environmental information to support task execution. Many re-cent methods have successfully transformed sensory inputs into 3D memories via dense reconstruction or scene graph modeling, equipping embodied agents with the requisite spatial awareness for navigation and manipulation [7,9,16,21,22,35]. However, existing methods are fundamentally limited by their reliance on a static world assumption. Real-world environments are intrinsically dynamic, where objects are frequently displaced by human activities or unobserved events. This discrepancy causes memory conflicts when an agent navigates to a location and finds the target missing. Current memory frameworks offer limited support for dynamic updates. Specifically, the re-inference of relational structures or the recomputation of geometric clusters is both computationally inefficient and prone to errors [8,31,35]. Moreover, the absence of temporal dynamics modeling leaves agents highly vulnerable to obsolete information [3, 6, 19, 28]. These limitations restrict the effective resolution of memory discrepancies, which fundamentally impairs the agent’s adaptability in dynamic environments. Furthermore, existing methods relying on exhaustive global search or single-modality information are fundamentally inadequate for object relocation in dy-namic environments [17,23,32,36]. Inspired by human cognitive search behaviors, as shown in Fig. 1, individuals locate misplaced objects by leveraging multi-modal contextual cues rather than resorting to random or exhaustive environ-mental scanning. This process involves synthesizing physical spatial dynamics, such as the influence of recent nearby human interactions on object placement, together with semantic relevance. For example, it recognizes that a missing bowl from a dining table is far more likely to be relocated to a kitchen sink or refrig-erator rather than to a semantically unrelated bathroom. Therefore, integrating multi-modal contextual knowledge that encompasses both semantic common-HitMem 3
+
+sense and spatio-temporal dynamics into the memory retrieval loop is essential for achieving efficient dynamic object relocation. To address these challenges, we introduce HitMem, a hierarchical temporal 3D memory framework with multi-modal context-aware retrieval for dynamic en-vironments. HitMem unifies semantic, spatial, and temporal information within a multi-level representation. At the high level, it constructs a lightweight seman-tic topological graph that encodes only categorical carrier-carried relationships. This bypasses the computationally expensive instance-level correspondence in-ference and geometric clustering mandated by conventional methods. At the low level, HitMem preserves the detailed 3D attributes of objects, ensuring precise spatial matching and supporting downstream 3D manipulation tasks. To cap-ture the inherently dynamic nature of the environment, we introduce a temporal decay mechanism. It dynamically modulates the activeness scores of memory nodes over time, proactively penalizing outdated observations and preventing the agent from relying on obsolete information during task execution. Crucially, HitMem incorporates a multi-modal context-aware retrieval mech-anism. By sequentially leveraging the semantic and spatial information of the hierarchical memory graph with temporal activeness scores, the system can ef-ficiently filter out invalid targets. When a target is determined to be displaced, we activate a two-stage retrieval strategy that tightly integrates multi-modal environmental context. First, we extract spatial constraints from the historical trajectories of external agents, significantly pruning the search space. Second, we conduct a class affinity analysis that evaluates the probabilistic correlation between the target and candidate carriers. By combining physical trajectory cues with semantic common sense, HitMem avoids blind global exploration and achieves highly targeted, context-driven spatial reasoning. Considering that existing benchmarks fail to adequately capture the dynamic challenges of real-world environments, we construct a novel benchmark, Dyna-THOR, built upon the AI2-THOR [14] simulator. Dyna-THOR introduces ex-ternal agents that actively manipulate and relocate task-relevant objects during execution, simulating the unexpected interactions caused by humans or other agents in real-world settings. Extensive experiments on Dyna-THOR demon-strate that HitMem significantly improves long-term task execution, showing strong adaptability to dynamic disturbances while substantially reducing explo-ration costs compared to existing baselines. In summary, our main contributions are as follows: 
+
+– We propose HitMem, a hierarchical temporal 3D memory that structurally unifies semantic, spatial, and fine-grained geometric information. A temporal decay mechanism dynamically regulates memory activeness, enabling robust adaptation to environmental changes and filtering of obsolete observations. 
+
+– We design a multi-modal context-aware retrieval mechanism. By integrating physical spatial cues (external agent trajectories) with semantic common sense (class affinity analysis) in a two-stage strategy, the proposed method efficiently and accurately relocates displaced objects. 4 R. Tang et al. 
+
+– We introduce Dyna-THOR, a novel benchmark that incorporates interac-tions between external agents and objects to simulate unpredictable envi-ronmental dynamics. Extensive experiments show that HitMem improves relocation accuracy, exploration efficiency, and adaptability in dynamic en-vironments. 
+
+2 Related Work 
+
+3D Scene Representations. 3D scene representation is crucial for the task execution of embodied agents. Early dense 3D reconstruction approaches [9, 42] capture detailed geometric structures but lack high-level semantics, limiting their effectiveness in tasks involving semantic queries. While integrating Vision-Language Models (VLMs) [15, 25] embeds 2D semantic features into 3D struc-tures for language-guided object localization and manipulation [7, 17, 22, 39], these methods remain computationally expensive and incapable of real-time up-dates in dynamic environments. 3D Scene Graph-based methods further simplify scene representation [16, 19, 32, 35], offering stronger semantic interpretability through nodes and edges. Accurate scene characterization requires precise edge correspondences, typically achieved through geometric clustering [8,21] or infer-ence via Large Language Models (LLMs) [11,31,35]. However, these methodolo-gies are structurally unstable in dynamic settings, where object displacements ne-cessitate error-prone and computationally prohibitive recomputations of clusters and edges. Moreover, lacking temporal dynamics modeling leaves agents reliant on obsolete information, degrading task accuracy and efficiency. In this work, we streamline the 3D scene representation by focusing on categorical carrier-carried relationships. This topological choice bypasses complex edge inference to enable continuous memory updates while preserving fine-grained 3D attributes. Coupled with a temporal decay mechanism, our approach substantially improves agent adaptability and execution efficiency in dynamic environments. 
+
+Memory for Embodied Tasks. Embodied agent memory takes various forms. Short-term memory approaches typically employ VLMs for scene analysis and action prediction based on instantaneous observations [2,38,43–45]. The absence of a stable and persistent knowledge representation makes it difficult to ensure reliable long-term task execution. Some methods store historical images as long-term memory for embodied reasoning and exploration [4, 20, 33], but they often suffer from low efficiency and poor adaptability to dynamic environments. A common approach is to leverage 3D scene representations by directly converting extracted semantic and spatial information into agent memory [3,6,10,40]. When needed, the memory can be retrieved to support LLM-based task understanding and planning. Such methods significantly enhance environmental comprehension but are strictly limited to static applications. To address dynamics, recent stud-ies incorporate updates [17, 27, 32] or temporal awareness [23, 36]. However, for object relocation, these methods still resort to global matching or scoring. By relying on exhaustive search and failing to fully exploit environmental context, HitMem 5Task Planning           
+
+> Hierarchical Temporal 3D Memory Multi-Modal Context-Aware Retrieval
+> Obs.
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> Please find the apple on the table, and put the apple in the sink, then turn off the kitchen light.
+> ➊[ Goto, Apple (on table), -- ]
+> ➋[ Pick, Apple, Table ]
+> ➌[ Goto, Sink, -- ]
+> 𝐀 𝐀
+> 𝐀 𝐀
+> Decay Mechanism
+> Rec
+> &
+> Seg
+> Spatial Info Visual Feature
+> CLIP Fusion
+> Memory Update
+> Carrier Carried
+> Feature Sim
+> Visual Text &
+> 1.0 0.75 0.5 0.25 0
+> time
+> Retrieval Score
+> 𝐀 𝐀
+> (Table) Navigation &Verification Target Displacement
+> Candidates
+> Trajectory-Based Search Space Filtering Missing Class Affinity Scanning
+> Find
+
+Fig. 2: Overview of HitMem. HitMem is a hierarchical 3D memory framework that integrates spatial-semantic information with a decay mechanism to model temporal dy-namics. It employs multi-modal context-aware retrieval for efficient target localization. When objects are displaced, it leverages external agent trajectories with class affinity to rapidly identify candidate regions, enhancing robustness in dynamic environments. 
+
+these approaches suffer from severe inefficiencies in memory retrieval. In con-trast, we propose a multi-modal context-aware retrieval mechanism leveraging our hierarchical memory structure with temporal dynamics for rapid target lo-calization. To relocate displaced objects, we design a two-stage retrieval strategy that integrates external agent trajectories and semantic class-affinity scanning, significantly reducing the search space and improving retrieval efficiency. 
+
+3 Method 
+
+Our objective is to enable embodied agents to execute instructions via continuous RGB-D observations while robustly handling unexpected object displacements in dynamic environments. Fig. 2 illustrates an overview of the proposed HitMem framework. We construct a hierarchical 3D representation that fuses spatial and semantic information, integrated with a decay mechanism to model temporal dynamics. To efficiently locate targets and mitigate memory inconsistencies, Hit-Mem employs a multi-modal context-aware retrieval mechanism. When a target is displaced, it activates a two-stage strategy that synthesizes spatial cues (ex-ternal agent trajectories) and semantic common sense (class affinities) to rapidly pinpoint candidate regions, ensuring adaptability and robustness. 
+
+3.1 Hierarchical Temporal 3D Memory Topological and Semantic Representations. By continuously perceiving the environment, our approach constructs and dynamically updates an object-centered hierarchical memory graph, denoted as Gt = ( Vt, Et).
+
+Node Instantiation ( Vt): Given a continuous stream of observations I =
+
+{I1, I 2, . . . } from the ego-agent, where each In comprises an RGB-D image and 6 R. Tang et al. 
+
+the corresponding camera pose, we leverage an open-vocabulary recognition and detection method (e.g., RAM-Grounded-SAM2 [13, 18, 41]) to obtain instance-level bounding boxes and segmentation masks. These extractions form the ver-tex set Vt, with each node vi ∈ V t encapsulating both semantic and spatial attributes. Specifically, we derive visual embeddings Fi by processing cropped images and masks through CLIP [25]. Concurrently, we associate each node with precise 3D geometric attributes, including the reconstructed point cloud pcd i,global coordinates pos i, and physical dimensions. 
+
+Carrier-Carried Edges ( Et): To constrain the search space for downstream tasks, we organize nodes into a hierarchical structure by classifying them into carriers Cr (e.g., tables, shelves) and carried objects Cd (e.g., cups, apples). A node vi is assigned to Cr if the cosine similarity between its visual feature Fi and the textual embedding of “furniture or appliances for holding objects” exceeds a semantic threshold θsem . For remaining non-carrier nodes vj , we evaluate their spatial relationship with all carriers vi ∈ C r via a comprehensive support score: 
+
+Ssupport (vi, v j ) = ω1Rp + ω2Rc + ω3Rv + ω4Sh (1) where P4 
+
+> k=1
+
+ωk = 1 . This aggregate score encapsulates four geometric metrics derived from the instance-level point clouds: spatial proximity ( Rp), horizontal coverage ( Rc), vertical support ( Rv ), and height consistency ( Sh). A directed edge E(vi, v j ) ∈ E t is established, and vj is formally assigned to the carried set 
+
+Cd, only if the maximum support score exceeds a predefined threshold θsup :
+
+vj → C d ∪ { E(ˆ vi, v j ) → E t}, if max 
+
+> vi∈C r
+
+Ssupport (vi, v j ) > θ sup  (2) If vj fails to satisfy the support condition for any existing carrier, it is temporar-ily categorized as an unassigned object ( vj ∈ C u). These nodes are retained in memory and dynamically re-evaluated for support relationships whenever new carrier nodes are incrementally discovered during subsequent exploration. By abstracting the environment into this dynamic Cr → C d topological structure, updates can be executed efficiently via localized node insertion or deletion, cir-cumventing the computational burden of global graph reconstruction. 
+
+Temporal Decay Mechanism. A fundamental challenge in dynamic envi-ronments is memory obsolescence, where over-reliance on stale information in-evitably leads to memory-observation conflicts and task failures. To explicitly quantify temporal validity, we introduce a memory decay mechanism that as-signs a dynamic activeness score A(vi, t ) ∈ (0 , 1] to each node vi ∈ V t. This score decays exponentially with the time elapsed since the node’s last observation: 
+
+A(vi, t ) = exp ( −λ(vi) · (t − Tlast ))  (3) Crucially, instead of using a uniform static constant, we define the decay rate 
+
+λ(vi) as an intrinsic property of the object’s structural role, modulated by the environment’s spatial scale. Since carrier objects ( Cr ) are relatively stationary, HitMem 7
+
+their decay rate is set to zero to ensure stable structural memory. Conversely, carried objects ( Cd) are assigned a baseline rate λbase , which is scaled by a scene factor η(Sscene ) that grows with the mapped area or room count. Specifically, 
+
+λ(vi) = λbase  
+
+> η(Sscene )
+
+. This inverse scaling ensures slower decay in larger environ-ments, preventing premature forgetting during long-term tasks. As a result, a high activeness score indicates reliable memory, while a lower score reduces re-trieval priority, encouraging the agent to discount outdated observations. In real-world scenarios, environments are often perturbed by external agents, such as humans or other autonomous entities, whose interactions alter spatial configurations and introduce unpredictable dynamics. Since these agents provide no explicit notification of displacement, the ego-agent must infer changes solely through observation. Our decay mechanism efficiently supports the tracking of these dynamics. Entities identified as external agents (labeled “human/robot”) by the perception module are independently recorded as a node set Vagent . By ordering these nodes chronologically according to their activeness scores, we reconstruct the external agent’s motion to generate a coherent trajectory: 
+
+T =  vagent k1 , v agent k2 , . . . , v agent km
+
+ , s.t. A(vagent kj ) < A(vagent kj+1 ) (4) Visual instance tracking can be integrated to assign identities, allowing the sys-tem to partition external agent nodes into subsets and construct independent trajectories for multiple external agents. These trajectories serve as critical phys-ical contexts, guiding multi-modal memory retrieval and target relocation. 
+
+Continuous Memory Fusion. To ensure a consistent and deduplicated scene representation, incoming observations must be tightly fused with existing nodes. When integrating new observations, conventional Iterative Closest Point (ICP) matching is prone to segmentation inaccuracies and localization noise, which often absorb small objects into larger ones, leading to the loss of memory entries. To address this, we introduce a Bidirectional ICP matching process requiring both forward and backward alignment scores to pass thresholds ( Sf wd ICP ≥ σf wd ∧
+
+Sbwd ICP ≤ σbwd ). Following a successful match, the new point cloud is fused into the stored node vi, its temporal state is refreshed ( A(vi, t ) = 1 ), and its visual feature is updated via a weighted average based on the observation count. 
+
+3.2 Multi-Modal Context-aware Retrieval 
+
+Efficient memory retrieval is fundamental for executing high-level task plans in dynamic environments. To address the challenge of target object displace-ment, we introduce a closed-loop, multi-modal context-aware retrieval method, as shown in Fig. 3. The system initially performs a hierarchical semantic query within the memory graph Gt, integrating temporal information to filter candidate targets before conducting active visual verification. Upon detecting a memory-observation conflict signaling object displacement, the system proactively prunes the obsolete node. It then activates a two-stage relocation strategy, synthesizing external agent trajectory and class affinity to perform active reasoning. 8 R. Tang et al. External Agent Trajectory Verification and Memory Pruning Class Affinity         
+
+> Ego-Agent External Agent External Agent’s Trajectory Point Carrier(s) Carried(s)
+> Target: Apple (on table)
+> Historical Observation Current Observation
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀 Pruned Search Space
+> 𝐀
+> Pruned Search Space
+> Target Similarity
+> 123455432113524Explore
+
+Fig. 3: Retrieval strategy of HitMem. Upon navigating to the retrieved target object location, the ego-agent actively verifies its visual observation. If the target has been displaced, the corresponding obsolete memory node is removed, and a two-stage retrieval process is then initiated. First, the local trajectories of external agents are analyzed to infer potential displacement directions and narrow the search space. Sec-ond, class affinity scores between the target and candidate carriers are calculated to prioritize subsequent exploration. 
+
+Hierarchical Semantic Querying and Active Verification. Leveraging the natural language understanding capabilities of LLMs, user instructions are parsed into structured semantic queries (e.g., ⟨Pick , Apple , Table ⟩). To minimize computational overhead, HitMem capitalizes on the hierarchical structure of the memory graph Gt. The system initially filters relevant carrier nodes within Cr .Subsequently, it restricts the fine-grained search to the carried objects vi ∈ C d
+
+that are topologically linked to the filtered carriers. In scenarios where the in-struction lacks a specific carrier context, the hierarchical topology still accelerates the process by enabling a top-down structured traversal. We define a comprehensive retrieval score for each candidate carried object: 
+
+Sretrieval (vi) = α1 · sim (Fi, F query ) + α2 · A (vi, t ). Here, Fquery denotes the tex-tual embedding of the queried target object, and sim (·, ·) computes the cosine similarity between the visual and textual embeddings. Both the similarity metric and the activeness score are normalized to [0 , 1] using min-max scaling. In our implementation, α1 and α2 are set to 1. Candidates satisfying the requirement 
+
+Sretrieval (vi) > θ target are ranked in descending order. Up to three top-ranked nodes are then selected as primary exploration targets, effectively prioritizing objects that possess both semantic relevance and temporal recency. Upon navigating to the expected location of the top-ranked candidate, the ego-agent verifies whether the current visual observation matches the anticipated target memory. If the target is successfully detected, the retrieval concludes and the downstream manipulation task proceeds. Conversely, if the target is visually absent, HitMem identifies a memory-observation conflict indicating displacement and executes active memory pruning to keep the scene representation consistent. The obsolete node vi and its associated carrier-carried edge are deleted from the graph ( Vt ← V t \ { vi}). This proactive mechanism promptly purges verified stale HitMem 9
+
+information from memory, ensuring sustained alignment between the ego-agent’s internal representation and the evolving physical environment. 
+
+Two-Stage Retrieval for Relocated Objects. When the target object is displaced, the ego-agent initiates a two-stage retrieval strategy. This strategy fully leverages multi-modal environmental context to efficiently re-localize the displaced target, transitioning from blind exploration to guided spatial reasoning. 
+
+Stage 1: Trajectory-Based Search Space Filtering. The initial step leverages the historical trajectory T of external agents to infer the displacement direction of the target. We first identify the interaction point Pclosest ∈ T , de-fined as the trajectory node spatially closest to the object’s last known position. A local trajectory segment, denoted as τlocal , is then extracted, consisting of a subsequence of k consecutive points following Pclosest . To capture the stable motion trend rather than local fluctuations, we estimate the displacement vector 
+
+D as a weighted average of the subsequent trajectory segments: 
+
+D =
+
+> k
+
+X
+
+> m=1
+
+A(vagent c+m ) − A (vagent c ) · pos (vagent c+m ) − pos (vagent c+m−1) (5) where c is the index of Pclosest in T , and the weight is computed based on the activeness score difference. Guided by D, carrier objects within a sector of angle 
+
+θR are selected to form the candidate exploration set Ccand , formally defined as: 
+
+Ccand =
+
+
+
+vi ∈ C r
+
+D · (pos i − pos last )
+
+∥D∥2 · ∥ pos i − pos last ∥2
+
+≥ cos 
+
+ θR
+
+2
+
+ 
+
+(6) This process bounds the directional exploration, significantly narrowing the physical search space for the subsequent semantic scanning. 
+
+Stage 2: Semantic Class Affinity Scanning. The second stage prioritizes the candidate carriers in Ccand based on class affinities. To quantify the class affinity between the target category Cat t and each candidate carrier vj ∈ C cand ,we populate Cat t into a descriptive text template (e.g., “A receptacle where a [ Cat t] is most often placed”) to extract a contextualized textual embedding 
+
+Etext (Cat t). The raw semantic affinity Aaf f inity (Cat t, v j ) is then evaluated by computing the cosine similarity between the textual and visual embeddings of the candidate carrier. Alternatively, this score can be replaced by a commonsense prior inferred by an LLM. To form a valid probability distribution for sequential exploration, these values are normalized across the entire candidate set Ccand 
+
+using a standard softmax function: 
+
+P (vj | Cat t) = exp ( Aaf f inity (Cat t, v j )) 
+
+P  
+
+> vk∈C cand
+
+exp ( Aaf f inity (Cat t, v k))  (7) By directing the ego-agent to explore candidate carriers prioritized by P (vj |
+
+Cat t), this mechanism significantly reduces redundant exploration. 10 R. Tang et al.                     
+
+> Table 1: Comparison of existing embodied AI benchmarks
+> Vis. Obs. Movable Objects Long-term Tasks Dynamism R2R [1] Ego ✗✗✗
+> VirtualHome [24] 3rd Person ✗✓✗
+> ALFRED [26] Ego ✓✗✗
+> Dyna-THOR (Ours) Ego ✓✓✓
+
+4 Experiments 
+
+To comprehensively evaluate our HitMem framework, we first introduce Dyna-THOR, a novel benchmark constructed to address the critical lack of interaction-driven environmental dynamics. We conduct comparative experiments to assess the performance of various methods in dynamic and long-term task scenarios. Furthermore, we design ablation studies and extension experiments to validate the effectiveness and scalability of our approach across diverse settings. Qualita-tive visualizations are provided to intuitively interpret the operational process. 
+
+4.1 Dyna-THOR Design 
+
+Existing embodied AI datasets and benchmarks primarily focus on navigation, reasoning, and manipulation tasks within static environments [1, 12, 24, 26, 30]. As shown in Table 1, existing benchmarks are typically constructed in non-interactive, static environments or overlook the impact of object manipulations performed by other agents (e.g., humans). Consequently, they fail to effectively simulate the challenges encountered by robots operating in real-world settings, where unanticipated human interactions frequently alter object locations during long-term task execution. This limitation results in insufficient evaluation of a method’s robustness and adaptability under realistic dynamic conditions. To bridge this critical gap, we introduce Dyna-THOR, a novel benchmark built upon the AI2-THOR simulator [14]. Its core evaluation mechanism extends beyond merely requiring the ego-agent to accomplish predefined tasks. Specifi-cally, we incorporate external agents that interact with environmental objects to simulate realistic human behaviors. These external agents deliberately manip-ulate task-relevant objects by altering their physical states or relocating them prior to the ego-agent’s execution. Crucially, these interventions occur without providing any explicit notification to the ego-agent. By explicitly modeling the root causes of real-world environmental changes, this design intentionally de-couples the ground-truth state from the ego-agent’s internal memory, thereby naturally inducing memory-observation conflicts through unpredictable dynam-ics during task execution, enabling a highly rigorous and precise evaluation of various methods regarding their robustness and adaptability in dynamic settings. Dyna-THOR comprises 12 interactive scenes across four distinct room cate-gories, each featuring five long-term tasks. In these tasks, the ego-agent must interpret and sequentially execute multiple natural language instructions to HitMem 11 
+
+achieve specified objectives, while simultaneously adapting to environmental dy-namics induced by external agents. More details about the Dyna-THOR dataset are provided in the supplementary materials. 
+
+4.2 Experimental Setup Task and Environment Configurations. We conduct experiments in the AI2-THOR simulator. The ego-agent processes egocentric RGB-D observations at a resolution of 400 × 400 pixels. For task execution, we enforce a strict max-imum limit of 500 steps. If the ego-agent exceeds this threshold, the episode is immediately terminated, and the final environmental state is evaluated against the expected goal. The action space of the ego-agent includes navigation ac-tions (MoveAhead-0.25m, RotateLeft-90°, RotateRight-90°), manipulation ac-tions (e.g., PickupObject, PutObject, OpenObject, CloseObject, ...), and a ter-mination action (Done). 
+
+Baselines. We compare our method with the following baselines: 1) DELTA [19]: This method leverages a label-based scene graph for task understanding and planning with LLMs. 2) ConceptGraphs [6]: It constructs a static open-vocabulary 3D scene graph for object-level semantic mapping, enabling feature-based matching and querying. 3) DovSG [32]: It maintains a dynamic 3D scene graph that supports localized updates of spatial and semantic relationships. 4) DynaMem [17]: It proposes an online updatable spatio-temporal semantic point cloud memory, which dynamically reconstructs spatial coordinates in response to environmental changes and supports open-vocabulary object localization. To ensure a fair comparison, all methods requiring pre-constructed memory are provided with an identical initial exploration trajectory. Every method em-ploys the identical recognition and segmentation models for visual processing and utilizes the GPT-4o for all LLM-based reasoning and planning tasks. All methods are restricted to navigating via memory-retrieved spatial coordinates rather than relying on simulator-defined ground-truth object identifiers. 
+
+Evaluation Metrics. We quantitatively assess task performance using three primary metrics. Success Rate (SR): This metric measures the overall task com-pletion. A trial is deemed successful only if all necessary actions are executed and the final environmental state strictly matches the ground-truth goal state. 
+
+Success weighted by Path Length (SPL): This metric evaluates the physical spa-tial exploration efficiency by calculating the ratio of the theoretically shortest path to the actual executed path length. Ground-truth Completion Rate (GCR): 
+
+We additionally employ this metric to measure the consistency of task execution across various natural language instructions within each long-term task. 
+
+4.3 Comparison Result Comparison with Baselines. Table 2 presents a detailed comparison on Dyna-THOR. The results show that HitMem significantly outperforms all base-lines in both success rate and execution efficiency, demonstrating its strong capa-bility for robust and efficient long-term task execution in dynamic environments. 12 R. Tang et al. 
+
+Table 2: Detailed results on the Dyna-THOR.                                                                                         
+
+> Method Kitchen Living-room Bedroom Bathroom Overall SR ↑SPL ↑GCR ↑SR ↑SPL ↑GCR ↑SR ↑SPL ↑GCR ↑SR ↑SPL ↑GCR ↑SR ↑SPL ↑GCR ↑
+> DELTA [19] 0.00 0.00 15.56 6.67 5.63 22.22 0.00 0.00 31.89 6.67 5.24 23.89 3.33 2.72 23.39 ConceptGraph [6] 6.67 2.32 23.89 13.33 8.19 28.89 13.33 6.95 36.89 13.33 10.71 17.78 11.67 7.04 26.86 DovSG [32] 13.33 8.03 32.22 13.33 10.94 38.89 26.67 18.89 50.22 20.00 14.50 37.22 18.33 13.09 39.64 DynaMem [17] 33.33 14.78 43.33 40.00 17.29 52.22 40.00 17.20 58.00 26.67 18.16 37.22 35.00 16.86 47.69 HitMem(Ours) 40.00 24.97 56.67 53.33 36.80 65.56 66.67 46.32 73.00 46.67 28.86 61.11 51.67 34.24 64.08
+
+Static memory approaches (DELTA and ConceptGraphs) lack effective mem-ory update mechanisms and rely primarily on outdated scene information despite environmental changes. Given that each long-term task in Dyna-THOR involves object displacement introduced by external agents, these methods struggle to adapt, leading to low success rates. Their few successful cases occur only when object displacement is minor and the moved object remains visible from its original memorized position. ConceptGraph achieves higher performance than DELTA by utilizing feature-based matching. This suggests that feature-based methods offer greater robustness against misclassifications arising from recogni-tion models compared to label-based methods. Although DovSG supports dynamic updates of the 3D scene graph, its update strategy is limited to local observations. Specifically, memory is refreshed only before manipulation actions, without continuous updating during navigation and execution. As a result, it can handle only object displacements that occur near their original locations. While this design offers some improvement over fully static methods, the performance gain remains limited. DynaMem supports con-tinuous dynamic memory updates and can trigger re-exploration when a target is lost. However, it is constrained by the inefficiency of its global search strategy. This exhaustive exploration often causes the agent to exceed the maximum step limit during the relocation phase. In contrast, HitMem leverages multi-modal context-aware retrieval to drastically narrow the search space and locate targets rapidly. Consequently, our method exhibits superior performance in both overall task completion and execution efficiency. 
+
+Ablation Study. Table 3 quantifies the individual contributions of HitMem’s core components. Removing the hierarchical structure ( MH ) noticeably degrades success rate and navigation efficiency. The topology provides essential high-level semantics for task goal understanding. Without this semantic stratification, the agent cannot effectively filter the search space using relevant carrier nodes, which increases exploration path length and impairs re-localization of displaced ob-jects. Disabling the temporal decay mechanism ( MD ) results in a severe drop in the SPL metric. Without activeness scoring, the agent treats stale and fresh observations equally, leading to repeated navigation to outdated coordinates. This results in wasted steps on invalid targets, such as “ghost entries” of objects displaced by external agents. The most substantial degradation occurs when HitMem 13                            
+
+> Table 3: Ablation studies on different components.
+> Method SR ↑SPL ↑GCR ↑
+> w/o Hierachical Structure ( MH)46.67 26.71 61.43 w/o Decay Mechanism ( MD)43.33 20.45 52.97 w/o Retrieval Strategy & MD31.67 12.66 42.97 HitMem (Ours) 51.67 34.24 64.08 12345
+> Number of rooms
+> 20 30 40 50 60
+> SR (%)
+> =0.1
+> =0.05
+> =0.3
+> Fig. 4: Performance across different scene scales and decay rate settings.
+
+both the context-aware retrieval strategy and MD are removed. Our full strat-egy leverages external agent trajectories and semantic affinity to predict prob-able locations, effectively simulating human reasoning. Conversely, lacking this guidance forces the agent into blind global searches. Such ineffective wandering exhausts the step limit, critically compromising overall task execution. 
+
+4.4 Scalability Analysis and Visualizations Scalability Analysis. We further utilize the multi-room environments pro-vided by RoboTHOR [5] to evaluate the robustness of HitMem across varying spatial scales and to analyze the impact of the temporal decay rate ( λ) on over-all performance. Fig. 4 illustrates the success rate trends under different room quantities and decay configurations. In small-scale environments, performance variations across different decay rates remain relatively minor, as frequent observations enable timely memory updates. However, the choice of λ becomes critical in larger spatial configura-tions. Values of λ that are optimal in single-room scenarios may yield perfor-mance degradation when applied to multi-room settings, where reduced revisit frequencies for the same object cause historical memories to continuously decay, thereby lowering their retrieval priority. Adopting a smaller λ can alleviate this issue by enhancing memory persistence. Conversely, an excessively large λ leads the agent to over-prioritize recent observations, resulting in narrowly-focused searches that fail to track substantially displaced targets and consequently cause 14 R. Tang et al. 𝐀 0 𝐀 1 𝐀 2 𝐀 3 𝐀 4 𝐀 5     
+
+> Target
+> 0.75 0.50 01.00 0.25
+> Ego-agent and Trajectory External Agent and Trajectory Target Pruned Search Space Displacement vector 𝐀 Candidate Carriers
+
+Fig. 5: Visualization of a representative dynamic object relocation process. 
+
+a sharp decline in success rates. Therefore, dynamically adjusting the decay rate according to the spatial scale can effectively balance the persistence of memory with the adaptability required for dynamic environments. Under identical decay settings, expanding the exploration space from a single-room to multi-room environments naturally increases both maintenance and ex-ploration costs. This expanded search space leads to an anticipated downward trend in the overall success rate. To evaluate robustness, we establish the op-timal success rate of the variant lacking a decay mechanism in the single-room scenario as a fixed baseline (gray dashed line). With an appropriate decay rate, our approach consistently surpasses the fixed baseline. This confirms that Hit-Mem, powered by hierarchical temporal memory and multi-modal context-aware retrieval, reliably boosts task performance across varying spatial scales. 
+
+Case Visualization. Fig. 5 provides a visualization of a dynamic object reloca-tion process. It illustrates the movement trajectories of both the ego-agent and the external agent, along with the ego-agent’s active visual observations. At t1,the external agent removes the task relevant target object (Book) and places it in a new location. Between t1 and t2, the ego-agent partially observes and records the movement sequence of the external agent. Upon receiving the instruction to find the book, the ego-agent first queries its internal memory to retrieve the last known coordinates of the target. Arriving at this expected location at t3, the ego-agent experiences a conflict between its memory and current observations because the book is visually absent. To recover from this failure, the ego-agent infers a potential displacement vector utilizing the recorded trajectory points of the external agent. This geometric operation effectively filters the global search space. Subsequently, the system calculates a prioritized set of candidate carriers based on semantic class affinity. Guided by this ranked list, the agent navigates to the most probable carrier (a sofa) at t4. After a local visual inspection yields no results, the agent continues its sequential exploration. Ultimately at t5, the HitMem 15 
+
+agent successfully detects the target object on the next highest ranked carrier (an armchair) and proceeds with the remaining task execution. 
+
+5 Conclusion 
+
+In this paper, we propose HitMem, a novel hierarchical temporal memory frame-work designed for embodied agents performing long-term tasks in dynamic en-vironments. HitMem unifies semantic, spatial, and temporal information into a lightweight topological graph while employing a temporal decay mechanism to dynamically modulate the activeness scores of memory nodes. Based on this memory representation, we further introduce a multi-modal context-aware re-trieval mechanism for efficient target object localization. We specifically design a two-stage retrieval strategy that combines physical trajectory cues with se-mantic class affinity to reduce redundant exploration and improve search ef-ficiency. Furthermore, we construct the Dyna-THOR benchmark to explicitly simulate unpredictable interferences from external agents. Extensive evaluations demonstrate that HitMem effectively adapts to dynamic environmental changes and scales well across different scenarios, while significantly reducing exploration costs during complex task execution. 
+
+Acknowledgements 
+
+This work is supported by the National Natural Science Foundation of China 62472412 and Project of Institute of Software, Chinese Academy of Sciences (ISCAS-JCMS-202402). 
+
+References  
+
+> 1. Anderson, P., Wu, Q., Teney, D., Bruce, J., Johnson, M., Sünderhauf, N., Reid, I., Gould, S., Van Den Hengel, A.: Vision-and-language navigation: Interpreting visually-grounded navigation instructions in real environments. In: Proceedings of the IEEE conference on computer vision and pattern recognition. pp. 3674–3683 (2018) 2. Brohan, A., Brown, N., Carbajal, J., Chebotar, Y., Dabis, J., Finn, C., Gopalakr-ishnan, K., Hausman, K., Herzog, A., Hsu, J., et al.: Rt-1: Robotics transformer for real-world control at scale. arXiv preprint arXiv:2212.06817 (2022) 3. Chen, B., Xia, F., Ichter, B., Rao, K., Gopalakrishnan, K., Ryoo, M.S., Stone, A., Kappler, D.: Open-vocabulary queryable scene representations for real world planning. In: 2023 IEEE International Conference on Robotics and Automation (ICRA). pp. 11509–11522 (2023). https://doi.org/10.1109/ICRA48891.2023. 10161534
+> 4. Cui, X., Liu, Q., Liu, Z., Wang, H.: Frontier-enhanced topological memory with improved exploration awareness for embodied visual navigation. In: European Con-ference on Computer Vision. pp. 296–313. Springer (2024)
+
+16 R. Tang et al. 5. Deitke, M., Han, W., Herrasti, A., Kembhavi, A., Kolve, E., Mottaghi, R., Sal-vador, J., Schwenk, D., VanderBilt, E., Wallingford, M., et al.: Robothor: An open simulation-to-real embodied ai platform. In: Proceedings of the IEEE/CVF con-ference on computer vision and pattern recognition. pp. 3164–3174 (2020) 6. Gu, Q., Kuwajerwala, A., Morin, S., Jatavallabhula, K.M., Sen, B., Agarwal, A., Rivera, C., Paul, W., Ellis, K., Chellappa, R., et al.: Conceptgraphs: Open-vocabulary 3d scene graphs for perception and planning. In: 2024 IEEE Inter-national Conference on Robotics and Automation (ICRA). pp. 5021–5028. IEEE (2024) 7. Huang, W., Wang, C., Zhang, R., Li, Y., Wu, J., Fei-Fei, L.: Voxposer: Composable 3d value maps for robotic manipulation with language models. arXiv preprint arXiv:2307.05973 (2023) 8. Hughes, N., Chang, Y., Carlone, L.: Hydra: A real-time spatial perception system for 3d scene graph construction and optimization. arXiv preprint arXiv:2201.13360 (2022) 9. Kerr, J., Kim, C.M., Goldberg, K., Kanazawa, A., Tancik, M.: Lerf: Language em-bedded radiance fields. In: Proceedings of the IEEE/CVF international conference on computer vision. pp. 19729–19739 (2023) 10. Kim, B., Kim, J., Kim, Y., Min, C., Choi, J.: Context-aware planning and environment-aware memory for instruction following embodied agents. In: Pro-ceedings of the IEEE/CVF International Conference on Computer Vision. pp. 10936–10946 (2023) 11. Kim, K., Yoon, K., Jeon, J., In, Y., Moon, J., Kim, D., Park, C.: Llm4sgg: Large language models for weakly supervised scene graph generation. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 28306–28316 (2024) 12. Kim, T., Min, C., Kim, B., Kim, J., Jeung, W., Choi, J.: Realfred: An embod-ied instruction following benchmark in photo-realistic environments. In: European Conference on Computer Vision. pp. 346–364. Springer (2024) 13. Kirillov, A., Mintun, E., Ravi, N., Mao, H., Rolland, C., Gustafson, L., Xiao, T., Whitehead, S., Berg, A.C., Lo, W.Y., Dollár, P., Girshick, R.: Segment anything. arXiv:2304.02643 (2023) 14. Kolve, E., Mottaghi, R., Han, W., VanderBilt, E., Weihs, L., Herrasti, A., Gordon, D., Zhu, Y., Gupta, A., Farhadi, A.: AI2-THOR: An Interactive 3D Environment for Visual AI. arXiv (2017) 15. Li, J., Li, D., Xiong, C., Hoi, S.: Blip: Bootstrapping language-image pre-training for unified vision-language understanding and generation. In: ICML (2022) 16. Lingelbach, M., Li, C., Hwang, M., Kurenkov, A., Lou, A., Martín-Martín, R., Zhang, R., Fei-Fei, L., Wu, J.: Task-driven graph attention for hierarchical rela-tional object navigation. In: 2023 IEEE International Conference on Robotics and Automation (ICRA). pp. 886–893. IEEE (2023) 17. Liu, P., Guo, Z., Warke, M., Chintala, S., Paxton, C., Shafiullah, N.M.M., Pinto, L.: Dynamem: Online dynamic spatio-semantic memory for open world mobile ma-nipulation. In: 2025 IEEE International Conference on Robotics and Automation (ICRA). pp. 13346–13355. IEEE (2025) 18. Liu, S., Zeng, Z., Ren, T., Li, F., Zhang, H., Yang, J., Li, C., Yang, J., Su, H., Zhu, J., et al.: Grounding dino: Marrying dino with grounded pre-training for open-set object detection. arXiv preprint arXiv:2303.05499 (2023) 19. Liu, Y., Palmieri, L., Koch, S., Georgievski, I., Aiello, M.: Delta: Decomposed efficient long-term robot task planning using large language models. In: 2025 IEEE HitMem 17 International Conference on Robotics and Automation (ICRA). pp. 10995–11001. IEEE (2025) 20. Liu, Y., Chi, D., Wu, S., Zhang, Z., Hu, Y., Zhang, L., Zhang, Y., Wu, S., Cao, T., Huang, G., et al.: Spatialcot: Advancing spatial reasoning through coordi-nate alignment and chain-of-thought for embodied task planning. arXiv preprint arXiv:2501.10074 (2025) 21. Maggio, D., Chang, Y., Hughes, N., Trang, M., Griffith, D., Dougherty, C., Cristo-falo, E., Schmid, L., Carlone, L.: Clio: Real-time task-driven open-set 3d scene graphs. IEEE Robotics and Automation Letters 9(10), 8921–8928 (2024) 22. Mazur, K., Sucar, E., Davison, A.J.: Feature-realistic neural fusion for real-time, open set scene understanding. In: 2023 IEEE International Conference on Robotics and Automation (ICRA). pp. 8201–8207. IEEE (2023) 23. Park, J.S., O’Brien, J., Cai, C.J., Morris, M.R., Liang, P., Bernstein, M.S.: Gener-ative agents: Interactive simulacra of human behavior. In: Proceedings of the 36th annual acm symposium on user interface software and technology. pp. 1–22 (2023) 24. Puig, X., Ra, K., Boben, M., Li, J., Wang, T., Fidler, S., Torralba, A.: Virtual-home: Simulating household activities via programs. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. pp. 8494–8502 (2018) 25. Radford, A., Kim, J.W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., Sutskever, I.: Learning transferable visual models from natural language supervision (2021), https://arxiv.org/abs/ 2103.00020 
+
+26. Shridhar, M., Thomason, J., Gordon, D., Bisk, Y., Han, W., Mottaghi, R., Zettle-moyer, L., Fox, D.: ALFRED: A Benchmark for Interpreting Grounded Instructions for Everyday Tasks. In: The IEEE Conference on Computer Vision and Pattern Recognition (CVPR) (2020), https://arxiv.org/abs/1912.01734 
+
+27. Sun, W., Hou, S., Wang, Z., Yu, B., Liu, S., Yang, X., Liang, S., Gan, Y., Han, Y.: Dadu-e: Rethinking the role of large language model in robotic computing pipeline. arXiv preprint arXiv:2412.01663 (2024) 28. Tang, Y., Wang, M., Deng, Y., Zheng, Z., Deng, J., Zuo, S., Yue, Y.: Openin: Open-vocabulary instance-oriented navigation in dynamic domestic environments. IEEE Robotics and Automation Letters 10 (9), 9256–9263 (2025) 29. Wu, Z., Zhou, Y., Xu, X., Wang, Z., Yan, H.: Momanipvla: Transferring vision-language-action models for general mobile manipulation. In: Proceedings of the Computer Vision and Pattern Recognition Conference. pp. 1714–1723 (2025) 30. Xia, F., R. Zamir, A., He, Z.Y., Sax, A., Malik, J., Savarese, S.: Gibson Env: real-world perception for embodied agents. In: Computer Vision and Pattern Recogni-tion (CVPR), 2018 IEEE Conference on. IEEE (2018) 31. Xie, Q., Min, S.Y., Ji, P., Yang, Y., Zhang, T., Xu, K., Bajaj, A., Salakhutdinov, R., Johnson-Roberson, M., Bisk, Y.: Embodied-rag: General non-parametric embodied memory for retrieval and generation. arXiv preprint arXiv:2409.18313 (2024) 32. Yan, Z., Li, S., Wang, Z., Wu, L., Wang, H., Zhu, J., Chen, L., Liu, J.: Dynamic open-vocabulary 3d scene graphs for long-term language-guided mobile manipula-tion. IEEE Robotics and Automation Letters (2025) 33. Yang, Y., Yang, H., Zhou, J., Chen, P., Zhang, H., Du, Y., Gan, C.: 3d-mem: 3d scene memory for embodied exploration and reasoning. In: Proceedings of the Computer Vision and Pattern Recognition Conference. pp. 17294–17303 (2025) 34. Yenamandra, S., Ramachandran, A., Yadav, K., Wang, A., Khanna, M., Gervet, T., Yang, T.Y., Jain, V., Clegg, A.W., Turner, J., Kira, Z., Savva, M., Chang, A., Chaplot, D.S., Batra, D., Mottaghi, R., Bisk, Y., Paxton, C.: Homerobot: Open-vocabulary mobile manipulation (2024), https://arxiv.org/abs/2306.11565 18 R. Tang et al. 35. Yin, H., Xu, X., Wu, Z., Zhou, J., Lu, J.: Sg-nav: Online 3d scene graph prompting for llm-based zero-shot object navigation. Advances in neural information process-ing systems 37 , 5285–5307 (2024) 36. Zhang, H., Zhang, Z., Wang, Z., Zhang, Z., Fang, L., Zhou, Q., Gan, C.: Ella: Embodied social agents with lifelong memory. arXiv preprint arXiv:2506.24019 (2025) 37. Zhang, J., Gireesh, N., Wang, J., Fang, X., Xu, C., Chen, W., Dai, L., Wang, H.: Gamma: Graspability-aware mobile manipulation policy learning based on online grasping pose fusion. In: 2024 IEEE International Conference on Robotics and Automation (ICRA). pp. 1399–1405. IEEE (2024) 38. Zhang, J., Wang, K., Wang, S., Li, M., Liu, H., Wei, S., Wang, Z., Zhang, Z., Wang, H.: Uni-navid: A video-based vision-language-action model for unifying embodied navigation tasks. Robotics: Science and Systems (2025) 39. Zhang, J., Dong, R., Ma, K.: Clip-fo3d: Learning free open-world 3d scene rep-resentations from 2d dense clip. In: Proceedings of the IEEE/CVF international conference on computer vision. pp. 2048–2059 (2023) 40. Zhang, L., Liu, Y., Zhang, Z., Aghaei, M., Hu, Y., Gu, H., Alomrani, M.A., Bravo, D.G.A., Karimi, R., Hamidizadeh, A., et al.: Mem2ego: Empowering vision-language models with global-to-ego memory for long-horizon embodied navigation. arXiv preprint arXiv:2502.14254 (2025) 41. Zhang, Y., Huang, X., Ma, J., Li, Z., Luo, Z., Xie, Y., Qin, Y., Luo, T., Li, Y., Liu, S., et al.: Recognize anything: A strong image tagging model. arXiv preprint arXiv:2306.03514 (2023) 42. Zheng, Y., Chen, X., Zheng, Y., Gu, S., Yang, R., Jin, B., Li, P., Zhong, C., Wang, Z., Liu, L., et al.: Gaussiangrasper: 3d language gaussian splatting for open-vocabulary robotic grasping. IEEE Robotics and Automation Letters (2024) 43. Zhi, P., Zhang, Z., Zhao, Y., Han, M., Zhang, Z., Li, Z., Jiao, Z., Jia, B., Huang, S.: Closed-loop open-vocabulary mobile manipulation with gpt-4v. In: 2025 IEEE International Conference on Robotics and Automation (ICRA). pp. 4761–4767. IEEE (2025) 44. Zhou, G., Hong, Y., Wu, Q.: Navgpt: Explicit reasoning in vision-and-language navigation with large language models. In: Proceedings of the AAAI Conference on Artificial Intelligence. pp. 7641–7649 (2024) 45. Zitkovich, B., Yu, T., Xu, S., Xu, P., Xiao, T., Xia, F., Wu, J., Wohlhart, P., Welker, S., Wahid, A., et al.: Rt-2: Vision-language-action models transfer web knowledge to robotic control. In: Conference on Robot Learning. pp. 2165–2183. PMLR (2023) HitMem 19 
+
+Appendix A Dyna-THOR Benchmark 
+
+A.1 Action Space and Environment Configuration 
+
+The Dyna-THOR benchmark is built upon the widely used AI2-THOR interac-tive simulation platform. To focus the evaluation on high-level planning and long-term memory, we abstract the primitive low-level action space by introducing navigation-centric action primitives, specifically GoToObject and GoToPosition .By encapsulating atomic Move and Rotate commands, this abstraction supports smooth, continuous navigation via high-level interfaces, thereby allowing for a more accurate assessment of approaches to scene understanding, memory con-struction, and task planning. Regarding implementation, rotation is discretized into fixed 90-degree increments ( RotateLeft90 and RotateRight90 ). The GoTo 
+
+primitives employ the A* algorithm to compute the shortest path. To ensure valid transitions within the grid-based environment, where manipulation tasks may change the agent’s facing direction, we perform a pre-navigation check that calibrates the agent’s orientation and ensures it remains orthogonally aligned with reachable grid points. Furthermore, we incorporate a collision avoidance mechanism. During path planning, the algorithm explicitly excludes grid points obstructed by static object colliders or dynamically occupied by other agents. The deterministic nature of the algorithm ensures that navigation trajectories are strictly reproducible under identical environmental configurations, effectively eliminating stochastic variables. For other manipulation actions, we retain the standard definitions provided by the simulator. In the experimental setup, we initialize two agents within the environment: an Ego-Agent and an External Agent . While both agents possess identical ca-pabilities for object manipulation, they differ in their navigation privileges. The external agent is endowed with the GoToObject privilege, enabling it to navigate using ground-truth information, such as object IDs. We leverage this capability to precisely localize and manipulate task-relevant objects, thereby simulating the environmental dynamics introduced by human activities in the real world through the external agent’s behaviors. In contrast, the ego-agent is restricted to GoToPosition and is prohibited from accessing environmental metadata for guidance. As a result, it is compelled to depend entirely on its internal memory representations to determine target coordinates. By implementing the aforemen-tioned environmental configuration, we standardize the experimental context, mitigating interference arising from environmental variability. This design iso-lates the method’s core evaluation, enabling a precise quantification of how the agent’s memory and planning capabilities contribute to overall task performance. 
+
+A.2 Benchmark Composition 
+
+Each data sample constitutes a complete task episode, encapsulating compre-hensive metadata to support rigorous evaluation. A standard episode comprises the following core components: 20 R. Tang et al. Task 1 Task 2 Task n 
+
+> Living-room 19
+
+......       
+
+> External Agent Ego-Agent Target Put, Newspaper, Cabinet Put, Cellphone, Sofa Put, RemoteControl, Box; Put, Box, Armchair
+> Dynamism Newspaper: Desk → Sofa Cellphone: Desk → Armchair Box: near TV → Sofa
+> Kitchen 7
+
+...... External Agent Ego-Agent Target Put, Pot, Stove; Switch, Stove Put, Bread, Fridge Put, Apple, DiningTable    
+
+> Dynamism Apple: Countertop → Plate Pot: Countertop→ DiningTable Bread: Countertop → DiningTable
+> Task Description :“Put a remote control in the box, and then put the box on the armchair.” “Place a box with remote control in it on the chair.” “Make sure the TV remote ends up on the chair, preferably in a cardboard box.”
+> External Agent Actions:
+> (GoTo, Box) (Pickup, Box) (GoTo, Sofa) (Put, Box, Sofa) (GoTo, LightSwitch)
+> Ego-Agent Actions:
+> (GoTo, RemoteControl) (Pickup, RemoteControl) (GoTo, Box) (Put, RemoteControl, Box) (Pickup, Box) (GoTo, Armchair) (Put, Box, Armchair)
+
+...... 
+
+Fig. 6: Examples from the Dyna-THOR benchmark. We curated 12 distinct scenes spanning the four categories defined by AI2-THOR, encompassing a total of 60 long-term tasks. Each task is characterized by a specific set of definitions, external agent actions, and ego-agent actions. The figure above illustrates representative episodes derived from expert demonstrations. 
+
+Agent Initialization and Configuration. To ensure reproducibility, each episode explicitly defines the initial states for both the ego-agent and the external agent. It includes precise 3D coordinates, rotational orientation, camera horizon, and posture. This standardized initialization guarantees that both agents operate within a deterministic context before dynamic interactions commence. 
+
+Natural Language Task Instructions. Each long-term task involves mul-tiple sub-goals driven by high-level natural language instructions. To evaluate the agent’s semantic understanding and robustness, each task intent is paired with distinct linguistic variations. For instance, a retrieval task might be phrased explicitly as “Go to the book and pick it up,” or contextualized as “I left my book in the kitchen, please help me find it.” This linguistic diversity serves as a rig-orous benchmark to assess how different methods and models generalize across varying phrasings, distinguishing true semantic comprehension from the mere memorization of command templates. 
+
+Agent Action Sequences. Unlike existing static benchmarks, Dyna-THOR introduces dynamic manipulations (external agent actions) to mimic human be-havior in real-world environments. These sequences are designed to deliberately manipulate objects relevant to the current task goal before the ego-agent begins execution, thereby introducing environmental dynamics that adhere to natural physical laws. The dataset explicitly details the specific operations performed by the external agent for each task, such as moving a target book from its original location to a sofa. Such actions break the static environment assumption and compel the ego-agent to update its internal memory and replan its actions to adapt to these changes. In parallel, expert trajectories (ego-agent actions) rep-resent the optimal understanding and execution of the task. These trajectories serve as ground truth action sequences required for efficient task completion and are produced by directly invoking the GoToObject command with specific object category IDs within the environment. They embody an accurate task workflow characterized by a minimal and non-redundant sequence of operations. During HitMem 21 
+
+the actual evaluation of different methods, the ego-agent is denied access to these expert trajectories and must instead rely on its own integrated approach for real-time planning and execution. 
+
+Goal States and Metrics. Each episode defines the ground-truth terminal states of key objects upon task completion and records the total step count required by the ego-agent based on the expert trajectory. This step count is quantified by the number of low-level environment primitives executed. These annotations provide a basis for calculating success rates and benchmarking the actual efficiency of long-term planning algorithms. 
+
+A.3 Expert Demonstrations 
+
+The task definition specifies an optimal execution sequence, representing the minimal set of high-level actions required for the ego-agent to achieve its goals. Constrained by environmental interaction rules, the agent must navigate to the immediate vicinity of a target object before initiating any manipulation. The expert demonstration strictly adheres to this optimal sequence, utilizing *Ob-ject actions (e.g., GoToObject ). This mechanism enables the expert to leverage ground-truth object IDs for direct localization, ensuring precise navigation to the target even if it has been displaced, thereby eliminating the need for search or exploration. We define Minimum Execution Steps as the total count of low-level action primitives within this expert trajectory. Fig. 6 illustrates representative examples derived from these expert demonstrations. The left panel of Fig. 6 visualizes the environmental observations for two long-term tasks under expert demonstration. Each task comprises multiple sub-goals that must be resolved sequentially. Throughout this process, the ego-agent is required to adapt to positional shifts of target objects caused by external agent interference. A long-term task is deemed complete only upon the successful ex-ecution of all constituent sub-goals. The right panel details the composition of a specific instance: Livingroom 19-Task n . First, it presents natural language task descriptions with varied phrasing, employing diverse levels of descriptive granularity to rigorously evaluate the method’s capabilities in semantic under-standing and planning. Second, it defines the action sequence for the external agent, which injects dynamism into the environment to simulate the uncertainty inherent in real-world human activities. Finally, it provides the corresponding optimal execution sequence for the ego-agent. Taking this task as a concrete ex-ample, the objective is to locate a remote, place it into a box, and subsequently position the box on an armchair. However, the benchmark-introduced dynamics intervene prior to the ego-agent’s execution: the external agent relocates the box from its initial position near the TV to a sofa. Consequently, the ego-agent fails to find the target at the expected location and must replan its strategy. It is forced to explore the environment to determine the box’s new position, a critical step required to ensure the successful completion of subsequent sub-goals. 22 R. Tang et al. 
+
+B Additional Experiment Results 
+
+B.1 Impact of Descriptions and LLMs 
+
+Table 4 presents the experimental results obtained by varying the input task de-scriptions and utilizing different Large Language Models (LLMs) for task plan-ning. We observe that the granularity of natural language descriptions signifi-cantly impacts task success rates. When instructions are explicit and intuitive, LLMs can readily comprehend task requirements and generate correct action se-quences. Conversely, the use of ambiguous descriptions leads to a marked decline in success rates. This is because ambiguity tends to obscure critical task infor-mation, disrupting the LLM’s reasoning process and resulting in the generation of erroneous action sequences or incorrect target identification, which severely compromises task execution.           
+
+> Table 4: Success Rate by using different LLMs and descriptions. LLM Clear Medium Vague
+> Gemini-2.5-pro 48.33 40.00 31.67 GPT-4o 51.67 41.67 28.33
+
+Simultaneously, we note distinct disparities in task understanding across dif-ferent models, which can be attributed to variations in their inference capabilities and action generation strategies. Specifically, while Gemini-2.5-Pro possesses ro-bust reasoning capabilities, it tends to generate redundant action sequences. These superfluous actions incur additional exploration costs and elongate tra-jectories, thereby increasing the risk of exceeding maximum step limits. Conse-quently, this computational and operational overhead results in a slight degra-dation in task completion performance. Therefore, practical deployment necessitates a strategic selection of LLMs tailored to specific task characteristics. Particularly in resource-constrained en-vironments, it is crucial to balance the trade-offs among model capability, plan-ning fidelity, and response latency to achieve optimal performance and efficiency. Concurrently, to further mitigate execution risks, task instructions should be for-mulated with high precision, explicitly minimizing semantic ambiguity. 
+
+B.2 Resilience to Imperfect Tracking 
+
+We conducted additional ablation studies to evaluate the robustness of our method against various external agent tracking challenges, including frame loss and noise perturbations. The results are shown in Table 5. When simulating “off-screen” displacements where tracking fails (affinity-only), the system still achieves a robust 46.67% SR, outperforming the Trajectory-only setting, which HitMem 23 
+
+struggles with inefficient physical exploration without semantic guidance. Fur-thermore, to evaluate robustness against imperfect perception, we introduced trajectory disturbances. Both randomly dropping 30% of trajectory points (sim-ulating frame loss) and injecting Gaussian noise ( σ=0.02, simulating depth sen-sor noise) only resulted in a marginal performance drop. These findings prove that our system does not rigidly depend on perfect trajectory tracking, and that the synergy between spatial pruning and semantic commonsense ensures strong resilience against noisy or missing observations.                       
+
+> Table 5: Ablation study on external agent tracking resilience.
+> Method SR ↑SPL ↑GCR ↑
+> Trajectory-only (w/o Affinity) 40.00 20.58 49.50 Affinity-only (Off-screen) 46.67 25.76 55.61 30% Trajectory Dropout 50.00 30.44 60.19 Noisy Trajectory 50.00 29.45 59.64 Full Method 51.67 34.24 64.08
+
+B.3 Generalizability 
+
+We evaluated HitMem on a separate, widely recognized benchmark ALFRED. To evaluate zero-shot generalization under dynamic conditions, we employed the valid_unseen split (comprising 85 tasks) and introduced artificial dynamic disturbances by relocating the target object to an alternative valid receptacle during ego-agent execution. As shown in the Table 6, HitMem outperforms other dynamic memory baselines both on SR and SPL. This demonstrates that our hierarchical temporal memory and multi-modal context-aware retrieval strategy generalize robustly to new domain distributions.            
+
+> Table 6: Generalizability comparison across different methods.
+> Method SR ↑SPL ↑
+> DovSG 35.29 18.81 DynaMem 41.18 17.94 HitMem (Ours) 52.94 26.72
+
+B.4 Analysis of Failure Cases 
+
+Fig. 7 illustrates representative successful and failed episodes observed during our experiments. In this section, we provide a detailed qualitative analysis of these cases to elucidate the underlying causes of failure. 24 R. Tang et al. External Agent View Controlled Agent View External Agent View Controlled Agent View External Agent View Controlled Agent View  
+
+> Failure Case 1: Perception Failure Failure Case 2: Memory Encoding Failure Failure Case 3: Visual Ambiguity
+> Success Case
+> Controlled Agent View
+
+Fig. 7: Failure cases of task executions on the Dyna-THOR benchmark. 
+
+We also illustrate a success case highlighting the agent’s ability to adapt to dynamic object displacement through continuous observation. Furthermore, we analyze three representative failure modes: (1) Perception Failure (top-right), where slender object profiles impede recognition; (2) Memory Encoding Failure (bottom-left), causing ineffective exploration due to missed detections; and (3) Visual Ambiguity (bottom-right), arising from semantic confusion between similar objects (e.g., Cup vs. Mug). 
+
+Successful task execution predicates on the ego-agent’s ability to accurately perceive environmental dynamics, specifically object displacements introduced by external agents. As demonstrated in the Success Case in Fig. 7, the external agent moves a Laptop from the bed to a new location. In a standard successful run, the ego-agent initiates retrieval based on historical memory. During nav-igation, through continuous observation, the ego-agent detects the significant displacement and updates the corresponding memory entry using real-time per-ception. This mechanism successfully guides the ego-agent to the laptop’s new location for subsequent manipulation. However, failures persist in certain scenarios. We summarize three represen-tative failure modes analyzed from the experiments: 
+
+Failure Case 1: Perception Failure. As illustrated in the top-right panel of Fig. 7, the task required placing a Plate into the Sink , and the external agent had displaced it to the Dining Table . While the ego-agent correctly inferred the approximate displacement direction from external agent’s trajectory and initi-ated exploration, the failure occurred at the recognition stage. The target object (Plate ) exhibits an extremely slender geometric profile. Despite being within the ego-agent’s field of view, the visual recognition model failed to identify and segment it due to these subtle geometric features. Consequently, no valid mem-ory entry was generated. This absence forced the system to erroneously retrieve HitMem 25 
+
+another object with feature correlations to the concept of a “plate”,ultimately resulting in localization errors. 
+
+Failure Case 2: Memory Encoding Failure. In the scenario depicted in the bottom-left panel of Fig. 7, the objective was to dispose of a SoapBar into a 
+
+GarbageCan . However, the perception module failed to detect the GarbageCan 
+
+(i.e., failing to generate valid bounding boxes or segmentation masks). As a result, the memory module could not encode a valid entry for the target object. Deprived of a retrieval index for the GarbageCan , the agent engaged in prolonged and futile exploration, ultimately failing to locate the target. 
+
+Failure Case 3: Visual Ambiguity. This failure arises from visually similar distractors in the environment, which introduce ambiguity during visual match-ing. In the bottom-right panel of Fig. 7, the task required placing a Knife into a 
+
+Cup . The environment contained two candidate objects: a green cylindrical Cup 
+
+on the countertop (the true target) and a white Mug in the sink (the distractor). Semantically, a Mug is a hyponym of Cup . Since the instruction specified “Cup” without fine-grained discriminative attributes (e.g., color), the model prioritized the distractor Mug due to higher semantic affinity. This misalignment led the agent to execute actions targeting the wrong object, causing task failure due to incorrect localization. 
+
+B.5 More Details in Experiments 
+
+We standardized the agent’s ego-centric view resolution to 400 × 400 pixels. This setting was calibrated to balance computational efficiency with the inference ac-curacy of visual perception models (recognition and segmentation). Specifically, this resolution preserves critical geometric features of fine-grained objects, ensur-ing accurate semantic segmentation while mitigating the computational overhead of higher resolutions, thus guaranteeing real-time system responsiveness. The core parameters in our framework are set as follows: the semantic thresh-old θsem =0.6, the support threshold θsup =0.5, the support score weights ω1=0.35, 
+
+ω2=0.35, ω3=0.2, and ω4=0.1, the Bidirectional ICP thresholds σf wd =0.6 and 
+
+σbwd =0.3, the baseline decay rate λbase =0.1, the retrieval weights α1=1.0 and 
+
+α2=1.0, and the exploration sector angle θR=π. These values were determined through a combination of references to established practices in prior research and our own empirical tuning. To accommodate methods requiring environmental priors for initial episodic memory, we implemented a standardized pre-exploration phase. In this phase, the ego-agent autonomously navigates using a Fast Frontier-based Exploration algorithm grounded in a real-time occupancy grid map. By prioritizing paths to the boundaries between explored and unexplored regions, the algorithm max-imizes coverage of the spatial structure and object distribution with minimal steps, facilitating the rapid construction of a global semantic memory. Upon completion, the agent returns to its initial spawn pose. This reset mechanism is crucial for eliminating interference caused by the stochastic nature of exploration endpoints, ensuring that all evaluation episodes commence from a consistent, de-26 R. Tang et al. 
+
+terministic state. Notably, steps incurred during this pre-exploration phase are explicitly included in the total step cost for statistical analysis. Complementing the comparative results presented in the main text, our ex-perimental results across four scene categories (kitchen, livingroom, bedroom, bathroom) indicate that the method achieves optimal comprehensive perfor-mance in Bedroom scenarios, whereas performance in Kitchen environments is relatively weaker. Our analysis attributes this discrepancy to significant varia-tions in object categories, scales, and shapes across scenes, which differentially affect the robustness of the visual recognition and segmentation models. Specif-ically, objects in Bedroom scenes (e.g., AlarmClock, Pillow, Book) generally exhibit distinct inter-class visual features and moderate scales, enabling the in-tegrated visual model to generate accurate recognitions and feature representa-tions. In contrast, Kitchen environments present substantial challenges. First, they contain numerous small-scale objects, and certain categories share high visual similarity (e.g., PepperShaker vs. SaltShaker), leading to frequent match-ing and manipulation errors. Second, Kitchen scenes are characterized by dense object arrangements and occlusion, which compromise the output of the visual model and result in a lower task success rate. 
+
+B.6 Limitations 
+
+We acknowledge several limitations in the current methodology and benchmark design: (1) Dependency on Foundation Models: The accuracy and efficiency of memory construction are fundamentally constrained by the capabilities of the underlying foundation vision models. Perception errors from these models in-evitably propagate to the memory module. (2) Lack of Planning Verification: Current task planning relies on the comprehension and generative capabilities of LLMs. However, the existing framework performs verification only during the ex-ecution phase, lacking a mechanism for a priori feasibility checking or closed-loop validation of generated action sequences. This absence of pre-execution scrutiny renders the system susceptible to planning hallucinations, where logically invalid or physically impossible actions are proposed without immediate detection. (3) Benchmark Comprehensiveness: The scope of the Dyna-THOR benchmark re-quires further expansion. Specifically, the diversity of task types needs to be enriched to encompass a broader spectrum of dynamic interaction scenarios. 
+
+C Algorithm of Retrieval 
+
+We provide the algorithmic implementation of the multi-modal context-aware retrieval mechanism introduced in the main manuscript. To complement the conceptual formulation, Algorithm 1 details the step-by-step execution pipeline. The complete procedure takes the user instruction, the current memory graph 
+
+Gt, and the historical external agent trajectory T as inputs, and routes the execution through three core phases: HitMem 27 
+
+Algorithm 1 HitMem: Multi-Modal Context-Aware Retrieval 
+
+Input : Instruction I, Memory Graph Gt = ( Vt, Et), Trajectory T , Threshold θtarget 
+
+Output : Target node vtarget or Explore 1: Fquery , Cat t ← Parse (I)
+
+2: Cr , Cd ← HierarchicalFilter (Gt)
+
+3:  ▷ 1. Hierarchical Semantic Querying 
+
+4: S ← { α1sim (Fi, F query ) + α2A(vi, t ) | ∀ vi ∈ C d}
+
+5: Vtop ← TopK ({vi ∈ C d | S [i] > θ target }, 3) 
+
+6:  ▷ 2. Active Verification and Pruning 
+
+7: for vi ∈ V top in descending order do 
+
+8: obs ← NavigateAndObserve (pos (vi)) 
+
+9: if obs ≡ Cat t then 
+
+10: return vi
+
+11: else 
+
+12: Vt ← V t \ { vi} ▷ Conflict: Prune obsolete node 13: break  ▷ Trigger relocation 14: end if 
+
+15: end for 
+
+16:  ▷ 3. Two-Stage Relocation 
+
+17: // Stage 1: Search Space Filtering 
+
+18: c ← arg min i ∥T [i] − pos last ∥2 ▷ Index of Pclosest 
+
+19: τlocal ← T [c : c + k]
+
+20: D ← Pkm=1 ∆Ac+m · ∆pos c+m ▷ Ref. Eq. 1 21: Ccand ← v ∈ C r cos_sim (D, pos v − pos last ) ≥ cos( θR 
+
+> 2
+
+) ▷ Ref. Eq. 2 22: // Stage 2: Class Affinity Scanning 
+
+23: Pexplore ← Softmax ({Aaf f inity (Cat t, v j ) | ∀ vj ∈ C cand }) ▷ Ref. Eq. 3 24: for vj ∈ SortDescending (Ccand , Pexplore ) do 
+
+25: obs ← NavigateAndObserve (pos (vj )) 
+
+26: if obs ≡ Cat t then 
+
+27: return vnew 
+
+28: end if 
+
+29: end for 
+
+30: return Explore 28 R. Tang et al. 
+
+– Hierarchical Semantic Querying : Efficiently narrows down candidate nodes within Gt by fusing semantic relevance and temporal recency. 
+
+– Active Verification & Pruning : Physically navigates to the anticipated location to verify the target, proactively purging obsolete graph nodes upon detecting a memory-observation conflict. 
+
+– Two-Stage Relocation : Systematically re-localizes displaced objects by first bounding the physical search space via the external agent’s motion vector, followed by a probabilistic exploration guided by class affinity. 
+
+D Prompts of LLM Planning 
+
+Fig. 8 illustrates the prompt design employed for LLM-based task planning. To facilitate this process, we utilize a few-shot prompting strategy, embedding representative planning examples to serve as references. System Prompt: 
+
+You are an expert in single-arm mobile robot task planning focused on breaking down a single-sentence human instruction into a sequence of actions. Human instructions can take various forms. To generate a reasonably accurate plan, you should carefully consider the following scenarios: 1. Objects with specific attributes, such as “the white cup”, “box near the TV”. 2. Instructions with implicit objects, for example, “throw away the cup”, where the implicit object “GarbageCan” must be inferred and extracted. Robot Action Library: The robot can perform the following types of actions. Each action has a required structure: GoTo <object>, Pickup <object>, Put <object> <receptacle>, SwitchOn <object>, SwitchOff <object>, Open <object>, Close <object>, Break <object>, Slice <object>, Clean <object>, Throw <object> Important Notes: 1. Your task planning result can only grab one object at a time. If a robot is currently holding an object and the next task requires it to pick up a different one, the robot must first put the currently held object somewhere. 2. Before the robot puts something in the fridge, it must open the fridge first: Open(Fridge). The same applies to other objects that require opening before use. 3. Make sure to include all necessary objects and actions, and ensure that the plan is feasible given the robot's capabilities and the environment. 
+
+Examples: 
+
+User: Throw away the cup. / Put the cup in the trash bin. 
+
+LLM_Planner: 
+
+{“actions”: [ {“action”: “GoTo”, “object”: “Cup”}, {“action”: “Pickup”, “object”: “Cup”} {“action”: “GoTo”, “object”: “Trash bin”}, {“action”: “Put”, “object”: “cup”, “receptacle”: “Trash bin”} ], “Reasoning”: “The task requires throwing away the cup, which implies moving to its location, picking it up, and then placing it in a trash bin.” }
+
+User: Cool the bread. / Put the bread in the fridge. 
+
+LLM_Planner: 
+
+{“actions”: [ {“action”: “GoTo”, “object”: “Bread”}, {“action”: “Pickup”, “object”: “Bread”} {“action”: “GoTo”, “object”: “Fridge”}, {“action”: “Open”, “object”: “Fridge”}, {“action”: “Put”, “object”: “Bread”, “receptacle”: “Fridge”}, {“action”: “Close”, “object”: “Fridge”} ], “Reasoning”: “Cooling the bread requires placing it in the fridge. The agent must first go to the bread and pick it up, then navigate to the fridge, open it, put the bread inside, and close the door to complete the task.” }
+
+Fig. 8: Prompt for task planning.

@@ -1,0 +1,361 @@
+{
+  "date": "20260906",
+  "date_label": "",
+  "generated_at": "2026-09-06 22:30:53 UTC",
+  "recommend_exists": true,
+  "run_count": 1,
+  "papers": [
+    {
+      "paper_id": "2609.02350v1",
+      "route": "202609/06/2609.02350v1-lookstep-efficient-vision-language-navigation-with-linguistic-foresight-and-event-driven-memory",
+      "title": "LookStep: Efficient Vision-Language Navigation with Linguistic Foresight and Event Driven Memory",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 10.0,
+      "evidence": "面向自然语言指令的视觉语言导航，并融合事件驱动滚动记忆",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2608.29003v1",
+      "route": "202609/06/2608.29003v1-rose-slam-robust-semantic-aware-gaussian-splatting-slam-from-dynamic-monocular-videos",
+      "title": "RoSe-SLAM: Robust Semantic-Aware Gaussian Splatting SLAM from Dynamic Monocular Videos",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "语义感知高斯溅射SLAM，将2D基础模型语义特征融合进行稳健跟踪与建图",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2608.29114v1",
+      "route": "202609/06/2608.29114v1-cgfm-nav-cognitive-graph-field-memory-for-semantic-guided-lifelong-multimodal-embodied-navigation",
+      "title": "CGFM-Nav: Cognitive Graph-Field Memory for Semantic-Guided Lifelong Multimodal Embodied Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向视觉语言导航的认知图-场记忆，耦合语义图与连续空间线索",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2608.30935v1",
+      "route": "202609/06/2608.30935v1-lightnav-0-eliciting-vlm-spatial-intelligence-for-generalist-embodied-navigation",
+      "title": "LightNav-0: Eliciting VLM Spatial Intelligence for Generalist Embodied Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "激发预训练VLM空间智能并将其与导航动作对齐，构建跨任务与跨本体的通用具身导航模型",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.00775v1",
+      "route": "202609/06/2609.00775v1-voim-training-free-open-vocabulary-3d-instance-mapping-for-rgb-d-and-monocular-slam",
+      "title": "VOIM: Training-Free Open-Vocabulary 3D Instance Mapping for RGB-D and Monocular SLAM",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "在RGB-D与单目SLAM中构建带语义标签的三维实例地图",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.00920v1",
+      "route": "202609/06/2609.00920v1-vernav-verifier-first-low-latency-vision-and-language-navigation",
+      "title": "VerNav: Verifier-First Low-Latency Vision-and-Language Navigation",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "视觉语言导航：验证器优先的LLM框架，按自然语言指令在3D环境中导航",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.03483v1",
+      "route": "202609/06/2609.03483v1-air-ground-collaborative-vision-and-language-navigation-via-shared-birds-eye-maps",
+      "title": "Air-Ground Collaborative Vision-and-Language Navigation via Shared Bird's-Eye Maps",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "空地协同视觉语言导航，通过共享鸟瞰图与VLM语义推理执行语言指令",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.03891v1",
+      "route": "202609/06/2609.03891v1-a-hybrid-pipeline-for-dynamic-ontology-based-semantic-mapping",
+      "title": "A hybrid pipeline for dynamic ontology-based semantic mapping",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "面向机器人导航的混合语义映射流水线，结合几何建图、目标检测与本场景图谱知识理解",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.03906v1",
+      "route": "202609/06/2609.03906v1-revisiting-topological-graphs-for-macro-action-based-closed-loop-reinforcement-learning-of-vision-language-navigation-in-continuous-environment",
+      "title": "Revisiting Topological Graphs for Macro Action based Closed-loop Reinforcement Learning of Vision Language Navigation in Continuous Environment",
+      "section": "deep",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 9.0,
+      "evidence": "连续环境视觉语言导航，依自然语言指令导航；拓扑图宏动作强化学习",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2608.28995v1",
+      "route": "202609/06/2608.28995v1-hydra-a-navigation-world-action-model-with-discrete-latent-planning-and-continuous-flow-matching-execution",
+      "title": "Hydra: A Navigation World Action Model with Discrete Latent Planning and Continuous Flow-Matching Execution",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向具身导航的世界动作模型，将规划器移入离散隐空间以支持实时控制",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2608.29483v1",
+      "route": "202609/06/2608.29483v1-geoagent-evaluating-vlm-geolocalization-through-embodied-navigation",
+      "title": "GeoAgent: Evaluating VLM Geolocalization Through Embodied Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "街景环境中评估视觉语言模型智能体的具身导航基准",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2608.30242v1",
+      "route": "202609/06/2608.30242v1-canonnav-disentangling-navigation-behavior-from-camera-geometry-in-cross-platform-visual-navigation",
+      "title": "CanonNav: Disentangling Navigation Behavior from Camera Geometry in Cross-Platform Visual Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向跨平台视觉导航的策略学习方法，将导航行为与相机几何解耦",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2608.30396v1",
+      "route": "202609/06/2608.30396v1-scaffolding-foundation-models-into-physical-world-agents-pushes-the-frontier-of-long-horizon-navigation",
+      "title": "Scaffolding Foundation Models into Physical-World Agents Pushes the Frontier of Long-Horizon Navigation",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "将VLM推理智能体与导航基础模型执行器结合，完成长时程物理世界探索导航",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.00619v1",
+      "route": "202609/06/2609.00619v1-dsg-dynamic-3d-scene-graph-construction-for-embodied-agents-in-changing-indoor-environments",
+      "title": "DSG: Dynamic 3D Scene Graph Construction for Embodied Agents in Changing Indoor Environments",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "面向动态室内环境构建动态三维场景图，为具身智能体维护语义场景表示，与场景图/语义地图导航直接相关",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.00950v1",
+      "route": "202609/06/2609.00950v1-hitmem-hierarchical-temporal-3d-memory-with-multi-modal-context-aware-retrieval-for-dynamic-environments",
+      "title": "HitMem: Hierarchical Temporal 3D Memory with Multi-Modal Context-Aware Retrieval for Dynamic Environments",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "vln-memory"
+        }
+      ],
+      "score": 8.0,
+      "evidence": "分层时序3D记忆结合语义与空间信息并引入时间衰减，是动态环境下空间长期记忆机制的直接体现",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.02493v1",
+      "route": "202609/06/2609.02493v1-ms-mem-multi-skill-manipulation-enhanced-mapping-via-uncertainty--and-disturbance-aware-action-selection",
+      "title": "MS-MEM: Multi-Skill Manipulation-Enhanced Mapping via Uncertainty- and Disturbance-Aware Action Selection",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 7.0,
+      "evidence": "面向杂乱场景服务机器人的不确定性感知度量-语义建图框架，通过主动操作增强建图能力",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2608.30451v1",
+      "route": "202609/06/2608.30451v1-seqalign3dvg-a-sequence-aligned-benchmark-and-voxel-reasoning-framework-for-3d-visual-grounding",
+      "title": "SeqAlign3DVG: A Sequence-Aligned Benchmark and Voxel Reasoning Framework for 3D Visual Grounding",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "面向具身智能体的序列对齐3D视觉定位基准，可支撑视觉语言导航的指代理解",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.00111v1",
+      "route": "202609/06/2609.00111v1-qwen-drive-10-an-initial-step-towards-a-vision-language-foundation-model-for-autonomous-driving",
+      "title": "Qwen-Drive-1.0: An Initial Step towards a Vision-Language Foundation Model for Autonomous Driving",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "通过鸟瞰图地图分割与语义占用预测构建面向自动驾驶导航的语义地图表示",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.01404v1",
+      "route": "202609/06/2609.01404v1-evaluating-multimodal-llms-as-generalist-vision-language-action-agents-for-drone-control-commanding-approaching-tracking-and-searching",
+      "title": "Evaluating Multimodal LLMs as Generalist Vision-Language-Action Agents for Drone Control: Commanding, Approaching, Tracking and Searching",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "无人机视觉语言动作智能体按指令执行接近、搜索并判断到达，类似于具身环境中的视觉语言导航",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.01579v1",
+      "route": "202609/06/2609.01579v1-sg-amp-scene-graph-guided-active-perception-and-semantics-aware-motion-planning-for-pepper-plants",
+      "title": "SG-AMP: Scene-Graph-Guided Active Perception and Semantics-Aware Motion Planning for Pepper Plants",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "semantic-map"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "持久全景语义建图、场景图推理与语义感知运动规划用于机器人主动巡检",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.03565v1",
+      "route": "202609/06/2609.03565v1-toward-physically-grounded-jepa-world-models-for-goal-conditioned-robotic-planning",
+      "title": "Toward Physically Grounded JEPA World Models for Goal-Conditioned Robotic Planning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "物理锚定JEPA世界模型用于目标条件机器人规划，在含双房间导航等模拟任务上取得最高成功率",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    },
+    {
+      "paper_id": "2609.03729v1",
+      "route": "202609/06/2609.03729v1-unfold-the-world-factorize-4d-properties-in-reinforcing-spatial-reasoning",
+      "title": "Unfold The World: Factorize 4D Properties in Reinforcing Spatial Reasoning",
+      "section": "quick",
+      "tags": [
+        {
+          "kind": "query",
+          "label": "embodied-nav"
+        }
+      ],
+      "score": 6.0,
+      "evidence": "用因子化强化学习让VLM恢复三维几何与时间连续性，为具身空间推理提供关键支撑",
+      "first_seen_at": "2026-09-06 22:30:53 UTC",
+      "updated_at": "2026-09-06 22:30:53 UTC"
+    }
+  ]
+}

@@ -41,17 +41,17 @@
 <section class="dpr-home-dashboard-card dpr-home-report-card">
   <div class="dpr-home-dashboard-header">
     <div>
-      <span class="dpr-home-dashboard-kicker">2026-08-31</span>
+      <span class="dpr-home-dashboard-kicker">2026-09-06</span>
       <h3 class="dpr-home-dashboard-title">今日汇总</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">共 9 篇</strong>
+    <strong class="dpr-home-dashboard-count">共 22 篇</strong>
   </div>
   <dl class="dpr-home-dashboard-stats">
     <div class="dpr-home-dashboard-stat"><dt>累计更新</dt><dd>1 次</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>2</dd></div>
-    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>7</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>精读</dt><dd>9</dd></div>
+    <div class="dpr-home-dashboard-stat"><dt>速读</dt><dd>13</dd></div>
   </dl>
-  <p class="dpr-home-dashboard-body">最近更新：2026-09-01 00:36:42 UTC<br>状态：成功</p>
+  <p class="dpr-home-dashboard-body">最近更新：2026-09-06 22:30:53 UTC<br>状态：成功</p>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-brief-card">
   <div class="dpr-home-dashboard-header">
@@ -62,7 +62,9 @@
     <strong class="dpr-home-dashboard-count">AI</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<p>今日共读9篇论文，精读2篇、速读7篇，聚焦具身智能与空间语义推理。最值得关注的是满分论文《Spatial-Semantic Reasoning》与9分《STEGNav》，分别以大模型优化无人机搜索和事件图推理提升导航效率。建议普通读者优先浏览这两篇的核心方法，后续可延伸至端到端驾驶与多模态任务。</p>
+<p>今日共读22篇论文，精读9篇、速读13篇，核心聚焦视觉-语言导航与动态单目SLAM。</p>
+<p>最值得精读的是满分论文《LookStep》（语言前瞻+事件驱动记忆的导航）与9分《RoSe-SLAM》（动态单目视频的语义高斯溅射SLAM）。</p>
+<p>建议优先跟进这两篇及其关联工作，理解多模态导航中的记忆机制与动态场景的鲁棒建图思路。</p>
   </div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-deep-card">
@@ -71,12 +73,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">精读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">2 篇</strong>
+    <strong class="dpr-home-dashboard-count">9 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Spatial-Semantic Reasoning using Large Language Models for Efficient UAV Search Operations">Spatial-Semantic Reasoning using Large Language Models for Efficient UAV Search Operations</span></li><li><span class="dpr-home-dashboard-paper-title" title="STEGNav: Spatio-Temporal Event Graph Reasoning for Multimodal Lifelong Object Navigation">STEGNav: Spatio-Temporal Event Graph Reasoning for Multimodal Lifelong Object Navigation</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="LookStep: Efficient Vision-Language Navigation with Linguistic Foresight and Event Driven Memory">LookStep: Efficient Vision-Language Navigation with Linguistic Foresight and Event Driven Memory</span></li><li><span class="dpr-home-dashboard-paper-title" title="RoSe-SLAM: Robust Semantic-Aware Gaussian Splatting SLAM from Dynamic Monocular Videos">RoSe-SLAM: Robust Semantic-Aware Gaussian Splatting SLAM from Dynamic Monocular Videos</span></li><li><span class="dpr-home-dashboard-paper-title" title="CGFM-Nav: Cognitive Graph-Field Memory for Semantic-Guided Lifelong Multimodal Embodied Navigation">CGFM-Nav: Cognitive Graph-Field Memory for Semantic-Guided Lifelong Multimodal Embodied Navigation</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>2</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>5</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>3</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
 </section>
 <section class="dpr-home-dashboard-card dpr-home-skim-card">
   <div class="dpr-home-dashboard-header">
@@ -84,12 +86,12 @@
       <span class="dpr-home-dashboard-kicker">今日累计</span>
       <h3 class="dpr-home-dashboard-title">速读推荐</h3>
     </div>
-    <strong class="dpr-home-dashboard-count">7 篇</strong>
+    <strong class="dpr-home-dashboard-count">13 篇</strong>
   </div>
   <div class="dpr-home-dashboard-body">
-<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="MomADv2: Reliable Temporal Memory for End-to-End Autonomous Driving">MomADv2: Reliable Temporal Memory for End-to-End Autonomous Driving</span></li><li><span class="dpr-home-dashboard-paper-title" title="DRAgent: Discriminative Reasoning Agent for Referring Expression Segmentation">DRAgent: Discriminative Reasoning Agent for Referring Expression Segmentation</span></li><li><span class="dpr-home-dashboard-paper-title" title="Act with Intent: Distilling Behavior Intent for Vision-Language-Action Models">Act with Intent: Distilling Behavior Intent for Vision-Language-Action Models</span></li></ul>
+<ul class="dpr-home-dashboard-paper-list"><li><span class="dpr-home-dashboard-paper-title" title="Hydra: A Navigation World Action Model with Discrete Latent Planning and Continuous Flow-Matching Execution">Hydra: A Navigation World Action Model with Discrete Latent Planning and Continuous Flow-Matching Execution</span></li><li><span class="dpr-home-dashboard-paper-title" title="GeoAgent: Evaluating VLM Geolocalization Through Embodied Navigation">GeoAgent: Evaluating VLM Geolocalization Through Embodied Navigation</span></li><li><span class="dpr-home-dashboard-paper-title" title="CanonNav: Disentangling Navigation Behavior from Camera Geometry in Cross-Platform Visual Navigation">CanonNav: Disentangling Navigation Behavior from Camera Geometry in Cross-Platform Visual Navigation</span></li></ul>
   </div>
-  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>6</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
+  <div class="dpr-home-dashboard-tags"><span class="dpr-home-dashboard-tag">embodied-nav <strong>8</strong></span><span class="dpr-home-dashboard-tag">semantic-map <strong>4</strong></span><span class="dpr-home-dashboard-tag">vln-memory <strong>1</strong></span></div>
 </section>
 </div>
 
