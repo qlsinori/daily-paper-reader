@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-09-11T21:54:08.268924+00:00",
-  "updated_date": "20260911",
+  "generated_at": "2026-09-12T21:51:42.239271+00:00",
+  "updated_date": "20260912",
   "carryover_days": 9,
   "tag_states": {
     "embodied-nav": {
-      "updated_date": "20260911",
+      "updated_date": "20260912",
       "carryover_days": 9,
       "items": []
     },
     "semantic-map": {
-      "updated_date": "20260911",
+      "updated_date": "20260912",
       "carryover_days": 9,
       "items": []
     },
     "vln-memory": {
-      "updated_date": "20260911",
+      "updated_date": "20260912",
       "carryover_days": 9,
       "items": []
     }
